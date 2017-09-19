@@ -7,9 +7,11 @@ return [
     'EMAIL_VERIFIED'=>'You have successfully verified your account.',
     'EMAIL_CODE_EXPIRED'=>'Sorry code which you entered has expired.',
     'EMAIL_ALREADY_CONFIRMED'=>'You have already confirmed your email.',
-    //error message
-    'USER_LOGIN_REQUIRED'=>'Username / E-Mail / Mobile Number Required',
-   
+    'USER_LOGIN'=>'User login successfully',
+    'USER_NOT_CONFIRMED'=>'you have not confirmed your email yet.please check your email.',
+    'USER_UPDATE_PROFILE'=>'profile updated successfully',
+    'CATEGORY_LIST'=>'category listed successfully.',
+    'NO_RECORDS'=>'no records found.'
    
     //notification
     

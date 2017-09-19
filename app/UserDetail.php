@@ -15,7 +15,7 @@ class UserDetail extends Model
     ];
    
     protected $table='user_detail';
-    protected $dateFormat = 'Y-m-d H:i:s';
+    protected $dateFormat = 'Y-m-d';
     public $timestamps = false;
     protected $dates = [
         'dob', 
@@ -27,8 +27,7 @@ class UserDetail extends Model
         $user_detail = UserDetail::firstOrNew(["user_id" => $user_id]);
         $user_detail->user_id = $user_id;
         $user_detail->fill($data);
-        $this->addImage($data,$user_detail);
         $user_detail->save();
-        
+        return $user_detail;
     }
 }

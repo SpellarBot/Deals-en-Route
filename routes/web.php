@@ -22,15 +22,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 // admin routes
 // Admin routes
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
-    Route::get('/', 'Auth\LoginController@showLoginForm');
-    Route::get('register', 'Auth\RegisterController@showRegistrationForm');
+   Route::get('/', function () {
+    return view('admin.welcome');
+});
+
     Route::get('login', 'Auth\LoginController@showLoginForm');
     Route::post('login', 'Auth\LoginController@login');
     Route::post('logout', 'Auth\LoginController@logout');
@@ -38,7 +38,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
  
-    Route::post('register', 'Auth\RegisterController@register');
+    $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+        $this->post('register', 'Auth\RegisterController@register');
     Route::get('home', 'HomeController@index');
 
 });
+
+     Auth::routes();

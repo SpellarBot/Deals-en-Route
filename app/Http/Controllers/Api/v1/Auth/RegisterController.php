@@ -11,6 +11,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use DB;
 use Session;
+use App\Http\Services\ImageTrait;
+use Intervention\Image\Facades\Image as Image;
 
 class RegisterController extends Controller {
     /*
@@ -27,6 +29,7 @@ class RegisterController extends Controller {
     use ResponseTrait;
     use MailTrait;
     use RegistersUsers;
+    use ImageTrait;
 
     CONST IS_CONFIRMED = 1;
     CONST IS_NOT_CONFIRMED = 0;
@@ -59,7 +62,11 @@ class RegisterController extends Controller {
                     'last_name' => 'required|string|max:255',
                     'email' => 'required|string|email|max:255|unique:users',
                     'password' => 'required|string|min:6',
-                    'phone'=>'required|max:15|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/'
+                    'phone'=>'required|max:15|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
+                    'device_type' => 'sometimes|required',
+                    'device_version' => 'sometimes|required',
+                    'app_version' => 'sometimes|required',
+                    'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg|max:20000',
         ]);
     }
     
@@ -76,7 +83,8 @@ class RegisterController extends Controller {
      *   @SWG\Parameter( name="password", in="query",  required=true,  type="string" ),
      *   @SWG\Parameter( name="timezone", in="query",  required=false,  type="string" ),
      *   @SWG\Parameter( name="app_version", in="query",  required=false,  type="string" ),
-     *   @SWG\Parameter( name="app_version", in="query",  required=true,  type="string" ),
+     *   @SWG\Parameter( name="device_type", in="query",  required=false,  type="string" ),
+     *    @SWG\Parameter( name="device_version", in="query",  required=false,  type="string" ),
      *   @SWG\Response(response=200, description="successful operation"),
      * )
      *
@@ -88,7 +96,7 @@ class RegisterController extends Controller {
             $data = $request->all();
             $validator = $this->validatormanually($data);
             if ($validator->fails()) {
-                return $this->responseJson('error', $validator->errors()->first(), 422);
+                return $this->responseJson('error', $validator->errors()->first(), 400);
             }
 
             $user_id = User::creatUser($data);
@@ -96,8 +104,11 @@ class RegisterController extends Controller {
                 $array_mail = ['from' => 'jinal@solulab.com', 'to' => $data['email'],
                     'subject' => 'Verify your email address', 'template' => 'email.verify',
                     'confirmation_code' => $user_id->confirmation_code];
-                $this->sendMail($array_mail);
-                \App\UserDetail::saveUserDetail($data, $user_id->id);
+               // $this->sendMail($array_mail);
+                $user_detail=\App\UserDetail::saveUserDetail($data, $user_id->id);
+                if ($request->file('profile_pic')) {
+                $this->addImage($request,$user_detail,'profile_pic');
+                }
                 \App\DeviceDetail::saveDeviceToken($data, $user_id->id);
             }
             // save the user
@@ -109,6 +120,11 @@ class RegisterController extends Controller {
         // If we reach here, then// data is valid and working.//
         DB::commit();
         return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200);
+    }
+    
+    
+    protected function update(Request $request){
+        
     }
 
  

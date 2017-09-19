@@ -70,6 +70,26 @@ class RegisterController extends Controller
         ]);
     }
     
+       /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        return view('admin.auth.register');
+    }
+
+    /**
+     * Get the guard to be used during registration.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard('admins');
+    }
+    
        public function confirm($confirmation_code) {
 
         try {

@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Services\UserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use League\Fractal\TransformerAbstract;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -20,7 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password','role','is_confirmed','confirmation_code',
-        'timezone'
+        'timezone','api_token'
     ];
 
     /**
@@ -52,4 +52,7 @@ class User extends Authenticatable
         ]);
        return $user;
      }
+     
+   
+
 }

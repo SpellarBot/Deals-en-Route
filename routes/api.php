@@ -20,7 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'Api\v1','prefix' => 'v1'], function()
 { 
     
-     Route::post('/register/user', 'Auth\RegisterController@create');
+     Route::post('/user/register', 'Auth\RegisterController@create');
+     Route::post('/user/login', 'Auth\LoginController@login');
+     Route::middleware('auth:api')->post('/user/adddetail', 'Auth\LoginController@addUserDetail');
+     Route::middleware('auth:api')->get('/category/list', 'CouponCategoryController@categoryList');
      
 });
 
