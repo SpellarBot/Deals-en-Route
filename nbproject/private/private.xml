@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/var/www/html/dealenroute/app/UserDetail.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Services/User.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Controllers/Admin/Auth/RegisterController.php</file>
+            <file>file:/var/www/html/dealenroute/resources/views/home.blade.php</file>
+            <file>file:/var/www/html/dealenroute/.env</file>
+            <file>file:/var/www/html/dealenroute/config/constants.php</file>
+            <file>file:/var/www/html/dealenroute/resources/views/confirm.blade.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Services/MailTrait.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/Auth/ForgotPasswordController.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Services/UserTrait.php</file>
+            <file>file:/var/www/html/dealenroute/routes/api.php</file>
+            <file>file:/var/www/html/dealenroute/routes/web.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/Auth/RegisterController.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/Auth/LoginController.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/Auth/ResetPasswordController.php</file>
+            <file>file:/var/www/html/dealenroute/app/User.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Controllers/Admin/Auth/LoginController.php</file>
+            <file>file:/var/www/html/dealenroute/app/DeviceDetail.php</file>
+        </group>
+    </open-files>
+</project-private>

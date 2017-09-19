@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Http\Services;
+
+use App\User;
+
+trait UserTrait {
+    
+    public function createUser() {
+
+        // Get all the brands from the Brands Table.
+        Brand::all();
+    }
+    
+    public function generateRandomString(){
+       return str_random(30);
+    }
+    
+    public function generateAuthToken(){
+        return bin2hex(openssl_random_pseudo_bytes(16));
+    }
+}
