@@ -10,14 +10,18 @@ class CategoryTransformer {
    
 
     public function transformList($category) {
- new Collection($category, function(array $categorys) {      
-  return [
-           'category_id'=>$categorys->category_id,
-           'category_name'=>$category->category_name,
-           'category_image'=>$category->category_image,
-
-        ];
-}
+        
+        $var = [];
+        $var = $category->map(function ($item) {
+            return [
+                'category_id'=>$item->category_id, 
+                'category_name'=>$item->category_name,
+                'category_image'=>$item->category_image
+            ];
+        });
+        return $var;
     }
+    
+
 
 }

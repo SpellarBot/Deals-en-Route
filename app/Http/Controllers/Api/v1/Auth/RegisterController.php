@@ -72,7 +72,7 @@ class RegisterController extends Controller {
     
      /**
      * @SWG\Post(
-     *   path="/register/user",
+     *   path="/user/register",
      *   summary="register user",
      *   operationId="create",
      *   @SWG\Parameter( name="first_name", in="query",  required=true,  type="string" ),
@@ -81,10 +81,9 @@ class RegisterController extends Controller {
      *   @SWG\Parameter( name="phone", in="query",  required=true,  type="string" ),
      *   @SWG\Parameter( name="device_token", in="query",  required=true,  type="string" ),
      *   @SWG\Parameter( name="password", in="query",  required=true,  type="string" ),
-     *   @SWG\Parameter( name="timezone", in="query",  required=false,  type="string" ),
      *   @SWG\Parameter( name="app_version", in="query",  required=false,  type="string" ),
      *   @SWG\Parameter( name="device_type", in="query",  required=false,  type="string" ),
-     *    @SWG\Parameter( name="device_version", in="query",  required=false,  type="string" ),
+     *   @SWG\Parameter( name="device_version", in="query",  required=false,  type="string" ),
      *   @SWG\Response(response=200, description="successful operation"),
      * )
      *
@@ -103,8 +102,9 @@ class RegisterController extends Controller {
             if ($user_id) {
                 $array_mail = ['from' => 'jinal@solulab.com', 'to' => $data['email'],
                     'subject' => 'Verify your email address', 'template' => 'email.verify',
-                    'confirmation_code' => $user_id->confirmation_code];
-               // $this->sendMail($array_mail);
+                    'data'=>['email_content'=>'Verify your email address','confirmation_code' => $user_id->confirmation_code]
+                    ];
+                $this->sendMail($array_mail);
                 $user_detail=\App\UserDetail::saveUserDetail($data, $user_id->id);
                 if ($request->file('profile_pic')) {
                 $this->addImage($request,$user_detail,'profile_pic');
@@ -114,7 +114,7 @@ class RegisterController extends Controller {
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-           // throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//

@@ -66,6 +66,8 @@ class LoginController extends Controller {
             }
             $auth->api_token = $this->generateAuthToken();
             $auth->save();
+           
+            \App\DeviceDetail::saveDeviceToken($data, $auth->id);
             // Authentication passed...
             $data = (new UserTransformer)->transformLogin($auth);
             return $this->responseJson('error', \Config::get('constants.USER_LOGIN'), 200, $data);
@@ -89,5 +91,22 @@ class LoginController extends Controller {
         }
           return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);            
     }
+    
+        // it will logout user 
+    protected function logout() {
+//        Auth::logout();
+//        return Redirect('/');
+        //delete the api token
+        $user = Auth::user();
+        $devicedetail = $user->deviceDetail;
+        $devicedetail->device_token = "";
+        $user->api_token = "";
+        if ($user->save()) {
+            $devicedetail->save();
+            return response()->json(['status' => 'success', 'message' => \Config::get('constants.USER_LOGOUT_SUCCESS')], 200);
+        }
+        return response()->json(['status' => 'success', 'message' => \Config::get('constants.APP_ERROR')], 400);
+    }
+
 
 }

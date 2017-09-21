@@ -23,7 +23,10 @@ Route::group(['namespace' => 'Api\v1','prefix' => 'v1'], function()
      Route::post('/user/register', 'Auth\RegisterController@create');
      Route::post('/user/login', 'Auth\LoginController@login');
      Route::middleware('auth:api')->post('/user/adddetail', 'Auth\LoginController@addUserDetail');
-     Route::middleware('auth:api')->get('/category/list', 'CouponCategoryController@categoryList');
+     Route::middleware('auth:api')->post('/category/list', 'CouponCategoryController@categoryList');
+      Route::middleware('auth:api')->post('/category/savelist', 'CouponCategoryController@categorySave');
+     Route::middleware('auth:api')->post('/coupon/categorywise ', 'CouponController@couponListCategoryWise');
+      Route::middleware('auth:api')->post('/user/logout', 'Auth\LoginController@logout');
      
 });
 

@@ -40,12 +40,17 @@ class User extends Authenticatable
         return $this->hasOne('App\UserDetail');
     }
     
+     public function deviceDetail()
+    {
+        return $this->hasOne('App\DeviceDetail');
+    }
+    
      protected function creatUser($data) {
      
              $user=User::create([
             'role'=>'user',
             'email' => $data['email'],
-            'timezone' => $data['timezone'],
+            'timezone' => $data['timezone']??'',
             'password' => bcrypt($data['password']),
             'is_confirmed'=>self::IS_NOT_CONFIRMED,
             'confirmation_code' => $this->generateRandomString()

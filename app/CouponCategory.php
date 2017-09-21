@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use URL;
+use Auth;
 class CouponCategory extends Model
 {
     
@@ -26,20 +27,34 @@ class CouponCategory extends Model
     ];
     
      public function scopeActive($query) {
-        return $query->where('is_active', 1);
+        return $query->where('is_active', self::IS_TRUE);
     }
     
      public function scopeDeleted($query) {
-        return $query->where('is_delete', 0);
+        return $query->where('is_delete', self::IS_FALSE);
     }
     
-    public static function categoryList(){      
-    $category= CouponCategory::active()->deleted()->get();
-
-      return $category;
-    }
-    
-    public function getCategoryImageAttribute($value) {
+     public function getCategoryImageAttribute($value) {
       return (!empty($value)) ? URL::to('/storage/app/public/category_image') . '/' . $value : "";
     }
+    
+    //get category list
+    public static function categoryList(){      
+     $category= CouponCategory::active()->deleted()->get();
+     return $category;
+    }
+    
+    public static function categorySavedList($id){
+
+     $idsArr = explode(',',$id); 
+     $category= CouponCategory::whereIn('category_id', $idsArr)
+             ->active()
+             ->deleted()
+             ->get();
+     return $category;
+    }
+    
+   
+    
+   
 }

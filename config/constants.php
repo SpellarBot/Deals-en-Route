@@ -11,7 +11,9 @@ return [
     'USER_NOT_CONFIRMED'=>'you have not confirmed your email yet.please check your email.',
     'USER_UPDATE_PROFILE'=>'profile updated successfully',
     'CATEGORY_LIST'=>'category listed successfully.',
-    'NO_RECORDS'=>'no records found.'
+    'CATEGORY_SAVE'=>'saved category listed successfully',
+    'NO_RECORDS'=>'no records found.',
+    'USER_LOGOUT_SUCCESS'=>'User logout successfully.'
    
     //notification
     

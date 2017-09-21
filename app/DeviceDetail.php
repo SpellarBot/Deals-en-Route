@@ -16,10 +16,10 @@ class DeviceDetail extends Model {
     ];
     public $table = 'device_detail';
     public $timestamps = false;
+    public $primaryKey = 'user_id';
 
     public static function saveDeviceToken($data, $user_id) {
         $device_detail = DeviceDetail::firstOrNew(["user_id" => $user_id]);
-        $device_detail->user_id = $user_id;
         $device_detail->fill($data);
         $device_detail->save();
     }

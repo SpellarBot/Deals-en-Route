@@ -9,7 +9,7 @@ trait MailTrait {
     
   public function sendMail($array_mail){
       
-         Mail::send($array_mail['template'], ['confirmation_code'=>$array_mail['confirmation_code']], 
+         Mail::send($array_mail['template'], $array_mail['data'], 
          function($message) use ($array_mail) {
          $message->to($array_mail['to'])->subject($array_mail['subject']);
          

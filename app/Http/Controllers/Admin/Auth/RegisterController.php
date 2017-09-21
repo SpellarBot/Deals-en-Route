@@ -100,7 +100,7 @@ class RegisterController extends Controller
                 $user->is_confirmed = 1;
                 $user->confirmation_code = null;
                 $user->save();
-                if($user->userDetail->type==0){
+                if($user->userDetail->type!=0){
                 $array_mail = ['to' => $user->email,
              'subject' => 'Password Generated', 'template' => 'email.password',
              'confirmation_code' => $user_id->confirmation_code];

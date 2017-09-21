@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'jinal@solulab.com'),
-        'name' => env('MAIL_FROM_NAME', 'Invite App'),
+        'name' => env('MAIL_FROM_NAME', 'Dealsenroute'),
     ],
 
     /*

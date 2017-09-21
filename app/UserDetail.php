@@ -23,6 +23,8 @@ class UserDetail extends Model
     public $primaryKey = 'user_detail_id';
     
     
+      
+    
     public static function saveUserDetail($data,$user_id){
         $user_detail = UserDetail::firstOrNew(["user_id" => $user_id]);
         $user_detail->user_id = $user_id;
@@ -30,4 +32,8 @@ class UserDetail extends Model
         $user_detail->save();
         return $user_detail;
     }
+    
+    
+    
+  
 }
