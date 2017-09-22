@@ -16,7 +16,7 @@ class UserTransformer {
     public function transformLogin($user) {
 
         return [
-            'first_name' => $user->userDetail->first_name,
+            'first_name' => $user->userDetail->first_name??'',
             'email' => $user->email,
             'last_name' => $user->userDetail->last_name,
             'dob' => Carbon::parse($user->userDetail->dob)->format('Y-m-d'),

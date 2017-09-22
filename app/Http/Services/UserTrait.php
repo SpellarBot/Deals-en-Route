@@ -19,4 +19,9 @@ trait UserTrait {
     public function generateAuthToken(){
         return bin2hex(openssl_random_pseudo_bytes(16));
     }
+    
+    public function getVendorName($id){
+        $vendor= \App\VendorDetail::where('user_id',$id)->first();
+        return $vendor;
+    }
 }

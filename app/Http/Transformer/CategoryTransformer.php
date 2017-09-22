@@ -14,9 +14,9 @@ class CategoryTransformer {
         $var = [];
         $var = $category->map(function ($item) {
             return [
-                'category_id'=>$item->category_id, 
-                'category_name'=>$item->category_name,
-                'category_image'=>$item->category_image
+                'category_id'=>$item->category_id??'', 
+                'category_name'=>$item->category_name??'',
+                'category_image'=>$item->category_image??''
             ];
         });
         return $var;

@@ -6,7 +6,7 @@
     },
     "basePath": "/dealenroute/api/v1",
     "paths": {
-        "/register/user": {
+        "/user/register": {
             "post": {
                 "summary": "register user",
                 "operationId": "create",
@@ -45,6 +45,24 @@
                         "name": "password",
                         "in": "query",
                         "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "app_version",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "device_type",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "device_version",
+                        "in": "query",
+                        "required": false,
                         "type": "string"
                     }
                 ],

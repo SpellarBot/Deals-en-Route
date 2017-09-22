@@ -6,12 +6,15 @@ use Illuminate\Notifications\Notifiable;
 use App\Http\Services\UserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use League\Fractal\TransformerAbstract;
-class User extends Authenticatable
-{
+use Auth;
+
+class User extends Authenticatable {
+
     use Notifiable;
     use UserTrait;
-    const IS_NOT_CONFIRMED=0;
-    const IS_CONFIRMED=1;
+
+    const IS_NOT_CONFIRMED = 0;
+    const IS_CONFIRMED = 1;
 
     /**
      * The attributes that are mass assignable.
@@ -19,8 +22,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','role','is_confirmed','confirmation_code',
-        'timezone','api_token'
+        'name', 'email', 'password', 'role', 'is_confirmed', 'confirmation_code',
+        'timezone', 'api_token'
     ];
 
     /**
@@ -31,33 +34,40 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    
-       /**
+
+    /**
      * Get the phone record associated with the user.
      */
-    public function userDetail()
-    {
+    public function userDetail() {
         return $this->hasOne('App\UserDetail');
     }
-    
-     public function deviceDetail()
-    {
+
+    public function deviceDetail() {
         return $this->hasOne('App\DeviceDetail');
     }
-    
-     protected function creatUser($data) {
-     
-             $user=User::create([
-            'role'=>'user',
-            'email' => $data['email'],
-            'timezone' => $data['timezone']??'',
-            'password' => bcrypt($data['password']),
-            'is_confirmed'=>self::IS_NOT_CONFIRMED,
-            'confirmation_code' => $this->generateRandomString()
+
+    protected function creatUser($data) {
+
+        $user = User::create([
+                    'role' => 'user',
+                    'email' => $data['email'],
+                    'timezone' => $data['timezone'] ?? '',
+                    'password' => bcrypt($data['password']),
+                    'is_confirmed' => self::IS_NOT_CONFIRMED,
+                    'confirmation_code' => $this->generateRandomString()
         ]);
-       return $user;
-     }
-     
-   
+        return $user;
+    }
+
+    protected function updateUser($data) {
+        $user_id = Auth::id();
+        $user_detail = User::find($user_id);
+        if(!empty($data['password'])){
+        $user_detail->password =bcrypt($data['password']);
+        }
+        $user_detail->fill($data);
+        $user_detail->save();
+        return $user_detail;
+    }
 
 }

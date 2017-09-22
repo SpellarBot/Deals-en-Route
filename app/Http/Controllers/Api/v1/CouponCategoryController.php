@@ -9,41 +9,40 @@ use App\Http\Controllers\Api\v1\Controller;
 use App\Http\Transformer\CategoryTransformer;
 use Auth;
 
-class CouponCategoryController extends Controller
-{
+class CouponCategoryController extends Controller {
+
     use CategoryTrait;
     use ResponseTrait;
-    
-    
-    
-     
-    public function categoryList(){
 
-     $categoryListData= \App\CouponCategory::categoryList();
+    public function categoryList() {
+        $role = Auth::user()->role;
+        if ($role != 'user') {
+            return $this->responseJson('error', \Config::get('constants.NOT_AUTHORIZED'), 400);
+        }
+        $categoryListData = \App\CouponCategory::categoryList();
 
-     if(count($categoryListData)>0){
-     $data = (new CategoryTransformer)->transformList($categoryListData);   
-     return $this->responseJson('success', \Config::get('constants.CATEGORY_LIST'), 200,
-             $data);
-     }
-     return $this->responseJson('error', \Config::get('constants.NO_RECORDS'), 200);
+        if (count($categoryListData) > 0) {
+            $data = (new CategoryTransformer)->transformList($categoryListData);
+            return $this->responseJson('success', \Config::get('constants.CATEGORY_LIST'), 200, $data);
+        }
+        return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
     }
-    
-    
-    
-    
-    public function categorySave(Request $request){
-     $data=$request->all();
-     $categorySave= \App\UserDetail::saveUserDetail($data,Auth::id());
 
-     if($categorySave){
-     $categoryListData=\App\CouponCategory::categorySavedList($categorySave->category_id);    
-    
-     $data = (new CategoryTransformer)->transformList($categoryListData);   
-     return $this->responseJson('success', \Config::get('constants.CATEGORY_SAVE'), 200,
-             $data);
-     }
-       return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+    public function categorySave(Request $request) {
+        $role = Auth::user()->role;
+        if ($role != 'user') {
+            return $this->responseJson('error', \Config::get('constants.NOT_AUTHORIZED'), 400);
+        }
+        $data = $request->all();
+        $categorySave = \App\UserDetail::saveUserDetail($data, Auth::id());
+
+        if ($categorySave) {
+            $categoryListData = \App\CouponCategory::categorySavedList($categorySave->category_id);
+
+            $data = (new CategoryTransformer)->transformList($categoryListData);
+            return $this->responseJson('success', \Config::get('constants.CATEGORY_SAVE'), 200, $data);
+        }
+        return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
     }
-    
+
 }

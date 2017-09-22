@@ -62,7 +62,7 @@ class RegisterController extends Controller {
                     'last_name' => 'required|string|max:255',
                     'email' => 'required|string|email|max:255|unique:users',
                     'password' => 'required|string|min:6',
-                    'phone'=>'required|max:15|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
+                    'phone' => 'required|max:15|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
                     'device_type' => 'sometimes|required',
                     'device_version' => 'sometimes|required',
                     'app_version' => 'sometimes|required',
@@ -70,7 +70,18 @@ class RegisterController extends Controller {
         ]);
     }
     
-     /**
+     protected function validatorupdate(array $data) {
+        return Validator::make($data, [
+                    'first_name' => 'sometimes|required|string|max:255',
+                    'last_name' => 'sometimes|required|string|max:255',
+                    'password' => 'sometimes|required|string|min:6',
+                   'mobile_no' => 'sometimes|required|min:6|max:20',
+                   'name' => 'sometimes|required',
+                   'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg|max:20000',
+        ]);
+     }
+
+    /**
      * @SWG\Post(
      *   path="/user/register",
      *   summary="register user",
@@ -102,12 +113,12 @@ class RegisterController extends Controller {
             if ($user_id) {
                 $array_mail = ['from' => 'jinal@solulab.com', 'to' => $data['email'],
                     'subject' => 'Verify your email address', 'template' => 'email.verify',
-                    'data'=>['email_content'=>'Verify your email address','confirmation_code' => $user_id->confirmation_code]
-                    ];
+                    'data' => ['email_content' => 'Verify your email address', 'confirmation_code' => $user_id->confirmation_code]
+                ];
                 $this->sendMail($array_mail);
-                $user_detail=\App\UserDetail::saveUserDetail($data, $user_id->id);
+                $user_detail = \App\UserDetail::saveUserDetail($data, $user_id->id);
                 if ($request->file('profile_pic')) {
-                $this->addImage($request,$user_detail,'profile_pic');
+                    $this->addImage($request, $user_detail, 'profile_pic');
                 }
                 \App\DeviceDetail::saveDeviceToken($data, $user_id->id);
             }
@@ -121,12 +132,31 @@ class RegisterController extends Controller {
         DB::commit();
         return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200);
     }
-    
-    
-    protected function update(Request $request){
-        
-    }
 
- 
+    protected function update(Request $request) {
+        DB::beginTransaction();
+        try {
+            $data = $request->all();
+            $validator = $this->validatorupdate($data);
+            if ($validator->fails()) {
+                return $this->responseJson('error', $validator->errors()->first(), 400);
+            }
+            $user=User::updateUser($data);    
+            $user_detail = \App\UserDetail::saveUserDetail($data, $user->id);
+            if ($request->file('profile_pic')) {
+                $this->addImage($request, $user_detail, 'profile_pic');
+            }
+            \App\DeviceDetail::saveDeviceToken($data, $user->id);
+
+            // save the user
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+        // If we reach here, then// data is valid and working.//
+        DB::commit();
+        return $this->responseJson('success', \Config::get('constants.USER_UPDATED_SUCCESSFULLY'), 200);
+    }
 
 }

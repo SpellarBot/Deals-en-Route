@@ -13,7 +13,11 @@ return [
     'CATEGORY_LIST'=>'category listed successfully.',
     'CATEGORY_SAVE'=>'saved category listed successfully',
     'NO_RECORDS'=>'no records found.',
-    'USER_LOGOUT_SUCCESS'=>'User logout successfully.'
+    'USER_LOGOUT_SUCCESS'=>'User logout successfully.',
+    'NOT_AUTHORIZED'=>'you are not allowed to perform the action.',
+    'USER_UPDATED_SUCCESSFULLY'=>'user updated successsfully.',
+    
+    'EARTH_RADIUS'=>3959,
    
     //notification
     

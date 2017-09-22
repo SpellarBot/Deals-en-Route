@@ -4,23 +4,43 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/var/www/html/dealenroute/app/UserDetail.php</file>
-            <file>file:/var/www/html/dealenroute/app/Http/Services/User.php</file>
+            <file>file:/var/www/html/dealenroute/app/Console/Kernel.php</file>
             <file>file:/var/www/html/dealenroute/app/Http/Controllers/Admin/Auth/RegisterController.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Services/CategoryTrait.php</file>
             <file>file:/var/www/html/dealenroute/resources/views/home.blade.php</file>
-            <file>file:/var/www/html/dealenroute/.env</file>
+            <file>file:/var/www/html/dealenroute/resources/views/vendor/mail/html/layout.blade.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Services/MailTrait.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Services/UserTrait.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Middleware/VerifyCsrfToken.php</file>
+            <file>file:/var/www/html/dealenroute/app/Coupon.php</file>
+            <file>file:/var/www/html/dealenroute/routes/web.php</file>
+            <file>file:/var/www/html/dealenroute/config/app.php</file>
+            <file>file:/var/www/html/dealenroute/config/mail.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Middleware/TrimStrings.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Services/ImageTrait.php</file>
             <file>file:/var/www/html/dealenroute/config/constants.php</file>
             <file>file:/var/www/html/dealenroute/resources/views/confirm.blade.php</file>
-            <file>file:/var/www/html/dealenroute/app/Http/Services/MailTrait.php</file>
             <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/Auth/ForgotPasswordController.php</file>
-            <file>file:/var/www/html/dealenroute/app/Http/Services/UserTrait.php</file>
             <file>file:/var/www/html/dealenroute/routes/api.php</file>
-            <file>file:/var/www/html/dealenroute/routes/web.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/CouponCategoryController.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Middleware/RedirectIfAuthenticated.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Transformer/CouponTransformer.php</file>
             <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/Auth/RegisterController.php</file>
             <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/Auth/LoginController.php</file>
             <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/Auth/ResetPasswordController.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Transformer/UserTransformer.php</file>
+            <file>file:/var/www/html/dealenroute/app/CouponCategory.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/CouponController.php</file>
+            <file>file:/var/www/html/dealenroute/resources/views/email/verify.blade.php</file>
             <file>file:/var/www/html/dealenroute/app/User.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Services/ResponseTrait.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Middleware/EncryptCookies.php</file>
             <file>file:/var/www/html/dealenroute/app/Http/Controllers/Admin/Auth/LoginController.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Transformer/CategoryTransformer.php</file>
+            <file>file:/var/www/html/dealenroute/app/Http/Controllers/Api/v1/Controller.php</file>
             <file>file:/var/www/html/dealenroute/app/DeviceDetail.php</file>
+            <file>file:/var/www/html/dealenroute/routes/channels.php</file>
+            <file>file:/var/www/html/dealenroute/resources/views/vendor/mail/html/message.blade.php</file>
         </group>
     </open-files>
 </project-private>
