@@ -13,12 +13,20 @@ return [
     'CATEGORY_LIST'=>'category listed successfully.',
     'CATEGORY_SAVE'=>'saved category listed successfully',
     'NO_RECORDS'=>'no records found.',
+    'COUPON_LIST'=>'coupon listed successfully,',
+    'COUPON_DETAIL'=>'coupon detial.',
     'USER_LOGOUT_SUCCESS'=>'User logout successfully.',
     'NOT_AUTHORIZED'=>'you are not allowed to perform the action.',
     'USER_UPDATED_SUCCESSFULLY'=>'user updated successsfully.',
+    'COUPON_ADD_FAV'=>'added coupon to favourtie successfully.',
     
+    //eart radius
     'EARTH_RADIUS'=>3959,
-   
+    
+    
+    
+    //local path
+    'IMAGE_PATH'=>'storage/app/public/',
     //notification
     
 ];

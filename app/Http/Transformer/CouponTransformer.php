@@ -14,7 +14,8 @@ class CouponTransformer {
         $var = $coupon->map(function ($item) {
           
             return [
-                'category_id'=>$item->coupon_id??'',
+                'coupon_id'=>$item->coupon_id??'',
+     
                 'coupon_category_name'=>$item->categoryDetail->category_name ??'',
                 'coupon_name'=>$item->coupon_name??'',
                 'vendor_name'=>$item->vendorDetail->vendor_name??'',
@@ -27,6 +28,48 @@ class CouponTransformer {
         });
         return $var;
     }
+    
+    
+     public function transformFavSearchList($coupon) {
+    
+        $var = [];
+        $var = $coupon->map(function ($item) {
+          
+            return [
+                'coupon_id'=>$item->coupon_id??'',   
+                'coupon_name'=>$item->coupon_name??'',
+                'coupon_detail'=>$item->coupon_detail??'',  
+                'vendor_address'=>$item->vendorDetail->vendor_address??'',      
+                'coupon_logo'=>$item->coupon_logo ??"",
+                'coupon_offer_logo'=>$item->coupon_offer_logo ??"",
+                'distance'=>$item->distance??'',
+                
+            ];
+        });
+        return $var;
+    }
+    
+   
+      public function transformDetail($item) {
+    
+            return [
+                'coupon_id'=>$item->coupon_id??'',
+                'coupon_logo'=>$item->coupon_logo??'',
+                'vendor_name'=>$item->vendorDetail->vendor_name??'',
+                'vendor_address'=>$item->vendorDetail->vendor_address??'',
+                'coupon_name'=>$item->coupon_name??'',
+                'coupon_detail'=>$item->coupon_detail??'',
+                'coupon_qrcode_image'=>$item->coupon_qrcode_image??'',
+                'coupon_redemption_code'=>$item->coupon_redemption_code??'',
+                'coupon_end_date'=>$item->coupon_end_date??'',
+              
+                
+            ];
+       
+        return $var;
+    }
+    
+    
     
 
 

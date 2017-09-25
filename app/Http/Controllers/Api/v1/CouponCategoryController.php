@@ -15,10 +15,7 @@ class CouponCategoryController extends Controller {
     use ResponseTrait;
 
     public function categoryList() {
-        $role = Auth::user()->role;
-        if ($role != 'user') {
-            return $this->responseJson('error', \Config::get('constants.NOT_AUTHORIZED'), 400);
-        }
+     
         $categoryListData = \App\CouponCategory::categoryList();
 
         if (count($categoryListData) > 0) {
@@ -27,12 +24,12 @@ class CouponCategoryController extends Controller {
         }
         return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
     }
+    
+    
+    
 
     public function categorySave(Request $request) {
-        $role = Auth::user()->role;
-        if ($role != 'user') {
-            return $this->responseJson('error', \Config::get('constants.NOT_AUTHORIZED'), 400);
-        }
+       
         $data = $request->all();
         $categorySave = \App\UserDetail::saveUserDetail($data, Auth::id());
 

@@ -13,6 +13,7 @@ use DB;
 use Session;
 use App\Http\Services\ImageTrait;
 use Intervention\Image\Facades\Image as Image;
+use App\Http\Transformer\UserTransformer;
 
 class RegisterController extends Controller {
     /*
@@ -30,6 +31,7 @@ class RegisterController extends Controller {
     use MailTrait;
     use RegistersUsers;
     use ImageTrait;
+    
 
     CONST IS_CONFIRMED = 1;
     CONST IS_NOT_CONFIRMED = 0;
@@ -133,6 +135,9 @@ class RegisterController extends Controller {
         return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200);
     }
 
+    
+    //update the profile 
+    
     protected function update(Request $request) {
         DB::beginTransaction();
         try {
@@ -143,20 +148,25 @@ class RegisterController extends Controller {
             }
             $user=User::updateUser($data);    
             $user_detail = \App\UserDetail::saveUserDetail($data, $user->id);
+                
             if ($request->file('profile_pic')) {
-                $this->addImage($request, $user_detail, 'profile_pic');
+               
+                $this->updateImage($request, $user_detail, 'profile_pic');
             }
+       
             \App\DeviceDetail::saveDeviceToken($data, $user->id);
 
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-            throw $e;
+          //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
-        return $this->responseJson('success', \Config::get('constants.USER_UPDATED_SUCCESSFULLY'), 200);
+            $data = (new UserTransformer)->transformLogin($user);
+            return $this->responseJson('success', \Config::get('constants.USER_UPDATED_SUCCESSFULLY'), 200, $data);
+
     }
 
 }

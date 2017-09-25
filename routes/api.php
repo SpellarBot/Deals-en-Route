@@ -29,7 +29,13 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     Route::post('/category/list', 'CouponCategoryController@categoryList');
     Route::post('/category/savelist', 'CouponCategoryController@categorySave');
     Route::post('/coupon/categorywise ', 'CouponController@couponListCategoryWise');
+    Route::post('/coupon/detail', 'CouponController@couponDetail');
+    Route::post('/coupon/addfav', 'CouponController@addFavourite');
+    Route::post('/coupon/favlist', 'CouponController@couponFavList');
+     Route::post('/coupon/searchlist', 'CouponController@couponSearchList');
+      Route::post('/coupon/redeemlist', 'CouponController@redeemCouponList');
     Route::post('/user/logout', 'Auth\LoginController@logout');
+    
 
         // additional routes here
     });

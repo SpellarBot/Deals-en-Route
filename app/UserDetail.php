@@ -26,6 +26,13 @@ class UserDetail extends Model
       
     
     public static function saveUserDetail($data,$user_id){
+        if(isset($data['profile_pic'])){
+        unset($data['profile_pic']);
+        }
+        if(isset($data['password'])){
+          $data['password']= bcrypt($data['password']);
+        }
+       
         $user_detail = UserDetail::firstOrNew(["user_id" => $user_id]);
         $user_detail->user_id = $user_id;
         $user_detail->fill($data);

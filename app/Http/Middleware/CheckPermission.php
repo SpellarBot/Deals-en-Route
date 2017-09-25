@@ -3,9 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
+use App\Http\Services\ResponseTrait;
 class CheckPermission
 {
+    
+    use ResponseTrait;
        /**
 
      * Handle an incoming request.
@@ -30,7 +32,13 @@ class CheckPermission
             return $next($request);
 
         }
-       return $next($request);
+       $response= $next($request);
+        if($response->headers->get('content-type') == 'application/json')
+        {
+        return $this->responseJson('error', \Config::get('constants.NOT_AUTHORIZED'), 400);
+           
+        }
+        return $response;
 
     }
 }
