@@ -76,7 +76,7 @@ class Coupon extends Model {
         $lat = $user->latitude;
         $lng = $user->longitude;
         $id = $user->category_id;
-
+        $idsArr = explode(',', $id);
         $query = Coupon::active()->deleted()
                 ->select(DB::raw('coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
                                 . 'coupon_name,coupon_logo,created_by,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) * 1609.34) as distance'))
@@ -88,14 +88,14 @@ class Coupon extends Model {
             $query->where('coupon_category_id', $data['category_id']);
         } else if (isset($data['search'])) {
             $keyword = $data['search'];
-            $query->Where(DB::raw("CONCAT(coupon_name,' ',coupon_detail)"), "LIKE", "%$keyword%")
-                    ->orWhere(DB::raw("CONCAT(coupon_name,'',coupon_detail)"), "LIKE", "%$keyword%")
-                    ->orWhere("coupon_name", "LIKE", "%$keyword%")
-                    ->orWhere("coupon_detail", "LIKE", "%$keyword%")
-            ;
+            $query->whereIn('coupon_category_id', $idsArr);
+            $query->where(function($q) use ($idsArr, $keyword) {
+                $q->where(DB::raw("CONCAT(coupon_name,' ',coupon_detail)"), "LIKE", "%$keyword%")
+                        ->orWhere(DB::raw("CONCAT(coupon_name,'',coupon_detail)"), "LIKE", "%$keyword%")
+                        ->orWhere("coupon_name", "LIKE", "%$keyword%")
+                        ->orWhere("coupon_detail", "LIKE", "%$keyword%");
+            });
         } else {
-
-            $idsArr = explode(',', $id);
             $query->whereIn('coupon_category_id', $idsArr);
         }
 
@@ -105,31 +105,7 @@ class Coupon extends Model {
 
     public static function redeemCouponList($data) {
 
-        $user = Auth()->user()->userDetail;
-        $circle_radius = \Config::get('constants.EARTH_RADIUS');
-
-        $lat = $user->latitude;
-        $lng = $user->longitude;
-
-        $query = Coupon::active()->deleted()
-                ->select(DB::raw('coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
-                                . 'coupon_name,coupon_logo,created_by,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) * 1609.34) as distance'))
-                ->where(\DB::raw('TIMESTAMP(`coupon_start_date`)'), '<=', date('Y-m-d H:i:s'))
-                ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
-                ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
-                ->havingRaw('coupon_radius >= distance')
-        ;
-        if (isset($data['category_id'])) {
-            $query->where('coupon_category_id', $data['category_id']);
-        }
-
-        if (isset($data['search'])) {
-            $keyword = $data['search'];
-            $query->Where(DB::raw("CONCAT(coupon_name,' ',coupon_detail)"), "LIKE", "%$keyword%")
-                    ->orWhere(DB::raw("CONCAT(coupon_name,'',coupon_detail)"), "LIKE", "%$keyword%")
-                    ->orWhere("coupon_name", "LIKE", "%$keyword%")
-                    ->orWhere("coupon_detail", "LIKE", "%$keyword%");
-        }
+       
 
         $result = $query->orderBy('distance')->get();
         return $result;

@@ -8,7 +8,6 @@ use App\Http\Services\ResponseTrait;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 
-
 class CouponController extends Controller {
 
     use ResponseTrait;
@@ -62,7 +61,7 @@ class CouponController extends Controller {
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
- 
+
     public function addFavourite(Request $request) {
 
         try {
@@ -72,16 +71,13 @@ class CouponController extends Controller {
             //find nearby coupon
             $coupondetail = \App\CouponFavourite::addFavCoupon($data);
             if ($coupondetail) {
-               return $this->responseJson('success', \Config::get('constants.COUPON_ADD_FAV'), 200);
+                return $this->responseJson('success', \Config::get('constants.COUPON_ADD_FAV'), 200);
             }
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
-     
         } catch (\Exception $e) {
-               // throw $e;
+            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-        
-        
     }
 
     public function couponFavList(Request $request) {
@@ -97,18 +93,18 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-             //    throw $e;
+            //    throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-    
+
     public function couponSearchList(Request $request) {
         try {
             // get the request
             $data = $request->all();
             //add lat long if passsed to the data
             $user_detail = \App\UserDetail::saveUserDetail($data, Auth::user()->id);
-           
+
             //find nearby coupon
             $coupondetail = \App\Coupon::getNearestCoupon($data);
             if (count($coupondetail) > 0) {
@@ -117,18 +113,18 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-                // throw $e;
+             throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-    
-    public function redeemCouponList(Request $request){
-            try {
+
+    public function redeemCouponList(Request $request) {
+        try {
             // get the request
             $data = $request->all();
             //add lat long if passsed to the data
             $user_detail = \App\UserDetail::saveUserDetail($data, Auth::user()->id);
-           
+
             //find nearby coupon
             $coupondetail = \App\Coupon::redeemCouponList($data);
             if (count($coupondetail) > 0) {
@@ -137,10 +133,9 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-                // throw $e;
+            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-        
     }
 
 }

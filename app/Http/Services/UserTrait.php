@@ -24,4 +24,11 @@ trait UserTrait {
         $vendor= \App\VendorDetail::where('user_id',$id)->first();
         return $vendor;
     }
+    
+    public function getFbFriendId($id){
+        $fb_token= \App\UserDetail::where('fb_token',$id)->first();
+        if(!empty($fb_token)){
+        return $fb_token->user_id;
+        }
+    }
 }

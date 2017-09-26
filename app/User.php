@@ -62,12 +62,45 @@ class User extends Authenticatable {
     protected function updateUser($data) {
         $user_id = Auth::id();
         $user_detail = User::find($user_id);
-        if(!empty($data['password'])){
-        $user_detail->password =bcrypt($data['password']);
+        if (!empty($data['password'])) {
+            $user_detail->password = bcrypt($data['password']);
         }
         $user_detail->fill($data);
         $user_detail->save();
         return $user_detail;
     }
+
+    protected function saveToken($data) {
+
+        $user_detail = \App\UserDetail::where(["fb_token" => $data['token']])
+                ->orWhere(["google_token" => $data['token']])
+                ->orWhere(["twitter_token" => $data['token']])
+                ->first();
+        $user = self::getUser($user_detail, $data);
+        \App\UserDetail::saveUserDetail($data, $user->id);
+        \App\DeviceDetail::saveDeviceToken($data, $user->id);
+        UserFbFriend::saveFbFriend($data,$user->id);
+        return $user;
+    }
+
+    protected function getUser($user_detail, $data) {
+
+        if (empty($user_detail)) {
+            $user = User::create(['role' => 'user']);
+            $user_id = $user->id;
+        } else {
+            $user_id = $user_detail->user_id;
+            $user = User::find($user_id);
+            if (!empty($data['email'])) {
+                $user->api_token = $this->generateAuthToken();
+            }
+            $user->fill($data);
+            $user->save();
+        }
+        return $user;
+    }
+    
+    
+   
 
 }

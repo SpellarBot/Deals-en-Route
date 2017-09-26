@@ -113,10 +113,11 @@ class RegisterController extends Controller {
 
             $user_id = User::creatUser($data);
             if ($user_id) {
-                $array_mail = ['from' => 'jinal@solulab.com', 'to' => $data['email'],
-                    'subject' => 'Verify your email address', 'template' => 'email.verify',
-                    'data' => ['email_content' => 'Verify your email address', 'confirmation_code' => $user_id->confirmation_code]
+                $array_mail = ['to' => $data['email'],
+                    'template' => 'email.verify',
+                    'data' => ['confirmation_code' => $user_id->confirmation_code]
                 ];
+                
                 $this->sendMail($array_mail);
                 $user_detail = \App\UserDetail::saveUserDetail($data, $user_id->id);
                 if ($request->file('profile_pic')) {
@@ -166,6 +167,26 @@ class RegisterController extends Controller {
         DB::commit();
             $data = (new UserTransformer)->transformLogin($user);
             return $this->responseJson('success', \Config::get('constants.USER_UPDATED_SUCCESSFULLY'), 200, $data);
+
+    }
+    
+    
+    protected function registerwithfb(Request $request){
+         DB::beginTransaction();
+        try {
+         $data = $request->all();
+          
+        $user=User::saveToken($data); 
+            // save the user
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+        // If we reach here, then// data is valid and working.//
+        DB::commit();
+            $data = (new UserTransformer)->transformLogin($user);
+            return $this->responseJson('success', \Config::get('constants.USER_LOGIN'), 200, $data);
 
     }
 
