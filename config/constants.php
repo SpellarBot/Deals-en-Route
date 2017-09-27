@@ -19,6 +19,9 @@ return [
     'NOT_AUTHORIZED'=>'you are not allowed to perform the action.',
     'USER_UPDATED_SUCCESSFULLY'=>'user updated successsfully.',
     'COUPON_ADD_FAV'=>'added coupon to favourtie successfully.',
+    'USER_UNAUTHENTICATED'=>'unauthenticated',
+    'USER_DETAIL'=>'user detail',
+    'ADD_FB_FRIEND'=>'successfully added fb friend',
     
     //eart radius
     'EARTH_RADIUS'=>3959,

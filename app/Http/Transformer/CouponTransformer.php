@@ -43,6 +43,8 @@ class CouponTransformer {
                 'coupon_logo'=>$item->coupon_logo ??"",
                 'coupon_offer_logo'=>$item->coupon_offer_logo ??"",
                 'distance'=>$item->distance??'',
+                'coupon_latitude'=>$item->coupon_lat??'',
+                 'coupon_longitude'=>$item->coupon_long??'',
                 
             ];
         });
@@ -62,6 +64,7 @@ class CouponTransformer {
                 'coupon_qrcode_image'=>$item->coupon_qrcode_image??'',
                 'coupon_redemption_code'=>$item->coupon_redemption_code??'',
                 'coupon_end_date'=>$item->coupon_end_date??'',
+             
               
                 
             ];

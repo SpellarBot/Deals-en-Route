@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Services\UserTrait;
+use DB;
 class UserFbFriend extends Model
 {
     
@@ -24,13 +25,16 @@ class UserFbFriend extends Model
      if(isset($data['fb_friend']) && !empty($data['fb_friend']))  {  
          $fbfriend=$data['fb_friend'];
          $ex=explode(',',$fbfriend);
-        UserFbFriend::where('user_id',$userid)->delete();
+        $delete=UserFbFriend::where('user_id',$userid)->delete();
+        if($delete){
+            DB::statement("ALTER TABLE user_fb_friend AUTO_INCREMENT = 1;");
+        }
         $datafb = []; 
     
 
         foreach($ex as $exs){
           $fbfriend=new UserFbFriend();
-        $datafb[] = [
+              $datafb[] = [
              'user_id'=>$userid,
             'user_token_id'=>$exs,
             'user_friend_id'=>$fbfriend->getFbFriendId($exs)

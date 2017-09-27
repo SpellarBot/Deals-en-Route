@@ -22,7 +22,8 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-
+    use \App\Http\Services\UserTrait;
+    use \App\Http\Services\MailTrait;
     /**
      * Where to redirect users after registration.
      *
@@ -96,24 +97,32 @@ class RegisterController extends Controller
             $user = User::whereConfirmationCode($confirmation_code)->first();
            
             if (!empty($user)) {
-
+                 if($user->is_confirmed==1){
+                   Session::flash('error', \Config::get('constants.EMAIL_ALREADY_CONFIRMED'));
+                   return Redirect::to('/confirm');
+                 }
                 $user->is_confirmed = 1;
                 $user->confirmation_code = null;
-                $user->save();
+                $user->api_token = $this->generateAuthToken();
                 if($user->userDetail->type!=0){
-                $array_mail = ['to' => $user->email,
-             'subject' => 'Password Generated', 'template' => 'email.password',
-             'confirmation_code' => $user_id->confirmation_code];
-              $this->sendMail($array_mail);
+                     $password = $this->generatePassword();
+                    $array_mail = ['to' => $user->email,
+                        'type' => 'password',
+                        'data' => ['password' => $password]
+                    ];
+
+                $this->sendMail($array_mail);
+                $user->password = bcrypt($password);
                 }
+                $user->save();
                 Session::flash('success', \Config::get('constants.EMAIL_VERIFIED'));
                 return Redirect::to('/confirm');
                 
             }
-            Session::flash('error', \Config::get('constants.EMAIL_ALREADY_CONFIRMED'));
+            Session::flash('error', \Config::get('constants.EMAIL_CODE_EXPIRED'));
             return Redirect::to('/confirm');
         } catch (\Exception $e) {
-          //  throw $e;
+            throw $e;
             Session::flash('error', \Config::get('constants.APP_ERROR'));
             return Redirect::to('/confirm');
         }

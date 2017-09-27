@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     Route::post('/user/register', 'Auth\RegisterController@create');
     Route::post('/user/login', 'Auth\LoginController@login');
+    Route::post('/user/socialregister', 'Auth\RegisterController@registerwithfb');
+    Route::post('/user/addemail', 'Auth\RegisterController@addemail');
 
     Route::group(['middleware' => ['auth:api','check-permission:user']], function() {
         // Routes that passed auth, confirmed, subscribed, and active middleware
@@ -32,8 +34,14 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     Route::post('/coupon/detail', 'CouponController@couponDetail');
     Route::post('/coupon/addfav', 'CouponController@addFavourite');
     Route::post('/coupon/favlist', 'CouponController@couponFavList');
-     Route::post('/coupon/searchlist', 'CouponController@couponSearchList');
-      Route::post('/coupon/redeemlist', 'CouponController@redeemCouponList');
+    Route::post('/coupon/searchlist', 'CouponController@couponSearchList');
+    Route::post('/coupon/redeemlist', 'CouponController@redeemCouponList');
+    
+    //activity feed
+    Route::post('/activity/checkfb', 'ActivityController@checkFb');
+    Route::post('/activity/addfbfriend', 'ActivityController@addFbFriend');
+    
+    
     Route::post('/user/logout', 'Auth\LoginController@logout');
     
 

@@ -16,6 +16,10 @@ trait UserTrait {
        return str_random(30);
     }
     
+     public function generatePassword(){
+       return str_random(8);
+    }
+    
     public function generateAuthToken(){
         return bin2hex(openssl_random_pseudo_bytes(16));
     }

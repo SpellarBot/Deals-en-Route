@@ -70,7 +70,7 @@ class LoginController extends Controller {
             \App\DeviceDetail::saveDeviceToken($data, $auth->id);
             // Authentication passed...
             $data = (new UserTransformer)->transformLogin($auth);
-            return $this->responseJson('error', \Config::get('constants.USER_LOGIN'), 200, $data);
+            return $this->responseJson('success', \Config::get('constants.USER_LOGIN'), 200, $data);
         }
         return $this->responseJson('error', trans('auth.failed'), 422);
     }
@@ -79,7 +79,7 @@ class LoginController extends Controller {
     public function addUserDetail(Request $request) {
         $data = $request->all();
          $auth = Auth()->user();
-        $userdetail= \App\UserDetail::find($auth->id);
+        $userdetail= \App\UserDetail::where('user_id',$auth->id)->first();
         $userdetail->fill($data);
         if(isset($data['is_notification']) && !empty($data['is_notification'])){
         $userdetail->notification_new_offer= $data['is_notification'];

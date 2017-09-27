@@ -7,11 +7,13 @@ use App\Http\Services\UserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use League\Fractal\TransformerAbstract;
 use Auth;
+use App\Http\Services\MailTrait;
 
 class User extends Authenticatable {
 
     use Notifiable;
     use UserTrait;
+    use MailTrait;
 
     const IS_NOT_CONFIRMED = 0;
     const IS_CONFIRMED = 1;
@@ -61,46 +63,84 @@ class User extends Authenticatable {
 
     protected function updateUser($data) {
         $user_id = Auth::id();
-        $user_detail = User::find($user_id);
+        $user_detail = User::find($user_id); 
+        $user_detail->fill($data);
         if (!empty($data['password'])) {
             $user_detail->password = bcrypt($data['password']);
         }
-        $user_detail->fill($data);
         $user_detail->save();
         return $user_detail;
     }
 
-    protected function saveToken($data) {
-
-        $user_detail = \App\UserDetail::where(["fb_token" => $data['token']])
+    
+    protected function getToken($data){
+         $user_detail = \App\UserDetail::where(["fb_token" => $data['token']])
                 ->orWhere(["google_token" => $data['token']])
                 ->orWhere(["twitter_token" => $data['token']])
                 ->first();
-        $user = self::getUser($user_detail, $data);
+         if(!empty($user_detail)){
+        return User::find($user_detail->user_id);
+         }
+          return '';
+    }
+
+
+    protected function saveToken($data) {
+        $user = self::getUser($data);
         \App\UserDetail::saveUserDetail($data, $user->id);
         \App\DeviceDetail::saveDeviceToken($data, $user->id);
-        UserFbFriend::saveFbFriend($data,$user->id);
+        UserFbFriend::saveFbFriend($data, $user->id);
         return $user;
     }
 
-    protected function getUser($user_detail, $data) {
+    protected function getUser($data) {
 
-        if (empty($user_detail)) {
-            $user = User::create(['role' => 'user']);
-            $user_id = $user->id;
-        } else {
-            $user_id = $user_detail->user_id;
-            $user = User::find($user_id);
-            if (!empty($data['email'])) {
-                $user->api_token = $this->generateAuthToken();
+
+            $user=User::firstOrNew(["email" => $data['email']]);
+            $user->role='user';
+ 
+               if (isset($data['email']) && empty($user->password)) {
+          
+                if (!empty($data['email'])) {
+                    $password = $this->generatePassword();
+                    $array_mail = ['to' => $data['email'],
+                        'type' => 'password',
+                        'data' => ['password' => $password]
+                    ];
+                    $this->sendMail($array_mail);
+                    $user->password = bcrypt($password);
+                    $user->is_confirmed = self::IS_CONFIRMED;
+                    $user->api_token = $this->generateAuthToken();
+                } else if (!empty($user->email) && !empty($user->password) && $user->is_confirmed == self::IS_CONFIRMED) {
+                    $user->api_token = $this->generateAuthToken();
+                }
             }
             $user->fill($data);
             $user->save();
-        }
+        
         return $user;
     }
-    
-    
-   
+
+    public static function addEmail($data) {
+        
+        $user=User::firstOrNew(["email" => $data['email']]);
+        $user->fill($data);
+        $user->role='user';
+        $user->confirmation_code = $user->generateRandomString();
+        $user->save();
+        if($user->is_confirmed==self::IS_NOT_CONFIRMED){
+        $array_mail = ['to' => $data['email'],
+            'type' => 'verify',
+            'data' => ['confirmation_code' => $user->confirmation_code]
+        ];
+        $user->sendMail($array_mail);
+        }
+        \App\UserDetail::saveUserDetail($data, $user->id);
+        \App\DeviceDetail::saveDeviceToken($data, $user->id);
+        UserFbFriend::saveFbFriend($data, $user->id);
+        $user->save();
+        return $user;
+       
+    }
 
 }

@@ -31,7 +31,6 @@ class RegisterController extends Controller {
     use MailTrait;
     use RegistersUsers;
     use ImageTrait;
-    
 
     CONST IS_CONFIRMED = 1;
     CONST IS_NOT_CONFIRMED = 0;
@@ -71,17 +70,26 @@ class RegisterController extends Controller {
                     'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg|max:20000',
         ]);
     }
-    
-     protected function validatorupdate(array $data) {
+
+    protected function validatorupdate(array $data) {
         return Validator::make($data, [
                     'first_name' => 'sometimes|required|string|max:255',
                     'last_name' => 'sometimes|required|string|max:255',
                     'password' => 'sometimes|required|string|min:6',
-                   'mobile_no' => 'sometimes|required|min:6|max:20',
-                   'name' => 'sometimes|required',
-                   'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg|max:20000',
+                    'mobile_no' => 'sometimes|required|min:6|max:20',
+                    'name' => 'sometimes|required',
+                    'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg|max:20000',
         ]);
-     }
+    }
+   
+       protected function validatoremail(array $data) {
+        return Validator::make($data, [
+                    'first_name' => 'required|string|max:255',
+                    'last_name' => 'required|string|max:255',
+                    'email' => 'required|string|email|max:255',
+                  
+        ]);
+    }
 
     /**
      * @SWG\Post(
@@ -114,10 +122,10 @@ class RegisterController extends Controller {
             $user_id = User::creatUser($data);
             if ($user_id) {
                 $array_mail = ['to' => $data['email'],
-                    'template' => 'email.verify',
+                    'type' => 'veirfy',
                     'data' => ['confirmation_code' => $user_id->confirmation_code]
                 ];
-                
+
                 $this->sendMail($array_mail);
                 $user_detail = \App\UserDetail::saveUserDetail($data, $user_id->id);
                 if ($request->file('profile_pic')) {
@@ -128,7 +136,7 @@ class RegisterController extends Controller {
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-            throw $e;
+           // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//
@@ -136,9 +144,8 @@ class RegisterController extends Controller {
         return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200);
     }
 
-    
     //update the profile 
-    
+
     protected function update(Request $request) {
         DB::beginTransaction();
         try {
@@ -147,47 +154,81 @@ class RegisterController extends Controller {
             if ($validator->fails()) {
                 return $this->responseJson('error', $validator->errors()->first(), 400);
             }
-            $user=User::updateUser($data);    
+            $user = User::updateUser($data);
             $user_detail = \App\UserDetail::saveUserDetail($data, $user->id);
-                
+
             if ($request->file('profile_pic')) {
-               
+
                 $this->updateImage($request, $user_detail, 'profile_pic');
             }
-       
+
             \App\DeviceDetail::saveDeviceToken($data, $user->id);
 
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-          //  throw $e;
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
-            $data = (new UserTransformer)->transformLogin($user);
-            return $this->responseJson('success', \Config::get('constants.USER_UPDATED_SUCCESSFULLY'), 200, $data);
-
+        $data = (new UserTransformer)->transformLogin($user);
+        return $this->responseJson('success', \Config::get('constants.USER_UPDATED_SUCCESSFULLY'), 200, $data);
     }
-    
-    
-    protected function registerwithfb(Request $request){
-         DB::beginTransaction();
+
+    protected function registerwithfb(Request $request) {
+        DB::beginTransaction();
         try {
-         $data = $request->all();
-          
-        $user=User::saveToken($data); 
+            $data = $request->all();
+
+            $user = User::getToken($data);
+            if (isset($data['email'])) {
+                $user = User::saveToken($data);
+                if ($request->file('profile_pic')) {
+                    $this->addImage($request, $user->userDetail, 'profile_pic');
+                }
+            }
+            if ($user->is_confirmed == 0) {
+                return $this->responseJson('error', \Config::get('constants.USER_NOT_CONFIRMED'), 422);
+            }
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-            throw $e;
+           // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
-            $data = (new UserTransformer)->transformLogin($user);
-            return $this->responseJson('success', \Config::get('constants.USER_LOGIN'), 200, $data);
 
+        $data = (new UserTransformer)->transformLogin($user);
+        if (empty($user)) {
+            return $this->responseJson('error', \Config::get('constants.USER_UNAUTHENTICATED'), 422);
+        }
+        return $this->responseJson('success', \Config::get('constants.USER_LOGIN'), 200, $data);
     }
+
+    protected function addemail(Request $request) {
+        DB::beginTransaction();
+        try {
+            $data = $request->all();
+            $validator = $this->validatoremail($data);
+            if ($validator->fails()) {
+                return $this->responseJson('error', $validator->errors()->first(), 400);
+            }
+            $user = User::addEmail($data);
+            // save the user
+        } catch (\Exception $e) {
+            DB::rollback();
+        //    throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+        // If we reach here, then// data is valid and working.//
+        DB::commit();
+        $data = (new UserTransformer)->transformLogin($user);
+        return $this->responseJson('success', \Config::get('constants.USER_LOGIN'), 200, $data);
+    }
+    
+    
+    
 
 }
