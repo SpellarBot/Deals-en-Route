@@ -122,7 +122,7 @@ class RegisterController extends Controller {
             $user_id = User::creatUser($data);
             if ($user_id) {
                 $array_mail = ['to' => $data['email'],
-                    'type' => 'veirfy',
+                    'type' => 'verify',
                     'data' => ['confirmation_code' => $user_id->confirmation_code]
                 ];
 

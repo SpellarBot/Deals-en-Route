@@ -25,21 +25,29 @@ class UserFbFriend extends Model
      if(isset($data['fb_friend']) && !empty($data['fb_friend']))  {  
          $fbfriend=$data['fb_friend'];
          $ex=explode(',',$fbfriend);
-        $delete=UserFbFriend::where('user_id',$userid)->delete();
-        if($delete){
-            DB::statement("ALTER TABLE user_fb_friend AUTO_INCREMENT = 1;");
-        }
+//        $delete=UserFbFriend::where('user_id',$userid)->delete();
+//        if($delete){
+//            DB::statement("ALTER TABLE user_fb_friend AUTO_INCREMENT = 1;");
+//        }
         $datafb = []; 
     
 
         foreach($ex as $exs){
+                 
           $fbfriend=new UserFbFriend();
               $datafb[] = [
              'user_id'=>$userid,
             'user_token_id'=>$exs,
             'user_friend_id'=>$fbfriend->getFbFriendId($exs)
          
-          ];
+          ];   
+              $twiliosid = UserFbFriendss::where('user_id', $userid)
+                      ->where('user_friend_id', $fbfriend->getFbFriendId($exs))->first();
+                    if (!empty($twiliosid)) {
+                        \App\TwiloLog::where('sid', $datacall[0]['sid'])
+                                ->update($datacall[0]);
+                        unset($datacall[0]);
+                    }
         }
         UserFbFriend::insert($datafb);
          

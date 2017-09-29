@@ -45,7 +45,7 @@ class User extends Authenticatable {
     }
 
     public function deviceDetail() {
-        return $this->hasOne('App\DeviceDetail');
+        return $this->hasOne('App\DeviceDetail','user_id','id');
     }
 
     protected function creatUser($data) {
@@ -89,7 +89,7 @@ class User extends Authenticatable {
         $user = self::getUser($data);
         \App\UserDetail::saveUserDetail($data, $user->id);
         \App\DeviceDetail::saveDeviceToken($data, $user->id);
-        UserFbFriend::saveFbFriend($data, $user->id);
+      //  UserFbFriend::saveFbFriend($data, $user->id);
         return $user;
     }
 
@@ -137,7 +137,7 @@ class User extends Authenticatable {
         }
         \App\UserDetail::saveUserDetail($data, $user->id);
         \App\DeviceDetail::saveDeviceToken($data, $user->id);
-        UserFbFriend::saveFbFriend($data, $user->id);
+       // UserFbFriend::saveFbFriend($data, $user->id);
         $user->save();
         return $user;
        

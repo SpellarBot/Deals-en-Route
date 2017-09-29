@@ -109,7 +109,7 @@ class CouponController extends Controller {
             $coupondetail = \App\Coupon::getNearestCoupon($data);
             if (count($coupondetail) > 0) {
                 $data = (new CouponTransformer)->transformFavSearchList($coupondetail);
-                return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
+                return $this->responseJson('success', \Config::get('constants.COUPON_LIST'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
