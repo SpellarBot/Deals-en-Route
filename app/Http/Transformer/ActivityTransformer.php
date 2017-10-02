@@ -21,15 +21,16 @@ class ActivityTransformer {
       public function transformActivityList($data){
          
         $var = [];
-        $var = $data->map(function ($item) {
-          
+       foreach($data as $item){
+       
             if($item->created_by==Auth::id()){
                 $message=$item->activity_name_creator??'';
             }else {
                 $message=$item->activity_name_friends??'';
             }
+           if(!empty($message)){
             $fmessage=$this->finalMessage($message,$item);
-            return [
+            $var[]= [
                 'activity_id'=>$item->activity_id??'',   
                 'activity_name'=>$fmessage,
                 'total_like'=>$item->total_like,
@@ -39,9 +40,29 @@ class ActivityTransformer {
        
                 
             ];
-        });
+           }
+         
+           }
+          
+        
         return $var;
       }
+      
+       public function transformCommentList($data) {
+           
+        $var = [];
+        $var = $data->map(function ($item) {
+               
+            return [
+                'comment_id'=>$item->comment_id??'',
+                'activity_id'=>$item->activity_id??'',   
+                'comment_desc'=>$item->comment_desc??'',
+                'created_by'=>$item->user->first_name." ".$item->user->last_name??'',
+                'creator_image'=>(!empty($item->user->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $item->user->profile_pic : "",
+            ];
+        });
+        return $var;
+       }
     
 }
 

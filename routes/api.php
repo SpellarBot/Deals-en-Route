@@ -36,11 +36,17 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     Route::post('/coupon/favlist', 'CouponController@couponFavList');
     Route::post('/coupon/searchlist', 'CouponController@couponSearchList');
     Route::post('/coupon/redeemlist', 'CouponController@redeemCouponList');
+    Route::post('/coupon/sharelist', 'CouponController@shareCouponList');
+    Route::post('/coupon/addredeem', 'CouponController@addRedeem');
+    
     
     //activity feed
     Route::post('/activity/checkfb', 'ActivityController@checkFb');
     Route::post('/activity/addfbfriend', 'ActivityController@addFbFriend');
-    
+    Route::post('/activity/activitylist', 'ActivityController@activityList');
+    Route::post('/activity/addlike', 'ActivityController@acivityAddLike');
+    Route::post('/activity/comment', 'ActivityController@comment');
+    Route::post('/activity/commentlist', 'ActivityController@commentList');
     
     Route::post('/user/logout', 'Auth\LoginController@logout');
     

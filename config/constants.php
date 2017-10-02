@@ -22,11 +22,19 @@ return [
     'USER_UNAUTHENTICATED'=>'unauthenticated',
     'USER_DETAIL'=>'user detail',
     'ADD_FB_FRIEND'=>'successfully added fb friend',
+    'ACTIVITY_LIKE_SUCCESS'=>'activity liked successfully.',
+    'ACTIVITY_LIST'=>'activity listed successfully.',
+    'COMMENT_ADD'=>'comment added successfully.',
+    'COMMENT_LIST'=>'comment listed successfully.',
     
     //eart radius
     'EARTH_RADIUS'=>3959,
     
     
+    //activity message
+    'ACTVITY_CREATOR_MESSAGE'=>'You shared {{coupon_name}} coupon with {{count}} others',
+    'ACTVITY_FRIEND_MESSAGE'=>'{{created_by}} shared a {{coupon_name}} coupon with you ',
+    'ACTVITY_FRIEND_REDEEM'=>'your friend {{created_by}} has redeemed coupon {{coupon_name}}',
     
     //local path
     'IMAGE_PATH'=>'storage/app/public/',

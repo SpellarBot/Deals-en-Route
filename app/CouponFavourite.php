@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
+use URL;
 
 class CouponFavourite extends Model {
 
@@ -29,6 +30,17 @@ class CouponFavourite extends Model {
     public static function Coupon() {
         return $this->belongsToMany('App\Coupon', 'coupon_id', 'coupon_id');
     }
+       /**
+     * Get the vendor detail record associated with the user.
+     */
+    public function vendorDetail() {
+        return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
+    }
+    
+     public function getCouponLogoAttribute($value) {
+        return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";
+    }
+   
 
     //update or create favourtie coupon data ssss
     public static function addFavCoupon($data) {
@@ -53,7 +65,7 @@ class CouponFavourite extends Model {
 
         $result = CouponFavourite::
                 select(DB::raw('coupon.coupon_id,coupon_favourite.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
-                                . 'coupon_name,coupon_logo,created_by,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) * 1609.34) as distance'))
+                                . 'coupon_name,coupon_logo,coupon_lat,coupon_long,created_by,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) * 1609.34) as distance'))
                 ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
                 ->where('is_active', self::IS_TRUE)
                 ->where('is_delete', self::IS_FALSE)

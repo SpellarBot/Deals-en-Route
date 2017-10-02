@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 use URL;
 use Laravel\Scout\Searchable;
-
+use Auth;
 class Coupon extends Model {
 
     use Searchable;
@@ -104,14 +104,7 @@ class Coupon extends Model {
         return $result;
     }
 
-    public static function redeemCouponList($data) {
-
-       
-
-        $result = $query->orderBy('distance')->get();
-        return $result;
-    }
-
+ 
     public static function getCouponDetail($data) {
 
 

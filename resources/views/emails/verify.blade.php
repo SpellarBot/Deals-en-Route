@@ -12,11 +12,12 @@ Verify Your Email
 Thanks,<br>
 {{ config('app.name') }}
 <br>
-<br>
-<br>
-If you’re having trouble clicking the "Reset Password" button, 
+
+  @component('mail::footer')
+If you’re having trouble clicking the "Verify Your Email" button, 
 copy and paste the URL below into your 
 web browser: {{ URL::to('register/verify/' . $confirmation_code) }}
+@endcomponent
 @endcomponent
 
 
