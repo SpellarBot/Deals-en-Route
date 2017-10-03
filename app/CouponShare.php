@@ -52,15 +52,15 @@ class CouponShare extends Model {
                     'share_friend_id' => $fbfriend->getFbFriendId($v),
                     'activity_id' => $activity->activity_id
                 ];
-                 $couponfriendcount = CouponShare::where('user_id', $userid)
-                      ->where('share_friend_id', $fbfriend->getFbFriendId($v))
-                         ->where('coupon_id', $couponid)
-                         ->where('activity_id', $activity->activity_id)
-                         ->first();
- 
-                    if (!empty($twiliosid)) {
-                        unset($datafb[$k]);
-                    }
+//                 $couponfriendcount = CouponShare::where('user_id', $userid)
+//                      ->where('share_friend_id', $fbfriend->getFbFriendId($v))
+//                         ->where('coupon_id', $couponid)
+//                         ->where('activity_id', $activity->activity_id)
+//                         ->first();
+// 
+//                    if (!empty($couponfriendcount)) {
+//                        unset($datafb[$k]);
+//                    }
             }
             CouponShare::insert($datafb);
             Activity::where('activity_id',$activity->activity_id)
@@ -84,15 +84,15 @@ class CouponShare extends Model {
                     'share_friend_id' =>$v['user_id'],
                     'activity_id' => $activity->activity_id
                 ];
-                 $couponfriendcount = CouponShare::where('user_id', $userid)
-                      ->where('share_friend_id', $v['user_id'])
-                         ->where('coupon_id', $couponid)
-                         ->where('activity_id', $activity->activity_id)
-                         ->first();
- 
-                    if (!empty($couponfriendcount)) {
-                        unset($datafb[$k]);
-                    }
+//                 $couponfriendcount = CouponShare::where('user_id', $userid)
+//                      ->where('share_friend_id', $v['user_id'])
+//                         ->where('coupon_id', $couponid)
+//                         ->where('activity_id', $activity->activity_id)
+//                         ->first();
+// 
+//                    if (!empty($couponfriendcount)) {
+//                        unset($datafb[$k]);
+//                    }
             }
             CouponShare::insert($datafb);
             Activity::where('activity_id',$activity->activity_id)
@@ -115,7 +115,7 @@ class CouponShare extends Model {
                 ->where('is_active', self::IS_TRUE)
                 ->where('is_delete', self::IS_FALSE)
                 ->groupBy('coupon_share.coupon_id')
-                ->orderBy('coupon_share.coupon_id')
+                ->orderBy('coupon_share.share_id','desc')
                 ->get();
         return $result;
     }

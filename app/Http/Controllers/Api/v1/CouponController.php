@@ -128,7 +128,7 @@ class CouponController extends Controller {
             $couponlist = \App\CouponRedeem::redeemCouponList($data); 
             
             if (count($couponlist) > 0) {
-                $data = (new CouponTransformer)->transformFavSearchList($couponlist);
+                $data = (new CouponTransformer)->transformShareList($couponlist);
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
@@ -147,7 +147,7 @@ class CouponController extends Controller {
             $couponlist = \App\CouponShare::couponShareList($data);
             
             if (count($couponlist) > 0) {
-                $data = (new CouponTransformer)->transformFavSearchList($couponlist);
+                $data = (new CouponTransformer)->transformShareList($couponlist);
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);

@@ -27,6 +27,7 @@ class CouponRedeem extends Model
     public function getCouponLogoAttribute($value) {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";
     }
+    
        public static function redeemCouponList($data) {
         $user = Auth()->user()->userDetail;
         $circle_radius = \Config::get('constants.EARTH_RADIUS');
@@ -41,6 +42,7 @@ class CouponRedeem extends Model
                 ->where('user_id', Auth::id())
                 ->where('is_redeem',self::IS_TRUE)
                 ->groupBy('coupon_redeem.coupon_id')
+                ->orderBy('redeem_id','desc')
                 ->get();
         return $result;
     }

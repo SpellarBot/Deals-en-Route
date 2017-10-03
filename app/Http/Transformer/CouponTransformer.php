@@ -71,7 +71,24 @@ class CouponTransformer {
         return $var;
     }
     
+       public function transformShareList($coupon) {
     
+        $var = [];
+        $var = $coupon->map(function ($item) {
+   
+            return [
+                'coupon_id'=>$item->coupon_id??'',   
+                'coupon_name'=>$item->coupon_name??'',
+                'coupon_detail'=>$item->coupon_detail??'',  
+                'vendor_address'=>$item->vendorDetail->vendor_address??'',  
+               'vendor_logo'=>$item->vendorDetail->vendor_logo??'',
+                'coupon_logo'=>$item->coupon_logo ??"",
+     
+                
+            ];
+        });
+        return $var;
+    }
     
 
 
