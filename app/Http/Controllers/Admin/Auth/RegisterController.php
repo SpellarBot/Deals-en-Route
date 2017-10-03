@@ -104,7 +104,7 @@ class RegisterController extends Controller
                 $user->is_confirmed = 1;
                 $user->confirmation_code = null;
                 $user->api_token = $this->generateAuthToken();
-                if($user->userDetail->type!=0){
+                if($user->userDetail->type!=0 && empty($user->password)){
                      $password = $this->generatePassword();
                     $array_mail = ['to' => $user->email,
                         'type' => 'password',
