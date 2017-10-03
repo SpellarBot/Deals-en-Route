@@ -90,12 +90,12 @@ class ActivityController extends Controller
           
             if ($comment->save()) {  
                 \App\Activity::where('activity_id',$data['activity_id'])
-        ->update(['total_comment' =>$comment->getCommentCount($data['activity_id'])]);
+        ->update(['total_comment' =>$this->getCommentCount($data['activity_id'])]);
                 return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-           // throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
      }
