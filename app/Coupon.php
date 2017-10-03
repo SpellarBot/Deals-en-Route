@@ -30,8 +30,8 @@ class Coupon extends Model {
         'coupon_id', 'coupon_category_id', 'coupon_name', 'coupon_detail', 'coupon_logo',
         'coupon_start_date', 'coupon_end_date', 'coupon_redemption_code',
         'coupon_qrcode', 'coupon_code', 'coupon_lat', 'coupon_long', 'coupon_radius',
-        'coupon_total_redeem', 'coupon_redeem_limit', 'is_active', 'is_delete',
-        'created_at', 'updated_at', 'created_by'
+        'coupon_total_redeem', 'coupon_redeem_limit', 'is_active', 'is_delete','distance',
+        'created_at', 'updated_at', 'created_by','coupon_radius'
     ];
 
     public function scopeActive($query) {
@@ -100,7 +100,8 @@ class Coupon extends Model {
             $query->whereIn('coupon_category_id', $idsArr);
         }
 
-        $result = $query->orderBy('distance')->get();
+        $result = $query->orderBy('distance')->simplePaginate(\Config::get('constants.PAGINATE'));
+  
         return $result;
     }
 

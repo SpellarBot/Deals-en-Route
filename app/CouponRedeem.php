@@ -43,7 +43,7 @@ class CouponRedeem extends Model
                 ->where('is_redeem',self::IS_TRUE)
                 ->groupBy('coupon_redeem.coupon_id')
                 ->orderBy('redeem_id','desc')
-                ->get();
+                 ->simplePaginate(\Config::get('constants.PAGINATE'));
         return $result;
     }
 

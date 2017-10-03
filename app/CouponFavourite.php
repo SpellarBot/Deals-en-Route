@@ -73,7 +73,7 @@ class CouponFavourite extends Model {
                 ->where('is_favorite', self::IS_TRUE)
                 ->havingRaw('coupon_radius >= distance')
                 ->orderBy('distance')
-                ->get();
+                 ->simplePaginate(\Config::get('constants.PAGINATE'));
 
 
         return $result;

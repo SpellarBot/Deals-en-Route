@@ -116,7 +116,7 @@ class CouponShare extends Model {
                 ->where('is_delete', self::IS_FALSE)
                 ->groupBy('coupon_share.coupon_id')
                 ->orderBy('coupon_share.share_id','desc')
-                ->get();
+                ->simplePaginate(\Config::get('constants.PAGINATE'));
         return $result;
     }
 

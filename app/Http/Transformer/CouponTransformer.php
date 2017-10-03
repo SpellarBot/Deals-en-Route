@@ -25,9 +25,10 @@ class CouponTransformer {
                 
             ];
         });
-        return $var;
+
+        return ['has_page'=>$coupon->hasMorePages(),'current_page'=>$coupon->currentPage(),'listing'=>$var];
     }
-    
+
     
      public function transformFavSearchList($coupon) {
     
@@ -47,7 +48,7 @@ class CouponTransformer {
                 
             ];
         });
-        return $var;
+          return ['has_page'=>$coupon->hasMorePages(),'current_page'=>$coupon->currentPage(),'listing'=>$var];
     }
     
    
@@ -68,7 +69,7 @@ class CouponTransformer {
                 
             ];
        
-        return $var;
+         return ['has_page'=>$coupon->hasMorePages(),'current_page'=>$coupon->currentPage(),'listing'=>$var];
     }
     
        public function transformShareList($coupon) {
@@ -87,7 +88,7 @@ class CouponTransformer {
                 
             ];
         });
-        return $var;
+          return ['has_page'=>$coupon->hasMorePages(),'current_page'=>$coupon->currentPage(),'listing'=>$var];
     }
     
 

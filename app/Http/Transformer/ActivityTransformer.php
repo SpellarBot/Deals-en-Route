@@ -22,14 +22,8 @@ class ActivityTransformer {
          
         $var = [];
        foreach($data as $item){
-       
-            if($item->created_by==Auth::id()){
-                $message=$item->activity_name_creator??'';
-            }else {
-                $message=$item->activity_name_friends??'';
-            }
-           if(!empty($message)){
-            $fmessage=$this->finalMessage($message,$item);
+
+            $fmessage=$this->finalMessage($item->activity_message,$item);
             $var[]= [
                 'activity_id'=>$item->activity_id??'',   
                 'activity_name'=>$fmessage,
@@ -42,10 +36,11 @@ class ActivityTransformer {
             ];
            }
          
-           }
+              return ['has_page'=>$data->hasMorePages(),'current_page'=>$data->currentPage(),'listing'=>$var];
+  
           
         
-        return $var;
+          
       }
       
        public function transformCommentList($data) {
