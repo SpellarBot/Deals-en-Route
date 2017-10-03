@@ -86,6 +86,7 @@ class LoginController extends Controller {
         $userdetail->notification_recieve_offer =$data['is_notification'];
         }
         $auth->fill($data);
+         \App\DeviceDetail::saveDeviceToken($data, $auth->id);
         if($userdetail->save() && $auth->save() ){
            return $this->responseJson('success', \Config::get('constants.USER_UPDATE_PROFILE'), 200); 
         }
