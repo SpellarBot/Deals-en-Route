@@ -26,6 +26,7 @@ return [
     'ACTIVITY_LIST'=>'activity listed successfully.',
     'COMMENT_ADD'=>'comment added successfully.',
     'COMMENT_LIST'=>'comment listed successfully.',
+    'COUPON_ADD_REDEEM'=>'coupon redeemed successfully,',
     
     //eart radius
     'EARTH_RADIUS'=>3959,

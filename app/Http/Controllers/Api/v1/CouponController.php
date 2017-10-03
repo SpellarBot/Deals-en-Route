@@ -173,7 +173,7 @@ class CouponController extends Controller {
                 if($this->getCouponShareCount('',$data['coupon_id'])>0){
              $activity= \App\Activity::redeemActivity($data,Auth::id());
                 }
-             return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200);
+             return $this->responseJson('success', \Config::get('constants.COUPON_ADD_REDEEM'), 200);
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {

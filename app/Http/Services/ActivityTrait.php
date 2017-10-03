@@ -14,6 +14,13 @@ trait ActivityTrait {
                 ->count();
     }
     
+       public function getCommentCount($activityid){
+        
+      return \App\Comment::where('activity_id',$activityid)
+                ->count();
+    }
+    
+    
  
 }
 

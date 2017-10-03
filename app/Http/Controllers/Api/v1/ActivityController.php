@@ -10,6 +10,7 @@ class ActivityController extends Controller
 {
     
     use \App\Http\Services\ResponseTrait;
+    use \App\Http\Services\ActivityTrait;
     
     public function checkFb(Request $request){
         $data=$request->all();
@@ -88,6 +89,8 @@ class ActivityController extends Controller
             $comment->fill($data);
           
             if ($comment->save()) {  
+                \App\Activity::where('activity_id',$data['activity_id'])
+        ->update(['total_comment' =>$comment->getCommentCount($data['activity_id'])]);
                 return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
