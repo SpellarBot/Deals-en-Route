@@ -188,13 +188,15 @@ class RegisterController extends Controller {
                     $this->addImage($request, $user->userDetail, 'profile_pic');
                 }
             }
+            if(!empty($user)){
             if ($user->is_confirmed == 0) {
                 return $this->responseJson('error', \Config::get('constants.USER_NOT_CONFIRMED'), 422);
+            }
             }
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-           // throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//
