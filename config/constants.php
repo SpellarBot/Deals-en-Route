@@ -38,6 +38,7 @@ return [
     
     //local path
     'IMAGE_PATH'=>'storage/app/public/',
+    'PAGINATE'=>10,
     //notification
     
 ];
