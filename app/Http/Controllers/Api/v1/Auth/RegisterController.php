@@ -227,7 +227,7 @@ class RegisterController extends Controller {
         // If we reach here, then// data is valid and working.//
         DB::commit();
         $data = (new UserTransformer)->transformLogin($user);
-        return $this->responseJson('success', \Config::get('constants.USER_LOGIN'), 200, $data);
+        return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200);
     }
     
     
