@@ -9,7 +9,7 @@ use Auth;
 
 class Coupon extends Model {
 
-    use Searchable;
+
 
     /**
      * The attributes that are mass assignable.
