@@ -5,8 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use URL;
-use Laravel\Scout\Searchable;
 use Auth;
+
 class Coupon extends Model {
 
     use Searchable;
