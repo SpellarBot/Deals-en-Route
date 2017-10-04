@@ -118,4 +118,13 @@ class ActivityController extends Controller
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
      }
+     
+     
+     public function shareActivity(Request $request){
+          $data = $request->all();
+          \App\Activity::where('activity_id',$data['activity_id'])->increment('total_share');
+           return $this->responseJson('success', \Config::get('constants.SHARE_ACTIVITY'), 200);
+
+         
+     }
 }

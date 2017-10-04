@@ -21,8 +21,15 @@ Route::get('/confirm', function () {
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('password/reset/{verifytoken}', 'Api\v1\Auth\ResetPassswordController@reset');
 
+Route::get('/password/reset/{token}/{email}', [
+  'uses' => 'Api\v1\Auth\ResetPasswordController@showResetForm','as' => 'password.reset'
+ ]);
+Route::post('/password/reset', 
+        ['uses' => 'Api\v1\Auth\ResetPasswordController@postReset','as'=>'password.request']);
 Route::get('/home', 'HomeController@index')->name('home');
+
 
 // admin routes
 // Admin routes
@@ -38,10 +45,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
  
-    $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-        $this->post('register', 'Auth\RegisterController@register');
+    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    Route::post('register', 'Auth\RegisterController@register');
     Route::get('home', 'HomeController@index');
 
 });
 
-     Auth::routes();
+   //  Auth::routes();

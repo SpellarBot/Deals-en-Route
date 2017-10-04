@@ -36,6 +36,13 @@ return [
     'ACTVITY_CREATOR_MESSAGE'=>'You shared {{coupon_name}} coupon with {{count}} others',
     'ACTVITY_FRIEND_MESSAGE'=>'{{created_by}} shared a {{coupon_name}} coupon with you ',
     'ACTVITY_FRIEND_REDEEM'=>'your friend {{created_by}} has redeemed coupon {{coupon_name}}',
+    'SHARE_ACTIVITY'=>'shared activity successfully.',
+    
+    
+    //user
+    'USER_NOT_FOUND'=>'we could not find user with that email.',
+    'TOKEN_EXPIRED'=>'your token has expired.',
+    'USER_PASSWORD_SUCCESS'=>'password changed successfully,',
     
     //local path
     'IMAGE_PATH'=>'storage/app/public/',

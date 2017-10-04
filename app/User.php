@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use League\Fractal\TransformerAbstract;
 use Auth;
 use App\Http\Services\MailTrait;
+use App\Notifications\ResetPassword as ResetPasswordNotification;
 
 class User extends Authenticatable {
 
@@ -143,4 +144,9 @@ class User extends Authenticatable {
        
     }
 
+       public function sendPasswordResetNotification($token)
+{
+     
+    $this->notify(new ResetPasswordNotification($token));
+}
 }
