@@ -26,5 +26,24 @@ class UserTransformer {
             'api_token' => $user->api_token??''
         ];
     }
+    
+    
+     public function transformNotification($data) {
+       
+        $var = [];
+       foreach($data as $item){
+    
+            $var[]= [
+              'notification_id'=>$item->id??'',   
+              'notification_message'=>$item->message??'',   
+              'is_read'=>$item->is_read??'', 
+               'created_at'=>$item->created_at??'',        
+            ];
+           }
+         
+            return ['listing'=>$var];
+  
+          
+    }
 
 }

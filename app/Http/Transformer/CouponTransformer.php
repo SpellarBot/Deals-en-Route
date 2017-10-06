@@ -12,7 +12,7 @@ class CouponTransformer {
     
         $var = [];
         $var = $coupon->map(function ($item) {
-          
+    
             return [
                 'coupon_id'=>$item->coupon_id??'',
                 'coupon_category_name'=>$item->categoryDetail->category_name ??'',

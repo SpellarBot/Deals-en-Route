@@ -48,6 +48,11 @@ class User extends Authenticatable {
     public function deviceDetail() {
         return $this->hasOne('App\DeviceDetail','user_id','id');
     }
+    
+     public function classification()
+    {
+        return $this->belongsTo('App\UserDetail');
+    }
 
     protected function creatUser($data) {
 

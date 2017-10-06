@@ -44,6 +44,9 @@ return [
     'TOKEN_EXPIRED'=>'your token has expired.',
     'USER_PASSWORD_SUCCESS'=>'password changed successfully,',
     
+    'NOTI_SUCCESS'=>'notification read successfully.',
+    'NOTI_LIST'=>'notification listed successfully.',
+    
     //local path
     'IMAGE_PATH'=>'storage/app/public/',
     'PAGINATE'=>10,

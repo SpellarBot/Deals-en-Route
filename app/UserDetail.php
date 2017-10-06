@@ -4,14 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Services\ImageTrait;
+use App\Notifications\FcmNotification;
+use Illuminate\Notifications\Notifiable;
+use Notification;
 
 class UserDetail extends Model
 {
    use ImageTrait;
+    use Notifiable;
    protected $fillable = [
         'user_detail_id','first_name', 'last_name', 'dob','phone','profile_pic',
        'latitude','longitude','fb_token','google_token','twitter_token','user_id',
-       'category_id','type'
+       'category_id','type','notification_fav_expire','notification_new_offer',
+       'notification_recieve_offer'
     ];
    
     protected $table='user_detail';

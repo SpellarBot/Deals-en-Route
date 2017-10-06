@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\v1;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Transformer\ActivityTransformer;
+use App\Http\Transformer\UserTransformer;
+use Carbon\Carbon;
 
 class ActivityController extends Controller
 {
@@ -23,6 +25,7 @@ class ActivityController extends Controller
     
     public function addFbFriend(Request $request){
          try {
+
             // get the request
             $data = $request->all();
             $user=Auth::id();
@@ -33,7 +36,6 @@ class ActivityController extends Controller
            $fbfriend = $data['fb_friend'];
            $exp = explode(',', $fbfriend);
            \App\CouponShare::addShareCoupon($exp,$data['coupon_id'],$activity);
-            
             return $this->responseJson('success', \Config::get('constants.ADD_FB_FRIEND'), 200);
        } catch (\Exception $e) {
             throw $e;
@@ -124,6 +126,25 @@ class ActivityController extends Controller
           $data = $request->all();
           \App\Activity::where('activity_id',$data['activity_id'])->increment('total_share');
            return $this->responseJson('success', \Config::get('constants.SHARE_ACTIVITY'), 200);
+
+         
+     }
+     
+     public function addnotificationread(Request $request){
+           $data = $request->all();
+            $user = Auth::user();     
+           $user->unreadNotifications()->where('id',$data['notification_id'])->update(['read_at' => Carbon::now(),'is_read'=>1]);
+           return $this->responseJson('success', \Config::get('constants.NOTI_SUCCESS'), 200);
+     }
+     
+     public function notificationList(Request $request){
+          $data = $request->all();
+          $user = Auth::user();
+           if (count($user->notifications) > 0) {
+                $notificationlist = (new UserTransformer)->transformNotification($user->notifications->Paginate(\Config::get('constants.PAGINATE')));
+                return $this->responseJson('success', \Config::get('constants.NOTI_LIST'), 200,$notificationlist);
+            }
+            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 400);
 
          
      }

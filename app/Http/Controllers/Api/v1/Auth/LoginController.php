@@ -77,14 +77,18 @@ class LoginController extends Controller {
     
 
     public function addUserDetail(Request $request) {
+       
         $data = $request->all();
+
          $auth = Auth()->user();
         $userdetail= \App\UserDetail::where('user_id',$auth->id)->first();
-        $userdetail->fill($data);
-        if(isset($data['is_notification']) && !empty($data['is_notification'])){
+
+        if(isset($data['is_notification'])){
         $userdetail->notification_new_offer= $data['is_notification'];
         $userdetail->notification_recieve_offer =$data['is_notification'];
+        $userdetail->notification_fav_expire =$data['is_notification'];
         }
+        $userdetail->fill($data);
         $auth->fill($data);
          \App\DeviceDetail::saveDeviceToken($data, $auth->id);
         if($userdetail->save() && $auth->save() ){

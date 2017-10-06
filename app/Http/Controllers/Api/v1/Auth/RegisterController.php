@@ -67,7 +67,7 @@ class RegisterController extends Controller {
                     'device_type' => 'sometimes|required',
                     'device_version' => 'sometimes|required',
                     'app_version' => 'sometimes|required',
-                    'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg|max:20000',
+                    'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg',
         ]);
     }
 
@@ -78,7 +78,7 @@ class RegisterController extends Controller {
                     'password' => 'sometimes|required|string|min:6',
                     'mobile_no' => 'sometimes|required|min:6|max:20',
                     'name' => 'sometimes|required',
-                    'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg|max:20000',
+                    'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg',
         ]);
     }
    

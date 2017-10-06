@@ -7,81 +7,98 @@ use App\Http\Services\UserTrait;
 use DB;
 use Auth;
 use URL;
+use App\Notifications\FcmNotification;
+use Illuminate\Notifications\Notifiable;
+use Notification;
 
 class CouponShare extends Model {
 
     use UserTrait;
+    use Notifiable;
 
     public $table = 'coupon_share';
     public $primaryKey = 'share_id';
     public $timestamps = false;
+
     const IS_TRUE = 1;
     const IS_FALSE = 0;
-  protected $fillable = [
-        'activity_id','share_id','share_friend_id','share_token_id','user_id'
+
+    protected $fillable = [
+        'activity_id', 'share_id', 'share_friend_id', 'share_token_id', 'user_id'
     ];
-    
-       /**
+
+    /**
      * Get the vendor detail record associated with the user.
      */
     public function vendorDetail() {
         return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
     }
-    
-    
+
     public function getCouponLogoAttribute($value) {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";
     }
-    public static function addShareCoupon($data, $couponid,$activity) {
+
+    public static function addShareCoupon($data, $couponid, $activity) {
 
         if (isset($data) && !empty($data)) {
-            
+
 //            $delete = CouponShare::where('user_id', $userid)->delete();
 //            if ($delete) {
 //                DB::statement("ALTER TABLE coupon_share AUTO_INCREMENT = 1;");
 //            }
             $datafb = [];
-             $userid=Auth::id();
-            foreach ($data as $k=>$v) {
+            $userid = [];
+            $creator_id = Auth::user();
+            foreach ($data as $k => $v) {
 
                 $fbfriend = new CouponShare();
+                $userid[] = $fbfriend->getFbFriendId($v);
+                
                 $datafb[] = [
-                    'coupon_id' =>$couponid,
-                    'user_id' => $userid,
+                    'coupon_id' => $couponid,
+                    'user_id' => $creator_id->id,
                     'share_token_id' => $v,
                     'share_friend_id' => $fbfriend->getFbFriendId($v),
                     'activity_id' => $activity->activity_id
                 ];
-//                 $couponfriendcount = CouponShare::where('user_id', $userid)
-//                      ->where('share_friend_id', $fbfriend->getFbFriendId($v))
-//                         ->where('coupon_id', $couponid)
-//                         ->where('activity_id', $activity->activity_id)
-//                         ->first();
-// 
-//                    if (!empty($couponfriendcount)) {
-//                        unset($datafb[$k]);
-//                    }
             }
-            CouponShare::insert($datafb);
-            Activity::where('activity_id',$activity->activity_id)
-                ->update(['count_fb_friend' =>  $activity->getCouponShareCount($activity->activity_id,$couponid)]);
+            $user = User::leftJoin('user_detail', 'user_detail.user_id', '=', 'users.id')
+                    ->where('notification_recieve_offer',1)
+                    ->whereIn('id', $userid)
+                    ->get();
+       
+            $coupon = Coupon::find($couponid);
+   
+            // send notification
+            Notification::send($user, new FcmNotification([
+                'type' => 'sharecoupon',
+                'notification_message' => '{{to_name}}, Your friend {{from_name}} has shared a coupon with you : {{coupon_name}}',
+                'message' => $creator_id->userDetail->first_name . ' ' . $creator_id->userDetail->last_name . ' shared a coupon with you:' . $coupon->coupon_detail,
+                'name' => $creator_id->first_name . ' ' . $creator_id->last_name,
+                'image' => (!empty($creator_id->userDetail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $creator_id->userDetail->profile_pic : "",
+                 'coupon_id' => $coupon->coupon_id
+                ]));
+            if (CouponShare::insert($datafb)) {
+                Activity::where('activity_id', $activity->activity_id)
+                        ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid)]);
+            }
+            
         }
     }
-  
-    
-     public static function addRedeemCoupon($data, $couponid,$activity) {
-    
+
+    public static function addRedeemCoupon($data, $couponid, $activity) {
+
         if (isset($data) && !empty($data)) {
 
             $datafb = [];
-             $userid=Auth::id();
-            foreach ($data as $k=>$v) {
+            $userid = Auth::id();
+            foreach ($data as $k => $v) {
 
                 $fbfriend = new CouponShare();
                 $datafb[] = [
-                    'coupon_id' =>$couponid,
-                    'user_id' => $userid,   
-                    'share_friend_id' =>$v['user_id'],
+                    'coupon_id' => $couponid,
+                    'user_id' => $userid,
+                    'share_friend_id' => $v['user_id'],
                     'activity_id' => $activity->activity_id
                 ];
 //                 $couponfriendcount = CouponShare::where('user_id', $userid)
@@ -95,27 +112,25 @@ class CouponShare extends Model {
 //                    }
             }
             CouponShare::insert($datafb);
-            Activity::where('activity_id',$activity->activity_id)
-                ->update(['count_fb_friend' =>  $activity->getCouponShareCount($activity->activity_id,$couponid)]);
+            Activity::where('activity_id', $activity->activity_id)
+                    ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid)]);
         }
-    
-     
-     }
-    
-       public static function couponShareList($data) {
+    }
+
+    public static function couponShareList($data) {
         $user = Auth()->user()->userDetail;
 
         $result = CouponShare::
                 select(DB::raw('coupon.coupon_id,coupon_lat,coupon_long,'
-                        . 'coupon_share.coupon_id,coupon_start_date,'
-                        . 'coupon_end_date,coupon_detail,'
-                         . 'coupon_name,coupon_logo,created_by,coupon_category_id'))
+                                . 'coupon_share.coupon_id,coupon_start_date,'
+                                . 'coupon_end_date,coupon_detail,'
+                                . 'coupon_name,coupon_logo,created_by,coupon_category_id'))
                 ->leftJoin('coupon', 'coupon_share.coupon_id', '=', 'coupon.coupon_id')
-                ->where('share_friend_id',Auth::id())
+                ->where('share_friend_id', Auth::id())
                 ->where('is_active', self::IS_TRUE)
                 ->where('is_delete', self::IS_FALSE)
                 ->groupBy('coupon_share.coupon_id')
-                ->orderBy('coupon_share.share_id','desc')
+                ->orderBy('coupon_share.share_id', 'desc')
                 ->simplePaginate(\Config::get('constants.PAGINATE'));
         return $result;
     }

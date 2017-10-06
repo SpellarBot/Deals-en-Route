@@ -55,8 +55,8 @@ return [
     |
     */
 
-    'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'jinal@solulab.com'),
+   'from' => [
+        'address' => env('MAIL_FROM_ADDRESS', 'dev.solulab@gmail.com'),
         'name' => env('MAIL_FROM_NAME', 'Dealsenroute'),
     ],
 
