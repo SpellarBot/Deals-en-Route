@@ -18,7 +18,8 @@ class User extends Authenticatable {
 
     const IS_NOT_CONFIRMED = 0;
     const IS_CONFIRMED = 1;
-
+    const IS_TRUE = 1;
+    const IS_FALSE = 0;
     /**
      * The attributes that are mass assignable.
      *
@@ -37,7 +38,13 @@ class User extends Authenticatable {
     protected $hidden = [
         'password', 'remember_token',
     ];
+  public function scopeActive($query) {
+        return $query->where('is_active', self::IS_TRUE);
+    }
 
+    public function scopeDeleted($query) {
+        return $query->where('is_delete', self::IS_FALSE);
+    }
     /**
      * Get the phone record associated with the user.
      */

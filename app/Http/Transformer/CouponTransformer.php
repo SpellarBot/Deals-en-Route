@@ -22,6 +22,7 @@ class CouponTransformer {
                 'vendor_logo'=>$item->vendorDetail->vendor_logo??'',
                 'coupon_start_date'=>$item->coupon_start_date??'',
                 'coupon_end_date'=>$item->coupon_end_date??'',
+                'is_favorite'=>$item->is_favorite??0,
                 
             ];
         });
@@ -40,11 +41,12 @@ class CouponTransformer {
                 'coupon_name'=>$item->coupon_name??'',
                 'coupon_detail'=>$item->coupon_detail??'',  
                 'vendor_address'=>$item->vendorDetail->vendor_address??'',  
-               'vendor_logo'=>$item->vendorDetail->vendor_logo??'',
+                'vendor_logo'=>$item->vendorDetail->vendor_logo??'',
                 'coupon_logo'=>$item->coupon_logo ??"",
                 'distance'=>$item->distance??'',
                 'coupon_latitude'=>$item->coupon_lat??'',
-                 'coupon_longitude'=>$item->coupon_long??'',
+                'coupon_longitude'=>$item->coupon_long??'',
+                 'is_favorite'=>$item->is_favorite??0,
                 
             ];
         });
@@ -64,9 +66,7 @@ class CouponTransformer {
                 'coupon_qrcode_image'=>$item->coupon_qrcode_image??'',
                 'coupon_redemption_code'=>$item->coupon_redemption_code??'',
                 'coupon_end_date'=>$item->coupon_end_date??'',
-             
-              
-                
+
             ];
        
          return ['has_page'=>$coupon->hasMorePages(),'current_page'=>$coupon->currentPage(),'listing'=>$var];

@@ -123,7 +123,8 @@ class RegisterController extends Controller {
             if ($user_id) {
                 $array_mail = ['to' => $data['email'],
                     'type' => 'verify',
-                    'data' => ['confirmation_code' => $user_id->confirmation_code]
+                    'data' => ['confirmation_code' => $user_id->confirmation_code],
+                 
                 ];
 
                 $this->sendMail($array_mail);
@@ -136,7 +137,7 @@ class RegisterController extends Controller {
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-           // throw $e;
+         //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//

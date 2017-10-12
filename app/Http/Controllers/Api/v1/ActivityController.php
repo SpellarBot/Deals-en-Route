@@ -8,45 +8,41 @@ use App\Http\Transformer\ActivityTransformer;
 use App\Http\Transformer\UserTransformer;
 use Carbon\Carbon;
 
-class ActivityController extends Controller
-{
-    
+class ActivityController extends Controller {
+
     use \App\Http\Services\ResponseTrait;
     use \App\Http\Services\ActivityTrait;
-    
-    public function checkFb(Request $request){
-        $data=$request->all();
-       
-        $user= Auth::user()->userDetial;
+
+    public function checkFb(Request $request) {
+        $data = $request->all();
+
+        $user = Auth::user()->userDetial;
         $data = (new ActivityTransformer)->transformCheckFb($user);
         return $this->responseJson('success', \Config::get('constants.USER_DETAIL'), 200, $data);
-        
     }
-    
-    public function addFbFriend(Request $request){
-         try {
+
+    public function addFbFriend(Request $request) {
+        try {
 
             // get the request
             $data = $request->all();
-            $user=Auth::id();
+            $user = Auth::id();
             //add fb token
-            $user_detail = \App\UserDetail::saveUserDetail($data,$user);
+            $user_detail = \App\UserDetail::saveUserDetail($data, $user);
             //add fb friend list
-           $activity= \App\Activity::addActivity($data,$user);
-           $fbfriend = $data['fb_friend'];
-           $exp = explode(',', $fbfriend);
-           \App\CouponShare::addShareCoupon($exp,$data['coupon_id'],$activity);
+            $activity = \App\Activity::addActivity($data, $user);
+            $fbfriend = $data['fb_friend'];
+            $exp = explode(',', $fbfriend);
+            \App\CouponShare::addShareCoupon($exp, $data['coupon_id'], $activity);
             return $this->responseJson('success', \Config::get('constants.ADD_FB_FRIEND'), 200);
-       } catch (\Exception $e) {
-            throw $e;
+        } catch (\Exception $e) {
+           // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
-        }  
-        
+        }
     }
-    
-    
-    public function activityList(Request $request){
-           try {
+
+    public function activityList(Request $request) {
+        try {
             // get the request
             $data = $request->all();
 
@@ -58,94 +54,89 @@ class ActivityController extends Controller
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-             throw $e;
+           // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-    
-    
-    public function acivityAddLike(Request $request){
-              try {
+
+    public function acivityAddLike(Request $request) {
+        try {
             // get the request
             $data = $request->all();
             //add like
             $activitylist = \App\ActivityShare::addLike($data);
-            if ($activitylist) {  
+            if ($activitylist) {
                 return $this->responseJson('success', \Config::get('constants.ACTIVITY_LIKE_SUCCESS'), 200);
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
+        } catch (\Exception $e) {
+            //  throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+    }
+
+    public function comment(Request $request) {
+        try {
+            // get the request
+            $data = $request->all();
+
+            //add comment
+            $comment = new \App\Comment();
+            $comment->created_by = Auth::id();
+            $comment->fill($data);
+
+            if ($comment->save()) {
+                \App\Activity::where('activity_id', $data['activity_id'])
+                        ->update(['total_comment' => $this->getCommentCount($data['activity_id'])]);
+                return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
+            }
+            return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
+        } catch (\Exception $e) {
+           // throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+    }
+
+    public function commentList(Request $request) {
+        try {
+            // get the request
+            $data = $request->all();
+
+            //add like
+            $comment = \App\Comment::where('activity_id', $data['activity_id'])->get();
+
+            if (count($comment) > 0) {
+                $commentdata = (new ActivityTransformer)->transformCommentList($comment);
+                return $this->responseJson('success', \Config::get('constants.COMMENT_LIST'), 200, $commentdata);
+            }
+            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 400);
         } catch (\Exception $e) {
           //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-    
-     public function comment(Request $request){
-                try {
-            // get the request
-            $data = $request->all();
-            
-            //add like
-            $comment = new  \App\Comment();
-            $comment->created_by=Auth::id();
-            $comment->fill($data);
-          
-            if ($comment->save()) {  
-                \App\Activity::where('activity_id',$data['activity_id'])
-        ->update(['total_comment' =>$this->getCommentCount($data['activity_id'])]);
-                return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
-            }
-            return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
-        } catch (\Exception $e) {
-            throw $e;
-            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
-        }
-     }
-     
-      public function commentList(Request $request){
-                try {
-            // get the request
-            $data = $request->all();
-            
-            //add like
-           $comment= \App\Comment::where('activity_id',$data['activity_id'])->get();
-          
-            if (count($comment) > 0) {
-                $commentdata = (new ActivityTransformer)->transformCommentList($comment);
-                return $this->responseJson('success', \Config::get('constants.COMMENT_LIST'), 200,$commentdata);
-            }
-            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 400);
-        } catch (\Exception $e) {
-            throw $e;
-            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
-        }
-     }
-     
-     
-     public function shareActivity(Request $request){
-          $data = $request->all();
-          \App\Activity::where('activity_id',$data['activity_id'])->increment('total_share');
-           return $this->responseJson('success', \Config::get('constants.SHARE_ACTIVITY'), 200);
 
-         
-     }
-     
-     public function addnotificationread(Request $request){
-           $data = $request->all();
-            $user = Auth::user();     
-           $user->unreadNotifications()->where('id',$data['notification_id'])->update(['read_at' => Carbon::now(),'is_read'=>1]);
-           return $this->responseJson('success', \Config::get('constants.NOTI_SUCCESS'), 200);
-     }
-     
-     public function notificationList(Request $request){
-          $data = $request->all();
-          $user = Auth::user();
-           if (count($user->notifications) > 0) {
-                $notificationlist = (new UserTransformer)->transformNotification($user->notifications->Paginate(\Config::get('constants.PAGINATE')));
-                return $this->responseJson('success', \Config::get('constants.NOTI_LIST'), 200,$notificationlist);
-            }
-            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 400);
+    public function shareActivity(Request $request) {
+        $data = $request->all();
+        \App\Activity::where('activity_id', $data['activity_id'])->increment('total_share');
+        return $this->responseJson('success', \Config::get('constants.SHARE_ACTIVITY'), 200);
+    }
 
-         
-     }
+    public function addnotificationread(Request $request) {
+        $data = $request->all();
+        $user = Auth::user();
+        $user->unreadNotifications()->where('id', $data['notification_id'])->update(['read_at' => Carbon::now(), 'is_read' => 1]);
+        return $this->responseJson('success', \Config::get('constants.NOTI_SUCCESS'), 200);
+    }
+
+    public function notificationList(Request $request) {
+        $data = $request->all();
+        $user = Auth::user();
+        if (count($user->notifications) > 0) {
+            $notificationlist = (new UserTransformer)->transformNotification($user->notifications->Paginate(\Config::get('constants.PAGINATE')));
+            return $this->responseJson('success', \Config::get('constants.NOTI_LIST'), 200, $notificationlist);
+        }
+        return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 400);
+    }
+
 }
