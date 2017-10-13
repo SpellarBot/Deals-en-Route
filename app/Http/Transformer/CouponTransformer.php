@@ -12,7 +12,7 @@ class CouponTransformer {
     
         $var = [];
         $var = $coupon->map(function ($item) {
-    
+
             return [
                 'coupon_id'=>$item->coupon_id??'',
                 'coupon_category_name'=>$item->categoryDetail->category_name ??'',
@@ -22,7 +22,7 @@ class CouponTransformer {
                 'vendor_logo'=>$item->vendorDetail->vendor_logo??'',
                 'coupon_start_date'=>$item->coupon_start_date??'',
                 'coupon_end_date'=>$item->coupon_end_date??'',
-                'is_favorite'=>$item->is_favorite??0,
+                'is_favorite'=>(empty($item->couponFavDetail))?0:$item->couponFavDetail->is_favorite,
                 
             ];
         });
@@ -46,7 +46,7 @@ class CouponTransformer {
                 'distance'=>$item->distance??'',
                 'coupon_latitude'=>$item->coupon_lat??'',
                 'coupon_longitude'=>$item->coupon_long??'',
-                 'is_favorite'=>$item->is_favorite??0,
+                   'is_favorite'=>(empty($item->couponFavDetail))?0:$item->couponFavDetail->is_favorite,
                 
             ];
         });

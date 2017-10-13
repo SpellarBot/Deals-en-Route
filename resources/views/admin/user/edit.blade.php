@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @section('title', 'SNS|Edit Contacts')
 @section('content')   
 
@@ -18,14 +18,14 @@
         <div class="ibox-content add-new-reminder-box">
             <div class="">
  
-                {!! Form::model($contact, [
+                {!! Form::model($users, [
                     'method' => 'PATCH',
-                    'route' => ['contacts.update', $contact->cardcode]
+                    'route' => ['users.update', $users->id]
                 ]) !!}
                
                 {{ csrf_field() }}
                 <!-- https://laracast.blogspot.in/2016/06/laravel-ajax-crud-search-sort-and.html  -->
-                  @include("contacts/_form")
+                  @include("admin/user/_form")
                 {{ Form::close() }}
 
             </div>
@@ -37,9 +37,9 @@
 
 @section('scripts')
 <script type="text/javascript">
-    var url = "{{ route('datatables.data') }}";
+    var url = "{{ route('datatables.userdata') }}";
 </script>
-<script src="{{ asset('js/webjs/contacts.js') }}"> </script>
+<script src="{{ asset('js/webjs/users.js') }}"></script>
 
 @endsection
 

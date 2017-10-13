@@ -124,7 +124,7 @@ class ResetPasswordController extends Controller
                 'email', 'password', 'password_confirmation', 'token'
         );
             $response = $this->passwords->reset($credentials, function($user, $password) {
-                $user->password = $password;
+                $user->password = bcrypt($password);
                 $user->save();
                 $this->auth->login($user);
             });

@@ -9,7 +9,10 @@
 
                 <div class="panel-body">
                       @if(Session::has('message'))
-                    <p class="alert alert-danger">{{ Session::get('message') }}</p>
+                      
+                    <p class="alert alert-danger">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                           {{ Session::get('message') }}</p>
                     @endif
 
                     <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">

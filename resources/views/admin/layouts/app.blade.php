@@ -26,7 +26,7 @@
 
         <script src="{{ asset('js/jquery-2.1.1.js') }}"></script>
         {{--  <script src="{{ asset('js/jquery-2.1.1.js') }}" onload="window.$ = window.jQuery = module.exports;"></script>  --}}
-
+<style> .page-wrapper { min-height }</style>
         @yield('styles')
 
     </head>
@@ -38,20 +38,26 @@
             @include('admin/sidebar/sidebar')
 
 
-<div id="page-wrapper" class="gray-bg">
-<div class="row border-bottom">
-    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div id="page-wrapper" class="gray-bg">
+    <div class="row border-bottom">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
 
-        <ul class="nav navbar-top-links navbar-right">
+         <ul class="nav navbar-top-links navbar-right">
             <li>
                 <span class="m-r-sm text-muted welcome-message">Welcome to Deals en route.</span>
             </li>
 
 
             <li>
-                <a href="login.html">
-                    <i class="fa fa-sign-out"></i> Log out
-                </a>
+                <a href="{{ url('/admin/logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                             <i class="fa fa-sign-out"></i>  Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ url('/admin/logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
             </li>
         </ul>
 
@@ -85,7 +91,7 @@
 
 
         <!-- Mainly scripts -->
-      <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+          <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
         <script src="{{ asset('js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
 

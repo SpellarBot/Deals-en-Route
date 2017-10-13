@@ -64,6 +64,12 @@ class LoginController extends Controller {
             if ($auth->is_confirmed == 0) {
                 return $this->responseJson('error', \Config::get('constants.USER_NOT_CONFIRMED'), 422);
             }
+            else if ($auth->is_delete == 1) {
+                return $this->responseJson('error', \Config::get('constants.USER_DELETE'), 400);
+            }
+            else if ($auth->is_active == 0) {
+                return $this->responseJson('error', \Config::get('constants.USER_DEACTIVE'), 400);
+            }
             $auth->api_token = $this->generateAuthToken();
             $auth->save();
            

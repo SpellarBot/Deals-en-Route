@@ -82,7 +82,7 @@ ExternalClass * {
                       <td align="left" valign="top" style="padding:15px 0;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                           <tr>
                               <td align="left" valign="top" width="40"><a href="http://www.dealsenroute.com" target="_blank" style="text-decoration:none;">
-                                     <?php $pathToFile='http://18.221.91.136/dealenroute/' . \Config::get('constants.IMAGE_PATH') . '/images/logo.png' ?>
+                                     <?php $pathToFile=\Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/logo.png' ?>
                                       <img src="<?php echo $pathToFile; ?>">
                                       <td width="12">&nbsp;</td>
                             <td align="left" valign="middle" style="font-family:'Lato', Arial, sans-serif; font-size:16px; color:#777777; font-weight:bold;">Deals en Route</td>
@@ -92,7 +92,7 @@ ExternalClass * {
                          <tr>
                       <td align="center" valign="top" style="box-shadow:0 0 3px #e4e9eb;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                           <tr>
-                               <?php $pathToFile1='http://18.221.91.136/dealenroute/' . \Config::get('constants.IMAGE_PATH') . '/images/banner.jpg' ?>
+                               <?php $pathToFile1=\Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/banner.jpg' ?>
                             
                             <td align="center" valign="top"><img src="<?php echo $pathToFile1; ?>" width="540" alt="" border="0" style="display:block; width:100%; max-width:540px;" /></td>
                           </tr>

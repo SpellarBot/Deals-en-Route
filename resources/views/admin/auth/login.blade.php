@@ -16,7 +16,8 @@
         @if ($message = Session::get('error'))
 
         <div class="alert alert-danger" role="alert">
-
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                           
             {{ Session::get('error') }}
 
         </div>
@@ -24,7 +25,7 @@
         @endif
 <div class="ibox-content">
     <div>
-        <h3 >Welcome to Deals en route admin panel </h1>
+        <h3 >Welcome to Deals en Route admin panel </h1>
     </div>
 
 
@@ -65,6 +66,6 @@
         <!--    <a class="btn btn-sm btn-white btn-block" href="register.html">Create an account</a>-->
     </form>
 </div>
-<p class="m-t"> <small>SNS &copy; <?php echo date('Y'); ?></small> </p>
+<p class="m-t"> <small>Deals en Route &copy; <?php echo date('Y'); ?></small> </p>
 
 @endsection

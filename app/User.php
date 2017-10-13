@@ -20,6 +20,7 @@ class User extends Authenticatable {
     const IS_CONFIRMED = 1;
     const IS_TRUE = 1;
     const IS_FALSE = 0;
+  
     /**
      * The attributes that are mass assignable.
      *

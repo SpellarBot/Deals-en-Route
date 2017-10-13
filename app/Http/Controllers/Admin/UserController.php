@@ -67,15 +67,13 @@ class UserController extends Controller {
      */
     public function edit($id) {
 
-        $contact = Contact::editcontacts($id);
-        $phonetype = Contact::phonetype();
-        $emailtype = Contact::emailtype();
-        $salutation = Contact::salutationtype();
-        $countrycode = MasterCountry::getcountry();
+        $users = User::find($id)
+                ->leftJoin('user_detail','user_detail.user_id','=','users.id')
+                ->where('users.id',$id)
+                ->first();
+     
         // show the edit form and pass the contact
-        return view('contacts.edit')
-                        ->with(['contact' => $contact, 'phonetype' => $phonetype, 'countrycode' => $countrycode,
-                            'emailtype' => $emailtype, 'salutation' => $salutation]);
+        return view('admin.user.edit')->with(['users' => $users]);
     }
 
     /**
@@ -110,13 +108,29 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        $contacts = Contact::where(['cardcode' => $id])->first();
-        $contacts->isdeleted = Contact::IS_DELETED;
-        $contacts->save();
+        $users = User::where(['id' => $id])->first();
+        $users->is_delete = User::IS_TRUE;
+        $users->save();
     }
 
- 
-     /**
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Contact  $contact
+     * @return \Illuminate\Http\Response
+     */
+    public function active(Request $request) {
+        $request = $request->all();
+        if(!empty($request)){
+        $id=$request['id'];
+        $users = User::where(['id' => $id])->first();
+        $users->is_active =!$request['value'];
+        $users->save();
+        }
+        
+     
+    }
+    /**
      * get the list from master templates table.
      *
      * @param  \App\Contact  $contact
@@ -125,14 +139,24 @@ class UserController extends Controller {
     public function getlist(Request $request) {
         $request = $request->all();
         // get all the contacts
-        $templates = User::select(['id', 'email', 'first_name', 'last_name', 'dob','is_delete','is_active']) 
+        $templates = User::select(['id', 'email', 'first_name', 'last_name', 'dob', 'is_delete', 'is_active'])
                 ->leftJoin('user_detail', 'user_detail.user_id', '=', 'users.id')
-                ->active();
+                ->where('role', '=', 'user')
+                ->deleted();
         $datatables = Datatables::of($templates)
-               ->filterColumn('first_name', function ($query, $keyword) {
-            $query->whereRaw("user_detail.first_name like ?", ["%$keyword%"]);
-        })   ->filterColumn('last_name', function ($query, $keyword) {
-            $query->whereRaw("user_detail.last_name like ?", ["%$keyword%"]);
+                        ->editColumn('dob', function ($user) {
+
+                            return (!empty($user->userDetail->dob)) ? $user->userDetail->dob->format('d/m/Y') : "";
+                        })->editColumn('full_name', function ($user) {
+                            return $user->first_name . " " . $user->last_name;
+                        })
+                        ->filterColumn('full_name', function ($query, $keyword) {
+                            $query->whereRaw("user_detail.first_name like ?", ["%$keyword%"])
+                            ->orwhereRaw("user_detail.last_name like ?", ["%$keyword%"])
+                            ->orwhereRaw("concat('',user_detail.last_name,user_detail.first_name) like ?", ["%$keyword%"])
+                            ->orwhereRaw("concat('',user_detail.first_name,user_detail.last_name) like ?", ["%$keyword%"]);
+                        })->filterColumn('dob', function ($query, $keyword) {
+            $query->whereRaw("DATE_FORMAT(user_detail.dob,'%d/%m/%Y') like ?", ["%$keyword%"]);
         });
 
         // Global search function
@@ -140,14 +164,11 @@ class UserController extends Controller {
         return $datatables->make(true);
     }
 
-   
-
     public function importExportExcelORCSV() {
         return view('file_import_export');
     }
 
-   
-  /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

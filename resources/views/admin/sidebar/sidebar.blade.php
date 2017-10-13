@@ -3,6 +3,10 @@
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
                         <div class="profile-element profile-element-name">
+                             <?php $image=\Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/logo.png' ?>
+                           <span>
+                            <img alt="image" class="img-circle" src="<?php echo $image;?>" />
+                             </span>
                             <h2>Deals en route</h2>                            
                         </div>
                       
@@ -10,7 +14,7 @@
        
 
                     <li @if(\Request::path()=='/') class= "active" @endif >
-                        <a href="{{ url('/') }}"  title="Reminder"><i class="fa fa-bell"  ></i> <span class="nav-label"> Users </span> </a>
+                        <a href="{{ url('/admin/users') }}"  title="Reminder"><i class="fa fa-bell"  ></i> <span class="nav-label"> Users </span> </a>
                     </li>
                   
                     <!--<li>
