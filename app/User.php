@@ -78,6 +78,7 @@ class User extends Authenticatable {
     protected function updateUser($data) {
         $user_id = Auth::id();
         $user_detail = User::find($user_id); 
+       
         $user_detail->fill($data);
         if (!empty($data['password'])) {
             $user_detail->password = bcrypt($data['password']);

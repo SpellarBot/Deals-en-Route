@@ -11,14 +11,13 @@
               
                 </div>                            
                 <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-md-12">
+                   
                             <div class="">
                                 
-                                <a href="{{ URL::to('users/create') }}" class="btn btn-primary pull-right m-r-10 btn-xs"><i class="fa fa-plus" aria-hidden="true"></i> Add New User</a>
+                                <a href="{{ URL::to('admin/users/create') }}" class="btn btn-primary btn-s"><i class="fa fa-plus" aria-hidden="true"></i> Add New User</a>
                             </div>
-                        </div>
-                    </div>
+                       
+         
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-responsive contacts-table">

@@ -8,13 +8,16 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 use DB;
-use Excel;
 use URL;
+use App\Http\Services\ImageTrait;
 
 class UserController extends Controller {
+
+    use ImageTrait;
 
     /**
      * Display a listing of the resource.
@@ -31,13 +34,11 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $phonetype = Contact::phonetype();
-        $emailtype = Contact::emailtype();
-        $salutation = Contact::salutationtype();
-        $countrycode = MasterCountry::getcountry();
-
-        return view('contacts.create')->with(['phonetype' => $phonetype, 'countrycode' => $countrycode,
-                    'emailtype' => $emailtype, 'salutation' => $salutation]);
+        $show=1;
+         $categoryList= \App\CouponCategory::categoryListWeb();
+        // show the edit form and pass the contact
+        return view('admin.user.create')->with(['categoryList' => $categoryList,
+            'show'=>$show]);
     }
 
     /**
@@ -46,17 +47,29 @@ class UserController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ContactFormRequest $request) {
+    public function store(UserRequest $request) {
+        DB::beginTransaction();
+        try {
+            // process the store
+            $data = $request->all();
 
-        // process the store
-        $input = $request->all();
-        $contact = Contact::create($input);
-        $lastinsertedid = "RS" . $contact->recid;
-        $caseId = ['case' => $lastinsertedid, 'cardcode' => $lastinsertedid, 'firmcode' => $lastinsertedid]; //put this value equal to datatable column name where it will be saved
-        $contact->update($caseId);
+            $user_detail = \App\UserDetail::createUser($data);
+            $file = Input::file('profile_pic');
+
+            if (!empty($file)) {
+                $this->updateImage($file, $user_detail, 'profile_pic');
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            //   throw $e;
+            Session::flash('message', \Config::get('constants.APP_ERROR'));
+            return Redirect::to('admin/user/create');
+        }
+        // If we reach here, then// data is valid and working.//
+        DB::commit();
         // redirect
         Session::flash('message', 'Contact created successfully ');
-        return Redirect::to('contacts');
+          return Redirect::to('admin/user');
     }
 
     /**
@@ -66,14 +79,17 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-
+        $show=1;
         $users = User::find($id)
-                ->leftJoin('user_detail','user_detail.user_id','=','users.id')
-                ->where('users.id',$id)
+                ->leftJoin('user_detail', 'user_detail.user_id', '=', 'users.id')
+                ->where('users.id', $id)
                 ->first();
-     
+        $imagePath = $this->showImage($users->profile_pic, 'profile_pic');
+        $categoryList= \App\CouponCategory::categoryListWeb();
+
         // show the edit form and pass the contact
-        return view('admin.user.edit')->with(['users' => $users]);
+        return view('admin.user.edit')->with(['users' => $users, 'imagePath' => $imagePath,
+            'categoryList' => $categoryList,'show'=>$show]);
     }
 
     /**
@@ -83,22 +99,32 @@ class UserController extends Controller {
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(ContactFormRequest $contact, $id) {
+    public function update(UserRequest $request, $id) {
 
-        $request = $contact->all();
-        $contacts = Contact::where(['cardcode' => $id])->first();
+        DB::beginTransaction();
+        try {
+            // process the store
+            $data = $request->all();
+            $user_detail = \App\UserDetail::updateUser($data,$id);
+            $file = Input::file('profile_pic');
 
-        if (!empty($contacts)) {
-            $contacts->update($request);
-        } else {
-            $contact = Contact::create($request);
-            $lastinsertedid = "RS" . $contact->recid;
-            $caseId = ['case' => $lastinsertedid, 'cardcode' => $lastinsertedid, 'firmcode' => $lastinsertedid]; //put this value equal to datatable column name where it will be saved
-            $contact->update($caseId);
+            if (!empty($file)) {
+
+                $this->updateImageWeb($file, $user_detail, 'profile_pic');
+            }
+
+        } catch (\Exception $e) {
+            DB::rollback();
+          //  throw $e;
+            Session::flash('message', \Config::get('constants.APP_ERROR'));
+        // show the edit form and pass the contact
+        self::edit($id);
         }
+        // If we reach here, then// data is valid and working.//
+        DB::commit();
         // redirect
-        Session::flash('message', 'Contact updated successfully!');
-        return Redirect::to('contacts');
+        Session::flash('message', 'Contact created successfully ');
+        return Redirect::to('admin/users');
     }
 
     /**
@@ -121,15 +147,14 @@ class UserController extends Controller {
      */
     public function active(Request $request) {
         $request = $request->all();
-        if(!empty($request)){
-        $id=$request['id'];
-        $users = User::where(['id' => $id])->first();
-        $users->is_active =!$request['value'];
-        $users->save();
+        if (!empty($request)) {
+            $id = $request['id'];
+            $users = User::where(['id' => $id])->first();
+            $users->is_active = !$request['value'];
+            $users->save();
         }
-        
-     
     }
+
     /**
      * get the list from master templates table.
      *
@@ -146,7 +171,7 @@ class UserController extends Controller {
         $datatables = Datatables::of($templates)
                         ->editColumn('dob', function ($user) {
 
-                            return (!empty($user->userDetail->dob)) ? $user->userDetail->dob->format('d/m/Y') : "";
+                            return (!empty($user->userDetail->dob)) ? $user->userDetail->dob->format('m/d/Y') : "";
                         })->editColumn('full_name', function ($user) {
                             return $user->first_name . " " . $user->last_name;
                         })
@@ -164,10 +189,6 @@ class UserController extends Controller {
         return $datatables->make(true);
     }
 
-    public function importExportExcelORCSV() {
-        return view('file_import_export');
-    }
-
     /**
      * Display the specified resource.
      *
@@ -175,7 +196,17 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
+         $show=0;
+        $users = User::find($id)
+                ->leftJoin('user_detail', 'user_detail.user_id', '=', 'users.id')
+                ->where('users.id', $id)
+                ->first();
+        $imagePath = $this->showImage($users->profile_pic, 'profile_pic');
+        $categoryList= \App\CouponCategory::categoryListWeb();
+
+        // show the edit form and pass the contact
+        return view('admin.user.edit')->with(['users' => $users, 'imagePath' => $imagePath,
+            'categoryList' => $categoryList,'show'=>$show]);
     }
 
 }

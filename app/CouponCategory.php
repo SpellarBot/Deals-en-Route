@@ -44,6 +44,12 @@ class CouponCategory extends Model
      return $category;
     }
     
+    //get category list for web
+    public static function categoryListWeb(){      
+     $category= CouponCategory::active()->deleted()->pluck('category_name','category_id')->toArray();
+     return $category;
+    }
+    
     public static function categorySavedList($id){
 
      $idsArr = explode(',',$id); 

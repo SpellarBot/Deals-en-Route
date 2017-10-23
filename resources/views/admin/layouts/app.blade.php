@@ -17,7 +17,7 @@
         <link href="{{ asset('css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
         <link href="{{ asset('css/plugins/colorpicker/bootstrap-colorpicker.min.css') }}" rel="stylesheet">
-
+        <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet">
         <!-- Toastr style -->
         <link href="{{ asset('css/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
 
@@ -26,7 +26,7 @@
 
         <script src="{{ asset('js/jquery-2.1.1.js') }}"></script>
         {{--  <script src="{{ asset('js/jquery-2.1.1.js') }}" onload="window.$ = window.jQuery = module.exports;"></script>  --}}
-<style> .page-wrapper { min-height }</style>
+
         @yield('styles')
 
     </head>
@@ -99,12 +99,8 @@
         <!-- Data picker -->
         <script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 
-        <!-- Color picker -->
-        <script src="{{ asset('js/plugins/colorpicker/bootstrap-colorpicker.min.js') }}"></script>
-
-
-        <!-- Clock picker -->
-        <script src="{{ asset('js/plugins/clockpicker/clockpicker.js') }}"></script>
+     
+        
         <!-- SUMMERNOTE
        <script src="{{ asset('js/plugins/summernote/summernote.min.js') }}"></script>
         -->
@@ -122,8 +118,8 @@
 
         <script src="{{ asset('js/lodash.js') }}"></script>
 
-        <script src="{{ asset('js/custom.js') }}"></script>
-        <script src="{{ asset('js/commonweb.js') }}"></script>
+      <!-- Select2 -->
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
 
         @yield('scripts')
 
