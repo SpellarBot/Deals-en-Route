@@ -22,9 +22,9 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     Route::post('/user/login', 'Auth\LoginController@login');
     Route::post('/user/socialregister', 'Auth\RegisterController@registerwithfb');
     Route::post('/user/addemail', 'Auth\RegisterController@addemail');
-     Route::post('/user/forgetpassword', 'Auth\ResetPasswordController@postEmail');
+    Route::post('/user/forgetpassword', 'Auth\ResetPasswordController@postEmail');
     
-   Route::get('/user/cron', 'CouponController@CouponNotification');
+    Route::get('/user/cron', 'CouponController@CouponNotification');
     Route::group(['middleware' => ['auth:api','check-permission:user']], function() {
         // Routes that passed auth, confirmed, subscribed, and active middleware
         // additional routes here

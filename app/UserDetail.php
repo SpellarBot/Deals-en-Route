@@ -73,8 +73,9 @@ class UserDetail extends Model
                     'is_confirmed' => self::IS_CONFIRMED,
                    // 'confirmation_code' => $this->generateRandomString()
         ]);
-      
-        self::saveUserDetail($data,$user->id);
+        $data['category_id']=implode(',',$data['category_id']);
+       $user_detail= self::saveUserDetail($data,$user->id);
+        return $user_detail;
     }
     
     // update user for web

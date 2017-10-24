@@ -29,7 +29,8 @@ class UserRequest extends FormRequest {
                         'category_id' => 'required',
                         'phone' => 'sometimes|required|min:6|max:20',
                         'email' => 'required|email|unique:users,email|max:255',
-                        'profile_pic' => 'sometimes|required',
+                        'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg',
+                        'password'=>'sometimes|required|string|min:6',
                     ];
                 }
             case 'PATCH': {
@@ -40,7 +41,8 @@ class UserRequest extends FormRequest {
                         'category_id' => 'required',
                         'phone' => 'sometimes|required|min:6|max:20',
                         'email' => 'required|email|unique:users,email,' . $this->segment(3) . '|max:255',
-                        'profile_pic' => 'sometimes|required',
+                        'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg',
+                        'password'=>'sometimes|required|string|min:6',
                     ];
                 }
         }

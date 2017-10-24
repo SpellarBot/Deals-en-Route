@@ -1,5 +1,6 @@
 $(document).ready(function () {
-     $(".select2_demo_2").select2();
+    
+     $(".select2_vendor").select2();
       var year = (new Date).getFullYear();
       $('#input-group-datepicker').datepicker({
       
@@ -12,7 +13,9 @@ $(document).ready(function () {
         autoclose: true,     
        
     });
-    $('#usertemplate').DataTable({
+    
+ 
+    $('#vendortemplate').DataTable({
         processing: true,
         serverSide: true,
         ajax: url,
@@ -21,47 +24,46 @@ $(document).ready(function () {
         columns: [
             {data: 'id', name: 'id'},
             {data: 'email', name: 'email'},
-            {data: 'full_name', name: 'full_name'},
-            {data: 'dob', name: 'dob'},
+            {data: 'vendor_name', name: 'vendor_name'},
+            {data: 'vendor_phone', name: 'vendor_phone'},
 
             {
-                mRender: function (data, type, row) {
+               mRender: function (data, type, row) {
                     hidAbsUrl = $('#hidAbsUrl').val();
-                    if (row.is_active == 1) {
+                       if (row.is_active == 1) {
                         var active= '<a title="active" class="editor_active" href="" data-value=' + row.is_active + '  data-key=' + row.id + '><i class="fa fa-eye" aria-hidden="true"></i></a>';
                     } else {
                       var active= '<a title="inactive" class="text-danger editor_active" href="" data-value=' + row.is_active + ' data-key=' + row.id + '><i class="fa fa-eye-slash" aria-hidden="true"></i></a>';
                     }
-                    return '\n\<a class="text-info"  title="edit" href=' + hidAbsUrl + '/admin/users/' + row.id + '/edit><i class="fa fa-pencil" aria-hidden="true"></i></a> \n\
+                    return '\n\<a class="text-info"  title="edit" href=' + hidAbsUrl + '/admin/vendors/' + row.id + '/edit><i class="fa fa-pencil" aria-hidden="true"></i></a> \n\
                      ' +active +'\n\ <a class="text-danger editor_remove" title="delete user" href="" data-key=' + row.id + '><i class="fa fa-times" aria-hidden="true"></i></a>\n\
                       \n\ <a  title="change password" href=' + hidAbsUrl + '/admin/password/reset/' + btoa(row.id) + '  data-key=' + row.id + '><i class="fa fa-lock" aria-hidden="true"></i></a>';
             ;
-         
                 },
                 orderable: false,
                 searchable: false,
                 className: "center",
             },
-            
+         
         ],
 
     });
 
 
     // Delete a record
-    $('#usertemplate').on('click', 'a.editor_remove', function (e) {
+    $('#vendortemplate').on('click', 'a.editor_remove', function (e) {
 
         e.preventDefault();
         if (confirm("Are you sure you want to delete record? "))
         {
-            var table = $('#usertemplate').DataTable();
+            var table = $('#vendortemplate').DataTable();
             var parent = $(this).attr('data-key');
             $.ajax({
-                url: hidAbsUrl + "/admin/users/" + parent,
+                url: hidAbsUrl + "/admin/vendors/" + parent,
                 type: 'DELETE',
             }).done(function (result_data) {
                 var objErrorToastNotication = {
-                    message: "User deleted successfully"
+                    message: "Vendor deleted successfully"
                 };
                 setToastNotification(objErrorToastNotication);
 
@@ -73,10 +75,10 @@ $(document).ready(function () {
     });
 
     // Active a record
-    $('#usertemplate').on('click', 'a.editor_active', function (e) {
+    $('#vendortemplate').on('click', 'a.editor_active', function (e) {
 
         e.preventDefault();
-        var table = $('#usertemplate').DataTable();
+        var table = $('#vendortemplate').DataTable();
         var parent = $(this).attr('data-key');
         var value = $(this).attr('data-value');
         if (value == 1) {
@@ -87,12 +89,12 @@ $(document).ready(function () {
         if (confirm(message))
         {
             $.ajax({
-                url: hidAbsUrl + "/admin/users/active",
+                url: hidAbsUrl + "/admin/vendors/active",
                 data: {'id': parent, 'value': value},
                 type: 'GET',
             }).done(function (result_data) {
                 var objErrorToastNotication = {
-                    message: "User updated successfully"
+                    message: "Vendor updated successfully"
                 };
                 setToastNotification(objErrorToastNotication);
 
@@ -105,11 +107,11 @@ $(document).ready(function () {
 
 
    //on click row
-    $('#usertemplate tbody').on('click', 'tr td:not(:last-child)', function () {
+    $('#vendortemplate tbody').on('click', 'tr td:not(:last-child)', function () {
          var table = $('#reminderDashboardTable').DataTable();
 
         var data = $(this).parent('tr').find('.editor_remove').attr('data-key');
-        window.location.replace("users/"+data);
+        window.location.replace("vendors/"+data);
     } );
 
  

@@ -7,7 +7,7 @@
 
                 <div class="col-md-6 col-sm-4{{ $errors->has('first_name') ? ' has-error' : '' }}">
                     {{ Form::label('first_name', 'First Name',['class'=>"control-label"]) }}
-                    {{ Form::text('first_name', old('first_name'), array('class' => 'form-control')) }}
+                    {{ Form::text('first_name', old('first_name'), ['class' => 'form-control','placeholder'=>'Enter First Name']) }}
 
                     @if ($errors->has('first_name'))
                     <span class="help-block">
@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-4{{ $errors->has('last_name') ? ' has-error' : '' }}">
                     {{ Form::label('last_name', 'Last Name',['class'=>"control-label"]) }}
-                    {{ Form::text('last_name', old('last_name'),['class' => 'form-control']) }}
+                    {{ Form::text('last_name', old('last_name'),['class' => 'form-control','placeholder'=>'Enter Last Name']) }}
                     @if ($errors->has('last_name'))
                     <span class="help-block">
                         <strong>{{ $errors->first('last_name') }}</strong>
@@ -44,7 +44,7 @@
                         <label>DOB :</label>
                         
                         <div id="input-group-datepicker" class="input-group date">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> {{ Form::text('dob',$users->userDetail->formatDob($users->dob), ['class' => 'form-control']) }}
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> {{ Form::text('dob',(isset($users))?$users->userDetail->formatDob($users->dob):"", ['class' => 'form-control']) }}
                             @if ($errors->has('dob'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('dob') }}</strong>
@@ -64,7 +64,7 @@
 
                 <div class="col-md-6 col-sm-4{{ $errors->has('email') ? ' has-error' : '' }}">
                     {{ Form::label('email', 'Email',['class'=>"control-label"]) }}
-                    {{ Form::text('email',null, ['class' => 'form-control']) }}
+                    {{ Form::text('email',null, ['class' => 'form-control','placeholder'=>'Enter Email']) }}
 
                     @if ($errors->has('email'))
                     <span class="help-block">
@@ -78,33 +78,15 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12">
-        <div class="form-group">
 
-             <div class="row">
-                <div class="col-md-6 col-sm-4{{ $errors->has('password') ? ' has-error' : '' }}">
-                    {{ Form::label('password', 'Password',['class'=>"control-label"]) }}
-                    {{ Form::input('password', 'password','***********',['class'=>"form-control"]) }}
-
-                    @if ($errors->has('password'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('password') }}</strong>
-                    </span>
-                    @endif
-
-                </div>
-            </div>
-
-        </div>
-    </div>
 
     <div class="col-md-12">
         <div class="form-group">
 
             <div class="row">
                 <div class="col-md-6 col-sm-4{{ $errors->has('phone') ? ' has-error' : '' }}">
-                    {{ Form::label('phone', 'Phone',['class'=>"control-label"]) }}
-                    {{ Form::text('phone',null, ['class' => 'form-control']) }}
+                    {{ Form::label('phone', 'Phone Number',['class'=>"control-label"]) }}
+                    {{ Form::text('phone',null, ['class' => 'form-control','placeholder'=>'Enter Phone Number']) }}
 
                     @if ($errors->has('phone'))
                     <span class="help-block">
@@ -147,7 +129,8 @@
                 <div class="col-md-6 col-sm-4{{ $errors->has('category_id') ? ' has-error' : '' }}">
                     {{ Form::label('category_id', 'Category',['class'=>"control-label"]) }}
           
-                    {{ Form::select('category_id[]',[""=>"Please select category"]+$categoryList,explode(',',$users->category_id),['multiple'=>'multiple','class'=>'select2_demo_2 form-control'])}}
+                    {{ Form::select('category_id[]',[""=>"Please select category"]+$categoryList,isset($users)?explode(',',$users->category_id):'',
+                                ['multiple'=>'multiple','class'=>'select2_demo_2 form-control','placeholder'=>'Enter Category'])}}
         
                     @if ($errors->has('category_id'))
                     <span class="help-block">

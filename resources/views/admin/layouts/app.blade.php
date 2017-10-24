@@ -23,7 +23,7 @@
 
         <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-
+        <link href="{{ asset('css/plugins/jasny/jasny-bootstrap.min.css')}}" rel="stylesheet">
         <script src="{{ asset('js/jquery-2.1.1.js') }}"></script>
         {{--  <script src="{{ asset('js/jquery-2.1.1.js') }}" onload="window.$ = window.jQuery = module.exports;"></script>  --}}
 
@@ -117,10 +117,12 @@
         <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
 
         <script src="{{ asset('js/lodash.js') }}"></script>
-
-      <!-- Select2 -->
-    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
-
+        <script src="{{ asset('js/custom.js') }}"></script>
+        <script src="{{ asset('js/commonweb.js') }}"></script><!-- Input Mask-->
+       <script src="{{ asset('js/plugins/jasny/jasny-bootstrap.min.js')}}"></script>
+         <!-- Select2 -->
+       <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+     
         @yield('scripts')
 
         @if (Session::has('message') && !empty(Session::get('message')))
@@ -131,7 +133,7 @@
                     var objMessageToastNotication = {
                         message: toasterMessage
                     };
-                    setToastNotification(objMessageToastNotication);
+                   setToastNotification(objMessageToastNotication);
                 </script>
 
         @endif

@@ -11,12 +11,14 @@
                         </div>
                       
                     </li>
-       
-
-                    <li @if(\Request::path()=='/') class= "active" @endif >
-                        <a href="{{ url('/admin/users') }}"  title="Reminder"><i class="fa fa-bell"  ></i> <span class="nav-label"> Users </span> </a>
+    
+                    <li class="{{ Request::segment(2) === 'users' ? 'active' : null }}">
+                
+                        <a href="{{ url('/admin/users') }}"  title="Users"><i class="fa fa-bell"></i> <span class="nav-label"> Users </span> </a>
                     </li>
-                  
+                   <li class="{{ Request::segment(2) === 'vendors' ? 'active' : null }}">
+                        <a href="{{ url('/admin/vendors') }}"  title="Vendors"><i class="fa fa-bell"></i> <span class="nav-label"> Vendors </span> </a>
+                    </li>
                     <!--<li>
                         <a data-toggle="modal" data-target="#address-book" href="#"><i class="fa fa-book"></i> <span class="nav-label">Address Book</span>  </a>
                     </li>-->

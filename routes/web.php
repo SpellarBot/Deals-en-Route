@@ -31,19 +31,36 @@ Route::post('/password/reset',
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-// admin routes
 // Admin routes
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
-   Route::get('/', function () {
-    return view('admin.welcome');
-});
-
-    Route::get('login', 'Auth\LoginController@showLoginForm');
-    Route::post('login', 'Auth\LoginController@login');
+    Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+    Route::get('/dashboard', 'HomeController@index')->name('home');
+    Route::get('/', 'Auth\LoginController@showLoginForm');
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('admin.loginform');
+    
+    //user controller
+    Route::get('users/getlist', ['uses' => 'UserController@getlist', 'as' => 'datatables.userdata']);
+    Route::get('users/active', ['uses' => 'UserController@active']);
+    Route::resource('users', 'UserController');
+   
+   
+    //vendor controller
+    Route::get('vendors/getlist', ['uses' => 'VendorController@getlist', 'as' => 'datatables.vendordata']);
+    Route::get('vendors/active', ['uses' => 'VendorController@active']);
+    Route::resource('vendors', 'VendorController');
+    
+    //login/logout
+    Route::post('login', 'Auth\LoginController@login')->name('admin.login');
     Route::post('logout', 'Auth\LoginController@logout');
+    
+    //password controller
+    Route::patch('password/reset', ['uses' => 'UserController@postReset', 'as' => 'admin.store']);
+    Route::get('password/reset/{id}', 'UserController@showLinkRequestForm');
+
+   
+    
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+  //  Route::post('password/reset', 'Auth\ResetPasswordController@reset');
  
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register');
