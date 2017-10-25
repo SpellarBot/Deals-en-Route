@@ -23,7 +23,7 @@ class ActivityTransformer {
          
         $var = [];
        foreach($data as $item){
-           $user=$this->getUserDetail($item->created_by);
+           $user=$user->getUserDetail($item->created_by);
             if (strpos($item->activity_message, 'created_by') !== false) {
                 $name=$user->first_name."".$user->last_name ;
             }else{
