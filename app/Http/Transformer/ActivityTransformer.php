@@ -6,11 +6,12 @@ use URL;
 use Carbon\Carbon;
 use Auth;
 use \App\Http\Services\CouponTrait;
-use  \App\Http\Services\UserTrait;
+use \App\Http\Services\UserTrait;
+
 class ActivityTransformer {
     
     use CouponTrait;
-    
+    use UserTrait;
     
     public function transformCheckFb($user){
         return [
@@ -23,7 +24,7 @@ class ActivityTransformer {
          
         $var = [];
        foreach($data as $item){
-           $user=$item->getUserDetail($item->created_by);
+           $user=$this->getUserDetail($item->created_by);
             if (strpos($item->activity_message, 'created_by') !== false) {
                 $name=$user->first_name."".$user->last_name ;
             }else{

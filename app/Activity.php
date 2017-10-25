@@ -85,9 +85,6 @@ class Activity extends Model {
         return $activity;
 
     }
-    public function getUserDetail($id){
-        $vendor= \App\UserDetail::where('user_id',$id)->first();
-        return $vendor;
-    }
+ 
 
 }
