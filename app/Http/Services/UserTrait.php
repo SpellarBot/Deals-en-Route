@@ -35,4 +35,9 @@ trait UserTrait {
         return $fb_token->user_id;
         }
     }
+    
+     public function getUserDetail($id){
+        $vendor= \App\UserDetail::where('user_id',$id)->first();
+        return $vendor;
+    }
 }
