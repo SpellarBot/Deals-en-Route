@@ -144,8 +144,8 @@
                 <div class="col-md-6 col-sm-4{{ $errors->has('vendor_category') ? ' has-error' : '' }}">
                     {{ Form::label('vendor_category', 'Vendor Category',['class'=>"control-label"]) }}
           
-                    {{ Form::select('vendor_category[]',["0"=>"Please select category"]+$categoryList,isset($users)?explode(',',$users->vendor_category):'',
-                    ['multiple'=>'multiple','class'=>'select2_vendor form-control'])}}
+                    {{ Form::select('vendor_category[]',$categoryList,isset($users)?explode(',',$users->vendor_category):'',
+                    ['multiple'=>'multiple','class'=>'form-control select2_vendor'])}}
         
                     @if ($errors->has('vendor_category'))
                     <span class="help-block">

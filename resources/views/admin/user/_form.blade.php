@@ -151,8 +151,8 @@
                 <div class="col-md-6 col-sm-4{{ $errors->has('category_id') ? ' has-error' : '' }}">
                     {{ Form::label('category_id', 'Category',['class'=>"control-label"]) }}
           
-                    {{ Form::select('category_id[]',[""=>"Please select category"]+$categoryList,isset($users)?explode(',',$users->category_id):'',
-                                ['multiple'=>'multiple','class'=>'select2_demo_2 form-control','placeholder'=>'Enter Category'])}}
+                    {{ Form::select('category_id[]',$categoryList,isset($users)?explode(',',$users->category_id):'',
+                                ['multiple'=>'multiple','class'=>'select2_demo_2 form-control'])}}
         
                     @if ($errors->has('category_id'))
                     <span class="help-block">

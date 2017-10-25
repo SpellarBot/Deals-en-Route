@@ -1,10 +1,10 @@
 $(document).ready(function () {
-     $(".select2_demo_2").select2();
+     $(".select2_demo_2").select2({
+            placeholder: "Select Category"
+     });
       var year = (new Date).getFullYear();
       $('#input-group-datepicker').datepicker({
-      
         endDate: new Date(year, 0, 0),
-        todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: true,
         calendarWeeks: true,

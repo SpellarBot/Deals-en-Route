@@ -1,6 +1,8 @@
 $(document).ready(function () {
     
-     $(".select2_vendor").select2();
+     $(".select2_vendor").select2({
+            placeholder: "Select Category"
+     });
       var year = (new Date).getFullYear();
       $('#input-group-datepicker').datepicker({
       
