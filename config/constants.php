@@ -48,7 +48,7 @@ return [
     //activity message
     'ACTVITY_CREATOR_MESSAGE'=>'You shared {{coupon_name}} coupon with {{count}} others',
     'ACTVITY_FRIEND_MESSAGE'=>'{{created_by}} shared a {{coupon_name}} coupon with you ',
-    'ACTVITY_FRIEND_REDEEM'=>'your friend {{created_by}} has redeemed coupon {{coupon_name}}',
+    'ACTVITY_FRIEND_REDEEM'=>'Your friend {{created_by}} has redeemed coupon {{coupon_name}}',
     'SHARE_ACTIVITY'=>'shared activity successfully.',
     
     
