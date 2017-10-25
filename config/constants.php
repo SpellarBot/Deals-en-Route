@@ -8,10 +8,10 @@ return [
     'USER_LOGIN'=>'User login successfully',
     'USER_NOT_CONFIRMED'=>'you have not confirmed your email yet.please check your email.',
     'USER_UPDATE_PROFILE'=>'profile updated successfully',
-    'USER_UPDATED_SUCCESSFULLY'=>'user updated successsfully.',
+    'USER_UPDATED_SUCCESSFULLY'=>'User Updated Successsfully.',
     'USER_UNAUTHENTICATED'=>'unauthenticated',
     'USER_DETAIL'=>'user detail',
-    'USER_CREATED'=>'user created successfully.',
+    'USER_CREATED'=>'User Created Successfully.',
     
     //email
     'EMAIL_VERIFIED'=>'You have successfully verified your account.',
