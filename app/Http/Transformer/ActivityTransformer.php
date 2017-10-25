@@ -46,11 +46,7 @@ class ActivityTransformer {
             ];
            }
          
-              return ['has_page'=>$data->hasMorePages(),'current_page'=>$data->currentPage(),'listing'=>$var];
-  
-          
-        
-          
+              return ['has_page'=>$data->hasMorePages(),'current_page'=>$data->currentPage(),'listing'=>$var];     
       }
       
        public function transformCommentList($data) {
