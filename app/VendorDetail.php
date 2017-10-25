@@ -51,9 +51,7 @@ class VendorDetail extends Model
          //update user
         $user = User::find($id);        
         $user->fill($data);
-        if (!empty($data['password'])) {
-            $user->password = bcrypt($data['password']);
-        }
+      
         $user->save();
         $data['vendor_category']=implode(',',$data['vendor_category']);
         return self::saveVendorDetail($data, $id);

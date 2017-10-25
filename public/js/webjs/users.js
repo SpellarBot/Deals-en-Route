@@ -32,9 +32,9 @@ $(document).ready(function () {
                     } else {
                       var active= '<a title="inactive" class="text-danger editor_active" href="" data-value=' + row.is_active + ' data-key=' + row.id + '><i class="fa fa-eye-slash" aria-hidden="true"></i></a>';
                     }
-                    return '\n\<a class="text-info"  title="edit" href=' + hidAbsUrl + '/admin/users/' + row.id + '/edit><i class="fa fa-pencil" aria-hidden="true"></i></a> \n\
+                    return '<center>\n\<a class="text-info"  title="edit" href=' + hidAbsUrl + '/admin/users/' + row.id + '/edit><i class="fa fa-pencil" aria-hidden="true"></i></a> \n\
                      ' +active +'\n\ <a class="text-danger editor_remove" title="delete user" href="" data-key=' + row.id + '><i class="fa fa-times" aria-hidden="true"></i></a>\n\
-                      \n\ <a  title="change password" href=' + hidAbsUrl + '/admin/password/reset/' + btoa(row.id) + '  data-key=' + row.id + '><i class="fa fa-lock" aria-hidden="true"></i></a>';
+                      \n\ <a  title="change password" href=' + hidAbsUrl + '/admin/password/reset/' + btoa(row.id) + '  data-key=' + row.id + '><i class="fa fa-lock" aria-hidden="true"></i></a></center>';
             ;
          
                 },

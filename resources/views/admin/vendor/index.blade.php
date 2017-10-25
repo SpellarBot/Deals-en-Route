@@ -28,7 +28,7 @@
                                             <th>Email</th>
                                             <th>Vendor Name</th>
                                             <th>Vendor Phone</th>
-                                            <th>Action</th>
+                                             <th><center> Action </center></th>
                                         </tr>
                                     </thead>
 

@@ -28,7 +28,7 @@
                                             <th>Email</th>
                                             <th>Full Name</th>
                                             <th>Dob</th>
-                                            <th>Action</th>
+                                            <th><center> Action </center></th>
                                             
                                         </tr>
                                     </thead>

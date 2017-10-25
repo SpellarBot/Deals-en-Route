@@ -5,10 +5,10 @@
                             <td bgcolor="#ffffff" align="center" valign="top" style="padding:30px;" class="pa"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
 
-                                  <td align="center" valign="top" style="font-family:'Lato', Arial, sans-serif; font-size:19px; color:#777777; line-height:22px; font-weight:bold; padding:0 0 25px;" class="pb">Verify your email for Deals en Route</td>
+                                  <td align="center" valign="top" style="font-family:'Lato', Arial, sans-serif; font-size:19px; color:#777777; line-height:22px; font-weight:bold; padding:0 0 25px;" class="pb">Welcome to the Deals en Route family</td>
                                 </tr>
                                 <tr>
-                                  <td align="left" valign="top" style="font-family:'Lato', Arial, sans-serif; font-size:15px; color:#777777; line-height:20px; padding:0 0 20px;">Please click the button below to verify your email address.</td>
+                                  <td align="left" valign="top" style="font-family:'Lato', Arial, sans-serif; font-size:15px; color:#777777; line-height:20px; padding:0 0 20px;">We’re glad to have you! Please confirm your email by clicking here.</td>
                                 </tr>
                                 <tr>
                                   <td align="center" valign="top" style="padding:0 0 20px;"><table width="135" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#3b5997" style="background-color:#3b5997;">

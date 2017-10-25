@@ -70,8 +70,29 @@
             </div>
         </div>
     </div>
+      @if(Route::getCurrentRoute()->getName()=='vendors.create')
+ <div class="col-md-12">
+        <div class="form-group">
 
+             <div class="row">
+                <div class="col-md-6 col-sm-4{{ $errors->has('password') ? ' has-error' : '' }}">
+                    {{ Form::label('password', 'Password',['class'=>"control-label"]) }}
+                   
+                    {{ Form::input('password', 'password','',['class'=>"form-control",'placeholder'=>'Enter Password']) }}
+                     
+                   
+                    @if ($errors->has('password'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </span>
+                    @endif
 
+                </div>
+            </div>
+
+        </div>
+    </div>
+  @endif
     <div class="col-md-12">
         <div class="form-group">
 

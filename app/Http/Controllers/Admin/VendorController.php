@@ -61,9 +61,9 @@ class VendorController extends Controller {
             }
         } catch (\Exception $e) {
             DB::rollback();
-             //  throw $e;
+              // throw $e;
             Session::flash('message', \Config::get('constants.APP_ERROR'));
-            return Redirect::to('admin/vendor/create');
+            return Redirect::to('admin/vendors');
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
@@ -168,7 +168,11 @@ class VendorController extends Controller {
                 ->leftJoin('vendor_detail', 'vendor_detail.user_id', '=', 'users.id')
                 ->where('role', '=', 'vendor')
                 ->deleted();
-        $datatables = Datatables::of($templates);
+        $datatables = Datatables::of($templates)->filterColumn('vendor_name', function ($query, $keyword) {
+                            $query->whereRaw("vendor_detail.vendor_name like ?", ["%$keyword%"]);
+                        })->filterColumn('vendor_phone', function ($query, $keyword) {
+                            $query->whereRaw("vendor_detail.vendor_phone like ?", ["%$keyword%"]);
+                        });
 
         // Global search function
         return $datatables->make(true);
@@ -183,14 +187,14 @@ class VendorController extends Controller {
     public function show($id) {
         $show = 0;
         $users = User::find($id)
-                ->leftJoin('vendor_detail', 'user_detail.user_id', '=', 'users.id')
+                ->leftJoin('vendor_detail', 'vendor_detail.user_id', '=', 'users.id')
                 ->where('users.id', $id)
                 ->first();
         $imagePath = $this->showImage($users->vendor_logo, 'vendor_logo');
         $categoryList = \App\CouponCategory::categoryListWeb();
 
         // show the edit form and pass the contact
-        return view('admin.user.edit')->with(['users' => $users, 'imagePath' => $imagePath,
+        return view('admin.vendor.edit')->with(['users' => $users, 'imagePath' => $imagePath,
                     'categoryList' => $categoryList, 'show' => $show]);
     }
 
