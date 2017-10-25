@@ -23,11 +23,11 @@ class ActivityTransformer {
          
         $var = [];
        foreach($data as $item){
-           $user=$item->getUserDetail($item->created_by);
+           $user=$this->getUserDetail($item->created_by);
             if (strpos($item->activity_message, 'created_by') !== false) {
                 $name=$user->first_name."".$user->last_name ;
             }else{
-                 $name='you';
+                 $name='You';
             }   
             $image=(!empty($user->profile_pic)) ? URL::to('/storage/app/public/profile_pic/tmp') . '/' . $user->profile_pic : "";
            
