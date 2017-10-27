@@ -6,8 +6,10 @@ use URL;
 use Carbon\Carbon;
 
 class UserTransformer {
-
-    public function transform(User $user) {
+    
+   use \App\Http\Services\UserTrait;
+    
+   public function transform(User $user) {
         return [
             'name' => $user->name,
         ];
@@ -32,17 +34,16 @@ class UserTransformer {
        
         $var = [];
        foreach($data as $item){
-    
+          $fmessage=$this->finalNotificationMessage($item);
             $var[]= [
               'notification_id'=>$item->id??'',   
-              'notification_message'=>$item->message??'',   
+              'notification_message'=>$fmessage??'',   
               'is_read'=>$item->is_read??'', 
                'created_at'=>$item->created_at??'',        
             ];
            }
-         
-            return ['listing'=>$var];
-  
+            return ['has_page'=>$data->hasMorePages(),'current_page'=>$data->currentPage(),'listing'=>$var];     
+      
           
     }
 

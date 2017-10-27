@@ -133,7 +133,8 @@ class ActivityController extends Controller {
         $data = $request->all();
         $user = Auth::user();
         if (count($user->notifications) > 0) {
-            $notificationlist = (new UserTransformer)->transformNotification($user->notifications->Paginate(\Config::get('constants.PAGINATE')));
+            $userN=$user->notifications()->paginate(\Config::get('constants.PAGINATE'));
+            $notificationlist = (new UserTransformer)->transformNotification($userN);
             return $this->responseJson('success', \Config::get('constants.NOTI_LIST'), 200, $notificationlist);
         }
         return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 400);

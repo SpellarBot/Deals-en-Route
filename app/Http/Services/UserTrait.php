@@ -40,4 +40,17 @@ trait UserTrait {
         $vendor= \App\UserDetail::where('user_id',$id)->first();
         return $vendor;
     }
+    
+     public function finalNotificationMessage($item) {
+        
+        $userfrom=User::find($item->from_id);
+        $tofrom=User::find($item->notifiable_id);
+        $fromid= (!empty($userfrom)?$userfrom->userDetail->first_name." ".$userfrom->userDetail->last_name:'');
+        $toid= (!empty($tofrom)?$tofrom->userDetail->first_name." ".$tofrom->userDetail->last_name:'');
+        $coupon_name= \App\Coupon::getCouponDetail(['coupon_id'=>$item->coupon_id]);
+        $find = ['{{to_name}}', '{{from_name}}', '{{coupon_name}}'];
+        $replace = [$toid, $fromid,empty($coupon_name)?"":$coupon_name->coupon_name];
+        $message = str_replace($find, $replace, $item->message);
+        return $message;
+    }
 }
