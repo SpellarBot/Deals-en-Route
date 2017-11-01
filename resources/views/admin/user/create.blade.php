@@ -15,7 +15,7 @@
                 {{ Form::open(['route' => 'users.store', 'id' => 'contact-form','files'=> true]) }}
                 {{ csrf_field() }}
                  @include("admin/user/_form")
-                <!-- https://laracast.blogspot.in/2016/06/laravel-ajax-crud-search-sort-and.html  -->
+            
                
                 {{ Form::close() }}
 
@@ -30,7 +30,7 @@
 <script type="text/javascript">
     var url = "{{ route('datatables.userdata') }}";
 </script>
-<script src="{{ asset('js/webjs/users.js') }}"></script>
+<script src="{{ asset('backend/js/webjs/users.js') }}"></script>
 
 
 @endsection

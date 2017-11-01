@@ -12,7 +12,7 @@
         <!-- Styles -->
 
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
         <link href="{{ asset('css/plugins/iCheck/custom.css') }}" rel="stylesheet">
         <link href="{{ asset('css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
@@ -25,7 +25,7 @@
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <link href="{{ asset('css/plugins/jasny/jasny-bootstrap.min.css')}}" rel="stylesheet">
         <script src="{{ asset('js/jquery-2.1.1.js') }}"></script>
-        {{--  <script src="{{ asset('js/jquery-2.1.1.js') }}" onload="window.$ = window.jQuery = module.exports;"></script>  --}}
+        {{--  <script src="{{ asset('jquery-2.1.1.js') }}" onload="window.$ = window.jQuery = module.exports;"></script>  --}}
 
         @yield('styles')
 
@@ -119,7 +119,7 @@
         <script src="{{ asset('js/lodash.js') }}"></script>
         <script src="{{ asset('js/custom.js') }}"></script>
         <script src="{{ asset('js/commonweb.js') }}"></script><!-- Input Mask-->
-       <script src="{{ asset('js/plugins/jasny/jasny-bootstrap.min.js')}}"></script>
+        <script src="{{ asset('js/plugins/jasny/jasny-bootstrap.min.js')}}"></script>
          <!-- Select2 -->
        <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
      

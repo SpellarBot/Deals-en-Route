@@ -51,7 +51,7 @@
 <script type="text/javascript">
     var url = "{{ route('datatables.userdata') }}";
 </script>
-<script src="{{ asset('js/webjs/users.js') }}"></script>
+<script src="{{ asset('backend/js/webjs/users.js') }}"></script>
 
 @endsection
 

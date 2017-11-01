@@ -39,7 +39,7 @@ class UserTransformer {
               'notification_id'=>$item->id??'',   
               'notification_message'=>$fmessage??'',   
               'is_read'=>$item->is_read??'', 
-               'created_at'=>$item->created_at??'',        
+                  
             ];
            }
             return ['has_page'=>$data->hasMorePages(),'current_page'=>$data->currentPage(),'listing'=>$var];     

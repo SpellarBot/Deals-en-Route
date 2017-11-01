@@ -35,11 +35,11 @@
                               <table width="230" border="0" cellspacing="0" cellpadding="0" align="right" class="wrap">
                                 <tr>
                                   <td align="center" valign="top"><table width="230" border="0" cellspacing="0" cellpadding="0" align="center">
-                                           <?php $insta='http://18.221.91.136/dealenroute/' . \Config::get('constants.IMAGE_PATH') . '/images/instagram.png' ?>
-                                      <?php $fb='http://18.221.91.136/dealenroute/' . \Config::get('constants.IMAGE_PATH') . '/images/facebook.png' ?>
-                                     <?php $twitter='http://18.221.91.136/dealenroute/' . \Config::get('constants.IMAGE_PATH') . '/images/twitter.png' ?>
-                                       <?php $you='http://18.221.91.136/dealenroute/' . \Config::get('constants.IMAGE_PATH') . '/images/youtube.png' ?>
-                                    <?php $gplus='http://18.221.91.136/dealenroute/' . \Config::get('constants.IMAGE_PATH') . '/images/gplus.png' ?>
+                                      <?php $insta=\Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/instagram.png' ?>
+                                      <?php $fb=\Config::get('app.url'). \Config::get('constants.IMAGE_PATH') . '/images/facebook.png' ?>
+                                      <?php $twitter=\Config::get('app.url'). \Config::get('constants.IMAGE_PATH') . '/images/twitter.png' ?>
+                                      <?php $you=\Config::get('app.url').\Config::get('constants.IMAGE_PATH') . '/images/youtube.png' ?>
+                                      <?php $gplus=\Config::get('app.url'). \Config::get('constants.IMAGE_PATH') . '/images/gplus.png' ?>
                                    
                                           <tr>
                                         <td width="18" align="center" valign="middle" style="font-size:0px; line-height:0px;"><a href="#" target="_blank" style="text-decoration:none;"><img src="<?php echo $insta; ?>" width="18" alt="insta" border="0" style="display:block; max-width:18px;" /></a></td>

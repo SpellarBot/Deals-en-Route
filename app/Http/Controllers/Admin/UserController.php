@@ -19,6 +19,10 @@ class UserController extends Controller {
 
     use ImageTrait;
 
+    
+     public function __construct() {
+        $this->middleware('auth.admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -243,6 +247,14 @@ class UserController extends Controller {
         return Redirect::to('admin/users');
        }
         return Redirect::to('admin/vendors');
+    }
+    
+     public function setting() {
+    
+        $settings = \App\Setting::find(1);
+
+        // show the settings 
+        return view('admin.setting')->with(['settings' => $settings]);
     }
 
 }

@@ -15,6 +15,8 @@ class User extends Authenticatable {
     use Notifiable;
     use UserTrait;
     use MailTrait;
+ 
+    
 
     const IS_NOT_CONFIRMED = 0;
     const IS_CONFIRMED = 1;
@@ -61,6 +63,13 @@ class User extends Authenticatable {
     {
         return $this->belongsTo('App\UserDetail');
     }
+    
+    /*
+   * Get the vendor detail record associated with the user.
+     */
+    public static function fromuser() {
+        return $this->hasMany('App\Notifications', 'id', 'from_id');
+    }
 
     protected function creatUser($data) {
 
@@ -94,7 +103,10 @@ class User extends Authenticatable {
                 ->orWhere(["twitter_token" => $data['token']])
                 ->first();
          if(!empty($user_detail)){
-        return User::find($user_detail->user_id);
+          $user=User::find($user_detail->user_id);
+         $user->api_token = $this->generateAuthToken();
+         $user->save();
+         return User::find($user_detail->user_id);
          }
           return '';
     }

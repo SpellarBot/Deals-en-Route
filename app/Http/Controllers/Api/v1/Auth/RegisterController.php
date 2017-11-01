@@ -14,6 +14,7 @@ use Session;
 use App\Http\Services\ImageTrait;
 use Intervention\Image\Facades\Image as Image;
 use App\Http\Transformer\UserTransformer;
+use Mail;
 
 class RegisterController extends Controller {
     /*
@@ -127,7 +128,7 @@ class RegisterController extends Controller {
                  
                 ];
 
-                $this->sendMail($array_mail);
+              //  $this->sendMail($array_mail);
                 $user_detail = \App\UserDetail::saveUserDetail($data, $user_id->id);
                 if ($request->file('profile_pic')) {
                     $this->addImage($request, $user_detail, 'profile_pic');
@@ -142,7 +143,9 @@ class RegisterController extends Controller {
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
-        return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200);
+         $data = (new UserTransformer)->transformLogin($user_id);
+
+        return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200,$data);
     }
 
     //update the profile 
@@ -211,6 +214,7 @@ class RegisterController extends Controller {
     }
 
     protected function addemail(Request $request) {
+      
         DB::beginTransaction();
         try {
             $data = $request->all();

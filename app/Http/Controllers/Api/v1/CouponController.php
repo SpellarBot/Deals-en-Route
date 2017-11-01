@@ -18,7 +18,7 @@ use Carbon\Carbon;
 class CouponController extends Controller {
 
     use ResponseTrait;
-      use Notifiable;
+    use Notifiable;
     use \App\Http\Services\CouponTrait;
     use \App\Http\Services\ActivityTrait;
 

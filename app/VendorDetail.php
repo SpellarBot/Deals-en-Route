@@ -7,6 +7,7 @@ use URL;
 
 class VendorDetail extends Model
 {
+   use \App\Http\Services\UserTrait;
     protected $table='vendor_detail';
     protected $dateFormat = 'Y-m-d';
     public $timestamps = false; 
@@ -14,7 +15,7 @@ class VendorDetail extends Model
     
       protected $fillable = [
         'user_id','vendor_name', 'vendor_address','vendor_city','vendor_zip','vendor_logo','vendor_category','vendor_phone',
-          'vendor_state'
+          'vendor_state','billing_home','billing_city','billing_country'
     ];
       
     public function getVendorLogoAttribute($value) {
@@ -32,7 +33,7 @@ class VendorDetail extends Model
         return $vendor_detail;
     }
   
-    //create vendor
+    //create vendor for admin
     public static function createVendor($data=[]){
         
         $user = User::create([
@@ -42,7 +43,6 @@ class VendorDetail extends Model
                     'is_confirmed' => User::IS_CONFIRMED,
         ]);   
         $user_id=$user->id;
-       $data['vendor_category']=implode(',',$data['vendor_category']);
         return self::saveVendorDetail($data, $user_id);
     }
     
@@ -55,5 +55,21 @@ class VendorDetail extends Model
         $user->save();
         $data['vendor_category']=implode(',',$data['vendor_category']);
         return self::saveVendorDetail($data, $id);
+    }
+    
+    //create vendor for front
+    public static function createVendorFront($data=[]){
+  
+        $user = User::create([
+                    'role' => 'vendor',
+                    'email' => $data['email'],     
+                    'password' => bcrypt($data['password']),
+                    'is_confirmed' => User::IS_NOT_CONFIRMED,
+             
+        ]);   
+        $user->confirmation_code = $user->generateRandomString(); 
+        $user->save();
+        $user_id=$user->id;  
+        return self::saveVendorDetail($data, $user_id);
     }
 }

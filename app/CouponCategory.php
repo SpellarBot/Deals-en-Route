@@ -35,6 +35,7 @@ class CouponCategory extends Model
     }
     
      public function getCategoryImageAttribute($value) {
+   
       return (!empty($value)) ? URL::to('/storage/app/public/category_image') . '/' . $value : "";
     }
     

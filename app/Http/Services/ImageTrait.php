@@ -92,4 +92,10 @@ trait ImageTrait {
         }
     }
     }
+    
+    // show logo image
+    public function showLogoImage(){
+       $company_logo=\Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/logo.png'; 
+       return $company_logo;
+    }
 }

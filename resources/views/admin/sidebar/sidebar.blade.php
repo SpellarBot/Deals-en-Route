@@ -19,6 +19,9 @@
                    <li class="{{ Request::segment(2) === 'vendors' ? 'active' : null }}">
                         <a href="{{ url('/admin/vendors') }}"  title="Vendors"><i class="fa fa-users"></i> <span class="nav-label"> Vendors </span> </a>
                     </li>
+                     <li class="{{ Request::segment(2) === 'settings' ? 'active' : null }}">
+                        <a href="{{ url('/admin/settings') }}"  title="Settings"><i class="fa fa-gear"></i> <span class="nav-label"> Setting </span> </a>
+                    </li>
                     <!--<li>
                         <a data-toggle="modal" data-target="#address-book" href="#"><i class="fa fa-book"></i> <span class="nav-label">Address Book</span>  </a>
                     </li>-->

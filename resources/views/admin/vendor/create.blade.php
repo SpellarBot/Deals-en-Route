@@ -29,7 +29,7 @@
 <script type="text/javascript">
     var url = "{{ route('datatables.vendordata') }}";
 </script>
-<script src="{{ asset('js/webjs/vendor.js') }}"></script>
+<script src="{{ asset('backend/js/webjs/vendor.js') }}"></script>
 
 
 @endsection

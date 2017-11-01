@@ -1,0 +1,1985 @@
+@keyframes cloud {
+   0% {
+   opacity: 0;
+  }
+   10% {
+   transform: translateX(0);
+   opacity: 0;
+  }
+   20% {
+   transform: translateX(40px);
+   opacity: 1;
+  }
+   80% {
+   transform: translateX(160px);
+   opacity: 1;
+  }
+   90% {
+   transform: translateX(200px);
+   opacity: 0;
+  }
+   100% {
+   opacity: 0;
+  }
+}
+
+@-webkit-keyframes cloud {
+   0% {
+   opacity: 0;
+  }
+   10% {
+   transform: translateX(0);
+   opacity: 0;
+  }
+   20% {
+   transform: translateX(40px);
+   opacity: 1;
+  }
+   80% {
+   transform: translateX(160px);
+   opacity: 1;
+  }
+   90% {
+   transform: translateX(200px);
+   opacity: 0;
+  }
+   100% {
+   opacity: 0;
+  }
+}
+
+
+.clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  transform: translateZ(0);/*z-index: 10;*/
+}
+.cloud {
+  position: absolute;
+  top: 0%;
+  width: 300px;
+  left: 0;
+  opacity: 1;
+}
+.clouds.right .cloud {
+  left: auto;
+  right: 0;
+}
+.cloud.front {
+  z-index: 9;
+}
+.cloud.distant {
+  z-index: 1;
+}
+.cloud.background {
+  z-index: 1;
+}
+/*Cloud Sizing*/
+.cloud.smaller {
+  margin-right: 400px;
+  width: 100px;
+  margin-top: 50px;
+}
+.cloud.small {
+  margin-right: 200px;
+  width: 150px;
+}
+.cloud.big {
+  width: 500px;
+  margin-top: 50px;
+  margin-right: 150px;
+}
+.cloud.massive {
+  width: 600px;
+  margin-top: 20px;
+  margin-right: 0px;
+}
+/*.clouds svg path{
+  fill: #f5f5f5;
+}*/
+
+
+/*Cloud: Animation*/
+.cloud {
+  -webkit-animation-name: cloud-movement;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-direction: forwards;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-duration: 8s;
+  -moz-animation-name: cloud-movement;
+  -moz-animation-timing-function: linear;
+  -moz-animation-direction: forwards;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-duration: 8s;
+  animation-name: cloud-movement;
+  animation-timing-function: linear;
+  animation-direction: forwards;
+  animation-iteration-count: infinite;
+  animation-duration: 8s;
+}
+.slow {
+  -webkit-animation-duration: 9.2s;
+  -moz-animation-duration: 9.2s;
+  animation-duration: 9.2s;
+}
+.slower {
+  -webkit-animation-duration: 11.2s;
+  -moz-animation-duration: 11.2s;
+  animation-duration: 11.2s;
+}
+.slowest {
+  -webkit-animation-duration: 13.5s;
+  -moz-animation-duration: 13.5s;
+  animation-duration: 13.5s;
+}
+.super-slow {
+  -webkit-animation-duration: 20.5s;
+  -moz-animation-duration: 20.5s;
+  animation-duration: 20.5s;
+}
+ @-webkit-keyframes cloud-movement {
+ 0% {
+ opacity: 0.1;
+ -webkit-transform: translateX(-300px);
+ -moz-transform: translateX(-300px);
+ transform: translateX(-300px);
+}
+ 10% {
+ opacity: 0.7;
+}
+ 90% {
+ opacity: 0;
+}
+ 100% {
+ opacity: 0;
+ -webkit-transform: translateX(1000px);
+ -moz-transform: translateX(1000px);
+ transform: translateX(1000px);
+}
+}
+.no-animate, .no-animate * {
+  animation: none !important;
+}
+.cont-image {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.base-wrapper {
+  overflow: hidden;
+}
+.banner {
+  clear: both;
+  position: relative;
+  z-index: 50;
+  overflow: hidden;
+  height: 100vh;
+  /*background:#e3f5fb;*/
+  background: #f5f5f5;
+}
+
+.banner .banner-background {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.banner .banner-background .banner-background-sea .banner-back {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  align-items: flex-end;
+  justify-content: center;
+  left: 0;
+  right: 0;
+}
+
+.banner .banner-background .banner-background-sea .banner-back .banner-back-right {
+  background-image: url("../img/banner-back-right.png");
+  height: 493px;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  flex-grow: 4;
+  margin-bottom: 225px;
+}
+ @media only screen (max-width: 1300px), (max-height: 800px) {
+ .banner .banner-background .banner-background-sea .banner-back .banner-back-right {
+   background-size: 100%;
+   background-repeat: repeat-x;
+   margin-bottom: 125px;
+  }
+}
+.banner .banner-road {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.banner .banner-road .banner-bridge {
+  display: flex;
+  margin-top: -1px;
+  justify-content: center;
+}
+.banner .banner-road .banner-bridge .banner-bridge-center {
+  position: relative;
+  background-image: url("../img/road.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 261px;
+  width: 100%;
+  background-size: cover;/*margin-left: -1px;
+  margin-right: -1px;*/
+}
+ 
+@media only screen (max-width: 1300px), (max-height: 800px) {
+ .banner .banner-road .banner-bridge .banner-bridge-center {
+   height: 150px;
+  }
+}
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin {
+  display: inline-block;
+  position: absolute;
+  transform-origin: 50% 82%;
+  animation-name: pin-appear;
+  animation-iteration-count: infinite;/*animation-timing-function: ease-in-out;*/
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-women-wazer1 .banner-hotdog-pin {
+  top: -110%;
+  left: -43%;
+  animation-duration: 144s;
+  animation-delay: -17s;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-aa1 .banner-hotdog-pin {
+  top: -90%;
+  left: -50%;
+  animation-duration: 110s;
+  animation-delay: -3s;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-wazer1 .banner-hotdog-pin {
+  top: -90%;
+  left: -50%;
+  animation-duration: 90s;
+  animation-delay: -26s;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-women-pink-wazer1 .banner-hotdog-pin {
+  top: -110%;
+  left: -43%;
+  animation-duration: 72s;
+  animation-delay: -22s;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-asian1 .banner-hotdog-pin {
+  top: -60%;
+  left: -25%;
+  animation-duration: 110s;
+  animation-delay: -3s;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin {
+  width: 200px;
+  /*border: 2px solid #000;*/
+  font-size: 13px;
+  text-align: center;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin .pinheader {
+  text-align: left;
+  background: #bbb;
+  color: #333;
+  padding: 5px 15px;
+  border-radius: 15px 15px 0px 0px;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin .pinheader img {
+  max-width: 20px;
+  display: inline-block;
+  margin-right: 8px;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin .pinheader h5 {
+  display: inline-block;
+  vertical-align: middle;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin .pindetails {
+  padding: 5px 15px;
+  color: #333;
+  background: #FFF;
+  border-radius: 0px 0px 15px 15px;
+  border: 1px solid #bbb;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin:before, 
+.banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin:after {
+  content: "";
+  position: absolute;
+  left: 40%;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 15px 15px 0 15px;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin:before {
+  bottom: -12px;
+  border-color: #FFF transparent transparent transparent;
+  z-index: 1;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin:after {
+  bottom: -13px;
+  border-color: #bbb transparent transparent transparent;
+}
+
+@keyframes pin-appear {
+  0% {
+   transform: scale(0);
+  }
+  23% {
+   transform: scale(0.001);
+  }
+  23.2% {
+   transform: scale(1.1, 1.2);
+  }
+  23.3% {
+   transform: scale(1);
+  }
+  34.8% {
+   transform: scale(1);
+  }
+  34.9% {
+   transform: scale(1.1, 1.2);
+  }
+  35% {
+   transform: scale(0.001);
+  }
+  35.1% {
+   transform: scale(0);
+  }
+  49.99% {
+   transform: rotate3d(0, 1, 0, 0deg);
+  }
+  50% {
+   transform: rotate3d(0, 1, 0, 180deg);
+  }
+  73% {
+   transform: scale(0.001);
+  }
+  73.2% {
+   transform: scale(-1.1, 1.2);
+  }
+  73.3% {
+   transform: scale(-1, 1);
+  }
+  84.8% {
+   transform: scale(-1, 1);
+  }
+  84.9% {
+   transform: scale(-1.1, 1.2);
+  }
+  85% {
+   transform: scale(0.001);
+  }
+  85.1% {
+   transform: scale(0);
+  }
+  99.99% {
+   transform: rotate3d(0, 1, 0, 0deg);
+  }
+  100% {
+   transform: rotate3d(0, 1, 0, 0deg);
+  }
+}
+
+@-webkit-keyframes pin-appear {
+  0% {
+   transform: scale(0);
+  }
+  23% {
+   transform: scale(0.001);
+  }
+  23.2% {
+   transform: scale(1.1, 1.2);
+  }
+  23.3% {
+   transform: scale(1);
+  }
+  34.8% {
+   transform: scale(1);
+  }
+  34.9% {
+   transform: scale(1.1, 1.2);
+  }
+  35% {
+   transform: scale(0.001);
+  }
+  35.1% {
+   transform: scale(0);
+  }
+  49.99% {
+   transform: rotate3d(0, 1, 0, 0deg);
+  }
+  50% {
+   transform: rotate3d(0, 1, 0, 180deg);
+  }
+  73% {
+   transform: scale(0.001);
+  }
+  73.2% {
+   transform: scale(-1.1, 1.2);
+  }
+  73.3% {
+   transform: scale(-1, 1);
+  }
+  84.8% {
+   transform: scale(-1, 1);
+  }
+  84.9% {
+   transform: scale(-1.1, 1.2);
+  }
+  85% {
+   transform: scale(0.001);
+  }
+  85.1% {
+   transform: scale(0);
+  }
+  99.99% {
+   transform: rotate3d(0, 1, 0, 0deg);
+  }
+  100% {
+   transform: rotate3d(0, 1, 0, 0deg);
+  }
+}
+
+
+
+
+.banner .banner-road .banner-bridge .banner-wazers {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  margin-left: -1350px;
+  height: 100px;
+  width: 2700px;
+}
+
+
+.banner .banner-road .banner-bridge .banner-wazers>* {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  animation-duration: 20s;
+  animation-name: banner-wazers;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.25, 0, 0.75, 1);
+}
+
+@keyframes banner-wazers {
+   0% {
+   left: -1%;
+  }
+
+    49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+  }
+
+    99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+  }
+}
+
+@-webkit-keyframes banner-wazers {
+   0% {
+   left: -1%;
+  }
+
+    49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+  }
+
+    99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+  }
+}
+
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-aa {
+  background-image: url("../img/w-right6.gif");
+      background-repeat: no-repeat;
+    display: inline-block;
+    height: 170px;
+    width: 100px;
+    background-size: cover;
+    animation-name: banner-smart-aa;
+    animation-duration: 110s;
+    animation-delay: -3s;
+    left: 400px;
+    bottom: 240px;
+}
+
+@keyframes banner-smart-aa {
+   0% {
+   left: -1%;
+   opacity: 1;
+  }
+   23% {
+   left: 45%;
+   opacity: 1;
+  }
+   23.001% {
+   left: 45%;
+   opacity: 0;
+  }
+   35% {
+   left: 45%;
+   opacity: 0;
+  }
+   35.001% {
+   left: 45%;
+   opacity: 1;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   73% {
+   left: 45%;
+   opacity: 1;
+  }
+   73.001% {
+   left: 45%;
+   opacity: 0;
+  }
+   85% {
+   left: 45%;
+   opacity: 0;
+  }
+   85.001% {
+   left: 45%;
+   opacity: 1;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+}
+
+@-webkit-keyframes banner-smart-aa {
+   0% {
+   left: -1%;
+   opacity: 1;
+  }
+   23% {
+   left: 45%;
+   opacity: 1;
+  }
+   23.001% {
+   left: 45%;
+   opacity: 0;
+  }
+   35% {
+   left: 45%;
+   opacity: 0;
+  }
+   35.001% {
+   left: 45%;
+   opacity: 1;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   73% {
+   left: 45%;
+   opacity: 1;
+  }
+   73.001% {
+   left: 45%;
+   opacity: 0;
+  }
+   85% {
+   left: 45%;
+   opacity: 0;
+  }
+   85.001% {
+   left: 45%;
+   opacity: 1;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+}
+
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-asian {
+  background-image: url("../img/w-right7.gif");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 200px;
+  width: 130px;
+  background-size: cover;
+  animation-name: banner-smart-asian;
+  animation-duration: 110s;
+  animation-delay: -3s;
+  left: 400px;
+  bottom: 0px;
+}
+@keyframes banner-smart-asian {
+   0% {
+   left: -1%;
+   opacity: 1;
+  }
+   23% {
+   left: 60%;
+   opacity: 1;
+  }
+   23.001% {
+   left: 60%;
+   opacity: 0;
+  }
+   35% {
+   left: 60%;
+   opacity: 0;
+  }
+   35.001% {
+   left: 60%;
+   opacity: 1;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   73% {
+   left: 60%;
+   opacity: 1;
+  }
+   73.001% {
+   left: 60%;
+   opacity: 0;
+  }
+   85% {
+   left: 60%;
+   opacity: 0;
+  }
+   85.001% {
+   left: 60%;
+   opacity: 1;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+}
+
+@-webkit-keyframes banner-smart-asian {
+   0% {
+   left: -1%;
+   opacity: 1;
+  }
+   23% {
+   left: 60%;
+   opacity: 1;
+  }
+   23.001% {
+   left: 60%;
+   opacity: 0;
+  }
+   35% {
+   left: 60%;
+   opacity: 0;
+  }
+   35.001% {
+   left: 60%;
+   opacity: 1;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   73% {
+   left: 60%;
+   opacity: 1;
+  }
+   73.001% {
+   left: 60%;
+   opacity: 0;
+  }
+   85% {
+   left: 60%;
+   opacity: 0;
+  }
+   85.001% {
+   left: 60%;
+   opacity: 1;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+}
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-wazer {
+  background-image: url("../img/w-right3.gif");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 150px;
+  width: 100px;
+  background-size: cover;
+  animation-name: banner-smart-wazer;
+  animation-duration: 90s;
+  animation-delay: -26s;
+  left: 1825px;
+  bottom: 240px;
+}
+@keyframes banner-smart-wazer {
+   0% {
+   left: -1%;
+   opacity: 1;
+  }
+   23% {
+   left: 65%;
+   opacity: 1;
+  }
+   23.001% {
+   left: 65%;
+   opacity: 0;
+  }
+   35% {
+   left: 65%;
+   opacity: 0;
+  }
+   35.001% {
+   left: 65%;
+   opacity: 1;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   73% {
+   left: 65%;
+   opacity: 1;
+  }
+   73.001% {
+   left: 65%;
+   opacity: 0;
+  }
+   85% {
+   left: 65%;
+   opacity: 0;
+  }
+   85.001% {
+   left: 65%;
+   opacity: 1;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+}
+
+@-webkit-keyframes banner-smart-wazer {
+   0% {
+   left: -1%;
+   opacity: 1;
+  }
+   23% {
+   left: 65%;
+   opacity: 1;
+  }
+   23.001% {
+   left: 65%;
+   opacity: 0;
+  }
+   35% {
+   left: 65%;
+   opacity: 0;
+  }
+   35.001% {
+   left: 65%;
+   opacity: 1;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   73% {
+   left: 65%;
+   opacity: 1;
+  }
+   73.001% {
+   left: 65%;
+   opacity: 0;
+  }
+   85% {
+   left: 65%;
+   opacity: 0;
+  }
+   85.001% {
+   left: 65%;
+   opacity: 1;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+}
+
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-aa1 {
+  background-image: url("../img/s-right6.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 170px;
+  width: 100px;
+  background-size: cover;
+  animation-name: banner-smart-aa1;
+  animation-duration: 110s;
+  animation-delay: -3s;
+  left: 400px;
+  bottom: 240px;
+}
+
+@keyframes banner-smart-aa1 {
+   0% {
+   left: -1%;
+   opacity: 0;
+  }
+   23% {
+   left: 45%;
+   opacity: 0;
+  }
+   23.001% {
+   left: 45%;
+   opacity: 1;
+  }
+   35% {
+   left: 45%;
+   opacity: 1;
+  }
+   35.001% {
+   left: 45%;
+   opacity: 0;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   73% {
+   left: 45%;
+   opacity: 0;
+  }
+   73.001% {
+   left: 45%;
+   opacity: 1;
+  }
+   85% {
+   left: 45%;
+   opacity: 1;
+  }
+   85.001% {
+   left: 45%;
+   opacity: 0;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+}
+
+@-webkit-keyframes banner-smart-aa1 {
+   0% {
+   left: -1%;
+   opacity: 0;
+  }
+   23% {
+   left: 45%;
+   opacity: 0;
+  }
+   23.001% {
+   left: 45%;
+   opacity: 1;
+  }
+   35% {
+   left: 45%;
+   opacity: 1;
+  }
+   35.001% {
+   left: 45%;
+   opacity: 0;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   73% {
+   left: 45%;
+   opacity: 0;
+  }
+   73.001% {
+   left: 45%;
+   opacity: 1;
+  }
+   85% {
+   left: 45%;
+   opacity: 1;
+  }
+   85.001% {
+   left: 45%;
+   opacity: 0;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+}
+
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-asian1 {
+  background-image: url("../img/s-right7.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 200px;
+  width: 130px;
+  background-size: cover;
+  animation-name: banner-smart-asian1;
+  animation-duration: 110s;
+  animation-delay: -3s;
+  left: 400px;
+  bottom: 0px;
+}
+@keyframes banner-smart-asian1 {
+   0% {
+   left: -1%;
+   opacity: 0;
+  }
+   23% {
+   left: 60%;
+   opacity: 0;
+  }
+   23.001% {
+   left: 60%;
+   opacity: 1;
+  }
+   35% {
+   left: 60%;
+   opacity: 1;
+  }
+   35.001% {
+   left: 60%;
+   opacity: 0;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   73% {
+   left: 60%;
+   opacity: 0;
+  }
+   73.001% {
+   left: 60%;
+   opacity: 1;
+  }
+   85% {
+   left: 60%;
+   opacity: 1;
+  }
+   85.001% {
+   left: 60%;
+   opacity: 0;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+}
+
+
+@-webkit-keyframes banner-smart-asian1 {
+   0% {
+   left: -1%;
+   opacity: 0;
+  }
+   23% {
+   left: 60%;
+   opacity: 0;
+  }
+   23.001% {
+   left: 60%;
+   opacity: 1;
+  }
+   35% {
+   left: 60%;
+   opacity: 1;
+  }
+   35.001% {
+   left: 60%;
+   opacity: 0;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   73% {
+   left: 60%;
+   opacity: 0;
+  }
+   73.001% {
+   left: 60%;
+   opacity: 1;
+  }
+   85% {
+   left: 60%;
+   opacity: 1;
+  }
+   85.001% {
+   left: 60%;
+   opacity: 0;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+}
+
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-wazer1 {
+  background-image: url("../img/s-right3.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 150px;
+  width: 100px;
+  background-size: cover;
+  animation-name: banner-smart-wazer1;
+  animation-duration: 90s;
+  animation-delay: -26s;
+  left: 2025px;
+  bottom: 240px;
+}
+@keyframes banner-smart-wazer1 {
+   0% {
+   left: -1%;
+   opacity: 0;
+  }
+   23% {
+   left: 65%;
+   opacity: 0;
+  }
+   23.001% {
+   left: 65%;
+   opacity: 1;
+  }
+   35% {
+   left: 65%;
+   opacity: 1;
+  }
+   35.001% {
+   left: 65%;
+   opacity: 0;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   73% {
+   left: 65%;
+   opacity: 0;
+  }
+   73.001% {
+   left: 65%;
+   opacity: 1;
+  }
+   85% {
+   left: 65%;
+   opacity: 1;
+  }
+   85.001% {
+   left: 65%;
+   opacity: 0;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+}
+
+
+@-webkit-keyframes banner-smart-wazer1 {
+   0% {
+   left: -1%;
+   opacity: 0;
+  }
+   23% {
+   left: 65%;
+   opacity: 0;
+  }
+   23.001% {
+   left: 65%;
+   opacity: 1;
+  }
+   35% {
+   left: 65%;
+   opacity: 1;
+  }
+   35.001% {
+   left: 65%;
+   opacity: 0;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   73% {
+   left: 65%;
+   opacity: 0;
+  }
+   73.001% {
+   left: 65%;
+   opacity: 1;
+  }
+   85% {
+   left: 65%;
+   opacity: 1;
+  }
+   85.001% {
+   left: 65%;
+   opacity: 0;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+}
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-women-pink-wazer {
+  background: url("../img/w-right5.gif");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 150px;
+  width: 100px;
+  background-size: cover;
+  animation-name: banner-wazers-car;
+  animation-duration: 72s;
+  animation-delay: -22s;
+  left: 700px;
+  bottom: 0px;
+  z-index: 3;
+}
+
+@keyframes banner-wazers-car {
+   0% {
+   left: -1%;
+   opacity: 1;
+  }
+   23% {
+   left: 35%;
+   opacity: 1;
+  }
+   23.001% {
+   left: 35%;
+   opacity: 0;
+  }
+   35% {
+   left: 35%;
+   opacity: 0;
+  }
+   35.001% {
+   left: 35%;
+   opacity: 1;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   73% {
+   left: 35%;
+   opacity: 1;
+  }
+   73.001% {
+   left: 35%;
+   opacity: 0;
+  }
+   85% {
+   left: 35%;
+   opacity: 0;
+  }
+   85.001% {
+   left: 35%;
+   opacity: 1;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+}
+
+
+@-webkit-keyframes banner-wazers-car {
+   0% {
+   left: -1%;
+   opacity: 1;
+  }
+   23% {
+   left: 35%;
+   opacity: 1;
+  }
+   23.001% {
+   left: 35%;
+   opacity: 0;
+  }
+   35% {
+   left: 35%;
+   opacity: 0;
+  }
+   35.001% {
+   left: 35%;
+   opacity: 1;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   73% {
+   left: 35%;
+   opacity: 1;
+  }
+   73.001% {
+   left: 35%;
+   opacity: 0;
+  }
+   85% {
+   left: 35%;
+   opacity: 0;
+  }
+   85.001% {
+   left: 35%;
+   opacity: 1;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+}
+
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-women-pink-wazer1 {
+  background: url("../img/s-right5.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 150px;
+  width: 100px;
+  background-size: cover;
+  animation-name: banner-wazers-car2;
+  animation-duration: 72s;
+  animation-delay: -22s;
+  left: 1000px;
+  bottom: 0px;
+  z-index: 3;
+}
+
+@keyframes banner-wazers-car2 {
+   0% {
+   left: -1%;
+   opacity: 0;
+  }
+   23% {
+   left: 35%;
+   opacity: 0;
+  }
+   23.001% {
+   left: 35%;
+   opacity: 1;
+  }
+   35% {
+   left: 35%;
+   opacity: 1;
+  }
+   35.001% {
+   left: 35%;
+   opacity: 0;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   73% {
+   left: 35%;
+   opacity: 0;
+  }
+   73.001% {
+   left: 35%;
+   opacity: 1;
+  }
+   85% {
+   left: 35%;
+   opacity: 1;
+  }
+   85.001% {
+   left: 35%;
+   opacity: 0;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+}
+
+
+@-webkit-keyframes banner-wazers-car2 {
+   0% {
+   left: -1%;
+   opacity: 0;
+  }
+   23% {
+   left: 35%;
+   opacity: 0;
+  }
+   23.001% {
+   left: 35%;
+   opacity: 1;
+  }
+   35% {
+   left: 35%;
+   opacity: 1;
+  }
+   35.001% {
+   left: 35%;
+   opacity: 0;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   73% {
+   left: 35%;
+   opacity: 0;
+  }
+   73.001% {
+   left: 35%;
+   opacity: 1;
+  }
+   85% {
+   left: 35%;
+   opacity: 1;
+  }
+   85.001% {
+   left: 35%;
+   opacity: 0;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+}
+
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-women-wazer {
+  background-image: url("../img/w-right4.gif");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 150px;
+  width: 100px;
+  background-size: cover;
+  animation-name: banner-wazers-women;
+  animation-duration: 144s;
+  animation-delay: -17s;
+  left: 2515px;
+  bottom: 240px;
+}
+@media only screen (max-width: 1300px), (max-height: 800px) {
+ .banner .banner-road .banner-bridge .banner-wazers .banner-women-wazer,  
+ .banner .banner-road .banner-bridge .banner-wazers .banner-women-wazer1,  
+ .banner .banner-road .banner-bridge .banner-wazers .banner-smart-wazer,  
+ .banner .banner-road .banner-bridge .banner-wazers .banner-smart-wazer1, 
+ .banner .banner-road .banner-bridge .banner-wazers .banner-smart-aa, 
+ .banner .banner-road .banner-bridge .banner-wazers .banner-smart-aa1 {
+   bottom: 130px !important;
+  }
+}
+
+
+@keyframes banner-wazers-women {
+   0% {
+   left: -1%;
+   opacity: 1;
+  }
+   20% {
+   left: 10%;
+   opacity: 1;
+  }
+   23% {
+   left: 25%;
+   opacity: 1;
+  }
+   23.001% {
+   left: 25%;
+   opacity: 0;
+  }
+   35% {
+   left: 25%;
+   opacity: 0;
+  }
+   35.001% {
+   left: 25%;
+   opacity: 1;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   73% {
+   left: 25%;
+   opacity: 1;
+  }
+   73.001% {
+   left: 25%;
+   opacity: 0;
+  }
+   85% {
+   left: 25%;
+   opacity: 0;
+  }
+   85.001% {
+   left: 25%;
+   opacity: 1;
+  }
+   90% {
+   left: 10%;
+   opacity: 1;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+}
+
+
+@-webkit-keyframes banner-wazers-women {
+   0% {
+   left: -1%;
+   opacity: 1;
+  }
+   20% {
+   left: 10%;
+   opacity: 1;
+  }
+   23% {
+   left: 25%;
+   opacity: 1;
+  }
+   23.001% {
+   left: 25%;
+   opacity: 0;
+  }
+   35% {
+   left: 25%;
+   opacity: 0;
+  }
+   35.001% {
+   left: 25%;
+   opacity: 1;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   73% {
+   left: 25%;
+   opacity: 1;
+  }
+   73.001% {
+   left: 25%;
+   opacity: 0;
+  }
+   85% {
+   left: 25%;
+   opacity: 0;
+  }
+   85.001% {
+   left: 25%;
+   opacity: 1;
+  }
+   90% {
+   left: 10%;
+   opacity: 1;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 1;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 1;
+  }
+}
+
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-women-wazer1 {
+  background-image: url("../img/s-right4.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 150px;
+  width: 100px;
+  background-size: cover;
+  animation-name: banner-wazers-women1;
+  animation-duration: 144s;
+  animation-delay: -17s;
+  /*left: 2515px;*/
+  bottom: 240px;
+}
+@keyframes banner-wazers-women1 {
+   0% {
+   left: -1%;
+   opacity: 0;
+  }
+   23% {
+   left: 25%;
+   opacity: 0;
+  }
+   23.001% {
+   left: 25%;
+   opacity: 1;
+  }
+   35% {
+   left: 25%;
+   opacity: 1;
+  }
+   35.001% {
+   left: 25%;
+   opacity: 0;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   73% {
+   left: 25%;
+   opacity: 0;
+  }
+   73.001% {
+   left: 25%;
+   opacity: 1;
+  }
+   85% {
+   left: 25%;
+   opacity: 1;
+  }
+   85.001% {
+   left: 25%;
+   opacity: 0;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+}
+
+
+@-webkit-keyframes banner-wazers-women1 {
+   0% {
+   left: -1%;
+   opacity: 0;
+  }
+   23% {
+   left: 25%;
+   opacity: 0;
+  }
+   23.001% {
+   left: 25%;
+   opacity: 1;
+  }
+   35% {
+   left: 25%;
+   opacity: 1;
+  }
+   35.001% {
+   left: 25%;
+   opacity: 0;
+  }
+   49.99% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+   50% {
+   left: 100%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   73% {
+   left: 25%;
+   opacity: 0;
+  }
+   73.001% {
+   left: 25%;
+   opacity: 1;
+  }
+   85% {
+   left: 25%;
+   opacity: 1;
+  }
+   85.001% {
+   left: 25%;
+   opacity: 0;
+  }
+   99.99% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 180deg);
+   opacity: 0;
+  }
+   100% {
+   left: -1%;
+   transform: rotate3d(0, 1, 0, 0deg);
+   opacity: 0;
+  }
+}
+
+
+
+.button, 
+.call-to-action {
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  transition: 0.1s;
+  user-select: none;
+}
+.button:active, 
+.call-to-action:active {
+  box-shadow: 0 0 1px rgba(0,0,0,0.3);
+  transform: translateY(2px);
+}
+.button:hover, 
+.call-to-action:hover, 
+.button:focus, 
+.call-to-action:focus {
+  text-decoration: none;
+}
+.call-to-action {
+  border-radius: 25px;
+  background-color: #395999;
+  color: #fff;
+  padding: 0 30px;
+  line-height: 50px;
+  display: inline-block;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.call-to-action:hover {
+  background-color: #496fbb;
+}
+.call-to-action:hover, .call-to-action:focus {
+  color: #fff;
+}
+
+.footer-container {
+  position: relative;
+  background-color: #fff;
+  padding-top: 65px;
+  padding-bottom: 402px;
+  margin: 0;
+  border: 0;
+  z-index: 50;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.footer-container .footer-world {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 51;
+}
+.footer-container .footer-world .footer-sky {
+  flex-grow: 1;
+  position: relative;
+}
+
+.footer-container .footer-world .footer-sky .footer-island-right {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -16px;
+  background-size: contain;
+  background-image: url("../img/banner-back-right.png");
+  width: 100%;
+  height: 280px;
+  opacity: 0.3;
+}
+ @media (only screen), (min-resolution: 192dpi) {
+ .footer-container .footer-world .footer-sky .footer-island-right {
+   background-image: url("../img/banner-back-right.png");
+  }
+}
+ @supports (-webkit-filter: contrast(270%)) or (filter: contrast(270%)) {
+  .footer-container .footer-world .footer-sky .footer-island-right {
+    -webkit-filter: contrast(120%) hue-rotate(65deg) saturate(35%) opacity(50%);
+    filter: contrast(120%) hue-rotate(65deg) saturate(35%) opacity(50%);
+    opacity: 1;
+  }
+}
