@@ -1,54 +1,43 @@
 <?php
 
-
-  function checkPermission($permissions){
+function checkPermission($permissions) {
 
     $userAccess = getMyPermission(auth()->user()->is_permission);
 
     foreach ($permissions as $key => $value) {
 
-      if($value == $userAccess){
+        if ($value == $userAccess) {
 
-        return true;
-
-      }
-
+            return true;
+        }
     }
 
     return false;
+}
 
-  }
-
-
-  function getMyPermission($id)
-
-  {
+function getMyPermission($id) {
 
     switch ($id) {
 
-      case 1:
+        case 1:
 
-        return 'admin';
+            return 'admin';
 
-        break;
+            break;
 
-      case 2:
+        case 2:
 
-        return 'superadmin';
+            return 'superadmin';
 
-        break;
+            break;
 
-      default:
+        default:
 
-        return 'user';
+            return 'user';
 
-        break;
-
+            break;
     }
-
-  }
-
-
+}
 ?>
 
 

@@ -19,9 +19,10 @@ class VendorController extends Controller {
 
     use ImageTrait;
 
-     public function __construct() {
+    public function __construct() {
         $this->middleware('auth.admin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -64,7 +65,7 @@ class VendorController extends Controller {
             }
         } catch (\Exception $e) {
             DB::rollback();
-              // throw $e;
+            // throw $e;
             Session::flash('message', \Config::get('constants.APP_ERROR'));
             return Redirect::to('admin/vendors');
         }
@@ -104,13 +105,13 @@ class VendorController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(VendorRequest $request, $id) {
-           
+
         DB::beginTransaction();
         try {
             // process the store
             $data = $request->all();
             $user_detail = \App\VendorDetail::updateVendor($data, $id);
-   
+
             $file = Input::file('vendor_logo');
             //store image
             if (!empty($file)) {
@@ -118,7 +119,7 @@ class VendorController extends Controller {
             }
         } catch (\Exception $e) {
             DB::rollback();
-         //  throw $e;
+            //  throw $e;
             Session::flash('message', \Config::get('constants.APP_ERROR'));
             // show the edit form and pass the contact
             self::edit($id);
@@ -172,10 +173,10 @@ class VendorController extends Controller {
                 ->where('role', '=', 'vendor')
                 ->deleted();
         $datatables = Datatables::of($templates)->filterColumn('vendor_name', function ($query, $keyword) {
-                            $query->whereRaw("vendor_detail.vendor_name like ?", ["%$keyword%"]);
-                        })->filterColumn('vendor_phone', function ($query, $keyword) {
-                            $query->whereRaw("vendor_detail.vendor_phone like ?", ["%$keyword%"]);
-                        });
+                    $query->whereRaw("vendor_detail.vendor_name like ?", ["%$keyword%"]);
+                })->filterColumn('vendor_phone', function ($query, $keyword) {
+            $query->whereRaw("vendor_detail.vendor_phone like ?", ["%$keyword%"]);
+        });
 
         // Global search function
         return $datatables->make(true);

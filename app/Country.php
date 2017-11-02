@@ -20,7 +20,7 @@ class Country extends Model {
     public function scopeActive($query) {
         return $query->where('is_delete', self::IS_FALSE);
     }
-    
+
     public static function countryList() {
         $countrylist = Country::active()->pluck('country_name', 'id')->toArray();
         return $countrylist;

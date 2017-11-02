@@ -36,7 +36,7 @@ class ActivityController extends Controller {
             \App\CouponShare::addShareCoupon($exp, $data['coupon_id'], $activity);
             return $this->responseJson('success', \Config::get('constants.ADD_FB_FRIEND'), 200);
         } catch (\Exception $e) {
-           // throw $e;
+            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -54,7 +54,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-           // throw $e;
+            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -92,7 +92,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-           // throw $e;
+            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -111,7 +111,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 400);
         } catch (\Exception $e) {
-          //  throw $e;
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -133,7 +133,7 @@ class ActivityController extends Controller {
         $data = $request->all();
         $user = Auth::user();
         if (count($user->notifications) > 0) {
-            $userN=$user->notifications()->paginate(\Config::get('constants.PAGINATE'));
+            $userN = $user->notifications()->paginate(\Config::get('constants.PAGINATE'));
             $notificationlist = (new UserTransformer)->transformNotification($userN);
             return $this->responseJson('success', \Config::get('constants.NOTI_LIST'), 200, $notificationlist);
         }

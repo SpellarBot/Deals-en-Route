@@ -28,7 +28,7 @@ class RegisterController extends Controller {
       |
      */
 
-    use ResponseTrait;
+use ResponseTrait;
     use MailTrait;
     use RegistersUsers;
     use ImageTrait;
@@ -82,13 +82,12 @@ class RegisterController extends Controller {
                     'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg',
         ]);
     }
-   
-       protected function validatoremail(array $data) {
+
+    protected function validatoremail(array $data) {
         return Validator::make($data, [
                     'first_name' => 'required|string|max:255',
                     'last_name' => 'required|string|max:255',
                     'email' => 'required|string|email|max:255',
-                  
         ]);
     }
 
@@ -125,10 +124,9 @@ class RegisterController extends Controller {
                 $array_mail = ['to' => $data['email'],
                     'type' => 'verify',
                     'data' => ['confirmation_code' => $user_id->confirmation_code],
-                 
                 ];
 
-              //  $this->sendMail($array_mail);
+                 $this->sendMail($array_mail);
                 $user_detail = \App\UserDetail::saveUserDetail($data, $user_id->id);
                 if ($request->file('profile_pic')) {
                     $this->addImage($request, $user_detail, 'profile_pic');
@@ -138,14 +136,14 @@ class RegisterController extends Controller {
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-         //  throw $e;
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
-         $data = (new UserTransformer)->transformLogin($user_id);
+        $data = (new UserTransformer)->transformLogin($user_id);
 
-        return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200,$data);
+        return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200, $data);
     }
 
     //update the profile 
@@ -192,10 +190,10 @@ class RegisterController extends Controller {
                     $this->addImage($request, $user->userDetail, 'profile_pic');
                 }
             }
-            if(!empty($user)){
-            if ($user->is_confirmed == 0) {
-                return $this->responseJson('error', \Config::get('constants.USER_NOT_CONFIRMED'), 422);
-            }
+            if (!empty($user)) {
+                if ($user->is_confirmed == 0) {
+                    return $this->responseJson('error', \Config::get('constants.USER_NOT_CONFIRMED'), 422);
+                }
             }
             // save the user
         } catch (\Exception $e) {
@@ -214,7 +212,7 @@ class RegisterController extends Controller {
     }
 
     protected function addemail(Request $request) {
-      
+
         DB::beginTransaction();
         try {
             $data = $request->all();
@@ -226,7 +224,7 @@ class RegisterController extends Controller {
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-        //    throw $e;
+            //    throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//
@@ -234,8 +232,5 @@ class RegisterController extends Controller {
         $data = (new UserTransformer)->transformLogin($user);
         return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200);
     }
-    
-    
-    
 
 }

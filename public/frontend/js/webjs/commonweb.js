@@ -13,11 +13,14 @@ $(document).ready(function(){
 
  //modal close
     $(".modal").on("hidden.bs.modal", function () {
+        $('form')[0].reset();
         $(".form-group").removeClass('has-error');
         $(".input-group").removeClass('has-error');
         $(".help-block").html('');
         $('.alert-danger').hide();
     });
+    
+  
 });
 
 var hexDigits = new Array ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
@@ -52,5 +55,30 @@ $(window).load(function() {
     $("#loadingDiv").fadeOut("slow");
 });
 
+function setErrorNotification(data){
+    
+        $('.alert-danger').show();
+        setTimeout(function() {
+            $('.alert-danger').fadeOut('slow');
+            },10000);
+       $('.errormessage').html(data.responseJSON.errormessage);
+    
+}
 
+function setFlashSuccessNotification(){
+    
+        $('.alert-success').show();
+        setTimeout(function() {
+            $('.alert-success').fadeOut('slow');
+            },10000);
+
+}
+function setFlashErrorNotification(){
+    
+        $('.alert-danger').show();
+        setTimeout(function() {
+            $('.alert-danger').fadeOut('slow');
+            },10000);
+
+}
 

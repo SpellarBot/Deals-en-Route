@@ -11,6 +11,7 @@
 		//apply events and styles for file input element
 		var fileInput = $(this)
 			.addClass('customfile-input') //add class for CSS
+                        .attr('type','file')
 			.mouseover(function(){ upload.addClass('customfile-hover'); })
 			.mouseout(function(){ upload.removeClass('customfile-hover'); })
 			.focus(function(){
@@ -49,12 +50,12 @@
 				//change text of button
 				uploadButton.text('Change');
 			})
-			.on('click', function () { //for IE and Opera, make sure change fires after choosing a file, using an async callback
-			alert('dfdsf');	
+			.on('click', function (e) { //for IE and Opera, make sure change fires after choosing a file, using an async callback
+			e.preventDefault();
                             fileInput.data('val', fileInput.val());
-//				setTimeout(function(){
-//					fileInput.trigger('checkChange');
-//				},100);
+				setTimeout(function(){
+					fileInput.trigger('checkChange');
+				},100);
 			});
 			
 		//create custom control container
@@ -71,7 +72,13 @@
 
 
 		//on mousemove, keep file input under the cursor to steal click
-		upload
+		upload.on('click', function (e) { //for IE and Opera, make sure change fires after choosing a file, using an async callback
+			$('#vendorlogo').trigger('click');
+                            fileInput.data('val', fileInput.val());
+				setTimeout(function(){
+					fileInput.trigger('checkChange');
+				},100);
+			})
 			.mousemove(function(e){
 				fileInput.css({
 					'left': e.pageX - upload.offset().left - fileInput.outerWidth() + 20, //position right side 20px right of cursor X)

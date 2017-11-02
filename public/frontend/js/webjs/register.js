@@ -36,9 +36,8 @@ $(document).ready(function () {
             },
             error: function (data) {
                 $('#loadingDiv').hide();
-                if (data.responseJSON.status == 1) {
-                    $('.alert-danger').show();
-                    $('.errormessage').html(data.responseJSON.errormessage);
+                if (data.responseJSON.status == 1) {   
+                    setErrorNotification(data);
                 }else{
                       $('.alert-danger').hide();
                     $('.errormessage').html('');

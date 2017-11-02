@@ -9,8 +9,6 @@ use Auth;
 
 class Coupon extends Model {
 
-
-
     /**
      * The attributes that are mass assignable.
      *
@@ -30,8 +28,8 @@ class Coupon extends Model {
         'coupon_id', 'coupon_category_id', 'coupon_name', 'coupon_detail', 'coupon_logo',
         'coupon_start_date', 'coupon_end_date', 'coupon_redemption_code',
         'coupon_qrcode', 'coupon_code', 'coupon_lat', 'coupon_long', 'coupon_radius',
-        'coupon_total_redeem', 'coupon_redeem_limit', 'is_active', 'is_delete','distance',
-        'created_at', 'updated_at', 'created_by','coupon_radius'
+        'coupon_total_redeem', 'coupon_redeem_limit', 'is_active', 'is_delete', 'distance',
+        'created_at', 'updated_at', 'created_by', 'coupon_radius'
     ];
 
     public function scopeActive($query) {
@@ -67,12 +65,12 @@ class Coupon extends Model {
     public function categoryDetail() {
         return $this->hasOne('App\CouponCategory', 'category_id', 'coupon_category_id');
     }
-    
-      /**
+
+    /**
      * Get the vendor detail record associated with the user.
      */
     public function couponFavDetail() {
-        return $this->hasOne('App\CouponFavourite', 'coupon_id', 'coupon_id')->where('coupon_favourite.user_id',Auth::id());
+        return $this->hasOne('App\CouponFavourite', 'coupon_id', 'coupon_id')->where('coupon_favourite.user_id', Auth::id());
     }
 
     public static function getNearestCoupon($data) {
@@ -108,11 +106,10 @@ class Coupon extends Model {
         }
 
         $result = $query->groupBy('coupon_id')->orderBy('distance')->simplePaginate(\Config::get('constants.PAGINATE'));
-  
+
         return $result;
     }
 
- 
     public static function getCouponDetail($data) {
 
 

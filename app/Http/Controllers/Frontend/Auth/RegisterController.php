@@ -14,23 +14,25 @@ use DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Services\ResponseTrait;
 use App\Http\Services\ImageTrait;
+use App\Http\Services\MailTrait;
 
-class RegisterController extends Controller
-{
+class RegisterController extends Controller {
     /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
+      |--------------------------------------------------------------------------
+      | Register Controller
+      |--------------------------------------------------------------------------
+      |
+      | This controller handles the registration of new users as well as their
+      | validation and creation. By default this controller uses a trait to
+      | provide this functionality without requiring any additional code.
+      |
+     */
 
     use RegistersUsers;
     use ImageTrait;
     use ResponseTrait;
+     use MailTrait;
+
     /**
      * Where to redirect users after registration.
      *
@@ -38,86 +40,85 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
     protected $category_images;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        
+    public function __construct() {
+
         $this->middleware('guest', ['except' => 'logout']);
     }
+
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\User
      */
-    public function create(RegisterFormRequest $request)
-    {
-           DB::beginTransaction();
+    public function create(RegisterFormRequest $request) {
+        DB::beginTransaction();
         try {
             // process the store
             $data = $request->all();
-            $user_detail = \App\VendorDetail::createVendorFront($data);            
+            $user_detail = \App\VendorDetail::createVendorFront($data);
             $file = Input::file('vendor_logo');
             //store image
             if (!empty($file)) {
                 $this->addImageWeb($file, $user_detail, 'vendor_logo');
             }
-            if($user_detail){
-             //stripe payment
-            $stripeuser=\App\StripeUser::createStripeUser($user_detail->user_id);
-            $stripeuser->createToken($data);
-            Session::flash('success', \Config::get('constants.USER_EMAIL_VERIFICATION'));
+            if ($user_detail) {
+                //stripe payment
+                $stripeuser = \App\StripeUser::createStripeUser($user_detail->user_id);
+                $stripeuser->createToken($data);
+                Session::flash('success', \Config::get('constants.USER_EMAIL_VERIFICATION'));
             }
-            
-        } catch(\Cartalyst\Stripe\Exception\CardErrorException  $e)
-        {
-        $data = $request->all();
-        $this->deleteCustomer($data);
-        DB::rollback();
-     
-          $message=$e->getMessage();
-         if( strpos( $message, 'year') !== false || strpos( $message, 'month') !== false ) {
-           return response()->json(['errors' =>['card_expiry'=>[0=>ucwords($message)]]], 422);
-        }elseif( strpos( $message, 'cvv') !== false || strpos( $message, 'security code') !== false) {
-           return response()->json(['errors' =>['card_cvv'=>[0=>ucwords($message)]]], 422);
-        }elseif( strpos( $message, 'number') !== false || strpos( $message, 'card') !== false) {
-           return response()->json(['errors' =>['card_no'=>[0=>ucwords($message)]]], 422);
-        }
-       return response()->json(['status'=>1,'errormessage' =>ucwords($e->getMessage())], 422);
-    
-        }
-        catch (\Exception $e) {
-            $this->deleteCustomer($data);    
+        } catch (\Cartalyst\Stripe\Exception\CardErrorException $e) {
+
+            \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
-           return response()->json(['status'=>1,'errormessage' =>ucwords($e->getMessage())], 422);
-         
+
+            $message = $e->getMessage();
+            if (strpos($message, 'year') !== false || strpos($message, 'month') !== false) {
+                return response()->json(['errors' => ['card_expiry' => [0 => ucwords($message)]]], 422);
+            } elseif (strpos($message, 'cvv') !== false || strpos($message, 'security code') !== false) {
+                return response()->json(['errors' => ['card_cvv' => [0 => ucwords($message)]]], 422);
+            } elseif (strpos($message, 'number') !== false || strpos($message, 'card') !== false) {
+                return response()->json(['errors' => ['card_no' => [0 => ucwords($message)]]], 422);
+            }
+            return response()->json(['status' => 1, 'errormessage' => ucwords($e->getMessage())], 422);
+        } catch (\Exception $e) {
+            //throw $e;
+            \App\StripeUser::findCustomer($data['email']);
+            DB::rollback();
+            return response()->json(['status' => 1, 'errormessage' => ucwords($e->getMessage())], 422);
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
+         $array_mail = ['to' => $data['email'],
+                    'type' => 'verifyvendor',
+                    'data' => ['confirmation_code' => User::find($user_detail->user_id)->confirmation_code],
+                ];
+         //$this->sendMail($array_mail);
         // redirect
-       return view('frontend.signup.pricetable')->with(['user_id' =>$user_detail->user_id]);
- 
+        return view('frontend.signup.pricetable')->with(['user_id' => $user_detail->user_id]);
     }
-    
-       /**
+
+    /**
      * Show the application registration form.
      *
      * @return \Illuminate\Http\Response
      */
-    public function showCategoryForm()
-    {
+    public function showCategoryForm() {
         $company_logo = $this->showLogoImage();
-        $category_images= \App\WebCouponCategory::categoryList();
-        $signup_category_images= \App\CouponCategory::categoryListWeb();
-        $country_list= \App\Country::countryList();
-        
+        $category_images = \App\WebCouponCategory::categoryList();
+        $signup_category_images = \App\CouponCategory::categoryListWeb();
+        $country_list = \App\Country::countryList();
+
         return view('frontend.signup.category')->with(['company_logo' => $company_logo,
-            'category_images'=>$category_images,'signup_category_images'=>$signup_category_images,
-            'country_list'=>$country_list]);
+                    'category_images' => $category_images, 'signup_category_images' => $signup_category_images,
+                    'country_list' => $country_list]);
     }
 
     /**
@@ -125,33 +126,30 @@ class RegisterController extends Controller
      *
      * @return \Illuminate\Contracts\Auth\StatefulGuard
      */
-    protected function guard()
-    {
+    protected function guard() {
         return Auth::guard('web');
     }
-    
+
     //create subscription for customer 
-    public function subscribe(Request $request){
+    public function subscribe(Request $request) {
         DB::beginTransaction();
         try {
-        $request=$request->all();
-        $stripeuser= \App\StripeUser::where('user_id',$request['user_id'])->first();
-        $stripeuser->createSubcription($request['plan_id']);
-        if ($user->subscribed('main')) {
-               return response()->json(['msg'=>'Successfully subscribed']);
-        }
-           return response()->json(['msg'=>'Oops there is something error with your input']);
-       }
-        catch (\Exception $e) {
+            $request = $request->all();
+            $stripeuser = \App\StripeUser::where('user_id', $request['user_id'])->first();
+            $result = $stripeuser->createSubcription($request['plan_id']);
+
+            if ($result) {
+                Session::flash('success', \Config::get('constants.USER_EMAIL_VERIFICATION'));
+            } else {
+                return response()->json(['status' => 1, 'errormessage' => ucwords(\Config::get('constants.APP_ERROR'))], 422);
+            }
+        } catch (\Exception $e) {
             DB::rollback();
-            throw $e;     
-           return response()->json(['status'=>1,'errormessage' =>ucwords($e->getMessage())], 422);
-         
+            // throw $e;     
+            return response()->json(['status' => 1, 'errormessage' => ucwords($e->getMessage())], 422);
         }
         // If we reach here, then// data is valid and working.//
-        DB::commit();   
+        DB::commit();
     }
-    
-    
-  
+
 }

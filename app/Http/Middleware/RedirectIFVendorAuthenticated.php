@@ -5,25 +5,28 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class CheckIfAdminAuthenticated {
+class RedirectIFVendorAuthenticated {
 
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string|null  $guard
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null) {
-        $auth = Auth::guard('admin');
-        if (!$auth->check()) {
+        $auth = Auth::guard('web');
 
+        if ($auth->check()) {
 
-            return redirect('/admin');
+            if (Auth::user()->is_confirmed == 1) {
+             
+               return $next($request);
+            }
+            return redirect('/');
         }
 
-        return $next($request);
+ return redirect('/');
     }
 
 }

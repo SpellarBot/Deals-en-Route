@@ -53,7 +53,7 @@ class CouponShare extends Model {
 
                 $fbfriend = new CouponShare();
                 $userid[] = $fbfriend->getFbFriendId($v);
-                
+
                 $datafb[] = [
                     'coupon_id' => $couponid,
                     'user_id' => $creator_id->id,
@@ -63,12 +63,12 @@ class CouponShare extends Model {
                 ];
             }
             $user = User::leftJoin('user_detail', 'user_detail.user_id', '=', 'users.id')
-                    ->where('notification_recieve_offer',1)
+                    ->where('notification_recieve_offer', 1)
                     ->whereIn('id', $userid)
                     ->get();
-       
+
             $coupon = Coupon::find($couponid);
-   
+
             // send notification
             Notification::send($user, new FcmNotification([
                 'type' => 'sharecoupon',
@@ -76,13 +76,12 @@ class CouponShare extends Model {
                 'message' => $creator_id->userDetail->first_name . ' ' . $creator_id->userDetail->last_name . ' shared a coupon with you:' . $coupon->coupon_detail,
                 'name' => $creator_id->first_name . ' ' . $creator_id->last_name,
                 'image' => (!empty($creator_id->userDetail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $creator_id->userDetail->profile_pic : "",
-                 'coupon_id' => $coupon->coupon_id
-                ]));
+                'coupon_id' => $coupon->coupon_id
+            ]));
             if (CouponShare::insert($datafb)) {
                 Activity::where('activity_id', $activity->activity_id)
                         ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid)]);
             }
-            
         }
     }
 

@@ -5,8 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
-{
+class RedirectIfAuthenticated {
+
     /**
      * Handle an incoming request.
      *
@@ -15,13 +15,13 @@ class RedirectIfAuthenticated
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
-    {
-        $auth=Auth::guard('web');
+    public function handle($request, Closure $next, $guard = null) {
+        $auth = Auth::guard('web');
         if ($auth->check()) {
             return redirect('/dashboard');
         }
 
         return $next($request);
     }
+
 }

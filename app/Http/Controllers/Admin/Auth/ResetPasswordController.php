@@ -5,28 +5,26 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
-class ResetPasswordController extends Controller
-{
+class ResetPasswordController extends Controller {
     /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
+      |--------------------------------------------------------------------------
+      | Password Reset Controller
+      |--------------------------------------------------------------------------
+      |
+      | This controller is responsible for handling password reset requests
+      | and uses a simple trait to include this behavior. You're free to
+      | explore this trait and override any methods you wish to tweak.
+      |
+     */
 
-    use ResetsPasswords;
+use ResetsPasswords;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest.admin');
     }
 
@@ -39,10 +37,9 @@ class ResetPasswordController extends Controller
      * @param  string|null $token
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showResetForm(Request $request, $token = null)
-    {
+    public function showResetForm(Request $request, $token = null) {
         return view('admin.auth.passwords.reset')->with(
-            ['token' => $token, 'email' => $request->email]
+                        ['token' => $token, 'email' => $request->email]
         );
     }
 
@@ -51,8 +48,8 @@ class ResetPasswordController extends Controller
      *
      * @return \Illuminate\Contracts\Auth\StatefulGuard
      */
-    protected function guard()
-    {
+    protected function guard() {
         return Auth::guard('admins');
     }
+
 }

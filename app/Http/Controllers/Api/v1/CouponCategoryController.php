@@ -15,7 +15,7 @@ class CouponCategoryController extends Controller {
     use ResponseTrait;
 
     public function categoryList() {
-     
+
         $categoryListData = \App\CouponCategory::categoryList();
 
         if (count($categoryListData) > 0) {
@@ -24,12 +24,9 @@ class CouponCategoryController extends Controller {
         }
         return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
     }
-    
-    
-    
 
     public function categorySave(Request $request) {
-       
+
         $data = $request->all();
         $categorySave = \App\UserDetail::saveUserDetail($data, Auth::id());
 

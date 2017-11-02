@@ -19,10 +19,10 @@ class UserController extends Controller {
 
     use ImageTrait;
 
-    
-     public function __construct() {
+    public function __construct() {
         $this->middleware('auth.admin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -126,7 +126,7 @@ class UserController extends Controller {
         // If we reach here, then// data is valid and working.//
         DB::commit();
         // redirect
-        Session::flash('message',  \Config::get('constants.USER_UPDATE'));
+        Session::flash('message', \Config::get('constants.USER_UPDATE'));
         return Redirect::to('admin/users');
     }
 
@@ -172,22 +172,22 @@ class UserController extends Controller {
                 ->where('role', '=', 'user')
                 ->deleted();
         $datatables = Datatables::of($templates)
-                        ->editColumn('dob', function ($user) {
+                ->editColumn('dob', function ($user) {
 
-                            return (!empty($user->userDetail->dob)) ? $user->userDetail->dob->format('m/d/Y') : "";
-                        })->editColumn('full_name', function ($user) {
-                            return $user->first_name . " " . $user->last_name;
-                        })
-                        ->filterColumn('full_name', function ($query, $keyword) {
-                            $query->whereRaw("user_detail.first_name like ?", ["%$keyword%"])
-                            ->orwhereRaw("user_detail.last_name like ?", ["%$keyword%"])
-                            ->orwhereRaw("concat('',user_detail.last_name,user_detail.first_name) like ?", ["%$keyword%"])
-                            ->orwhereRaw("concat('',user_detail.first_name,user_detail.last_name) like ?", ["%$keyword%"]);
-                        })
-                      ->filterColumn('dob', function ($query, $keyword) {
-                        $query->whereRaw("DATE_FORMAT(user_detail.dob,'%d/%m/%Y') like ?", ["%$keyword%"]);
-                        })
-                        ->orderColumn('full_name', 'concat("",user_detail.first_name,user_detail.last_name) $1');
+                    return (!empty($user->userDetail->dob)) ? $user->userDetail->dob->format('m/d/Y') : "";
+                })->editColumn('full_name', function ($user) {
+                    return $user->first_name . " " . $user->last_name;
+                })
+                ->filterColumn('full_name', function ($query, $keyword) {
+                    $query->whereRaw("user_detail.first_name like ?", ["%$keyword%"])
+                    ->orwhereRaw("user_detail.last_name like ?", ["%$keyword%"])
+                    ->orwhereRaw("concat('',user_detail.last_name,user_detail.first_name) like ?", ["%$keyword%"])
+                    ->orwhereRaw("concat('',user_detail.first_name,user_detail.last_name) like ?", ["%$keyword%"]);
+                })
+                ->filterColumn('dob', function ($query, $keyword) {
+                    $query->whereRaw("DATE_FORMAT(user_detail.dob,'%d/%m/%Y') like ?", ["%$keyword%"]);
+                })
+                ->orderColumn('full_name', 'concat("",user_detail.first_name,user_detail.last_name) $1');
 
         // Global search function
 
@@ -213,15 +213,13 @@ class UserController extends Controller {
         return view('admin.user.edit')->with(['users' => $users, 'imagePath' => $imagePath,
                     'categoryList' => $categoryList, 'show' => $show]);
     }
-    
-    
-     public function showLinkRequestForm($id)
-    {
-         $id= base64_decode($id);
-         $users=User::find($id);
-        return view('admin.resetpassword')->with(['users' =>$users]);
+
+    public function showLinkRequestForm($id) {
+        $id = base64_decode($id);
+        $users = User::find($id);
+        return view('admin.resetpassword')->with(['users' => $users]);
     }
-    
+
     /**
      * Reset the given user's password.
      *
@@ -229,12 +227,12 @@ class UserController extends Controller {
      * @return Response
      */
     public function postReset(Request $request) {
-        $data=$request->all();    
+        $data = $request->all();
         $this->validate($request, [
             'password' => 'required|string|min:6|confirmed',
             'password_confirmation' => 'required|string|min:6',
         ]);
-       
+
         $user = User::find($data['id']);
         if (empty($user)) {
             Session::flash('message', \Config::get('constants.USER_NOT_FOUND'));
@@ -242,15 +240,15 @@ class UserController extends Controller {
         }
         $user->password = bcrypt($data['password']);
         $user->save();
-       Session::flash('message',  \Config::get('constants.PASSWORD_CHANGE'));
-       if($user->role=='user'){
-        return Redirect::to('admin/users');
-       }
+        Session::flash('message', \Config::get('constants.PASSWORD_CHANGE'));
+        if ($user->role == 'user') {
+            return Redirect::to('admin/users');
+        }
         return Redirect::to('admin/vendors');
     }
-    
-     public function setting() {
-    
+
+    public function setting() {
+
         $settings = \App\Setting::find(1);
 
         // show the settings 

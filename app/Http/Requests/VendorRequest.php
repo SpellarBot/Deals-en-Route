@@ -42,7 +42,6 @@ class VendorRequest extends FormRequest {
                         'vendor_address' => 'required',
                         'email' => 'required|email|unique:users,email,' . $this->segment(3) . '|max:255',
                         'vendor_logo' => 'required|image|mimes:jpg,png,jpeg',
-                        
                         'vendor_category' => 'required',
                         'vendor_city' => 'required',
                         'vendor_zip' => 'required',

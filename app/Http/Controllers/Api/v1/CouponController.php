@@ -14,7 +14,6 @@ use DB;
 use URL;
 use Carbon\Carbon;
 
-
 class CouponController extends Controller {
 
     use ResponseTrait;
@@ -96,7 +95,7 @@ class CouponController extends Controller {
             $data = $request->all();
 
             //find nearby coupon
-            
+
             $coupondetail = \App\CouponFavourite::getCouponFavList($data);
             if (count($coupondetail) > 0) {
                 $data = (new CouponTransformer)->transformFavSearchList($coupondetail);
@@ -124,7 +123,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-             throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -134,135 +133,130 @@ class CouponController extends Controller {
             // get the request
             $data = $request->all();
 
-            $couponlist = \App\CouponRedeem::redeemCouponList($data); 
-            
+            $couponlist = \App\CouponRedeem::redeemCouponList($data);
+
             if (count($couponlist) > 0) {
                 $data = (new CouponTransformer)->transformShareList($couponlist);
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-             throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-    
-      public function shareCouponList(Request $request) {
+
+    public function shareCouponList(Request $request) {
         try {
             // get the request
             $data = $request->all();
-        
+
             //find nearby coupon
             $couponlist = \App\CouponShare::couponShareList($data);
-            
+
             if (count($couponlist) > 0) {
                 $data = (new CouponTransformer)->transformShareList($couponlist);
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-             throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-    
-   public function addRedeem(Request $request) {
+
+    public function addRedeem(Request $request) {
         try {
             // get the request
             $data = $request->all();
-        
+
             //find nearby coupon
-            $redeem=new \App\CouponRedeem();
-            $redeem->user_id=Auth::id();
-            $redeem->coupon_id=$data['coupon_id'];
-            $redeem->is_redeem=1;
-      
+            $redeem = new \App\CouponRedeem();
+            $redeem->user_id = Auth::id();
+            $redeem->coupon_id = $data['coupon_id'];
+            $redeem->is_redeem = 1;
+
             if ($redeem->save()) {
-         
-                if($this->getCouponShareCount('',$data['coupon_id'])>0){
-             $activity= \App\Activity::redeemActivity($data,Auth::id());
+
+                if ($this->getCouponShareCount('', $data['coupon_id']) > 0) {
+                    $activity = \App\Activity::redeemActivity($data, Auth::id());
                 }
-             return $this->responseJson('success', \Config::get('constants.COUPON_ADD_REDEEM'), 200);
+                return $this->responseJson('success', \Config::get('constants.COUPON_ADD_REDEEM'), 200);
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-             throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-    
-    
+
     //cron job for new coupon
-    public function   CouponNotificationNew(Request $request) {
-        $newcouponuser = \App\User::where('role','user')
-                  ->leftJoin('user_detail', 'user_detail.user_id', '=', 'users.id')
-                 ->leftJoin('device_detail', 'device_detail.user_id', '=', 'users.id')
-                ->where('latitude','!=','')
-                ->where('longitude','!=','')
-                ->where('device_token','!=','')
-                ->where('notification_new_offer',1)
+    public function CouponNotificationNew(Request $request) {
+        $newcouponuser = \App\User::where('role', 'user')
+                ->leftJoin('user_detail', 'user_detail.user_id', '=', 'users.id')
+                ->leftJoin('device_detail', 'device_detail.user_id', '=', 'users.id')
+                ->where('latitude', '!=', '')
+                ->where('longitude', '!=', '')
+                ->where('device_token', '!=', '')
+                ->where('notification_new_offer', 1)
                 ->get();
 
         $circle_radius = \Config::get('constants.EARTH_RADIUS');
-        
-        foreach($newcouponuser as $newcouponusers) {
-               
-        $lat = $newcouponusers->latitude;
-        $lng = $newcouponusers->longitude;
-        $id = $newcouponusers->category_id;
-       
-        $idsArr = explode(',', $id);
-        $couponlist = \App\Coupon::active()->deleted()
-                ->select(DB::raw('coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
-                                . 'coupon_name,coupon_logo,created_by,coupon_lat,'
-                                . 'coupon_long,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) ) as distance'))
-                ->where(\DB::raw('TIMESTAMP(`coupon_start_date`)'), '<=', date('Y-m-d H:i:s'))
-                ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
-                ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
-                ->havingRaw('coupon_radius >= distance')
-                ->whereIn('coupon_category_id', $idsArr)
-                ->get();
-        foreach($couponlist as $couponlists){
-           $checkUserNotifyNewOffer = $this->getUserNotificationOffer($newcouponusers->id, $couponlists->coupon_id, 'newoffer');
-           if ($checkUserNotifyNewOffer <= 0) {
-                // send notification
-                Notification::send($newcouponusers, new FcmNotification([
-                    'type' => 'newoffer',
-                    'notification_message' => 'Hey {{to_name}}, you have new  deal on {{coupon_name}} !!',
-                    'message' => 'Hey ' . $newcouponusers->first_name . ' ' . $newcouponusers->last_name . ' Your have new  deal on ' . $couponlists->coupon_name,
-                    'name' => $newcouponusers->first_name . ' ' . $newcouponusers->last_name,
-                    'image' => (!empty($couponlists->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/profile_pic') . '/' . $couponlists->vendorDetail->vendor_logo : "",
-                    'coupon_id' => $couponlists->coupon_id
-                ]));
+
+        foreach ($newcouponuser as $newcouponusers) {
+
+            $lat = $newcouponusers->latitude;
+            $lng = $newcouponusers->longitude;
+            $id = $newcouponusers->category_id;
+
+            $idsArr = explode(',', $id);
+            $couponlist = \App\Coupon::active()->deleted()
+                    ->select(DB::raw('coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
+                                    . 'coupon_name,coupon_logo,created_by,coupon_lat,'
+                                    . 'coupon_long,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) ) as distance'))
+                    ->where(\DB::raw('TIMESTAMP(`coupon_start_date`)'), '<=', date('Y-m-d H:i:s'))
+                    ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
+                    ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
+                    ->havingRaw('coupon_radius >= distance')
+                    ->whereIn('coupon_category_id', $idsArr)
+                    ->get();
+            foreach ($couponlist as $couponlists) {
+                $checkUserNotifyNewOffer = $this->getUserNotificationOffer($newcouponusers->id, $couponlists->coupon_id, 'newoffer');
+                if ($checkUserNotifyNewOffer <= 0) {
+                    // send notification
+                    Notification::send($newcouponusers, new FcmNotification([
+                        'type' => 'newoffer',
+                        'notification_message' => 'Hey {{to_name}}, you have new  deal on {{coupon_name}} !!',
+                        'message' => 'Hey ' . $newcouponusers->first_name . ' ' . $newcouponusers->last_name . ' Your have new  deal on ' . $couponlists->coupon_name,
+                        'name' => $newcouponusers->first_name . ' ' . $newcouponusers->last_name,
+                        'image' => (!empty($couponlists->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/profile_pic') . '/' . $couponlists->vendorDetail->vendor_logo : "",
+                        'coupon_id' => $couponlists->coupon_id
+                    ]));
+                }
             }
-            
         }
-      
-      
-        }
-  
     }
-     
+
     //cron job for coupon expiring
-    public function   CouponNotificationFavExpire(Request $request) {
-               $date = Carbon::now()->format('Y-m-d');
-              
-                $coupon = \App\CouponFavourite::
+    public function CouponNotificationFavExpire(Request $request) {
+        $date = Carbon::now()->format('Y-m-d');
+
+        $coupon = \App\CouponFavourite::
                         select(DB::raw('coupon.coupon_id,coupon_favourite.user_id,coupon.created_by,coupon_end_date,
                                DATE_SUB(coupon_end_date, INTERVAL 1 DAY)  as datesub'))
                         ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
                         ->where('is_active', \App\CouponFavourite::IS_TRUE)
                         ->where('is_delete', \App\CouponFavourite::IS_FALSE)
-                        ->having(\DB::raw('date_format(datesub,"%Y-%m-%d")'),"$date")
+                        ->having(\DB::raw('date_format(datesub,"%Y-%m-%d")'), "$date")
                         ->where('is_favorite', \App\CouponFavourite::IS_TRUE)
                         ->get()->toArray();
-               
+
         foreach ($coupon as $coupons) {
             $to_id = \App\User::find($coupons['user_id']);
             $coupondetail = \App\Coupon::find($coupons['coupon_id']);
             $checkUserNotify = $this->getUserNotification($to_id->id, $coupons['coupon_id'], 'favexpire');
 
-            if ($checkUserNotify <= 0 && $to_id->userDetail->notification_fav_expire==1) {
+            if ($checkUserNotify <= 0 && $to_id->userDetail->notification_fav_expire == 1) {
 
                 // send notification
                 Notification::send($to_id, new FcmNotification([
@@ -275,11 +269,6 @@ class CouponController extends Controller {
                 ]));
             }
         }
-  
     }
-    
-    
-     
-   
-    
+
 }

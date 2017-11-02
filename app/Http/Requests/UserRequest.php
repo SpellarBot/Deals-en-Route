@@ -30,11 +30,11 @@ class UserRequest extends FormRequest {
                         'phone' => 'sometimes|required|min:6|max:20',
                         'email' => 'required|email|unique:users,email|max:255',
                         'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg',
-                        'password'=>'sometimes|required|string|min:6',
+                        'password' => 'sometimes|required|string|min:6',
                     ];
                 }
             case 'PATCH': {
-              
+
                     return [
                         'first_name' => 'required|max:255',
                         'last_name' => 'required|max:255',
@@ -42,7 +42,7 @@ class UserRequest extends FormRequest {
                         'phone' => 'sometimes|required|min:6|max:20',
                         'email' => 'required|email|unique:users,email,' . $this->segment(3) . '|max:255',
                         'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg',
-                        'password'=>'sometimes|required|string|min:6',
+                        'password' => 'sometimes|required|string|min:6',
                     ];
                 }
         }

@@ -1,18 +1,19 @@
 <?php
+
 function checkPermission($permissions) {
-  if(Auth::check()){
-    $userAccess = auth()->user()->role;
+    if (Auth::check()) {
+        $userAccess = auth()->user()->role;
 
-    foreach ($permissions as $key => $value) {
+        foreach ($permissions as $key => $value) {
 
-        if ($value == $userAccess) {
+            if ($value == $userAccess) {
 
-            return true;
+                return true;
+            }
         }
-    }
 
-    return false;
-}
+        return false;
+    }
 }
 
 ?>

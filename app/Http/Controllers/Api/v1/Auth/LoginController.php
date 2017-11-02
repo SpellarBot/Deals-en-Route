@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Transformer\UserTransformer;
 
-
 class LoginController extends Controller {
 
     use ResponseTrait;
@@ -34,7 +33,7 @@ class LoginController extends Controller {
      *
      * @var string
      */
-  //  protected $redirectTo = '/home';
+    //  protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -42,7 +41,7 @@ class LoginController extends Controller {
      * @return void
      */
     public function __construct() {
-       // $this->middleware('guest')->except('logout');
+        // $this->middleware('guest')->except('logout');
     }
 
     protected function validatormanually(array $data) {
@@ -61,19 +60,17 @@ class LoginController extends Controller {
         if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
 
             $auth = Auth()->user();
-            
+
             if ($auth->is_delete == 1) {
                 return $this->responseJson('error', \Config::get('constants.USER_DELETE'), 400);
-            }
-            else if ($auth->is_active == 0) {
+            } else if ($auth->is_active == 0) {
                 return $this->responseJson('error', \Config::get('constants.USER_DEACTIVE'), 400);
-            }
-            else if ($auth->is_confirmed == 0) {
+            } else if ($auth->is_confirmed == 0) {
                 return $this->responseJson('error', \Config::get('constants.USER_NOT_CONFIRMED'), 422);
             }
             $auth->api_token = $this->generateAuthToken();
             $auth->save();
-           
+
             \App\DeviceDetail::saveDeviceToken($data, $auth->id);
             // Authentication passed...
             $data = (new UserTransformer)->transformLogin($auth);
@@ -81,30 +78,29 @@ class LoginController extends Controller {
         }
         return $this->responseJson('error', trans('auth.failed'), 422);
     }
-    
 
     public function addUserDetail(Request $request) {
-       
+
         $data = $request->all();
 
-         $auth = Auth()->user();
-        $userdetail= \App\UserDetail::where('user_id',$auth->id)->first();
+        $auth = Auth()->user();
+        $userdetail = \App\UserDetail::where('user_id', $auth->id)->first();
 
-        if(isset($data['is_notification'])){
-        $userdetail->notification_new_offer= $data['is_notification'];
-        $userdetail->notification_recieve_offer =$data['is_notification'];
-        $userdetail->notification_fav_expire =$data['is_notification'];
+        if (isset($data['is_notification'])) {
+            $userdetail->notification_new_offer = $data['is_notification'];
+            $userdetail->notification_recieve_offer = $data['is_notification'];
+            $userdetail->notification_fav_expire = $data['is_notification'];
         }
         $userdetail->fill($data);
         $auth->fill($data);
-         \App\DeviceDetail::saveDeviceToken($data, $auth->id);
-        if($userdetail->save() && $auth->save() ){
-           return $this->responseJson('success', \Config::get('constants.USER_UPDATE_PROFILE'), 200); 
+        \App\DeviceDetail::saveDeviceToken($data, $auth->id);
+        if ($userdetail->save() && $auth->save()) {
+            return $this->responseJson('success', \Config::get('constants.USER_UPDATE_PROFILE'), 200);
         }
-          return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);            
+        return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
     }
-    
-        // it will logout user 
+
+    // it will logout user 
     protected function logout() {
 //        Auth::logout();
 //        return Redirect('/');
@@ -119,6 +115,5 @@ class LoginController extends Controller {
         }
         return response()->json(['status' => 'success', 'message' => \Config::get('constants.APP_ERROR')], 400);
     }
-
 
 }

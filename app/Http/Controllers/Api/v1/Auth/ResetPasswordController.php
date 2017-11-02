@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api\v1\Auth;
 
 use App\Http\Controllers\Api\v1\Controller;
@@ -12,20 +13,19 @@ use Illuminate\Contracts\Auth\PasswordBroker;
 use Session;
 use Carbon\Carbon;
 
-class ResetPasswordController extends Controller
-{
+class ResetPasswordController extends Controller {
     /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
+      |--------------------------------------------------------------------------
+      | Password Reset Controller
+      |--------------------------------------------------------------------------
+      |
+      | This controller is responsible for handling password reset requests
+      | and uses a simple trait to include this behavior. You're free to
+      | explore this trait and override any methods you wish to tweak.
+      |
+     */
 
-    use ResetsPasswords;
+use ResetsPasswords;
 
     /**
      * Where to redirect users after resetting their password.
@@ -46,7 +46,7 @@ class ResetPasswordController extends Controller
 
         // $this->middleware('guest');
     }
-    
+
     /**
      * Send a reset link to the given user.
      *
@@ -54,12 +54,12 @@ class ResetPasswordController extends Controller
      * @return Response
      */
     public function postEmail(Request $request) {
-         $data = $request->all();
-         
+        $data = $request->all();
+
         $validator = Validator::make($data, [
                     'email' => 'required'
-        ],[
-            'email.required' =>\Config::get('constants.USER_LOGIN_REQUIRED'),
+                        ], [
+                    'email.required' => \Config::get('constants.USER_LOGIN_REQUIRED'),
         ]);
 
         if ($validator->fails()) {
@@ -81,36 +81,34 @@ class ResetPasswordController extends Controller
 
             //   return redirect()->back()->withErrors(['email' => trans($response)]);
         }
-        
     }
-    
-    public function showResetForm(Request $request, $token = null,$email=null) {
-      
+
+    public function showResetForm(Request $request, $token = null, $email = null) {
+
         return view('api.resetpassword')->with(
-                         ['email' => $email, 'token' => $token]
+                        ['email' => $email, 'token' => $token]
         );
     }
-    
-       /**
+
+    /**
      * Reset the given user's password.
      *
      * @param  Request  $request
      * @return Response
      */
     public function postReset(Request $request) {
-        $data=$request->all();    
-      
+        $data = $request->all();
+
         if (empty($data['email'])) {
-            Session::flash('message',\Config::get('constants.USER_NOT_FOUND'));
+            Session::flash('message', \Config::get('constants.USER_NOT_FOUND'));
             return redirect()->back();
         }
         $this->validate($request, [
-            
             'token' => 'required',
-             'password' => 'required|confirmed',
+            'password' => 'required|confirmed',
         ]);
 
-       
+
         $token = \DB::table('password_resets')
                 ->where('email', '=', $request->all()['email'])
                 ->where('created_at', '>', Carbon::now()->subHours(1))
@@ -119,9 +117,9 @@ class ResetPasswordController extends Controller
             Session::flash('message', \Config::get('constants.TOKEN_EXPIRED'));
             return redirect()->back();
         } else {
-             $credentials = $request->only(
-                'email', 'password', 'password_confirmation', 'token'
-        );
+            $credentials = $request->only(
+                    'email', 'password', 'password_confirmation', 'token'
+            );
             $response = $this->passwords->reset($credentials, function($user, $password) {
                 $user->password = bcrypt($password);
                 $user->save();
@@ -131,7 +129,7 @@ class ResetPasswordController extends Controller
         switch ($response) {
             case PasswordBroker::PASSWORD_RESET:
                 Auth::logout();
-                  Session::flash('success', \Config::get('constants.USER_PASSWORD_SUCCESS'));
+                Session::flash('success', \Config::get('constants.USER_PASSWORD_SUCCESS'));
                 return Redirect('/confirm');
 
             default:
@@ -139,5 +137,5 @@ class ResetPasswordController extends Controller
                 return redirect()->back();
         }
     }
-    
+
 }

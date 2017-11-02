@@ -10,7 +10,7 @@ $(document).ready(function () {
             type: 'POST',
             data: formData,
             success: function (data) { 
-                alert(data);
+               
               $('#login').modal('hide'); 
               window.location.href="dashboard";
             },
@@ -21,12 +21,12 @@ $(document).ready(function () {
              $('#loadingDiv').hide();
             },
             error: function (data) {
+                
                 $('#loadingDiv').hide();
                 if (data.responseJSON.status == 0) {
-                    $('.alert-danger').show();
-                    $('.errormessage').html(data.responseJSON.errormessage);
+                     setErrorNotification(data);
                 }else{
-                      $('.alert-danger').hide();
+                     $('.alert-danger').hide();
                     $('.errormessage').html('');
                 }
                 $(".form-group").removeClass('has-error');

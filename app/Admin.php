@@ -1,17 +1,16 @@
 <?php
-    
+
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-    
-    
-    
-class Admin extends Authenticatable
-{
-     use Notifiable;
-     protected $table='admin';
-     protected $guard = 'admin';
+
+class Admin extends Authenticatable {
+
+    use Notifiable;
+
+    protected $table = 'admin';
+    protected $guard = 'admin';
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +20,7 @@ class Admin extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
     ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -29,9 +29,9 @@ class Admin extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    
-    
-      public function scopeUserActive($query) {
+
+    public function scopeUserActive($query) {
         return $query->where('isactive', 'A')->where('isdeleted', 0);
     }
+
 }
