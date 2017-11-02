@@ -37,6 +37,7 @@ $(document).ready(function () {
             error: function (data) {
                 $('#loadingDiv').hide();
                 if (data.responseJSON.status == 1) {   
+        
                     setErrorNotification(data);
                 }else{
                       $('.alert-danger').hide();
@@ -46,7 +47,7 @@ $(document).ready(function () {
                 $(".input-group").removeClass('has-error');
                 $(".help-block").html('');
                 var errors = data.responseJSON.errors;
-
+                if(errors!=''){
                 $.each(errors, function (key, value) {
                     if (key == 'vendor_category' || key == 'vendor_country' || key == 'billing_country') {
                         var inputname = $("select[name=" + key + "]").parent();
@@ -56,7 +57,7 @@ $(document).ready(function () {
                     inputname.addClass('has-error');
                     inputname.append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
                 });
-
+            }
             }
         });
 

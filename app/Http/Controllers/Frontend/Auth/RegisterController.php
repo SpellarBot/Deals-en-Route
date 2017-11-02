@@ -87,8 +87,14 @@ class RegisterController extends Controller {
             } elseif (strpos($message, 'number') !== false || strpos($message, 'card') !== false) {
                 return response()->json(['errors' => ['card_no' => [0 => ucwords($message)]]], 422);
             }
+            return response()->json(['status' => 1, 'errormessage' => ucwords($message)], 422);
+        } catch(\Cartalyst\Stripe\Exception\UnauthorizedExceptioncatch $e) {
+            //throw $e;
+           // \App\StripeUser::findCustomer($data['email']);
+            DB::rollback();
             return response()->json(['status' => 1, 'errormessage' => ucwords($e->getMessage())], 422);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             //throw $e;
             \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
@@ -100,7 +106,7 @@ class RegisterController extends Controller {
                     'type' => 'verifyvendor',
                     'data' => ['confirmation_code' => User::find($user_detail->user_id)->confirmation_code],
                 ];
-         //$this->sendMail($array_mail);
+         $this->sendMail($array_mail);
         // redirect
         return view('frontend.signup.pricetable')->with(['user_id' => $user_detail->user_id]);
     }
