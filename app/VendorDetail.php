@@ -15,7 +15,7 @@ class VendorDetail extends Model {
     public $primaryKey = 'vendor_id';
     protected $fillable = [
         'user_id', 'vendor_name', 'vendor_address', 'vendor_city', 'vendor_zip', 'vendor_logo', 'vendor_category', 'vendor_phone',
-        'vendor_state', 'billing_home', 'billing_city', 'billing_country'
+        'vendor_state', 'billing_home', 'billing_city', 'billing_country','vendor_country'
     ];
 
     public function getVendorLogoAttribute($value) {
