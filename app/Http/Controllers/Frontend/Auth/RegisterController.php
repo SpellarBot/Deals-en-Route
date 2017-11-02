@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Input;
 use App\Http\Services\ResponseTrait;
 use App\Http\Services\ImageTrait;
 use App\Http\Services\MailTrait;
+use Auth;
 
 class RegisterController extends Controller {
     /*
@@ -157,5 +158,8 @@ class RegisterController extends Controller {
         // If we reach here, then// data is valid and working.//
         DB::commit();
     }
+    
+    
+     
 
 }

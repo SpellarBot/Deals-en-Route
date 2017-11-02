@@ -15,11 +15,7 @@
         'as' => 'confirmation_path',
         'uses' => 'Admin\Auth\RegisterController@confirm'
     ]);
-    //vendor confirm 
-     Route::get('register/verifyvendor/{confirmationCode}', [
-        'as' => 'confirmation_path_vendor',
-        'uses' => 'Admin\Auth\RegisterController@confirmvendor'
-    ]);
+  
     Route::get('/confirm', function () {
         return view('confirm');
     });
@@ -33,7 +29,11 @@
    
     //frontend routes
     Route::group(['namespace' => 'Frontend'], function () {
-      
+        //vendor confirm 
+     Route::get('register/verifyvendor/{confirmationCode}', [
+        'as' => 'confirmation_path_vendor',
+        'uses' => 'Auth\LoginController@confirmvendor'
+    ]);
         // frontend home page register
         Route::get('/', 'Auth\LoginController@index');
         Route::get('/register', 'Auth\RegisterController@showCategoryForm')->name('frontend.register');
@@ -45,8 +45,6 @@
         Route::post('vendor/logout', 'Auth\LoginController@logout');
        
         Route::get('/dashboard', 'HomeController@index')->name('vendorhome');
-
-    
     });
     
    

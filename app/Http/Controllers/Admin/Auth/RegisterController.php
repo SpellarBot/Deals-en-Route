@@ -119,39 +119,12 @@ use RegistersUsers;
             Session::flash('error', \Config::get('constants.EMAIL_CODE_EXPIRED'));
             return Redirect::to('/confirm');
         } catch (\Exception $e) {
-           // throw $e;
+            throw $e;
             Session::flash('error', \Config::get('constants.APP_ERROR'));
             return Redirect::to('/confirm');
         }
     }
 
     
-     public function confirmvendor($confirmation_code) {
-
-        try {
-            $user = User::whereConfirmationCode($confirmation_code)->first();
-
-            if (!empty($user)) {
-                if ($user->is_confirmed == 1) {
-                    Session::flash('error', \Config::get('constants.EMAIL_ALREADY_CONFIRMED'));
-                    return Redirect::to('/confirm');
-                }
-                $user->is_confirmed = 1;
-                $user->confirmation_code = null;
-                $user->save();
-                if (Auth::guard('web')->login($user)) {               
-                Session::flash('success', \Config::get('constants.EMAIL_VERIFIED'));
-                return Redirect::to('/dashboard');
-                }
-                Session::flash('error', \Config::get('constants.APP_ERROR'));
-                return Redirect::to('/confirm');
-            }
-            Session::flash('error', \Config::get('constants.EMAIL_CODE_EXPIRED'));
-            return Redirect::to('/confirm');
-        } catch (\Exception $e) {
-           // throw $e;
-            Session::flash('error', \Config::get('constants.APP_ERROR'));
-            return Redirect::to('/confirm');
-        }
-    }
+   
 }
