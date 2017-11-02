@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Session;
 use Redirect;
+use Auth;
 
 class RegisterController extends Controller {
     /*
