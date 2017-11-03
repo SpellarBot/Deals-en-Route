@@ -148,7 +148,7 @@ select,
 }
 .fileinput .form-control{
 	cursor: pointer;
-	line-height: 2.7;
+	line-height: 1.7;
 }
 .fileinput .input-group-addon{
 	width: auto;

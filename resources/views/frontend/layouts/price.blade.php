@@ -12,13 +12,19 @@
         <link href="{{ asset('frontend/fonts/fontawesome/font-awesome.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
-    
-        <link href="{{ asset('css/plugins/jasny/jasny-bootstrap.min.css')}}" rel="stylesheet">
+     
         <link href="{{ asset('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i') }}" rel="stylesheet">
         <!--Dynamic StyleSheets added from a view would be pasted here-->
         @yield('styles')
     </head>
     <body class="price-page">
+        <header class="header">
+		<div>
+			<div class="header-logo">
+				<a href="#" class="logo"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo.png' ?>"</a>
+			</div>
+		</div>
+	</header>
         <input type="hidden" name="hidAbsUrl" id="hidAbsUrl" value="{{URL::to('/')}}" />
         @yield('content')
       

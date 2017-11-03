@@ -84,9 +84,7 @@
             type: 'POST',
             data: {'plan_id':$(this).val(),'user_id':"<?php echo $user_id ?>"},
             success: function (data) {
-         
                location.reload();
-               
             },
              beforeSend: function () {
               $('#loadingDiv').show();

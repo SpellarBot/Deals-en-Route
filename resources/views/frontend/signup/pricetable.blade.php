@@ -1,4 +1,11 @@
 <body class="price-page">
+     <header class="header">
+		<div>
+			<div class="header-logo">
+				<a href="#" class="logo"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo.png' ?>"</a>
+			</div>
+		</div>
+	</header>
      <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
      
        
@@ -81,7 +88,7 @@
             success: function (data) {
              
          
-               window.location.href = "dashboard";
+             
                
             },
              beforeSend: function () {
@@ -91,7 +98,7 @@
              $('#loadingDiv').hide();
             },
             error: function (data) {
-               window.location.href = "dashboard";
+              
             },
         
      });

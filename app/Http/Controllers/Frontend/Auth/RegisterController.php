@@ -143,7 +143,8 @@ class RegisterController extends Controller {
         try {
             $request = $request->all();
             $stripeuser = \App\StripeUser::where('user_id', $request['user_id'])->first();
-            if(!empty($stripeuser->userSubscription)){
+           
+            if(empty($stripeuser->userSubscription)){
             $result = $stripeuser->createSubcription($request['plan_id']);
             $user=\App\User::find($request['user_id']);  
             if ($result) {  

@@ -8,12 +8,12 @@
                  </div>
          </div>
  </header>
- <section class="registerPage">
-         <div class="container">
-                 <h1>Register Your Business</h1>
-                 <h3>Congratulations! One more step to pushing your business to new heights! You have a 30-day free trial — Way less than what you spend on a current advertising methods collectively!</h3>
-                 <div class="box-container">
-                         <div class="row">
+<section class="registerPage">
+		<div class="container">
+			<h1>Register Your Business</h1>
+			<h3>Congratulations! One more step to pushing your business to new heights! You have a 30-day free trial — Way less than what you spend on a current advertising methods collectively!</h3>
+			<div class="box-container">
+	                  <div class="row">
                              @foreach ($category_images as $category_image)
   
                                  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">

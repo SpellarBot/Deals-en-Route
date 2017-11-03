@@ -7,7 +7,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
         <title>@yield('title')</title>
-              
+             
         <!-- common css -->
         <link href="{{ asset('frontend/fonts/fontawesome/font-awesome.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/bootstrap.css') }}" rel="stylesheet">
