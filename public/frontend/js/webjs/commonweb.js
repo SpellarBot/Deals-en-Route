@@ -13,7 +13,8 @@ $(document).ready(function(){
 
  //modal close
     $(".modal").on("hidden.bs.modal", function () {
-        $('form')[0].reset();
+        var form = $('.form').attr('id');
+        $("'"+form+"'")[0].reset();
         $(".form-group").removeClass('has-error');
         $(".input-group").removeClass('has-error');
         $(".help-block").html('');

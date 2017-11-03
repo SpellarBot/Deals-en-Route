@@ -93,7 +93,7 @@
              $('#loadingDiv').hide();
             },
             error: function (data) {
-               window.location.href = "/";
+             window.location.href = $('#hidAbsUrl').val();
             },
         
      });

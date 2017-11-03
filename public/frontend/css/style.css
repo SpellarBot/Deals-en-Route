@@ -2077,16 +2077,16 @@ top: 50%;
 left: 50%;
 margin: -50px 0px 0px -50px;
 }
-.errorpopup{
-    
-    position: absolute;
-    right: 0;
-    z-index: 1000;
-    opacity: .9;
-    text-align: center;
-    width: 320px;
-    top: 0;
-
+.errorpopup {
+	position: absolute;
+	right: 0;
+	z-index: 1000;
+	opacity: 0.8;
+	text-align: center;
+	width: 320px;
+	top: 12px;
+	left: 0;
+	margin: 0 auto;
 }
 .alert{
     border-radius: 15px;

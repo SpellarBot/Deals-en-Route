@@ -9,7 +9,7 @@
      <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
      
        
-               
+               <div class="errorpopup">
                   <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                       {{ Session::get('success') }}
@@ -20,7 +20,7 @@
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                       {{ Session::get('error') }}
                   </div>  
-               
+               </div>
    
 	<section class="prices">
 		<div class="container">
@@ -86,7 +86,11 @@
             type: 'POST',
             data: {'plan_id':$(this).val(),'user_id':"<?php echo $user_id ?>"},
             success: function (data) {
-            location.reload();
+             if(data.status==1){
+              location.reload();
+             }else{
+             window.location.href = $('#hidAbsUrl').val();
+            }
             },
              beforeSend: function () {
               $('#loadingDiv').show();
@@ -95,7 +99,7 @@
              $('#loadingDiv').hide();
             },
             error: function (data) {
-                window.location.href = "/";
+                 window.location.href = $('#hidAbsUrl').val();
             },
         
      });
