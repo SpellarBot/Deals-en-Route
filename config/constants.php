@@ -4,9 +4,9 @@ return [
     'APP_ERROR' => 'Something Went Wrong.Please Try Again Later.',
     //user
     'USER_UPDATE' => 'User Updated Successfully.',
-    'USER_EMAIL_VERIFICATION' => 'Thanks for signing up! Please check your email.',
+    'USER_EMAIL_VERIFICATION' => 'Thanks For Signing Up! Please Check Your Email.',
     'USER_LOGIN'=>'User login successfully',
-    'USER_NOT_CONFIRMED'=>'you have not confirmed your email yet.please check your email.',
+    'USER_NOT_CONFIRMED'=>'You Have Not Confirmed Your Email Yet.Please Check Your Email.',
     'USER_UPDATE_PROFILE'=>'profile updated successfully',
     'USER_UPDATED_SUCCESSFULLY'=>'User Updated Successsfully.',
     'USER_UNAUTHENTICATED'=>'unauthenticated',
@@ -29,9 +29,9 @@ return [
     'COUPON_DETAIL'=>'coupon detial.',
     'USER_LOGOUT_SUCCESS'=>'User logout successfully.',
     'NOT_AUTHORIZED'=>'you are not allowed to perform the action.',
-    'USER_SELECT_PLAN'=>'you have not selected any plan yet.please select anyone.',
+    'USER_SELECT_PLAN'=>'You Have Not Selected Any Plan Yet.Please Select Anyone.',
     'USER_LOGIN_SUCCESS'=>'Logged In Successfully',
-    'ALREADY_SUBCRIBE'=>'you already subscribe to the plan.',
+    'ALREADY_SUBCRIBE'=>'You Already Subscribe To The Plan.',
  
    
     'COUPON_ADD_FAV'=>'added coupon to favourtie successfully.',
