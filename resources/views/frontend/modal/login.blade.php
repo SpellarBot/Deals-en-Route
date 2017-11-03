@@ -10,9 +10,7 @@
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                            <div class="errormessage"> </div>
                                             </div>  
-                                         
-
-                                            </div>
+                                        </div>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<div class="modal-body">
                                      {{ Form::open(['route' => 'vendor.login', 'class' => 'form','id'=>'loginform']) }}

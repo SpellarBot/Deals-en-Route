@@ -21,16 +21,18 @@
     <body class="pages pages-homepage">
         <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
         <div class="errorpopup">
+             @if (Session::has('success'))
         <div class="alert alert-success alert-dismissible" role="alert" style="display: none" >
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             {{ Session::get('success') }}
         </div>  
-
-
+           @endif
+ @if (Session::has('error'))
         <div class="alert alert-danger alert-dismissible" role="alert" style="display: none">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             {{ Session::get('error') }}
         </div>  
+  @endif
         </div>
         <div class="base-wrapper">
             <nav class="navbar nav">
@@ -47,16 +49,7 @@
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js')}}"></script>
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/login.js')}}"></script>
             @yield('scripts')
-            @if (Session::has('success'))
-            <script type="text/javascript">
-            setFlashSuccessNotification();
-            </script>
-            @endif
-            @if (Session::has('error'))   
-            <script type="text/javascript">
-                setFlashErrorNotification();
-            </script>
-            @endif
+           
 
     </body>
 </html>

@@ -120,3 +120,16 @@
 </div>
 <!-- end of  banner -->
 @endsection
+
+@section('scripts')
+ @if (Session::has('success'))
+            <script type="text/javascript">
+            setFlashSuccessNotification();
+            </script>
+            @endif
+            @if (Session::has('error'))   
+            <script type="text/javascript">
+                setFlashErrorNotification();
+            </script>
+            @endif
+@endsection

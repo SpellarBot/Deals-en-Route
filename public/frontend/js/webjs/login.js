@@ -15,7 +15,7 @@ $(document).ready(function () {
                   $('#login').modal('hide'); 
                     location.reload();
                }else{  
-               $('body').removeClass('modal-open').addClass('price-page').removeAttr('style').html(data);  
+               $('body').removeClass('modal-open pages pages-homepage').addClass('price-page').removeAttr('style').html(data);  
                }
             
             },

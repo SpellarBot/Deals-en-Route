@@ -2,7 +2,7 @@
      <header class="header">
 		<div>
 			<div class="header-logo">
-				<a href="#" class="logo"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo.png' ?>"</a>
+				<a href="#" class="logo"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo.png' ?>"></a>
 			</div>
 		</div>
 	</header>
@@ -89,7 +89,7 @@
              if(data.status==1){
               location.reload();
              }else{
-             window.location.href = $('#hidAbsUrl').val();
+             window.location.href = 'http://dealsenroute.com/dealenroute';
             }
             },
              beforeSend: function () {
