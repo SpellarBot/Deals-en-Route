@@ -49,39 +49,39 @@
     
    
     // Admin routes
-    Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
-    Route::get('/dashboard', 'HomeController@index')->name('home');
-    Route::get('/', 'Auth\LoginController@showLoginForm');
-    Route::get('login', 'Auth\LoginController@showLoginForm')->name('admin.loginform');
+    Route::group(['namespace' => 'Admin',], function () {
+    Route::get('/admin/dashboard', 'HomeController@index')->name('home');
+    Route::get('/admin', 'Auth\LoginController@showLoginForm');
+    Route::get('admin/login', 'Auth\LoginController@showLoginForm')->name('admin.loginform');
 
     //user controller
-    Route::get('users/getlist', ['uses' => 'UserController@getlist', 'as' => 'datatables.userdata']);
-    Route::get('users/active', ['uses' => 'UserController@active']);
-    Route::resource('users', 'UserController');
+    Route::get('admin/users/getlist', ['uses' => 'UserController@getlist', 'as' => 'datatables.userdata']);
+    Route::get('admin/users/active', ['uses' => 'UserController@active']);
+    Route::resource('admin/users', 'UserController');
 
     //setting
-    Route::get('settings', ['uses' => 'UserController@setting']);
+    Route::get('admin/settings', ['uses' => 'UserController@setting']);
 
     //vendor controller
-    Route::get('vendors/getlist', ['uses' => 'VendorController@getlist', 'as' => 'datatables.vendordata']);
-    Route::get('vendors/active', ['uses' => 'VendorController@active']);
-    Route::resource('vendors', 'VendorController');
+    Route::get('admin/vendors/getlist', ['uses' => 'VendorController@getlist', 'as' => 'datatables.vendordata']);
+    Route::get('admin/vendors/active', ['uses' => 'VendorController@active']);
+    Route::resource('admin/vendors', 'VendorController');
 
     //login/logout
-    Route::post('login', 'Auth\LoginController@login')->name('admin.login');
-    Route::post('logout', 'Auth\LoginController@logout');
+    Route::post('admin/login', 'Auth\LoginController@login')->name('admin.login');
+    Route::post('admin/logout', 'Auth\LoginController@logout');
 
     //password controller
-    Route::patch('password/reset', ['uses' => 'UserController@postReset', 'as' => 'admin.store']);
-    Route::get('password/reset/{id}', 'UserController@showLinkRequestForm');
+    Route::patch('admin/password/reset', ['uses' => 'UserController@postReset', 'as' => 'admin.store']);
+    Route::get('admin/password/reset/{id}', 'UserController@showLinkRequestForm');
 
 
 
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+    Route::post('admin/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+    Route::get('admin/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
     //  Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-    Route::post('register', 'Auth\RegisterController@register');
-    Route::get('home', 'HomeController@index');
+    Route::get('admin/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    Route::post('admin/register', 'Auth\RegisterController@register');
+    Route::get('admin/home', 'HomeController@index');
 });

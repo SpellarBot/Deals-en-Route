@@ -39,7 +39,7 @@ class RegisterController extends Controller {
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
     protected $category_images;
 
     /**
@@ -139,24 +139,36 @@ class RegisterController extends Controller {
 
     //create subscription for customer 
     public function subscribe(Request $request) {
-        DB::beginTransaction();
+   
         try {
             $request = $request->all();
             $stripeuser = \App\StripeUser::where('user_id', $request['user_id'])->first();
+            if(!empty($stripeuser->userSubscription)){
             $result = $stripeuser->createSubcription($request['plan_id']);
-
-            if ($result) {
+            $user=\App\User::find($request['user_id']);  
+            if ($result) {  
+            if($user->is_confirmed==1){
+                 Auth::guard('web')->loginUsingId($user->id);
+                 Session::flash('success', \Config::get('constants.USER_LOGIN_SUCCESS'));
+                 return response()->json(['status' => 1], 200);
+            }else{
                 Session::flash('success', \Config::get('constants.USER_EMAIL_VERIFICATION'));
-            } else {
-                return response()->json(['status' => 1, 'errormessage' => ucwords(\Config::get('constants.APP_ERROR'))], 422);
+                return response()->json(['status' => 0], 200);
             }
+            }
+            Session::flash('error', \Config::get('constants.APP_ERROR'));
+            return response()->json(['status' => 0], 422);
+            }
+             Session::flash('error', \Config::get('constants.ALREADY_SUBCRIBE'));
+            return response()->json(['status' => 1], 200);
         } catch (\Exception $e) {
-            DB::rollback();
+           
             // throw $e;     
-            return response()->json(['status' => 1, 'errormessage' => ucwords($e->getMessage())], 422);
+             Session::flash('error', \Config::get('constants.APP_ERROR'));
+             return response()->json(['status' => 0], 422);
         }
         // If we reach here, then// data is valid and working.//
-        DB::commit();
+      
     }
     
     

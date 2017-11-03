@@ -14,19 +14,14 @@ class RedirectIFVendorAuthenticated {
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null) {
+    public function handle($request, Closure $next, $guard = 'web') {
         $auth = Auth::guard('web');
 
-        if ($auth->check()) {
-
-            if (Auth::user()->is_confirmed == 1) {
-             
-               return $next($request);
-            }
-            return redirect('/');
+        if (!$auth->check()) {
+           return redirect('/');
         }
-
- return redirect('/');
+    
+        return $next($request);
     }
 
 }

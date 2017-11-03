@@ -29,6 +29,10 @@ return [
     'COUPON_DETAIL'=>'coupon detial.',
     'USER_LOGOUT_SUCCESS'=>'User logout successfully.',
     'NOT_AUTHORIZED'=>'you are not allowed to perform the action.',
+    'USER_SELECT_PLAN'=>'you have not selected any plan yet.please select anyone.',
+    'USER_LOGIN_SUCCESS'=>'Logged In Successfully',
+    'ALREADY_SUBCRIBE'=>'you already subscribe to the plan.',
+ 
    
     'COUPON_ADD_FAV'=>'added coupon to favourtie successfully.',
     'ADD_FB_FRIEND'=>'successfully added fb friend',

@@ -73,6 +73,7 @@ use AuthenticatesUsers;
         $credentials = ['email' => $email, 'password' => $password, 'role' => 'vendor'];
         if (Auth::guard('web')->attempt($credentials)) {
             $auth = Auth()->user();
+            $subcription = \App\User::find($auth->id)->subscription;
             if ($auth->is_delete == 1) {
                 Auth::guard('web')->logout();
                 return response()->json(['status' => 0, 'errormessage' => ucwords(\Config::get('constants.USER_DELETE'))], 422);
@@ -82,8 +83,14 @@ use AuthenticatesUsers;
             } else if ($auth->is_confirmed == 0) {
                 Auth::guard('web')->logout();
                 return response()->json(['status' => 0, 'errormessage' => ucwords(\Config::get('constants.USER_NOT_CONFIRMED'))], 422);
+            } else if (empty($subcription)) {
+                Auth::guard('web')->logout();
+                Session::flash('success', \Config::get('constants.USER_SELECT_PLAN'));
+                return view('frontend.signup.pricetable')->with(['user_id' => $auth->id], 200);
             } else {
-                return true;
+                Auth::guard('web')->attempt($credentials);
+                Session::flash('success', \Config::get('constants.USER_LOGIN_SUCCESS'));
+                return response()->json(['status' => 1], 200);
             }
         } else {
             return response()->json(['status' => 0, 'errormessage' => ucwords(trans('auth.failed'))], 422);
@@ -91,11 +98,11 @@ use AuthenticatesUsers;
     }
 
     public function dashboard() {
+
         return view('frontend.dashboard');
     }
 
-    
-     public function confirmvendor($confirmation_code) {
+    public function confirmvendor($confirmation_code) {
 
         try {
             $user = \App\User::whereConfirmationCode($confirmation_code)->first();
@@ -107,21 +114,28 @@ use AuthenticatesUsers;
                 }
                 $user->is_confirmed = 1;
                 $user->confirmation_code = null;
+                //if not selected any subscription
                 $user->save();
-          
-                if(Auth::guard('web')->loginUsingId($user->id)){
-                Session::flash('success', \Config::get('constants.EMAIL_VERIFIED'));
-                return Redirect::to('/dashboard');
-                }        
+                $subcription = \App\User::find($user->id)->subscription;
+                if (empty($subcription)) {
+                    Session::flash('success', \Config::get('constants.USER_SELECT_PLAN'));
+                    return view('frontend.signup.pricetablehtml')->with(['user_id' => $user->id], 200);
+                }
+                else if (Auth::guard('web')->loginUsingId($user->id)) {
+                    Session::flash('success', \Config::get('constants.LOGIN_SUCCESS'));
+                    return Redirect::to('/dashboard');
+                }else{
                 Session::flash('error', \Config::get('constants.APP_ERROR'));
                 return Redirect::to('/confirm');
+                }
             }
             Session::flash('error', \Config::get('constants.EMAIL_CODE_EXPIRED'));
             return Redirect::to('/confirm');
         } catch (\Exception $e) {
-        //    throw $e;
+            //    throw $e;
             Session::flash('error', \Config::get('constants.APP_ERROR'));
             return Redirect::to('/confirm');
         }
     }
+
 }

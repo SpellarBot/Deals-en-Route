@@ -15,13 +15,13 @@ class RedirectIfAuthenticated {
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null) {
+    public function handle($request, Closure $next, $guard = 'web') {
         $auth = Auth::guard('web');
         if ($auth->check()) {
             return redirect('/dashboard');
         }
 
-        return $next($request);
+         return $next($request);
     }
 
 }

@@ -133,7 +133,8 @@ h4 {
 
 input,
 textarea,
-select {
+select,
+.fileinput .form-control {
 	box-sizing: border-box;
 	border: 1px solid #c2c2c2 !important;
 	border-radius: 5px !important;
@@ -144,6 +145,26 @@ select {
 	color: #757575 !important;
 	width: 100%;
 	font-size: 16px !important;
+}
+.fileinput .form-control{
+	cursor: pointer;
+	line-height: 1.7;
+}
+.fileinput .input-group-addon{
+	width: auto;
+    background: #395999;
+    color: #FFF;
+    right: 3px;
+    line-height: 18px;
+    font-size: 13px;
+    text-transform: capitalize;
+    border-radius: 4px !important;
+    top: 3px;
+    bottom: 3px;
+    cursor: pointer;
+    position: absolute !important;
+    z-index: 2 !important;
+    font-family: 'Lato', sans-serif;
 }
 
 textarea {
@@ -622,14 +643,27 @@ input[type=date]::-webkit-outer-spin-button {
 .price-page {
 	background-image: url(../img/bg-price.jpg);
 	background-size: cover;
-        font-family: 'Lato', sans-serif;
-color: #333333;
-font-size: 16px;
 }
 
-.prices {
-	margin: 35px auto;
+.price-page .header {
+	background-color: rgba(255, 255, 255, 0.9);
+	display: inline-block;
+	width: 150px;
+	height: 140px;
+	padding: 3px 21px;
+	border-bottom-right-radius: 140px;
+	transition: 1s;
 }
+
+/*
+.price-page .header:hover {
+	transform: scale(1.1);
+	border-bottom-left-radius: 200px;
+	border-top-right-radius: 200px;
+	margin: 0 5px;
+	padding: 10px 40px;
+}
+*/
 
 .p-flex {
 	display: flex;
@@ -1881,6 +1915,9 @@ footer ul.social span {
 		margin-right: -20px;
 		margin-left: 20px;
 	}
+	.prices {
+		margin: -60px auto 35px;
+	}
 }
 
 @media (max-width: 991px) {
@@ -1915,6 +1952,9 @@ footer ul.social span {
 	}
 	.p-flex {
 		display: block;
+	}
+	.prices {
+		margin: 0 auto 35px;
 	}
 }
 

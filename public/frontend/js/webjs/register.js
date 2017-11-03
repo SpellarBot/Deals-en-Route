@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    $('#vendorlogo').customFileInput();
+   
+    $('.fileinput').fileinput()
+	
    
     // modal popup open
     $('.clickopen').on('click', function (e) {

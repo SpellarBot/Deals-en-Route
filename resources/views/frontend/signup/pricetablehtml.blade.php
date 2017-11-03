@@ -1,4 +1,7 @@
-<body class="price-page">
+@extends('frontend.layouts.price')
+@section('title', 'Deals en Route|Subscription')
+@section('content')
+
      <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
      
        
@@ -70,18 +73,19 @@
 		</div>
 	</section>
 
-
+@endsection
+@section('scripts')
 <script type="text/javascript">
      $('.btn-want').on('click', function (e) {
           e.preventDefault();
+          
          $.ajax({
-            url: "register/subcription",
+            url: $('#hidAbsUrl').val() +"/register/subcription",
             type: 'POST',
             data: {'plan_id':$(this).val(),'user_id':"<?php echo $user_id ?>"},
             success: function (data) {
-             
          
-               window.location.href = "dashboard";
+               location.reload();
                
             },
              beforeSend: function () {
@@ -91,22 +95,13 @@
              $('#loadingDiv').hide();
             },
             error: function (data) {
-               window.location.href = "dashboard";
+               window.location.href = "/";
             },
         
      });
     
     }); 
 </script>   
-        @if (Session::has('success'))
-                <script type="text/javascript">
-                     setFlashSuccessNotification();
-                </script>
-        @endif
-          @if (Session::has('error'))   
-                <script type="text/javascript">
-                    setFlashErrorNotification();
-                </script>
-        @endif
-</body>
-</html>
+       
+        @endsection
+

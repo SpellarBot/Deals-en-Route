@@ -76,10 +76,11 @@
                                                     <div class="form-group">
                                                     {{ Form::password('confirm_password',  ['placeholder'=>'Confirm Password','class'=>'form-control']) }}
                                                     </div>
-                      
-                                                     <fieldset>
-                                                         {{ Form::file('vendor_logo',['id' => 'vendorlogo','accept'=>'images/*']) }}
-                                                     </fieldset>
+                      <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+										<div class="form-control" data-trigger="fileinput"><span class="fileinput-filename"></span></div>
+										<span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Browse</span><span class="fileinput-exists">Change</span> {{ Form::file('vendor_logo',['id' => 'vendorlogo','accept'=>'images/*']) }}</span>
+									</div>
+                                                    
 
                                                  </div>
                                                 <div class="col-sm-6">
@@ -94,7 +95,7 @@
 
                                                              </div>
                                                      </div>
-                                                       <div class="form-group">
+                                                      <div class="form-group">
 							   {{ Form::text('card_holder_name', '', ['placeholder'=>'Card Holder Name','class'=>'form-control']) }}
                               
 							</div>

@@ -62,6 +62,10 @@ class User extends Authenticatable {
     public function classification() {
         return $this->belongsTo('App\UserDetail');
     }
+    
+    public function subscription() {
+         return $this->hasOne('App\Subscription', 'user_id', 'id');
+    }
 
     /*
      * Get the vendor detail record associated with the user.

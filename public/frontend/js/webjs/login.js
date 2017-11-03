@@ -10,9 +10,14 @@ $(document).ready(function () {
             type: 'POST',
             data: formData,
             success: function (data) { 
-               
-              $('#login').modal('hide'); 
-              window.location.href="dashboard";
+             
+               if(data.status==1){
+                  $('#login').modal('hide'); 
+                    location.reload();
+               }else{  
+               $('body').removeClass('modal-open').addClass('price-page').removeAttr('style').html(data);  
+               }
+            
             },
              beforeSend: function () {
               $('#loadingDiv').show();
@@ -23,7 +28,7 @@ $(document).ready(function () {
             error: function (data) {
                 
                 $('#loadingDiv').hide();
-                if (data.responseJSON.status == 0) {
+                 if(data.responseJSON!=''  && data.responseJSON.status==0 ){
                      setErrorNotification(data);
                 }else{
                      $('.alert-danger').hide();
@@ -32,14 +37,15 @@ $(document).ready(function () {
                 $(".form-group").removeClass('has-error');
                 $(".input-group").removeClass('has-error');
                 $(".help-block").html('');
-                var errors = data.responseJSON.errors;
-
+                
+                if(data.responseJSON!=''){
+                    var errors = data.responseJSON.errors;
                 $.each(errors, function (key, value) {
                     var inputname = $("input[name=" + key + "]").parent();   
                     inputname.addClass('has-error');
                     inputname.append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
                 });
-
+            }
             }
         });
 
