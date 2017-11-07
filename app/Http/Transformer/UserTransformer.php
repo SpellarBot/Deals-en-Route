@@ -25,7 +25,10 @@ class UserTransformer {
             'phone' => $user->userDetail->phone ?? '',
             'profile_pic' => (!empty($user->userDetail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $user->userDetail->profile_pic : "",
             'profile_pic_thumbnail' => (!empty($user->userDetail->profile_pic)) ? URL::to('/storage/app/public/profile_pic/tmp') . '/' . $user->userDetail->profile_pic : "",
-            'api_token' => $user->api_token ?? ''
+            'api_token' => $user->api_token ?? '',
+             'notification_new_offer'=>$user->userDetail->notification_new_offer ?? 0,
+             'notification_recieve_offer'=>$user->userDetail->notification_recieve_offer ??0,
+             'notification_fav_expire'=>$user->userDetail->notification_fav_expire ?? 0,
         ];
     }
 
