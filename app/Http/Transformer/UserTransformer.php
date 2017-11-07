@@ -33,10 +33,17 @@ class UserTransformer {
 
         $var = [];
         foreach ($data as $item) {
+            $user=User::find($item->from_id);
+            if(!empty($user)){
+              $profile= URL::to('/storage/app/public/profile_pic') . '/' . $user->userDetail->profile_pic;
+            }else{
+                $profile='';
+            }
             $fmessage = $this->finalNotificationMessage($item);
             $var[] = [
                 'notification_id' => $item->id ?? '',
                 'notification_message' => $fmessage ?? '',
+                 'notification_image' => $profile,
                 'is_read' => $item->is_read ?? '',
             ];
         }
