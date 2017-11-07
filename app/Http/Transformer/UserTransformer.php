@@ -47,7 +47,7 @@ class UserTransformer {
                 'notification_message' => $fmessage ?? '',
                  'notification_image' => $profile,
                 'is_read' => $item->is_read ?? '',
-                'to_name'=>(!empty($touser)?$touser->userDetail->first_name . ' ' . $to_id->userDetail->last_name:'')
+                'to_name'=>(!empty($touser)?$touser->userDetail->first_name . ' ' . $touser->userDetail->last_name:'')
             ];
         }
         return ['has_page' => $data->hasMorePages(), 'current_page' => $data->currentPage(), 'listing' => $var];
