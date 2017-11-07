@@ -34,8 +34,8 @@ class UserTransformer {
         $var = [];
         foreach ($data as $item) {
             $fromuser= \App\User::find($item->from_id);
-            if(!empty($user)){
-              $profile= URL::to('/storage/app/public/profile_pic') . '/' . $user->userDetail->profile_pic;
+            if(!empty($fromuser)){
+              $profile= URL::to('/storage/app/public/profile_pic') . '/' . $fromuser->userDetail->profile_pic;
             }else{
                 $profile='';
             }
