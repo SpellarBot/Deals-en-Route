@@ -33,18 +33,21 @@ class UserTransformer {
 
         $var = [];
         foreach ($data as $item) {
-            $user= \App\User::find($item->from_id);
+            $fromuser= \App\User::find($item->from_id);
             if(!empty($user)){
               $profile= URL::to('/storage/app/public/profile_pic') . '/' . $user->userDetail->profile_pic;
             }else{
                 $profile='';
             }
+             $touser= \App\User::find($item->notifiable_id);
+             
             $fmessage = $this->finalNotificationMessage($item);
             $var[] = [
                 'notification_id' => $item->id ?? '',
                 'notification_message' => $fmessage ?? '',
                  'notification_image' => $profile,
                 'is_read' => $item->is_read ?? '',
+                'to_name'=>(!empty($touser)?$touser->userDetail->first_name . ' ' . $to_id->userDetail->last_name:'')
             ];
         }
         return ['has_page' => $data->hasMorePages(), 'current_page' => $data->currentPage(), 'listing' => $var];
