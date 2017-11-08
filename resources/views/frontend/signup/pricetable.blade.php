@@ -6,7 +6,7 @@
 			</div>
 		</div>
 	</header>
-     <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
+     <div id="loadingDiv"> <img src="{{ \Config::get('app.url') . '/public/frontend/img/489.gif' }}" class="loading-gif"></div>
      
        
                <div class="errorpopup">
@@ -89,7 +89,7 @@
              if(data.status==1){
               location.reload();
              }else{
-             window.location.href = 'http://dealsenroute.com/dealenroute';
+             window.location.href = "<?php echo route('vendormain'); ?>";
             }
             },
              beforeSend: function () {
@@ -99,7 +99,7 @@
              $('#loadingDiv').hide();
             },
             error: function (data) {
-              window.location.href = 'http://dealsenroute.com/dealenroute';
+              window.location.href = "<?php echo route('vendormain'); ?>";
             },
         
      });

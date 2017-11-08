@@ -55,13 +55,23 @@ $(window).load(function() {
     $("#loadingDiv").fadeOut("slow");
 });
 
+
+
+
 function setErrorNotification(data){
-    
+      if(data.responseJSON.status==0){
         $('.alert-danger').show();
         setTimeout(function() {
             $('.alert-danger').fadeOut('slow');
             },10000);
-       $('.errormessage').html(data.responseJSON.errormessage);
+       $('.errormessage').html(data.responseJSON.message);
+   }else{
+         $('.alert-success').show();
+        setTimeout(function() {
+            $('.alert-success').fadeOut('slow');
+            },10000);
+       $('.successmessage').html(data.responseJSON.message);
+   }
     
 }
 
@@ -80,5 +90,23 @@ function setFlashErrorNotification(){
             $('.alert-danger').fadeOut('slow');
             },10000);
 
+}
+
+
+function setDashboardNotification(response){
+      if(response.data.status==0){
+        $('.alert-danger').show();
+        setTimeout(function() {
+            $('.alert-danger').fadeOut('slow');
+            },10000);
+       $('.errormessage').html(response.data.message);
+   }else{
+         $('.alert-success').show();
+        setTimeout(function() {
+            $('.alert-success').fadeOut('slow');
+            },10000);
+       $('.successmessage').html(response.data.message);
+   }
+    
 }
 

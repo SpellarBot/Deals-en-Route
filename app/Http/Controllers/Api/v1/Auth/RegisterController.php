@@ -126,7 +126,7 @@ use ResponseTrait;
                     'data' => ['confirmation_code' => $user_id->confirmation_code],
                 ];
 
-                 $this->sendMail($array_mail);
+                // $this->sendMail($array_mail);
                 $user_detail = \App\UserDetail::saveUserDetail($data, $user_id->id);
                 if ($request->file('profile_pic')) {
                     $this->addImage($request, $user_detail, 'profile_pic');

@@ -16,8 +16,8 @@ class Coupon extends Model {
      */
     public $table = 'coupon';
 
-    const CREATED_AT = 'createddate';
-    const UPDATED_AT = 'updateddate';
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 
     public $primaryKey = 'coupon_id';
 
@@ -119,5 +119,11 @@ class Coupon extends Model {
 
         return $query;
     }
-
+    
+    public static function couponList(){
+      
+         $coupon_list= \App\Coupon::where('created_by',Auth::id())->active()->deleted()->get(); 
+         return $coupon_list;
+    }
+    
 }

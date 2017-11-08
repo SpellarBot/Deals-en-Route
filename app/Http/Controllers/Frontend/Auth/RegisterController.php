@@ -88,18 +88,18 @@ class RegisterController extends Controller {
             } elseif (strpos($message, 'number') !== false || strpos($message, 'card') !== false) {
                 return response()->json(['errors' => ['card_no' => [0 => ucwords($message)]]], 422);
             }
-            return response()->json(['status' => 1, 'errormessage' => ucwords($message)], 422);
+            return response()->json(['status' => 0, 'message' => ucwords($message)], 422);
         } catch(\Cartalyst\Stripe\Exception\UnauthorizedExceptioncatch $e) {
             //throw $e;
            // \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
-            return response()->json(['status' => 1, 'errormessage' => ucwords($e->getMessage())], 422);
+            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
         }
         catch (\Exception $e) {
             //throw $e;
-            \App\StripeUser::findCustomer($data['email']);
+        //    \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
-            return response()->json(['status' => 1, 'errormessage' => ucwords($e->getMessage())], 422);
+            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
@@ -107,7 +107,7 @@ class RegisterController extends Controller {
                     'type' => 'verifyvendor',
                     'data' => ['confirmation_code' => User::find($user_detail->user_id)->confirmation_code],
                 ];
-         $this->sendMail($array_mail);
+       //  $this->sendMail($array_mail);
         // redirect
         return view('frontend.signup.pricetable')->with(['user_id' => $user_detail->user_id]);
     }
@@ -143,10 +143,10 @@ class RegisterController extends Controller {
         try {
             $request = $request->all();
             $stripeuser = \App\StripeUser::where('user_id', $request['user_id'])->first();
-           
+           $user=\App\User::find($request['user_id']);  
             if(empty($stripeuser->userSubscription)){
             $result = $stripeuser->createSubcription($request['plan_id']);
-            $user=\App\User::find($request['user_id']);  
+            
             if ($result) {  
             if($user->is_confirmed==1){
                  Auth::guard('web')->loginUsingId($user->id);
@@ -160,6 +160,7 @@ class RegisterController extends Controller {
             Session::flash('error', \Config::get('constants.APP_ERROR'));
             return response()->json(['status' => 0], 422);
             }
+             Auth::guard('web')->loginUsingId($user->id);
              Session::flash('error', \Config::get('constants.ALREADY_SUBCRIBE'));
             return response()->json(['status' => 1], 200);
         } catch (\Exception $e) {

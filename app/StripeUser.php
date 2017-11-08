@@ -29,7 +29,7 @@ class StripeUser extends Model {
 
     public function __construct() {
 
-        $this->stripe = new Stripe(env('STRIPE_SECRET'), env('STRIPE_VERSION'));
+        $this->stripe = new Stripe(\Config::get('constants.STRIPE_SECRET'), \Config::get('constants.STRIPE_VERSION'));
     }
 
     /**
@@ -37,6 +37,10 @@ class StripeUser extends Model {
      */
     public function userStripe() {
         return $this->hasOne('App\User', 'id', 'user_id');
+    }
+    
+      public function userSubscription() {
+         return $this->hasOne('App\Subscription', 'user_id', 'user_id');
     }
 
     public static function createStripeUser($id) {

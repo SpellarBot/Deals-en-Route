@@ -38,7 +38,7 @@ $(document).ready(function () {
             },
             error: function (data) {
                 $('#loadingDiv').hide();
-                if (data.responseJSON.status == 1) {   
+                if (data.responseJSON.status == 0) {   
         
                     setErrorNotification(data);
                 }else{
@@ -51,6 +51,10 @@ $(document).ready(function () {
                 var errors = data.responseJSON.errors;
                 if(errors!=''){
                 $.each(errors, function (key, value) {
+                    if(key == 'vendor_logo'){
+                       $('.vendorlogo').append('<span class="has-error help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
+              
+                    }else {
                     if (key == 'vendor_category' || key == 'vendor_country' || key == 'billing_country') {
                         var inputname = $("select[name=" + key + "]").parent();
                     } else {
@@ -58,7 +62,8 @@ $(document).ready(function () {
                     }
                     inputname.addClass('has-error');
                     inputname.append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
-                });
+                }
+                    });
             }
             }
         });
