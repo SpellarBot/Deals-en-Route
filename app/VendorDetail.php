@@ -14,8 +14,11 @@ class VendorDetail extends Model {
     public $timestamps = false;
     public $primaryKey = 'vendor_id';
     protected $fillable = [
-        'user_id', 'vendor_name', 'vendor_address', 'vendor_city', 'vendor_zip', 'vendor_logo', 'vendor_category', 'vendor_phone',
-        'vendor_state', 'billing_home', 'billing_city', 'billing_country','vendor_country'
+        'user_id', 'vendor_name', 'vendor_address', 'vendor_city', 'vendor_zip', 
+        'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state', 
+        'billing_home', 'billing_state', 'billing_zip', 'billing_firstname',
+        'billing_lastname', 'billing_city', 'billing_country','vendor_country',
+        'vendor_state'
     ];
 
     public function getVendorLogoAttribute($value) {

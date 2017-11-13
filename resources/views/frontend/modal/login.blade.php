@@ -42,3 +42,5 @@
 			</div>
 		</div>
 	</div>
+
+@include('frontend/modal/forget')

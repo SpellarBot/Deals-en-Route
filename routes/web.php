@@ -35,16 +35,18 @@
         'uses' => 'Auth\LoginController@confirmvendor'
     ]);
         // frontend home page register
-        Route::get('/', 'Auth\LoginController@index');
+        Route::get('/', 'Auth\LoginController@index')->name('vendormain');
         Route::get('/register', 'Auth\RegisterController@showCategoryForm')->name('frontend.register');
         Route::post('/register/create', 'Auth\RegisterController@create');
         Route::post('/register/subcription', 'Auth\RegisterController@subscribe');
         
         Route::get('login', 'Auth\LoginController@showLoginForm')->name('user.loginform');
         Route::post('vendor/login', 'Auth\LoginController@login')->name('vendor.login');
-        Route::post('vendor/logout', 'Auth\LoginController@logout');
+        Route::post('vendor/logout', 'Auth\LoginController@logout')->name('vendor.logout');
        
-        Route::get('/dashboard', 'HomeController@index')->name('vendorhome');
+        Route::get('/dashboard', 'HomeController@index')->name('frontend.main');
+        Route::post('/user/forgetpassword', 'Auth\ResetPasswordController@postEmail');
+       Route::resource('coupon', 'CouponController');
     });
     
    

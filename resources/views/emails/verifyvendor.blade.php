@@ -13,7 +13,7 @@
                                 <tr>
                                   <td align="center" valign="top" style="padding:0 0 20px;"><table width="135" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#3b5997" style="background-color:#3b5997;">
                                       <tr>
-                                        <td height="35" align="center" valign="middle" style="font-family:'Lato', Arial, sans-serif; font-size:14px; color:#ffffff;"><a href="<?php echo URL::to('register/verifyvendor/' . $confirmation_code)?>" target="_blank" style="text-decoration:none; color:#ffffff; display:block; line-height:32px;">Verify Your Email</a></td>
+                                        <td height="35" align="center" valign="middle" style="font-family:'Lato', Arial, sans-serif; font-size:14px; color:#ffffff;"><a href="<?php echo URL::to('register/verifyvendor/' . $confirmation_code)?>" target="_blank" style="text-decoration:none; color:#ffffff; display:block; line-height:32px;">Confirm Email</a></td>
                                       </tr>
                                     </table></td>
                                 </tr>

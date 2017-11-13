@@ -42,12 +42,14 @@
             <!-- end of navbar -->
             @yield('content')
             @include('frontend/modal/login')
+            
             @include('frontend/footer/footer_main')
             <!-- Mainly scripts -->
             <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js') }}"></script>
             <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js')}}"></script>
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/login.js')}}"></script>
+             <script type="text/javascript" src="{{ asset('frontend/js/webjs/forget.js')}}"></script>
             @yield('scripts')
            
 

@@ -119,7 +119,7 @@ use RegistersUsers;
             Session::flash('error', \Config::get('constants.EMAIL_CODE_EXPIRED'));
             return Redirect::to('/confirm');
         } catch (\Exception $e) {
-            throw $e;
+           // throw $e;
             Session::flash('error', \Config::get('constants.APP_ERROR'));
             return Redirect::to('/confirm');
         }
