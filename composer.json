@@ -6,9 +6,11 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "alexpechkarev/google-maps": "1.0.8",
         "algolia/algoliasearch-client-php": "^1.20",
+        "aws/aws-sdk-php": "~3.0",
         "brozot/laravel-fcm": "^1.2",
-        "cartalyst/stripe": "^2.1",
+        "cartalyst/stripe-laravel": "7.0.*",
         "darkaonline/l5-swagger": "5.5.*",
         "fideloper/proxy": "~3.3",
         "intervention/image": "^2.4",
@@ -16,7 +18,10 @@
         "laravel/framework": "5.5.*",
         "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
-        "league/fractal": "^0.17.0"
+        "laravelcollective/html": "^5.5",
+        "league/fractal": "^0.17.0",
+        "yajra/laravel-datatables": "^1.0",
+        "yajra/laravel-datatables-oracle": "^8.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

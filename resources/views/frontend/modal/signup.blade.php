@@ -1,18 +1,24 @@
 <div id="popup" class="modal fade" role="dialog">
+     
+
+   
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-
+         
             <div class="modal-body">
 
                 {{ Form::open(['route' => 'users.store', 'class' => 'form','files'=> true,'id'=>'signupform']) }}
                 {{ csrf_field() }}
+                <input type="hidden" name="full_address" id="full_address">
+                <input type="hidden" name="vendor_long">
                 <div class="poplog">
                     <div class="popupbg">
                         <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/4.png' ?>">
                     </div>
 
                     <div class="signupDEtails">
+          
                         <div class="errorpopup">
                             <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -41,30 +47,30 @@
                                 {{ Form::text('vendor_name', '', ['placeholder'=>'Business Name','class'=>'form-control']) }}
                             </div>
 
+       
                             <div class="form-group">
-                                {{ Form::text('vendor_address', '', ['placeholder'=>'Street Address','class'=>'form-control']) }}
+                 
+                                {{ Form::text('vendor_address', '', ['placeholder'=>'Street Address','class'=>'form-control','id'=>'autocomplete1']) }}
                             </div>
 
                             <div class="form-group">
-                                {{ Form::select('vendor_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput']) }}
+                                {{ Form::select('vendor_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput','id'=>'country']) }}
                             </div>
 
                             <div class="form-group{{ $errors->has('vendor_city') ? ' has-error' : '' }}">
-                                {{ Form::text('vendor_city', '', ['placeholder'=>'City','class'=>'form-control']) }}
+                                {{ Form::text('vendor_city', '', ['placeholder'=>'City','class'=>'form-control','id'=>'locality']) }}
 
                             </div>
 
-                            <div class="form-group{{ $errors->has('vendor_city') ? ' has-error' : '' }}">
-                                {{ Form::text('vendor_state', '', ['placeholder'=>'State','class'=>'form-control']) }}
+                            <div class="form-group{{ $errors->has('vendor_state') ? ' has-error' : '' }}">
+                                {{ Form::text('vendor_state', '', ['placeholder'=>'State','class'=>'form-control','id'=>'administrative_area_level_1']) }}
 
                             </div>
 
                             <div class="form-group">
-                                {{ Form::text('vendor_zip', '', ['placeholder'=>'Zip','maxlength'=>'10','class'=>'form-control']) }}
+                                {{ Form::text('vendor_zip', '', ['placeholder'=>'Zip','maxlength'=>'10','class'=>'form-control','id'=>'postal_code']) }}
 
                             </div>
-
-
 
                             <div class="form-group">
                                 {{ Form::text('vendor_phone',null, ['placeholder'=>'Phone (xxx-xxx-xxxx)','data-mask'=>"999-999-9999",'maxlength'=>'11','class'=>'form-control']) }}      

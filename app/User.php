@@ -144,10 +144,10 @@ class User extends Authenticatable {
                 $user->password = bcrypt($password);
                 $user->is_confirmed = self::IS_CONFIRMED;
                 $user->api_token = $this->generateAuthToken();
-            } else if (!empty($user->email) && !empty($user->password) && $user->is_confirmed == self::IS_CONFIRMED) {
+            } 
+        }else if (!empty($user->email) && !empty($user->password) && $user->is_confirmed == self::IS_CONFIRMED) {
                 $user->api_token = $this->generateAuthToken();
-            }
-        }
+         }
         $user->fill($data);
         $user->save();
 
