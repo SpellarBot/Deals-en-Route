@@ -5,9 +5,9 @@ namespace App\Http\Transformer;
 use URL;
 use Carbon\Carbon;
 
-class UserTransformer {
+class VendorTransformer {
 
-    use \App\Http\Services\UserTrait;
+    use \App\Http\Services\VendorTrait;
 
     public function transform(User $user) {
         return [
@@ -16,19 +16,14 @@ class UserTransformer {
     }
 
     public function transformLogin($user) {
-
         return [
-            'first_name' => $user->userDetail->first_name ?? '',
-            'last_name' => $user->userDetail->last_name ?? '',
-            'dob' => (!empty($user->userDetail->dob)) ? Carbon::parse($user->userDetail->dob)->format('Y-m-d') : '',
+            'vendor_name' => $user->vendor->vendor_name ?? '',
+            'vendor_address' => $user->vendor->vendor_address ?? '',
             'email' => $user->email ?? '',
-            'phone' => $user->userDetail->phone ?? '',
-            'profile_pic' => (!empty($user->userDetail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $user->userDetail->profile_pic : "",
-            'profile_pic_thumbnail' => (!empty($user->userDetail->profile_pic)) ? URL::to('/storage/app/public/profile_pic/tmp') . '/' . $user->userDetail->profile_pic : "",
-            'api_token' => $user->api_token ?? '',
-            'notification_new_offer' => $user->userDetail->notification_new_offer ?? 0,
-            'notification_recieve_offer' => $user->userDetail->notification_recieve_offer ?? 0,
-            'notification_fav_expire' => $user->userDetail->notification_fav_expire ?? 0,
+            'vendor_phone' => $user->vendor->vendor_phone ?? '',
+            'vendor_logo' => (!empty($user->vendor->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $user->vendor->vendor_logo : "",
+            'profile_pic_thumbnail' => (!empty($user->vendor->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo/tmp') . '/' . $user->vendor->vendor_logo : "",
+            'api_token' => $user->api_token ?? ''
         ];
     }
 

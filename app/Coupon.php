@@ -120,11 +120,10 @@ class Coupon extends Model {
 
         return $query;
     }
-    
-    public static function couponList(){
-      
-         $coupon_list= \App\Coupon::where('created_by',Auth::id())->active()->deleted()->get(); 
-         return $coupon_list;
+
+    public static function couponList() {
+        $coupon_list = \App\Coupon::where('created_by', Auth::id())->active()->deleted()->get();
+        return $coupon_list;
     }
     
     //save coupon
