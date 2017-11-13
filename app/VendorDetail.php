@@ -18,7 +18,7 @@ class VendorDetail extends Model {
         'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state', 
         'billing_home', 'billing_state', 'billing_zip', 'billing_firstname',
         'billing_lastname', 'billing_city', 'billing_country','vendor_country',
-        'vendor_state'
+        'vendor_state','vendor_lat','vendor_long'
     ];
 
     public function getVendorLogoAttribute($value) {
