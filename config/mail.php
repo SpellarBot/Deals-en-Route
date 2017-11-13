@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'log'),
+    'driver' => env('MAIL_DRIVER', 'ses'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-   'host' => env('MAIL_HOST', 'gator3247.hostgator.com'),
+   'host' => env('MAIL_HOST', 'email-smtp.us-east-1.amazonaws.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 465),
+    'port' => env('MAIL_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,9 +55,9 @@ return [
     |
     */
 
-   'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'dev.solulab@gmail.com'),
-        'name' => env('MAIL_FROM_NAME', 'Dealsenroute'),
+    'from' => [
+        'address' => env('MAIL_FROM_ADDRESS', 'support@dealsenroute.com'),
+        'name' => env('MAIL_FROM_NAME', 'Deals en Route'),
     ],
 
     /*
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
+    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env('jinal@solulab.com'),
+    'username' => env('AKIAJDJ2OUUKUEU4VH6A'),
 
-    'password' => env('jinal123'),
+    'password' => env('coWvepYE8DrVjI4I0+9hcXRVydVtZNT02hgAljk5'),
 
     /*
     |--------------------------------------------------------------------------

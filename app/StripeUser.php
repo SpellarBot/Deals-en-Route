@@ -29,7 +29,7 @@ class StripeUser extends Model {
 
     public function __construct() {
 
-        $this->stripe = new Stripe(env('STRIPE_SECRET'), env('STRIPE_VERSION'));
+        $this->stripe = new Stripe('sk_test_ZBNhTnKmE3hEkk26awNMDdcc', '2017-08-15');
     }
 
     /**
