@@ -41,9 +41,9 @@ return [
     'COMMENT_LIST' => 'comment listed successfully.',
     'COUPON_ADD_REDEEM' => 'coupon redeemed successfully,',
     'COUPON_DELETE' => 'coupon deleted successfully.',
-    //eart radius
+    'COUPON_DELETE'=>'coupon deleted successfully.',
+    'COUPON_CREATE'=>'coupon added successfully.',
     'EARTH_RADIUS' => 3959,
-    //recods delete/active
     'USER_DELETE' => 'sorry your account have been deleted by admin.please contact admin.',
     'USER_DEACTIVE' => 'sorry your account have been deactivated by admin.please contact admin.',
     //activity message

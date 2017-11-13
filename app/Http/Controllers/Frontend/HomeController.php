@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
+use Auth;
 
 class HomeController extends Controller {
 
@@ -25,8 +26,11 @@ class HomeController extends Controller {
     public function index() {
  
         $coupon_lists=\App\Coupon::couponList();
+        $vendor_detail= \App\VendorDetail::where('user_id',Auth::id())
+                ->first();
         
-        return view('frontend.dashboard.main')->with(['coupon_lists'=>$coupon_lists]);
+        return view('frontend.dashboard.main')->with(['coupon_lists'=>$coupon_lists,
+            'vendor_detail'=>$vendor_detail]);
     }
 
 }

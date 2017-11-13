@@ -120,7 +120,7 @@
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js') }}"></script>
          <script type="text/javascript" src="{{ asset('frontend/js/jquery.pjax.js') }}"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-      
+        <script src="https://unpkg.com/vue"></script>
         <script type="text/javascript">
             jQuery(document).ready(function () {
                 //Initialize tooltips
@@ -136,49 +136,13 @@
                     }
                 });
 
-                jQuery(".next-step").click(function (e) {
-
-                    var $active = jQuery('.wizard .nav-tabs-step li.active');
-                    $active.next().removeClass('disabled');
-                    nextTab($active);
-
-                });
-                jQuery(".prev-step").click(function (e) {
-
-                    var $active = jQuery('.wizard .nav-tabs-step li.active');
-                    prevTab($active);
-
-                });
+              
             });
 
-            function nextTab(elem) {
-                jQuery(elem).next().find('a[data-toggle="tab"]').click();
-            }
-
-            function prevTab(elem) {
-                jQuery(elem).prev().find('a[data-toggle="tab"]').click();
-            }
-
+         
         </script>
 
-        <!--=============================Date Picker=============================-->
-        <script type="text/javascript">
-            $('.datepicker').datetimepicker({
-                format: 'MM/DD/YYYY', //use this format if you want the 12hours timpiecker with AM/PM toggle
-                icons: {
-                    time: "fa fa-clock-o",
-                    date: "fa fa-calendar",
-                    up: "fa fa-chevron-up",
-                    down: "fa fa-chevron-down",
-                    previous: 'fa fa-chevron-left',
-                    next: 'fa fa-chevron-right',
-                    today: 'fa fa-screenshot',
-                    clear: 'fa fa-trash',
-                    close: 'fa fa-remove'
-                }
-            });
-
-        </script>
+       
 
         <!--=============================Line Chart=============================-->
         <script type="text/javascript">
