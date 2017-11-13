@@ -42,6 +42,7 @@ return [
     'COMMENT_LIST' => 'comment listed successfully.',
     'COUPON_ADD_REDEEM' => 'coupon redeemed successfully,',
     'COUPON_DELETE'=>'coupon deleted successfully.',
+    'COUPON_CREATE'=>'coupon added successfully.',
    
     
     //eart radius

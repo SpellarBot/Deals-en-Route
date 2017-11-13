@@ -2,23 +2,29 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="tab-content">
+               <input type="hidden" value="1" name="steps" class="stepsincrement"> 
+               <input type="hidden" value="0" name="validationcheck" class="validationcheck"> 
                 <div class="tab-pane active" role="tabpanel" id="step1">
                         <h3>Coupon Details</h3>
-                        <div class="row">
+                        <div class="row" >
+                          
+                         
                                 <div class="col-sm-5" style="text-align: center; height:500px;">
                                         <div id="preview-main">
                                             <img src="{{ \Config::get('app.url') . '/public/frontend/img/preview1.png' }}" width="250" alt="">
                                         </div>
-                                        <div id="preview-in">
-                                                <div class="logo"><img src="{{ \Config::get('app.url') . '/public/frontend/img/sample1.png' }}" width="70" alt=""></div>
-                                                <div class="b-name">Beef and Brew</div>
-                                                <div class="b-sub">39, Castle Street, Geneva, NY 14456</div>
-                                                <div class="coupon-name">COUPON NAME</div>
-                                                <div class="coupon-desc">Coupon description</div>
-                                                <div class="barcode"><img src="img/sample2.png" width="47" alt=""></div>
-                                                <div class="red-code1">Redemption Code</div>
-                                                <div class="red-code2">XXXXX</div>
-                                                <div class="validity">Valid until XX XXX XXXX</div>
+                                        <div id="preview-in" class="viewdata">
+
+                                        <div class="logo" ><img src="{{ $vendor_detail->vendor_logo}}" width="70" alt=""></div>
+
+                                        <div class="b-name">{{ $vendor_detail->vendor_name}}</div>
+                                        <div class="b-sub">{{ $vendor_detail->vendor_address}}</div>
+                                        <div class="coupon-name coupon_name"  >COUPON NAME</div>
+                                        <div class="coupon-desc coupon_detail" >Coupon description</div>
+                                        <div class="barcode"><img src="{{ \Config::get('app.url') . '/public/frontend/img/sample2.png' }}" width="47" alt=""></div>
+                                        <div class="red-code1" >Redemption Code</div>
+                                        <div class="red-code2 coupon_code" >XXXXX</div>
+                                        <div class="validity">Valid until <div class="coupon_end_date"> XX XXX XXXX </div></div>         
                                         </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -43,17 +49,18 @@
                                                {{ Form::label('coupon_code', 'Coupon Code:') }}
                                                {{ Form::text('coupon_code', '', ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control']) }}
                                         </div>
-                                  
-                                       
-                                        <div class="form-group">
+                  
+
+                                       <div class="form-group">
                                                 <label>Coupon Image</label>
                                                 <fieldset>
-                                                        <input type="file" name="file" id="file1" accept="image/*" />
+                                                       {{ Form::file('coupon_logo',['id' => 'file1','accept'=>'image/*']) }}
                                                 </fieldset>
                                         </div>
                                         <ul class="list-inline pull-right pad-top">
                                                 <li>
-                                                        <button type="button" class="btn btn-create next-step">Save and continue</button>
+                                                    
+                                                     <button type="button" class="btn btn-create next-step">Save and continue</button>
                                                 </li>
                                         </ul>
                                 </div>
@@ -70,6 +77,7 @@
                                                 <button type="button" class="btn btn-create prev-step">Previous</button>
                                         </li>
                                         <li class="pull-right">
+                                          
                                                 <button type="button" class="btn btn-create next-step">Save and continue</button>
                                         </li>
                                 </ul>
@@ -79,17 +87,18 @@
                         <h3>Order Summary</h3>
                         <div class="row">
                                 <div class="col-sm-5" style="text-align: center; height:500px;">
-                                        <div id="preview-main1"><img src="img/preview1.png" width="250" alt=""></div>
+                                        <div id="preview-main1"><img src="{{ \Config::get('app.url') . '/public/frontend/img/preview1.png' }}" width="250" alt=""></div>
                                         <div id="preview-in1">
-                                                <div class="logo"><img src="img/sample1.png" width="70" alt=""></div>
-                                                <div class="b-name">Beef and Brew</div>
-                                                <div class="b-sub">39, Castle Street, Geneva, NY 14456</div>
-                                                <div class="coupon-name">COUPON NAME</div>
-                                                <div class="coupon-desc">Coupon description</div>
-                                                <div class="barcode"><img src="img/sample2.png" width="47" alt=""></div>
-                                                <div class="red-code1">Redemption Code</div>
-                                                <div class="red-code2">XXXXX</div>
-                                                <div class="validity">Valid until XX XXX XXXX</div>
+                                        <div class="logo" ><img src="{{ $vendor_detail->vendor_logo}}" width="70" alt=""></div>
+                                        <div class="b-name">{{ $vendor_detail->vendor_name}}</div>
+                                        <div class="b-sub">{{ $vendor_detail->vendor_address}}</div>
+                                        <div class="coupon-name coupon_name"  >COUPON NAME</div>
+                                        <div class="coupon-desc coupon_detail" >Coupon description</div>
+                                        <div class="barcode"><img src="{{ \Config::get('app.url') . '/public/frontend/img/sample2.png' }}" width="47" alt=""></div>
+                                        <div class="red-code1 " >Redemption Code</div>
+                                        <div class="red-code2 coupon_code" >XXXXX</div>
+                                        <div class="validity">Valid until <div class="coupon_end_date"> XX XXX XXXX </div></div>     
+                                           
                                         </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -102,11 +111,11 @@
                                                 <tbody>
                                                         <tr>
                                                                 <td>Start Time:</td>
-                                                                <td>September 18, 2017 3:00 PM EDT</td>
+                                                                <td >September 18, 2017 3:00 PM EDT</td>
                                                         </tr>
                                                         <tr>
                                                                 <td>End Time:</td>
-                                                                <td>September 19, 2017 3:00 PM EDT</td>
+                                                                <td class="coupon_end_date">September 19, 2017 3:00 PM EDT</td>
                                                         </tr>
                                                         <tr>
                                                                 <td>Area Covered:</td>
@@ -124,15 +133,19 @@
                         </div>
                         <div class="row">
                                 <div class="col-sm-10 col-sm-offset-1" align="left">
+                                  
                                         <div class="checkbox">
-                                                <input id="checkbox1" type="checkbox">
-                                                <label for="checkbox1"> I have read the <a href="#">Privacy Policy</a> and agree to the <a href="#">Terms of Service</a>. </label>
-                                        </div>
+                                        
+                                       	{{ Form::checkbox('agree', 'no','',['id' => 'checkbox1']) }}
+                                        
+					<label for="checkbox1"> I have read the <a href="#">Privacy Policy</a> and agree to the <a href="#">Terms of Service</a>. </label>
+					</div>
                                         <ul class="list-inline pad-top">
                                                 <li>
                                                         <button type="button" class="btn btn-create prev-step">Previous</button>
                                                 </li>
                                                 <li class="pull-right">
+                                                        
                                                         <button type="submit" class="btn btn-create">Submit</button>
                                                 </li>
                                         </ul>

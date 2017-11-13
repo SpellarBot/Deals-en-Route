@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 use URL;
 use Auth;
+use Carbon\Carbon;
 
 class Coupon extends Model {
 
@@ -126,4 +127,18 @@ class Coupon extends Model {
          return $coupon_list;
     }
     
+    //save coupon
+    public static function addCoupon($data){
+
+        
+        $coupon=new Coupon();
+        $coupon->coupon_start_date=date('Y-m-d H:i:s');
+        $coupon->coupon_end_date=Carbon::parse($data['coupon_end_date'])->format('Y-m-d H:i:s');
+        $coupon->fill($data);
+        if($coupon->save()){
+            return $coupon;
+        }
+        return false;
+        
+    }
 }
