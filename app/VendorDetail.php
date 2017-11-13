@@ -26,15 +26,19 @@ class VendorDetail extends Model {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/vendor_logo/' . $value))) ? URL::to('/storage/app/public/vendor_logo') . '/' . $value : "";
     }
 
+    // save vendor detail
     public static function saveVendorDetail($data, $user_id) {
-
+       
         $vendor_detail = VendorDetail::firstOrNew(["user_id" => $user_id]);
         $vendor_detail->user_id = $user_id;
         $vendor_detail->fill($data);
         $vendor_detail->save();
+        if(empty($data['vendor_lat'])  || empty($data['vendor_long']) ){
+        self::saveMapLatLong($vendor_detail);
+        }
         return $vendor_detail;
     }
-
+  
     //create vendor for admin
     public static function createVendor($data = []) {
 
@@ -72,6 +76,18 @@ class VendorDetail extends Model {
         $user->save();
         $user_id = $user->id;
         return self::saveVendorDetail($data, $user_id);
+    }
+
+    
+    // save map lat long 
+    public static function saveMapLatLong($model){
+        $response = \GoogleMaps::load('geocoding')
+		->setParam (['address' =>$model->vendor_address])
+ 		->get();
+       $response1=json_decode($response);
+       $model->vendor_lat= $response1->results[0]->geometry->location->lat; 
+       $model->vendor_long= $response1->results[0]->geometry->location->lng; 
+       $model->save();        
     }
 
 }

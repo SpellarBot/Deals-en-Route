@@ -2107,3 +2107,8 @@ margin: -50px 0px 0px -50px;
     border-width: medium;
 }
 
+ .pac-container {
+        z-index: 10000 !important;
+    }
+  
+
