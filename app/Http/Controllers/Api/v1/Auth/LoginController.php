@@ -10,6 +10,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Transformer\UserTransformer;
+use App\Http\Transformer\VendorTransformer;
 
 class LoginController extends Controller {
 
@@ -111,9 +112,52 @@ class LoginController extends Controller {
         $user->api_token = "";
         if ($user->save()) {
             $devicedetail->save();
-            return response()->json(['status' => 'success', 'message' => \Config::get('constants.USER_LOGOUT_SUCCESS')], 200);
+            return $this->responseJson('success', \Config::get('constants.USER_LOGOUT_SUCCESS'), 200);
         }
-        return response()->json(['status' => 'success', 'message' => \Config::get('constants.APP_ERROR')], 400);
+        return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+    }
+
+    protected function vendorlogout() {
+//        Auth::logout();
+//        return Redirect('/');
+        //delete the api token
+        $user = Auth::user();
+        $devicedetail = $user->deviceDetail;
+        $devicedetail->device_token = "";
+        $user->api_token = "";
+        if ($user->save()) {
+            $devicedetail->save();
+            return $this->responseJson('success', \Config::get('constants.USER_LOGOUT_SUCCESS'), 200);
+        }
+        return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+    }
+
+    public function vendorlogin(Request $request) {
+        $data = $request->all();
+        $validator = $this->validatormanually($data);
+        if ($validator->fails()) {
+            return $this->responseJson('error', $validator->errors()->first(), 400);
+        }
+        if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+
+            $auth = Auth()->user();
+            if ($auth->is_delete == 1) {
+                return $this->responseJson('error', \Config::get('constants.USER_DELETE'), 400);
+            } else if ($auth->is_active == 0) {
+                return $this->responseJson('error', \Config::get('constants.USER_DEACTIVE'), 400);
+            } else if ($auth->is_confirmed == 0) {
+                return $this->responseJson('error', \Config::get('constants.USER_NOT_CONFIRMED'), 422);
+            }
+            $auth->api_token = $this->generateAuthToken();
+            $auth->save();
+
+            \App\DeviceDetail::saveDeviceToken($data, $auth->id);
+            // Authentication passed...
+            $auth->vendor = \App\VendorDetail::where('user_id', $auth->id)->first();
+            $data = (new VendorTransformer)->transformLogin($auth);
+            return $this->responseJson('success', \Config::get('constants.USER_LOGIN'), 200, $data);
+        }
+        return $this->responseJson('error', trans('auth.failed'), 422);
     }
 
 }

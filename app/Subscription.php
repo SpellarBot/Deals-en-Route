@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Subscription extends Model {
 
@@ -29,7 +30,7 @@ class Subscription extends Model {
         $subcribe->stripe_plan = $subcription['plan']['id'];
         $subcribe->name = $subcription['plan']['name'];
         $subcribe->quantity = $subcription['quantity'];
-        $subcribe->trial_ends_at = $subcription['trial_end'];
+        $subcribe->trial_ends_at = Carbon::now()->addMonths(1)->format('Y-m-d H:i:s');
         $subcribe->save();
         return true;
     }

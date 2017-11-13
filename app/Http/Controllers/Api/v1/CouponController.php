@@ -271,4 +271,14 @@ class CouponController extends Controller {
         }
     }
 
+    public function getCoupons() {
+        $coupon = \App\Coupon::couponList();
+        if (count($coupon) > 0) {
+            $data = (new CouponTransformer)->transformListVendor($coupon);
+            return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
+        } else {
+            return $this->reseponseJson('success', \Config::get('constants.NO_RECORDS'), 200);
+        }
+    }
+
 }
