@@ -7,10 +7,8 @@ use URL;
 class CouponTransformer {
 
     public function transformList($coupon) {
-
         $var = [];
         $var = $coupon->map(function ($item) {
-
             return [
                 'coupon_id' => $item->coupon_id ?? '',
                 'coupon_category_name' => $item->categoryDetail->category_name ?? '',
@@ -68,10 +66,8 @@ class CouponTransformer {
     }
 
     public function transformShareList($coupon) {
-
         $var = [];
         $var = $coupon->map(function ($item) {
-
             return [
                 'coupon_id' => $item->coupon_id ?? '',
                 'coupon_name' => $item->coupon_name ?? '',
@@ -82,6 +78,21 @@ class CouponTransformer {
             ];
         });
         return ['has_page' => $coupon->hasMorePages(), 'current_page' => $coupon->currentPage(), 'listing' => $var];
+    }
+
+    public function transformListVendor($coupon) {
+        $var = [];
+        $var = $coupon->map(function ($item) {
+            return [
+                'coupon_id' => $item->coupon_id ?? '',
+                'coupon_category_name' => $item->categoryDetail->category_name ?? '',
+                'coupon_name' => $item->coupon_name ?? '',
+                'coupon_detail' => $item->coupon_detail ?? '',
+                'coupon_start_date' => $item->coupon_start_date ?? '',
+                'coupon_end_date' => $item->coupon_end_date ?? '',
+            ];
+        });
+        return ['listing' => $var];
     }
 
 }

@@ -9,15 +9,20 @@ class VendorDetail extends Model {
 
     use \App\Http\Services\UserTrait;
 
+    const IS_NOT_CONFIRMED = 0;
+    const IS_CONFIRMED = 1;
+    const IS_TRUE = 1;
+    const IS_FALSE = 0;
+
     protected $table = 'vendor_detail';
     protected $dateFormat = 'Y-m-d';
     public $timestamps = false;
     public $primaryKey = 'vendor_id';
     protected $fillable = [
-        'user_id', 'vendor_name', 'vendor_address', 'vendor_city', 'vendor_zip', 
-        'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state', 
+        'user_id', 'vendor_name', 'vendor_address', 'vendor_city', 'vendor_zip',
+        'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state',
         'billing_home', 'billing_state', 'billing_zip', 'billing_firstname',
-        'billing_lastname', 'billing_city', 'billing_country','vendor_country',
+        'billing_lastname', 'billing_city', 'billing_country', 'vendor_country',
         'vendor_state'
     ];
 
@@ -37,7 +42,6 @@ class VendorDetail extends Model {
 
     //create vendor for admin
     public static function createVendor($data = []) {
-
         $user = User::create([
                     'role' => 'vendor',
                     'email' => $data['email'],
