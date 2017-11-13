@@ -3,6 +3,7 @@
 return [
     //message for api
     'APP_ERROR' => 'Something Went Wrong.Please Try Again Later.',
+    'SUBSCRIPTION_ERROR' => 'Thank You! Please check your email to activate your account,Subscription not complete,Please try again!!',
     //user
     'USER_UPDATE' => 'User Updated Successfully.',
     'USER_EMAIL_VERIFICATION' => 'Thank You! Please check your email to activate your account.',
@@ -17,8 +18,6 @@ return [
     'EMAIL_VERIFIED' => 'You have successfully verified your account.',
     'EMAIL_CODE_EXPIRED' => 'Sorry code which you entered has expired.',
     'EMAIL_ALREADY_CONFIRMED' => 'You have already confirmed your email.',
-    
-    
     //vendor 
     'VENDOR_CREATED' => 'vendor created successfully',
     'VENDOR_UPDATED' => 'vendor updated successfully.',
@@ -41,9 +40,7 @@ return [
     'COMMENT_ADD' => 'comment added successfully.',
     'COMMENT_LIST' => 'comment listed successfully.',
     'COUPON_ADD_REDEEM' => 'coupon redeemed successfully,',
-    'COUPON_DELETE'=>'coupon deleted successfully.',
-   
-    
+    'COUPON_DELETE' => 'coupon deleted successfully.',
     //eart radius
     'EARTH_RADIUS' => 3959,
     //recods delete/active
@@ -63,13 +60,11 @@ return [
     //local path
     'IMAGE_PATH' => 'storage/app/public/',
     'PAGINATE' => 10,
-        //notification
-    
+    //notification
     //stripe keys
-    'STRIPE_KEY'=>'pk_test_dvnwoMABEgschsRqPZRuGJrp',
-    'STRIPE_SECRET'=>'sk_test_ZBNhTnKmE3hEkk26awNMDdcc',
-    'STRIPE_VERSION'=>'2017-08-15'
-    
+    'STRIPE_KEY' => 'pk_test_dvnwoMABEgschsRqPZRuGJrp',
+    'STRIPE_SECRET' => 'sk_test_ZBNhTnKmE3hEkk26awNMDdcc',
+    'STRIPE_VERSION' => '2017-08-15'
 ];
 
 
