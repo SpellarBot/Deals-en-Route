@@ -7,6 +7,7 @@ use App\Mail\EmailVerify;
 use App\Mail\SendPasswordMail;
 use App\Mail\EmailVerifyVendor;
 use App\Mail\EmailPaymentFailed;
+use App\Mail\ContactUs;
 
 trait MailTrait {
 
@@ -20,6 +21,8 @@ trait MailTrait {
             Mail::to($array_mail['to'])->send(new EmailVerifyVendor($array_mail['data']));
         } else if ($array_mail['type'] == 'paymentfailed') {
             Mail::to($array_mail['to'])->send(new EmailPaymentFailed($array_mail['data']));
+        } else if ($array_mail['type'] == 'contactuser') {
+            Mail::to($array_mail['to'])->send(new ContactUs($array_mail['data']));
         }
     }
 

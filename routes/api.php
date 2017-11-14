@@ -66,6 +66,9 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/notification/isread', 'ActivityController@addnotificationread');
         Route::post('/notification/list', 'ActivityController@notificationList');
 
+        //contact us 
+         Route::post('/contact/addcontact', 'CouponController@addContact');
+        
         // additional routes here
     });
     Route::group(['middleware' => ['auth:api', 'check-permission:vendor']], function() {
