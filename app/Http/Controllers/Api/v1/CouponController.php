@@ -283,7 +283,7 @@ class CouponController extends Controller {
     }
     
     public function addContact(Request $request) {
-    
+    try {
          $data = $request->all();
            $array_mail = ['to' => \Config::get('constants.CLIENT_MAIL'),
                         'type' => 'contactuser',
@@ -292,11 +292,10 @@ class CouponController extends Controller {
                     ];
 
         $mail=$this->sendMail($array_mail);
-        return $mail;
-       if($mail){
-             return $this->responseJson('success', \Config::get('constants.CONTACT_SUCCESS'), 200);
-       }
-           return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
-
+          return $this->responseJson('success', \Config::get('constants.CONTACT_SUCCESS'), 200);
+    }catch (\Exception $e) {
+          //  throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
     }
 }
