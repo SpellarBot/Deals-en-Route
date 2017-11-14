@@ -292,6 +292,7 @@ class CouponController extends Controller {
                     ];
 
         $mail=$this->sendMail($array_mail);
+        return $mail;
        if($mail){
              return $this->responseJson('success', \Config::get('constants.CONTACT_SUCCESS'), 200);
        }
