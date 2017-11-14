@@ -20,6 +20,7 @@ class CouponController extends Controller {
     use Notifiable;
     use \App\Http\Services\CouponTrait;
     use \App\Http\Services\ActivityTrait;
+    use \App\Http\Services\MailTrait;
 
     protected function validatordetail(array $data) {
         return Validator::make($data, [
@@ -43,7 +44,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-            throw $e;
+           // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -123,7 +124,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-            throw $e;
+           // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -141,7 +142,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-            throw $e;
+          //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -160,7 +161,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-            throw $e;
+          //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -185,7 +186,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-            throw $e;
+          //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -280,5 +281,21 @@ class CouponController extends Controller {
             return $this->reseponseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         }
     }
+    
+    public function addContact(Request $request) {
+    
+         $data = $request->all();
+           $array_mail = ['to' => \Config::get('constants.CLIENT_MAIL'),
+                        'type' => 'contactuser',
+                        'data' => ['topic' => $request['topic'],'question'=>$request['question'],
+                         'username'=>Auth::user()->first_name." ".Auth::user()->last_name]
+                    ];
 
+        $mail=$this->sendMail($array_mail);
+       if($mail){
+             return $this->responseJson('success', \Config::get('constants.CONTACT_SUCCESS'), 200);
+       }
+           return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+
+    }
 }
