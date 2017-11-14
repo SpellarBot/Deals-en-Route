@@ -46,7 +46,9 @@
        
         Route::get('/dashboard', 'HomeController@index')->name('frontend.main');
         Route::post('/user/forgetpassword', 'Auth\ResetPasswordController@postEmail');
-       Route::resource('coupon', 'CouponController');
+        Route::delete('/coupon/{id}', 'CouponController@destroy');
+        Route::post('/coupon/store', 'CouponController@store');
+       
     });
     
    
