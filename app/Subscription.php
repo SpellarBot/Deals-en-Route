@@ -26,7 +26,8 @@ class Subscription extends Model {
     public static function saveSubcriptionPlan($subcription, $userid) {
         $subcribe = new Subscription();
         $subcribe->user_id = $userid;
-        $subcribe->stripe_id = $subcription['customer'];
+        $subcribe->stripe_id = $subcription['id'];
+        $subcribe->sub_id = $subcription['customer'];
         $subcribe->stripe_plan = $subcription['plan']['id'];
         $subcribe->name = $subcription['plan']['name'];
         $subcribe->quantity = $subcription['quantity'];
