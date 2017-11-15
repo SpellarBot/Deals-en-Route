@@ -7808,8 +7808,8 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
 
 .has-error .form-control,
 .form-control.error {
-	background-color: #FFC0A4;
-	color: #EB5E28;
+	background-color: transparent;
+	color: #a94442;
 	border-color: #EB5E28;
 }
 
