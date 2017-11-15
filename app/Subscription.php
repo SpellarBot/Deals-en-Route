@@ -26,12 +26,12 @@ class Subscription extends Model {
     public static function saveSubcriptionPlan($subcription, $userid) {
         $subcribe = new Subscription();
         $subcribe->user_id = $userid;
-        $subcribe->stripe_id = $subcription['id'];
-        $subcribe->sub_id = $subcription['customer'];
+        $subcribe->stripe_id = $subcription['customer'];
+        $subcribe->sub_id = $subcription['id'];
         $subcribe->stripe_plan = $subcription['plan']['id'];
         $subcribe->name = $subcription['plan']['name'];
         $subcribe->quantity = $subcription['quantity'];
-        $subcribe->trial_ends_at = Carbon::now()->addMonths(1)->format('Y-m-d H:i:s');
+        $subcribe->trial_ends_at = Carbon::now()->addDays(31)->format('Y-m-d H:i:s');
         $subcribe->save();
         return true;
     }
