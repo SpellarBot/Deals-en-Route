@@ -2873,6 +2873,7 @@ select[multiple].input-lg {
   color: #8a6d3b;
 }
 .has-error .help-block,
+.has-error .help-block strong,
 .has-error .control-label,
 .has-error .radio,
 .has-error .checkbox,

@@ -24,11 +24,7 @@ class CouponRequest extends FormRequest {
         if ($this->request->get('steps') == 1) {
             return [
                 'coupon_name' => 'required|max:255',
-                'coupon_detail' => 'required',
-                'coupon_redeem_limit' => 'required|numeric',
-                'coupon_code' => 'required',
-                'coupon_end_date' => 'required',
-                'coupon_logo' => 'required'
+             
             ];
         } elseif ($this->request->get('steps') == 2) {
             return [
@@ -37,7 +33,8 @@ class CouponRequest extends FormRequest {
                 'coupon_redeem_limit' => 'required|numeric',
                 'coupon_code' => 'required',
                 'coupon_end_date' => 'required',
-                'coupon_logo' => 'required'
+                'coupon_logo' => 'required',
+                 'coupon_radius' =>'required|integer|min:1|digits_between: 1,5'
             ];
         } elseif ($this->request->get('steps') == 3) {
             return [

@@ -122,5 +122,5 @@ class StripeUser extends Model {
         $stripe = new StripeUser();
         $customer = $stripe->stripe->customers()->delete($customerid);
     }
-
+    
 }

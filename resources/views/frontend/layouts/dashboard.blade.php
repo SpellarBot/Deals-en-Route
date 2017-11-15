@@ -120,7 +120,7 @@
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js') }}"></script>
          <script type="text/javascript" src="{{ asset('frontend/js/jquery.pjax.js') }}"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script src="https://unpkg.com/vue"></script>
+    
         <script type="text/javascript">
             jQuery(document).ready(function () {
                 //Initialize tooltips
@@ -308,18 +308,7 @@
             });
 
         </script>
-        <!--============================= Pjax =============================-->
-        <script type="text/javascript">
-            $(document).ready(function () {
-
-                // does current browser support PJAX
-                if ($.support.pjax) {
-           
-                    $.pjax.defaults.timeout = 200000; // time in milliseconds
-                }
-            });
-            
-        </script>
+    
         @yield('scripts')
     </body>
 
