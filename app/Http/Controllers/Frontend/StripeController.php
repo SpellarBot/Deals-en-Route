@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Services\MailTrait;
 use Illuminate\Http\Request;
@@ -8,13 +8,13 @@ use App\Http\Controllers\Controller;
 use Stripe\Stripe;
 use App\Stripewebhook;
 use App\User;
-use App\Http\Controllers\Api\v1\Auth;
+use App\StripeUser;
+use App\Http\Controllers\Frontend\Auth;
 use Mail;
 
 class StripeController extends Controller {
 
     use MailTrait;
-    use \Stripe;
 
     public function handleStripeResponse(Request $request) {
 
@@ -61,16 +61,30 @@ class StripeController extends Controller {
     }
 
     public function deleteCard() {
-        \Stripe\Stripe::setApiKey("sk_test_ZBNhTnKmE3hEkk26awNMDdcc");
-
-        $userid = Auth::id();
-        print_r($userid);die;
-
-        $customer = \Stripe\Customer::retrieve("cus_BlTr65g6v9x4w6");
-        $customer->sources->retrieve("card_1BOK7wK8gsMvI0Nn25NX3fjl")->delete();
+        $userid = auth()->id();
+        $stripedetails = \App\StripeUser::getCustomerDetails($userid);
+        $customerid = $stripedetails->stripe_id;
+        $cardid = $stripedetails->card_id;
+        $customer = \App\StripeUser::deleteCard($customerid, $cardid);
+        if ($customer['deleted'] == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public function addNewCard() {
+        $data = array('card_expiry' => '10/23', 'card_no' => '4242424242424242', 'card_cvv' => '123');
+        $userid = auth()->id();
+        $stripedetails = \App\StripeUser::getCustomerDetails($userid);
+        $customerid = $stripedetails->stripe_id;
+        $stripe_id = $stripedetails->id;
+        $createcard = StripeUser::createCard($customerid, $data, $stripe_id);
+        print_r($createcard);
+        die;
+    }
+
+    public function createCharge() {
         
     }
 

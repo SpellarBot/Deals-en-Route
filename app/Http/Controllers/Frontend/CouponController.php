@@ -10,11 +10,11 @@ use DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Services\ImageTrait;
 
-class CouponController extends Controller
-{
-     use ImageTrait;
-    
-      /**
+class CouponController extends Controller {
+
+    use ImageTrait;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -22,8 +22,8 @@ class CouponController extends Controller
     public function __construct() {
         $this->middleware('auth.vendor');
     }
-    
-        /**
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -42,55 +42,54 @@ class CouponController extends Controller
                     'profile_pic' => 'sometimes|required|image|mimes:jpg,png,jpeg',
         ]);
     }
-     /**
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-   
+
         $coupon = Coupon::where(['coupon_id' => $id])->first();
         $coupon->is_delete = Coupon::IS_TRUE;
-        if($coupon->save()){
-        return response()->json(['status'=>1,'message' => ucwords(\Config::get('constants.COUPON_DELETE'))], 200);
+        if ($coupon->save()) {
+            return response()->json(['status' => 1, 'message' => ucwords(\Config::get('constants.COUPON_DELETE'))], 200);
         }
-       return response()->json(['status'=>0,'message' => ucwords(\Config::get('constants.APP_ERROR'))], 422);
+        return response()->json(['status' => 0, 'message' => ucwords(\Config::get('constants.APP_ERROR'))], 422);
     }
-    
-    
-      /**
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\CouponRequest $request) {
-          $request = $request->all();
- echo \Carbon\Carbon::parse($request['coupon_end_date'])->toDateTimeString();
- exit;
+        $request = $request->all();
+        echo \Carbon\Carbon::parse($request['coupon_end_date'])->toDateTimeString();
+        exit;
         DB::beginTransaction();
         try {
-         $request = $request->all();
-   
-        if($request['validationcheck']==true){
-           $coupon=Coupon::addCoupon($request);
-           $file = Input::file('coupon_logo');
-            //store image
-            if (!empty($file)) {
-               $this->addImageWeb($file, $coupon, 'coupon_logo');
-         }
+            $request = $request->all();
 
-        }
+            if ($request['validationcheck'] == true) {
+                $coupon = Coupon::addCoupon($request);
+                $file = Input::file('coupon_logo');
+                //store image
+                if (!empty($file)) {
+                    $this->addImageWeb($file, $coupon, 'coupon_logo');
+                }
+            }
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-              throw $e;
-            return response()->json(['status'=>0,'errors' => \Config::get('constants.APP_ERROR')], 400);   
+            throw $e;
+            return response()->json(['status' => 0, 'errors' => \Config::get('constants.APP_ERROR')], 400);
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
-        return response()->json(['status'=>1,'errors' => \Config::get('constants.COUPON_CREATE')], 200);
+        return response()->json(['status' => 1, 'errors' => \Config::get('constants.COUPON_CREATE')], 200);
     }
-    
+
 }
