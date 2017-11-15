@@ -2068,7 +2068,7 @@ footer ul.social span {
  width: 100%;
  height: 100%;
  z-index: 9999;
- background:  50% 50% no-repeat rgb(170,170,170, .5);
+ background:  rgba(170, 170, 170, 0.5);
 
 }
 
@@ -2107,8 +2107,8 @@ margin: -50px 0px 0px -50px;
     border-width: medium;
 }
 
- .pac-container {
-        z-index: 10000 !important;
-    }
-  
+.pac-container {
+     z-index: 10000 !important;
+}
+
 

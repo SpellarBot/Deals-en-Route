@@ -34,10 +34,10 @@
 @include('frontend/modal/signup')
 @endsection
 @section('scripts')
-
-<!-- Google Maps -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1hYf7GbkkdcPKVxJ_6SS34XOdMQNCyp4&libraries=places&callback=initAutocomplete"
-        async defer></script>
 <script src="{{ asset('frontend/js/webjs/register.js?reload=1318923150"') }}"> </script>
+<!-- Google Maps -->
+<script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=places&callback=initAutocomplete"
+        async defer></script>
+
 
 @endsection

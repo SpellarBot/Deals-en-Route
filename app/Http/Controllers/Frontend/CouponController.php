@@ -66,9 +66,15 @@ class CouponController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\CouponRequest $request) {
+
         $request = $request->all();
         echo \Carbon\Carbon::parse($request['coupon_end_date'])->toDateTimeString();
         exit;
+
+        $request = $request->all();
+        echo \Carbon\Carbon::parse($request['coupon_end_date'])->toDateTimeString();
+        exit;
+
         DB::beginTransaction();
         try {
             $request = $request->all();
@@ -85,6 +91,9 @@ class CouponController extends Controller {
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
+            return response()->json(['status' => 0, 'errors' => \Config::get('constants.APP_ERROR')], 400);
+
+            // throw $e;
             return response()->json(['status' => 0, 'errors' => \Config::get('constants.APP_ERROR')], 400);
         }
         // If we reach here, then// data is valid and working.//

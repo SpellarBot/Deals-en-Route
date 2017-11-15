@@ -1,7 +1,4 @@
-<div id="popup" class="modal fade" role="dialog">
-     
-
-   
+<div id="popup" class="modal fade" role="dialog">       
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
