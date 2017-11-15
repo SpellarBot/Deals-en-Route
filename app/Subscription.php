@@ -36,4 +36,26 @@ class Subscription extends Model {
         return true;
     }
 
+    public static function getSubscription($stripe_id, $user_id) {
+        $subscription = Subscription::select('*')
+                ->where('stripe_id', $stripe_id)
+                ->where('user_id', $user_id)
+                ->first();
+        return $subscription;
+    }
+
+    public static function updateSubcriptionPlan($subcription, $userid) {
+        $subcribe = Subscription::where('user_id', $userid)
+                ->first();
+        $subcribe->user_id = $userid;
+        $subcribe->stripe_id = $subcription['customer'];
+        $subcribe->sub_id = $subcription['id'];
+        $subcribe->stripe_plan = $subcription['plan']['id'];
+        $subcribe->name = $subcription['plan']['name'];
+        $subcribe->quantity = $subcription['quantity'];
+        $subcribe->trial_ends_at = Carbon::now()->addDays(31)->format('Y-m-d H:i:s');
+        $subcribe->save();
+        return true;
+    }
+
 }

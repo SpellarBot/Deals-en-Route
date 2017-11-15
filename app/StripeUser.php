@@ -163,4 +163,30 @@ class StripeUser extends Model {
 //        return $card;
     }
 
+    public static function cancelSubscription($data) {
+        $stripe = New StripeUser();
+        $subscription = $stripe->stripe->subscriptions()->cancel($data['stripe_id'], $data['subscription_id']);
+        return TRUE;
+    }
+
+    public static function updateSubscription($data) {
+        $stripe = New StripeUser();
+        $subscription = $stripe->stripe->subscriptions()->update($data['stripe_id'], $data['sub_id'], [
+            'plan' => $data['plan_id'], 'trial_end' => 'now',
+        ]);
+        \App\Subscription::updateSubcriptionPlan($subscription, $data['user_id']);
+
+        return TRUE;
+    }
+
+    public static function changeSubscription($data) {
+        $stripe = New StripeUser();
+        $subscription = $stripe->stripe->subscriptions()->create($data['stripe_id'], [
+            'plan' => $data['plan_id'], 'trial_end' => 'now',
+        ]);
+        \App\Subscription::updateSubcriptionPlan($subscription, $data['user_id']);
+
+        return TRUE;
+    }
+
 }
