@@ -30,8 +30,8 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     /*     * **                  Vendor            ** */
 
     Route::get('/user/cron', 'CouponController@CouponNotification');
-    
-    Route::any('/stripe/endpoint','StripeController@handleStripeResponse');
+
+    Route::any('/stripe/endpoint', 'StripeController@handleStripeResponse');
 
     Route::group(['middleware' => ['auth:api', 'check-permission:user']], function() {
         // Routes that passed auth, confirmed, subscribed, and active middleware
@@ -67,14 +67,15 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/notification/list', 'ActivityController@notificationList');
 
         //contact us 
-         Route::post('/contact/addcontact', 'CouponController@addContact');
-        
+        Route::post('/contact/addcontact', 'CouponController@addContact');
+
         // additional routes here
     });
     Route::group(['middleware' => ['auth:api', 'check-permission:vendor']], function() {
         Route::post('/vendor/update', 'Auth\VendorRegisterController@update');
         Route::post('/vendor/logout', 'Auth\LoginController@vendorlogout');
         Route::post('/vendor/getCoupons', 'CouponController@getCoupons');
+        Route::post('/vendor/couponRedemption', 'CouponController@CouponRedemption');
     });
 });
 
