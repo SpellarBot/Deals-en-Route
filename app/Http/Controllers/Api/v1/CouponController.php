@@ -35,7 +35,9 @@ class CouponController extends Controller {
             // get the request
             $data = $request->all();
             //add lat long if passsed to the data
-            $user_detail = \App\UserDetail::saveUserDetail($data, Auth::user()->id);
+            $passdata= $data;
+            unset($passdata['category_id']);
+            $user_detail = \App\UserDetail::saveUserDetail($passdata, Auth::user()->id);
             //find nearby coupon
             $couponlist = \App\Coupon::getNearestCoupon($data);
             if (count($couponlist) > 0) {
