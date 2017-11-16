@@ -65,22 +65,20 @@ class CouponController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(\App\Http\Requests\CouponRequest $request) {
-             $request = $request->all();
- echo \Carbon\Carbon::parse($request['coupon_end_date'])->toDateTimeString();
- exit;
+    public function store(\App\Http\Requests\CouponRequest $request) { 
+       
         DB::beginTransaction();
         try {
          $request = $request->all();
-   
-        if($request['validationcheck']==true){
+
+        if($request['validationcheck']==1){
            $coupon=Coupon::addCoupon($request);
            $file = Input::file('coupon_logo');
             //store image
             if (!empty($file)) {
                $this->addImageWeb($file, $coupon, 'coupon_logo');
          }
-
+ 
         }
             // save the user
         } catch (\Exception $e) {
