@@ -46,7 +46,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-           // throw $e;
+            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -126,7 +126,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-           // throw $e;
+            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -144,7 +144,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-          //  throw $e;
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -163,7 +163,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-          //  throw $e;
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -188,7 +188,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-          //  throw $e;
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -283,21 +283,26 @@ class CouponController extends Controller {
             return $this->reseponseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         }
     }
-    
-    public function addContact(Request $request) {
-    try {
-         $data = $request->all();
-           $array_mail = ['to' => \Config::get('constants.CLIENT_MAIL'),
-                        'type' => 'contactuser',
-                        'data' => ['topic' => $request['topic'],'question'=>$request['question'],
-                         'username'=>Auth::user()->first_name." ".Auth::user()->last_name]
-                    ];
 
-        $mail=$this->sendMail($array_mail);
-          return $this->responseJson('success', \Config::get('constants.CONTACT_SUCCESS'), 200);
-    }catch (\Exception $e) {
-          //  throw $e;
+    public function addContact(Request $request) {
+        try {
+            $data = $request->all();
+            $array_mail = ['to' => \Config::get('constants.CLIENT_MAIL'),
+                'type' => 'contactuser',
+                'data' => ['topic' => $request['topic'], 'question' => $request['question'],
+                    'username' => Auth::user()->first_name . " " . Auth::user()->last_name]
+            ];
+
+            $mail = $this->sendMail($array_mail);
+            return $this->responseJson('success', \Config::get('constants.CONTACT_SUCCESS'), 200);
+        } catch (\Exception $e) {
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
+
+    public function CouponRedemption(Request $request) {
+        
+    }
+
 }
