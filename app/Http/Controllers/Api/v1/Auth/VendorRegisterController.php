@@ -159,11 +159,11 @@ use ResponseTrait;
         ];
         $subscribe = $this->subscribe($user_detail->user_id, $data['pakage']);
         if ($subscribe == TRUE) {
-            $this->sendMail($array_mail);
+//            $this->sendMail($array_mail);
             $data = (new VendorTransformer)->transformLogin($data);
             return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200);
         } else {
-            $this->sendMail($array_mail);
+//            $this->sendMail($array_mail);
             $data = (new VendorTransformer)->transformLogin($data);
             return $this->responseJson('success', \Config::get('constants.SUBSCRIPTION_ERROR'), 200);
         }

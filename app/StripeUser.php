@@ -65,9 +65,15 @@ class StripeUser extends Model {
         ]);
         $customerid = $this->createCustomer($data);
         if ($customerid) {
-
             $this->storeCard($customerid, $token, $data);
         }
+    }
+
+    public static function getCustomerDetails($id) {
+        $customer = StripeUser::select('*')
+                ->where('user_id', $id)
+                ->first();
+        return $customer;
     }
 
     //create customer
@@ -122,5 +128,67 @@ class StripeUser extends Model {
         $stripe = new StripeUser();
         $customer = $stripe->stripe->customers()->delete($customerid);
     }
-    
+
+    //Delete Current Card for existing stripe customer
+    public static function deleteCard($customerid, $card_id) {
+        $stripe = new StripeUser();
+        $card = $stripe->stripe->cards()->delete($customerid, $card_id);
+        return $card;
+    }
+
+    //Create New Card and update details to database
+    public static function createCard($customerid, $data, $stripe_id) {
+        $stripe = New StripeUser();
+        $dateexplode = explode('/', $data['card_expiry']);
+        $token = $stripe->stripe->tokens($customerid)->create([
+            'card' => [
+                'number' => $data['card_no'],
+                'exp_month' => $dateexplode[0],
+                'cvc' => $data['card_cvv'],
+                'exp_year' => $dateexplode[1],
+            ],
+        ]);
+        $card = $stripe->updateCard($customerid, $token, $stripe_id);
+        return $card;
+    }
+
+    // store the card of particular customer
+    public function updateCard($customerid, $token, $stripe_id) {
+
+        $card = $this->stripe->cards()->create($customerid, $token['id']);
+        $data = array('card_id' => $card['id'], 'card_brand' => $card['brand'], 'card_last_four' => $card['last4']);
+        $addCard = StripeUser::where('stripe_id', $customerid)->first();
+        $addCard->card_id = $card['id'];
+        $addCard->card_brand = $card['brand'];
+        $addCard->card_last_four = $card['last4'];
+        $addCard->save();
+//        return $card;
+    }
+
+    public static function cancelSubscription($data) {
+        $stripe = New StripeUser();
+        $subscription = $stripe->stripe->subscriptions()->cancel($data['stripe_id'], $data['subscription_id']);
+        return TRUE;
+    }
+
+    public static function updateSubscription($data) {
+        $stripe = New StripeUser();
+        $subscription = $stripe->stripe->subscriptions()->update($data['stripe_id'], $data['sub_id'], [
+            'plan' => $data['plan_id'], 'trial_end' => 'now',
+        ]);
+        \App\Subscription::updateSubcriptionPlan($subscription, $data['user_id']);
+
+        return TRUE;
+    }
+
+    public static function changeSubscription($data) {
+        $stripe = New StripeUser();
+        $subscription = $stripe->stripe->subscriptions()->create($data['stripe_id'], [
+            'plan' => $data['plan_id'], 'trial_end' => 'now',
+        ]);
+        \App\Subscription::updateSubcriptionPlan($subscription, $data['user_id']);
+
+        return TRUE;
+    }
+
 }

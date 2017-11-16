@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Stripe\Stripe;
 use App\Stripewebhook;
+use App\User;
+use App\Http\Controllers\Api\v1\Auth;
 use Mail;
 
 class StripeController extends Controller {
 
     use MailTrait;
+    use \Stripe;
 
     public function handleStripeResponse(Request $request) {
 
@@ -55,6 +58,20 @@ class StripeController extends Controller {
 //        print_r($data);die;
         $test = Stripewebhook::createStripe($data);
         http_response_code(200);
+    }
+
+    public function deleteCard() {
+        \Stripe\Stripe::setApiKey("sk_test_ZBNhTnKmE3hEkk26awNMDdcc");
+
+        $userid = Auth::id();
+        print_r($userid);die;
+
+        $customer = \Stripe\Customer::retrieve("cus_BlTr65g6v9x4w6");
+        $customer->sources->retrieve("card_1BOK7wK8gsMvI0Nn25NX3fjl")->delete();
+    }
+
+    public function addNewCard() {
+        
     }
 
 }
