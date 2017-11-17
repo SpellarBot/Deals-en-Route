@@ -245,13 +245,3 @@
 </div>
 
 @endsection
-@section('scripts')
-
-
-<script type="text/javascript" src="{{ asset('frontend/js/webjs/dashboard.js') }}"></script>
-
-<script type="text/javascript" src="{{ asset('frontend/js/webjs/couponlist.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing&callback=Maps"
-         async defer></script>
-
-@endsection

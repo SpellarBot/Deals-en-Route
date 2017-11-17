@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="{{ asset('frontend/css/animate.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/paper-dashboard.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" />
+           <link href="{{ asset('frontend/css/jasny-bootstrap.css')}}" rel="stylesheet">
     </head>
 
     <body>
@@ -45,25 +46,7 @@
         <script type="text/javascript" src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js') }}"></script>
 
         <script type="text/javascript" src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript">
-            jQuery('#groupTab a').click(function (e) {
-                e.preventDefault();
-                jQuery(this).tab('show');
-            });
-
-            // store the currently selected tab in the hash value
-            jQuery("ul.nav1 a").on("shown.bs.tab", function (e) {
-                var id = jQuery(e.target).attr("href").substr(1);
-                window.location.hash = id;
-            });
-
-            // on load of the page: switch to the currently selected tab
-            var hash = window.location.hash;
-            jQuery('#groupTab a[href="' + hash + '"]').tab('show');
-
-        </script>
-        <script type="text/javascript" src="{{ asset('frontend/js/jQuery.fileinput.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('frontend/js/example.js')}}"></script>
+        
         <script type="text/javascript" src="{{ asset('frontend/js/cleave.min.js') }}"></script>
 
         <!--=============================Card Details=============================-->
@@ -108,19 +91,6 @@
             });
 
         </script>
-
-        <script type="text/javascript" src="{{  asset('frontend/js/moment.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('frontend/js/bootstrap-datetimepicker.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('frontend/js/jquery.easypiechart.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('frontend/js/chartist.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('frontend/js/bootstrap-table.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('frontend/js/paper-dashboard.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('frontend/js/chartist-plugin-tooltip.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('frontend/js/demo.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js') }}"></script>
-         <script type="text/javascript" src="{{ asset('frontend/js/jquery.pjax.js') }}"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    
         <script type="text/javascript">
             jQuery(document).ready(function () {
                 //Initialize tooltips
@@ -128,7 +98,6 @@
 
                 //Wizard
                 jQuery('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-
                     var $target = jQuery(e.target);
 
                     if ($target.parent().hasClass('disabled')) {
@@ -138,11 +107,42 @@
 
               
             });
+           jQuery('#groupTab a').click(function (e) {
+                 
+                e.preventDefault();
+                jQuery(this).tab('show');
+            });
+
+            // store the currently selected tab in the hash value
+            jQuery("ul.nav1 a").on("shown.bs.tab", function (e) {
+             
+                e.preventDefault();
+                var id = jQuery(e.target).attr("href").substr(1);
+                window.location.hash = id;
+            });
+
+            // on load of the page: switch to the currently selected tab
+            var hash = window.location.hash;
+     
+            jQuery('#groupTab a[href="' + hash + '"]').tab('show');
 
          
         </script>
-
-       
+        <script type="text/javascript" src="{{  asset('frontend/js/moment.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/bootstrap-datetimepicker.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/jquery.easypiechart.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/chartist.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/bootstrap-table.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/paper-dashboard.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/chartist-plugin-tooltip.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/demo.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/jquery.pjax.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/jasny-bootstrap.js')}}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/webjs/dashboard.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/webjs/couponlist.js') }}"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing&callback=Maps"
+          async defer></script>
 
         <!--=============================Line Chart=============================-->
         <script type="text/javascript">
@@ -308,6 +308,9 @@
             });
 
         </script>
+        
+        
+      
     
         @yield('scripts')
     </body>

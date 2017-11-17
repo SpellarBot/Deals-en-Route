@@ -70,25 +70,28 @@ class CouponController extends Controller
         DB::beginTransaction();
         try {
          $request = $request->all();
-
-        if($request['validationcheck']==1){
+       
+        if(!empty($request['validationcheck']) && $request['validationcheck']==1){
+           
            $coupon=Coupon::addCoupon($request);
            $file = Input::file('coupon_logo');
             //store image
             if (!empty($file)) {
                $this->addImageWeb($file, $coupon, 'coupon_logo');
-         }
- 
+            }
+            
         }
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-             // throw $e;
-            return response()->json(['status'=>0,'errors' => \Config::get('constants.APP_ERROR')], 400);   
+            // throw $e;
+            return response()->json(['status'=>0,'message' => \Config::get('constants.APP_ERROR')], 400);   
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
-        return response()->json(['status'=>1,'errors' => \Config::get('constants.COUPON_CREATE')], 200);
+        if(isset($coupon) && $coupon==true ){
+        return response()->json(['status'=>1,'message' => \Config::get('constants.COUPON_CREATE')], 200);
+        }
     }
     
 }

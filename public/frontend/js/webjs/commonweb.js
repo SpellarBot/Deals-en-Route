@@ -19,13 +19,21 @@ $(document).ready(function(){
         $(".help-block").html('');
         $('.alert-danger').hide();
     });
-    
-
+ 
 });
 
 var hexDigits = new Array ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
 
 
+//clear form data
+ function clearFormData(id){
+ 
+        $('#'+id)[0].reset();
+        $(".form-group").removeClass('has-error');
+        $(".help-block").html('');
+
+                 
+ }  
 
 function setToastNotification(objDataParams) {
 
@@ -57,7 +65,7 @@ $(window).load(function() {
 
 
 
-
+// for jquery response json notification
 function setErrorNotification(data){
       if(data.responseJSON.status==0){
         $('.alert-danger').show();
@@ -92,21 +100,25 @@ function setFlashErrorNotification(){
 
 }
 
-
+// for dashboard notiufication
 function setDashboardNotification(response){
-      if(response.data.status==0){
+
+      if(response.status==0){
         $('.alert-danger').show();
         setTimeout(function() {
             $('.alert-danger').fadeOut('slow');
             },10000);
-       $('.errormessage').html(response.data.message);
+       $('.errormessage').html(response.message);
    }else{
          $('.alert-success').show();
         setTimeout(function() {
             $('.alert-success').fadeOut('slow');
             },10000);
-       $('.successmessage').html(response.data.message);
+       $('.successmessage').html(response.message);
    }
+   
+   
+
     
 }
 

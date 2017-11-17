@@ -30,7 +30,10 @@ class Coupon extends Model {
         'coupon_start_date', 'coupon_end_date', 'coupon_redemption_code',
         'coupon_qrcode', 'coupon_code', 'coupon_lat', 'coupon_long', 'coupon_radius',
         'coupon_total_redeem', 'coupon_redeem_limit', 'is_active', 'is_delete', 'distance',
-        'created_at', 'updated_at', 'created_by', 'coupon_radius'
+        'created_at', 'updated_at', 'created_by', 'coupon_radius',
+        'coupon_notification_point','coupon_notification_sqfeet',
+        'coupon_original_price','coupon_total_discount','coupon_discounted_price',
+        'coupon_discounted_price','coupon_discounted_percent'
     ];
 
     public function scopeActive($query) {
@@ -53,6 +56,7 @@ class Coupon extends Model {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_offer_logo/' . $value))) ? URL::to('/storage/app/public/coupon_offer_logo') . '/' . $value : "";
     }
 
+ 
     /**
      * Get the vendor detail record associated with the user.
      */
@@ -122,18 +126,27 @@ class Coupon extends Model {
     }
 
     public static function couponList() {
-        $coupon_list = \App\Coupon::where('created_by', Auth::id())->active()->deleted()->get();
+        $coupon_list = \App\Coupon::where('created_by', Auth::id())
+                ->active()
+                ->deleted()
+                ->orderBy('coupon_id','desc')
+                ->get();
         return $coupon_list;
     }
     
     //save coupon
     public static function addCoupon($data){
-
-        
-        $coupon=new Coupon();
-        $coupon->coupon_start_date=date('Y-m-d H:i:s');
-        $coupon->coupon_end_date=Carbon::parse($data['coupon_end_date'])->format('Y-m-d H:i:s');
-        $coupon->fill($data);
+   
+         $coupon=new Coupon();
+         $coupon->fill($data);
+         $coupon->created_by=Auth::id();
+         $coupon->coupon_start_date=date('Y-m-d H:i:s');
+         $coupon->coupon_category_id=User::find(Auth::id())->vendorDetail->vendor_category;
+         $coupon->coupon_lat=User::find(Auth::id())->vendorDetail->vendor_lat;
+         $coupon->coupon_long=User::find(Auth::id())->vendorDetail->vendor_long;
+         $explode=explode(',',$data['coupon_end_date']);
+         $enddate= \Carbon\Carbon::parse($explode[1]." ".$explode[0])->toDateTimeString();        
+         $coupon->coupon_end_date=$enddate;
         if($coupon->save()){
             return $coupon;
         }
