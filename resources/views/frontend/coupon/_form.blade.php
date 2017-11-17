@@ -110,11 +110,11 @@
                         </div>
                         <div class="col-sm-10 col-sm-offset-1">
                              
-                                <ul class="list-inline pad-top">
+                                <ul class="list-inline pad-top" style="text-align: center">
                                         <li class="pull-left">
                                                 <button type="button" class="btn btn-create prev-step">Previous</button>
                                         </li>
-                                        <li class="pull-left">
+                                        <li>
                                                 <button type="button" id="resetfence" onclick="onClickEvent()" class="btn btn-create">Draw Fence</button>
                                         </li>
                                         <li class="pull-right">
