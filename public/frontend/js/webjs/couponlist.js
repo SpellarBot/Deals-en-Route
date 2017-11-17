@@ -2,6 +2,7 @@ var $table = $('#bootstrap-table, #bootstrap-table1, #bootstrap-table2');
 var map;
 var mapshow;
 var drawingManager;
+var drawingManager1;
 var selectedShape;
 var marker;
 var count = 1;
@@ -447,8 +448,9 @@ function createPolygon() {
 
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
         var radius = e.overlay;
+       
         getSquareFeet(radius);
-
+       
         if (e.type != google.maps.drawing.OverlayType.MARKER) {
             // Switch back to non-drawing mode after drawing a shape.
             drawingManager.setDrawingMode(null);
@@ -456,6 +458,7 @@ function createPolygon() {
             drawingManager.setOptions({
                 drawingControl: false
             });
+         
             // Add an event listener that selects the newly-drawn shape when the user
             // mouses down on it.
             var newShape = e.overlay;
@@ -481,12 +484,14 @@ function deletePolygon() {
     $('#resetfence').text('Draw Fence');
     $('#coupon_notification_sqfeet').val('');
     $('#coupon_notification_point').val('');
+
     drawingManager.setDrawingMode(null);
     // To hide:
     drawingManager.setOptions({
         drawingControl: false
     });
     selectedShape.setMap(null);
+      
 }
 
 //change latitude longitude after polygon gets changed
@@ -511,21 +516,30 @@ function changeShape(newShape) {
 
 //display sq feet
 function getSquareFeet(radius) {
-
+  
     var polygonBounds = radius.getPath();
-
+    if(testArray!=''){
+         drawingManager1.setMap(null);
+         for (var a = 0; a < polygonBounds.length; a++)
+    {
+        testArray.pop({"lat": polygonBounds.getAt(a).lat(), "lng": polygonBounds.getAt(a).lng()});
+    }
+    }
+  
     for (var a = 0; a < polygonBounds.length; a++)
     {
         testArray.push({"lat": polygonBounds.getAt(a).lat(), "lng": polygonBounds.getAt(a).lng()});
     }
     // set polygon shape for second map
-    setPolygonShape();
+   
     var sqfeet = google.maps.geometry.spherical.computeArea(radius.getPath()) * 10.7639;
     $('#info').html('<label> Area Sqft Covered:- </label>' + sqfeet + ' ft²');
 
     $('.couponsqft').text(sqfeet + ' ft²');
     $('#coupon_notification_sqfeet').val(JSON.stringify(sqfeet));
     $('#coupon_notification_point').val(JSON.stringify(testArray));
+
+     setPolygonShape();
 }
 
 
@@ -533,7 +547,7 @@ function getSquareFeet(radius) {
 function setPolygonShape() {
     var triangleCoords = testArray;
 // show polygon
-    var drawingManager1 = new google.maps.Polygon({
+    drawingManager1 = new google.maps.Polygon({
         paths: triangleCoords,
         strokeWeight: 0,
         fillOpacity: 0.45,

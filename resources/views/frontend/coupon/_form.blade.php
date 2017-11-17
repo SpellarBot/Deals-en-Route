@@ -54,7 +54,7 @@
                                         </div>
                                          <div class="form-group">
                                                {{ Form::label('coupon_radius', 'Coupon Radius:') }}
-                                               {{ Form::number('coupon_radius', '', ['placeholder'=>'Enter Your Coupon Radius','class'=>'form-control','min'=>1,'id'=>'coupon_radius']) }}
+                                               {{ Form::number('coupon_radius', '', ['placeholder'=>'Enter Your Coupon Radius','class'=>'form-control','min'=>1,'maxlength'=>3,'id'=>'coupon_radius']) }}
                                                  <p> (in miles) </p>
                                          </div>
                   
@@ -65,7 +65,7 @@
                                          </div>
                                         <div class="form-group">
                                                {{ Form::label('coupon_discount', 'Discount Percentage:') }}
-                                               {{ Form::number('coupon_discounted_percent', '', ['placeholder'=>'Enter Your Discount in %','class'=>'form-control','min'=>1,'id'=>'percentage_price']) }} 
+                                               {{ Form::number('coupon_discounted_percent', '', ['placeholder'=>'Enter Your Discount in %','maxlength'=>2,'class'=>'form-control','min'=>1,'id'=>'percentage_price']) }} 
                                                 OR 
                                                {{ Form::label('coupon_discount', 'Discount Price:') }}
                                                {{ Form::number('coupon_discounted_price', '', ['placeholder'=>'Enter Your Discount in $','class'=>'form-control','min'=>1,'id'=>'value_price']) }}
