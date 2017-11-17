@@ -54,12 +54,12 @@
                                 {{ Form::select('vendor_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput','id'=>'country']) }}
                             </div>
 
-                            <div class="form-group{{ $errors->has('vendor_city') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 {{ Form::text('vendor_city', '', ['placeholder'=>'City','class'=>'form-control','id'=>'locality']) }}
 
                             </div>
 
-                            <div class="form-group{{ $errors->has('vendor_state') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 {{ Form::text('vendor_state', '', ['placeholder'=>'State','class'=>'form-control','id'=>'administrative_area_level_1']) }}
 
                             </div>

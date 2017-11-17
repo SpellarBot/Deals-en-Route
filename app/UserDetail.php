@@ -57,7 +57,7 @@ class UserDetail extends Model {
 
         $user_detail = UserDetail::firstOrNew(["user_id" => $user_id]);
         $user_detail->user_id = $user_id;
-
+     
         $user_detail->fill($data);
         $user_detail->save();
         return $user_detail;

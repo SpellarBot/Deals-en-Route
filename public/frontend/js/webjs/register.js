@@ -100,7 +100,7 @@ $(document).ready(function () {
         administrative_area_level_1: 'long_name',
         postal_code: 'short_name',
       };
-    
+      // auto complete of google search
       function initAutocomplete() {
          
         // Create the autocomplete object, restricting the search to geographical

@@ -101,10 +101,13 @@ return [
     */
 
     'custom' => [
-        'errors' => [
-            'check-permission' => 'custom-message',
+        'coupon_notification_sqfeet' => [
+            'check-required' => 'Please Select Geo Fencing Area.',
         ],
+         'coupon_discounted_percent.required_without'=>'The coupon percent/value is required.',
     ],
+
+        
 
     /*
     |--------------------------------------------------------------------------

@@ -4,6 +4,9 @@
         <div class="tab-content">
                <input type="hidden" value="1" name="steps" class="stepsincrement"> 
                <input type="hidden" value="0" name="validationcheck" class="validationcheck"> 
+               <input type="hidden" value="{{ $vendor_detail->vendor_lat}}" name="vendor_lat" class="vendor_lat"> 
+               <input type="hidden" value="{{ $vendor_detail->vendor_long}}" name="vendor_long" class="vendor_long"> 
+               
                 <div class="tab-pane active" role="tabpanel" id="step1">
                         <h3>Coupon Details</h3>
                         <div class="row" >
@@ -52,14 +55,41 @@
                                          <div class="form-group">
                                                {{ Form::label('coupon_radius', 'Coupon Radius:') }}
                                                {{ Form::number('coupon_radius', '', ['placeholder'=>'Enter Your Coupon Radius','class'=>'form-control','min'=>1,'id'=>'coupon_radius']) }}
-                                                 <p> it will be in miles   </p>
+                                                 <p> (in miles) </p>
                                          </div>
+                  
+                                        <div class="form-group">
+                                               {{ Form::label('coupon_original_price', 'Original Price:') }}
+                                               {{ Form::number('coupon_original_price', '', ['placeholder'=>'Enter Your Coupon Original Price ','class'=>'form-control','min'=>1,'id'=>'original_price']) }}
+                                             
+                                         </div>
+                                        <div class="form-group">
+                                               {{ Form::label('coupon_discount', 'Discount Percentage:') }}
+                                               {{ Form::number('coupon_discounted_percent', '', ['placeholder'=>'Enter Your Discount in %','class'=>'form-control','min'=>1,'id'=>'percentage_price']) }} 
+                                                OR 
+                                               {{ Form::label('coupon_discount', 'Discount Price:') }}
+                                               {{ Form::number('coupon_discounted_price', '', ['placeholder'=>'Enter Your Discount in $','class'=>'form-control','min'=>1,'id'=>'value_price']) }}
+                                             
+                                         </div>
+                                    
+                                         <div class=" form-group">
+                                               {{ Form::label('coupon_discounted_price', 'Total Dicounted Price:') }}
+                                               {{ Form::text('coupon_discount', '', ['placeholder'=>'$','class'=>'form-control','readonly'=>true,'id'=>'final_value']) }}
+                                             
+                                         </div>
+                                    
 
-                                       <div class="form-group">
-                                                <label>Coupon Image</label>
-                                                <fieldset>
-                                                       {{ Form::file('coupon_logo',['id' => 'file1','accept'=>'image/*']) }}
-                                                </fieldset>
+                                        <div class="form-group couponlogo ">
+                                                {{ Form::label('coupon_logo', 'Coupon Logo:') }}
+                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename"></span></div>
+                                                <span class="input-group-addon btn btn-default btn-file">
+                                                <span class="fileinput-new">Browse</span>
+                                                <span class="fileinput-exists">Change</span> 
+                                                
+                                                {{ Form::file('coupon_logo',['id' => 'file1','accept'=>'image/*']) }}
+                                                </span>
+                                                </div>
                                         </div>
                                         <ul class="list-inline pull-right pad-top">
                                                 <li>
@@ -72,16 +102,20 @@
                 </div>
                 <div class="tab-pane" role="tabpanel" id="step2">
                         <h3>Geofence</h3>
-                      
+                       
                         <div class="row">
-                           <div id="info"></div>
+                            <div class="col-sm-10 col-sm-offset-1 form-group"> <div id="info"></div></div>
                             <div  class="col-sm-10 col-sm-offset-1" id="googlegeofencing" style="height: 400px;max-width: 980px;"></div> 
                        
                         </div>
                         <div class="col-sm-10 col-sm-offset-1">
+                             
                                 <ul class="list-inline pad-top">
                                         <li class="pull-left">
                                                 <button type="button" class="btn btn-create prev-step">Previous</button>
+                                        </li>
+                                        <li class="pull-left">
+                                                <button type="button" id="resetfence" onclick="onClickEvent()" class="btn btn-create">Draw Fence</button>
                                         </li>
                                         <li class="pull-right">
                                           
@@ -89,6 +123,7 @@
                                         </li>
                                 </ul>
                         </div>
+                         <input type="hidden" value="" name="coupon_notification_point" id="coupon_notification_point"> 
                 </div>
                 <div class="tab-pane" role="tabpanel" id="step3">
                         <h3>Order Summary</h3>
@@ -108,8 +143,9 @@
                                            
                                         </div>
                                 </div>
-                                <div class="col-sm-6">
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2470.917762770124!2d-74.01094649895528!3d40.70622394221145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a165bedccab%3A0x2cb2ddf003b5ae01!2sWall+St%2C+New+York%2C+NY%2C+USA!5e0!3m2!1sen!2sin!4v1506509334043" width="100%" height="481" frameborder="0" style="border-radius: 15px;border:2px solid #999;" allowfullscreen></iframe>
+                          
+                                <div class="col-sm-6" id="googelgeofencingshow" style="height: 481px;max-width: 980px; border-radius: 15px;border:2px solid #999;">
+                                   
                                 </div>
                         </div>
                         <div class="row">
@@ -118,21 +154,22 @@
                                                 <tbody>
                                                         <tr>
                                                                 <td>Start Time:</td>
-                                                                <td >September 18, 2017 3:00 PM EDT</td>
+                                                                <td class="coupon_start_date"> <?php echo date('g A, d M Y'); ?></td>
                                                         </tr>
                                                         <tr>
                                                                 <td>End Time:</td>
-                                                                <td class="coupon_end_date">September 19, 2017 3:00 PM EDT</td>
+                                                                <td class="coupon_end_date"></td>
                                                         </tr>
                                                         <tr>
-                                                                <td>Area Covered:</td>
-                                                                <td>Wall Street, NY</td>
+                                                                <td>Area Covered(sq feet):</td>
+                                                                <td class="couponsqft"> </td>
                                                         </tr>
+                                                        <input type="hidden" value="" name="coupon_notification_sqfeet" id="coupon_notification_sqfeet"> 
                                                 </tbody>
                                                 <tfoot>
                                                         <tr>
                                                                 <td>Total:</td>
-                                                                <td>$50</td>
+                                                                <td>$0</td>
                                                         </tr>
                                                 </tfoot>
                                         </table>
