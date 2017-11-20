@@ -123,17 +123,16 @@
                                 {{ Form::text('card_cvv', '', ['placeholder'=>'CVV','class'=>'form-control cardCvv','maxlength'=>"4"]) }}
 
                             </div>
-                            <h4>Billing Details</h4>
-                              <div class="form-group">
-                                {{ Form::text('billing_firstname', '', ['placeholder'=>'First Name','class'=>'form-control']) }}
-
-                            </div>
-                              <div class="form-group">
-                                {{ Form::text('billing_lastname', '', ['placeholder'=>'Last Name','class'=>'form-control']) }}
-
-                            </div>
+                            <h4>Billing Details {{ Form::checkbox('check-address', 'yes','',['id' => 'check-address']) }}(Same As Business Address)</h4>
+                            <div id="billingdetails">
+                        
                             <div class="form-group">
-                                {{ Form::text('billing_home', '', ['placeholder'=>'Home','class'=>'form-control']) }}
+                                {{ Form::text('billing_businessname', '', ['placeholder'=>'Business Name','class'=>'form-control']) }}
+
+                            </div>
+                            
+                            <div class="form-group">
+                                {{ Form::text('billing_home', '', ['placeholder'=>'Street Address','class'=>'form-control']) }}
 
                             </div>
                             <div class="form-group">
@@ -152,7 +151,7 @@
                             <div class="form-group">
                                 {{ Form::select('billing_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput']) }}
                             </div>
-
+                            </div>     
                         </div>
                         <div class="col-sm-12">
                             <h5>Congratulations! One more step to pushing your business to new heights! You have a 30-day free trial — Way less than what you spend on a current advertising methods collectively!</h5>

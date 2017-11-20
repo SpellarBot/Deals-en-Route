@@ -26,6 +26,8 @@ $().ready(function () {
         prevTab($active);
 
     });
+    
+    
 
     window.operateEvents = {
         'click .view': function (e, value, row, index) {
@@ -35,10 +37,10 @@ $().ready(function () {
             console.log(info);
         },
         'click .edit': function (e, value, row, index) {
-            info = JSON.stringify(row);
+               $('#loadingDiv').show();
+               window.location.href=$('#hidAbsUrl').val()+'create/#edit';
+            
 
-            swal('You click edit icon, row: ', info);
-            console.log(info);
         },
         'click .remove': function (e, value, row, index) {
 
@@ -111,6 +113,7 @@ $().ready(function () {
     //$('[rel="tooltip"]').tooltip();
 
     $(window).resize(function () {
+       
         $('#loadingDiv').hide();
         $table.bootstrapTable('resetView');
     });
@@ -167,6 +170,8 @@ $().ready(function () {
 
 
 });
+
+ 
 
 // date picker
 $('.datepicker').datetimepicker({
@@ -297,6 +302,10 @@ function nextTab(elem) {
 
 // resize google map
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var href=$(this).attr('href');
+    if(href=='#create2'){
+        clearFormData();
+    }
     var value = $(this).find('.round-tab').text();
     if (value == 1 || value == 2 || value == 3) {
         $('.stepsincrement').val($.trim(value));

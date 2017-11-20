@@ -16,9 +16,9 @@ class VendorDetail extends Model {
     protected $fillable = [
         'user_id', 'vendor_name', 'vendor_address', 'vendor_city', 'vendor_zip', 
         'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state', 
-        'billing_home', 'billing_state', 'billing_zip', 'billing_firstname',
-        'billing_lastname', 'billing_city', 'billing_country','vendor_country',
-        'vendor_state','vendor_lat','vendor_long'
+        'billing_home', 'billing_state', 'billing_zip', 'billing_city',
+        'billing_country','vendor_country', 'vendor_state','vendor_lat',
+        'vendor_long','billing_businessname','check-address'
     ];
 
     public function getVendorLogoAttribute($value) {
@@ -28,14 +28,24 @@ class VendorDetail extends Model {
 
     // save vendor detail
     public static function saveVendorDetail($data, $user_id) {
-       
+        if(isset($data['check-address'])){
+          $checkaddress=$data['check-address'];
+          unset($data['check-address']);
+        }
         $vendor_detail = VendorDetail::firstOrNew(["user_id" => $user_id]);
         $vendor_detail->user_id = $user_id;
+      
         $vendor_detail->fill($data);
         $vendor_detail->save();
+       
+         if(isset($checkaddress) && $checkaddress=='yes'){
+             
+            self::saveBusinessAddress($vendor_detail,$data);
+        }
         if(empty($data['vendor_lat'])  || empty($data['vendor_long']) ){
         self::saveMapLatLong($vendor_detail);
         }
+       
         return $vendor_detail;
     }
   
@@ -88,6 +98,17 @@ class VendorDetail extends Model {
        $model->vendor_lat= $response1->results[0]->geometry->location->lat; 
        $model->vendor_long= $response1->results[0]->geometry->location->lng; 
        $model->save();        
+    }
+    
+    public static function saveBusinessAddress($vendor_detail,$data){
+        
+     $vendor_detail->billing_businessname = $data['vendor_name'];
+     $vendor_detail->billing_home = $data['vendor_address'];
+     $vendor_detail->billing_state = $data['vendor_state'];
+     $vendor_detail->billing_city = $data['vendor_city'];
+     $vendor_detail->billing_zip = $data['vendor_zip'];
+     $vendor_detail->billing_country = $data['vendor_country'];
+ 
     }
 
 }
