@@ -14,7 +14,6 @@ use Mail;
 class StripeController extends Controller {
 
     use MailTrait;
-    use \Stripe;
 
     public function handleStripeResponse(Request $request) {
 
@@ -53,25 +52,32 @@ class StripeController extends Controller {
                 'data' => ['confirmation_code' => 'Test'],
             ];
             $this->sendMail($array_mail);
+        } elseif ($event->type == 'charge.succeeded') {
+            $array_mail = ['to' => $user_details->email,
+                'type' => 'payment_success',
+                'data' => ['confirmation_code' => 'Test'],
+            ];
+            $this->sendMail($array_mail);
+        } elseif ($event->type == 'customer.subscription.deleted') {
+            $array_mail = ['to' => $user_details->email,
+                'type' => 'subscription_cancel_success',
+                'data' => ['confirmation_code' => 'Test'],
+            ];
+            $this->sendMail($array_mail);
         }
+//        } elseif ($event->type == 'customer.subscription.updated') {
+//            $type = 'subscription_upgrade_success';
+//            $type = 'subscription_downgrade_success';
+//            $array_mail = ['to' => $user_details->email,
+//                'type' => $type,
+//                'data' => ['confirmation_code' => 'Test'],
+//            ];
+//            $this->sendMail($array_mail);
+//        }
         $data = array('user_id' => $user_details->user_id, 'stripe_id' => $user_details->stripe_id, 'type' => $event->type, 'status' => 0);
 //        print_r($data);die;
         $test = Stripewebhook::createStripe($data);
         http_response_code(200);
-    }
-
-    public function deleteCard() {
-        \Stripe\Stripe::setApiKey("sk_test_ZBNhTnKmE3hEkk26awNMDdcc");
-
-        $userid = Auth::id();
-        print_r($userid);die;
-
-        $customer = \Stripe\Customer::retrieve("cus_BlTr65g6v9x4w6");
-        $customer->sources->retrieve("card_1BOK7wK8gsMvI0Nn25NX3fjl")->delete();
-    }
-
-    public function addNewCard() {
-        
     }
 
 }
