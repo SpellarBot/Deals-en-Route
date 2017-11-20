@@ -1872,6 +1872,14 @@ footer ul.social span {
 		width: 1440px;
 	}
 }
+@media (max-width: 1099px) {
+    .btn{
+        padding: 8px 20px;
+    }
+    .input-group-addon.btn{
+        padding: 9px 10px;
+    }
+}
 
 @media( max-width: 585px) {
 	.wizard {

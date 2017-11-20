@@ -105,6 +105,12 @@ return [
             'check-required' => 'Please Select Geo Fencing Area.',
         ],
          'coupon_discounted_percent.required_without'=>'The coupon percent/value is required.',
+        'billing_home.required_without'=>'The billing address field is required.',
+         'billing_city.required_without'=>'The billing city field is required.',
+         'billing_state.required_without'=>'The billing state field is required.',
+         'billing_zip.required_without'=>'The billing zip field is required.',
+          'billing_businessname.required_without'=>'The billing business name field is required.',
+         'billing_country.required_without'=>'The billing country field is required.',
     ],
 
         

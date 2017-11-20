@@ -2,10 +2,12 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="tab-content">
-               <input type="hidden" value="1" name="steps" class="stepsincrement"> 
-               <input type="hidden" value="0" name="validationcheck" class="validationcheck"> 
-               <input type="hidden" value="{{ $vendor_detail->vendor_lat}}" name="vendor_lat" class="vendor_lat"> 
-               <input type="hidden" value="{{ $vendor_detail->vendor_long}}" name="vendor_long" class="vendor_long"> 
+            {{ Form::hidden('steps', 1, ['class' => 'stepsincrement']) }}
+            
+            {{ Form::hidden('validationcheck', 0, ['class' => 'validationcheck']) }}
+            {{ Form::hidden('vendor_lat', $vendor_detail->vendor_lat, ['class' => 'vendor_lat']) }}
+            {{ Form::hidden('vendor_long', $vendor_detail->vendor_long, ['class' => 'vendor_long']) }}
+
                
                 <div class="tab-pane active" role="tabpanel" id="step1">
                         <h3>Coupon Details</h3>
@@ -123,7 +125,8 @@
                                         </li>
                                 </ul>
                         </div>
-                         <input type="hidden" value="" name="coupon_notification_point" id="coupon_notification_point"> 
+                         {{ Form::hidden('coupon_notification_point', '', ['id' => 'coupon_notification_point']) }}
+
                 </div>
                 <div class="tab-pane" role="tabpanel" id="step3">
                         <h3>Order Summary</h3>
@@ -164,7 +167,8 @@
                                                                 <td>Area Covered(sq feet):</td>
                                                                 <td class="couponsqft"> </td>
                                                         </tr>
-                                                        <input type="hidden" value="" name="coupon_notification_sqfeet" id="coupon_notification_sqfeet"> 
+                                                        {{ Form::hidden('coupon_notification_sqfeet', '', ['id' => 'coupon_notification_sqfeet']) }}
+=
                                                 </tbody>
                                                 <tfoot>
                                                         <tr>
