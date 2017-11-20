@@ -16,26 +16,26 @@
         <link rel="stylesheet" href="{{ asset('frontend/css/animate.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/paper-dashboard.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" />
-           <link href="{{ asset('frontend/css/jasny-bootstrap.css')}}" rel="stylesheet">
+        <link href="{{ asset('frontend/css/jasny-bootstrap.css')}}" rel="stylesheet">
     </head>
 
     <body>
         <input type="hidden" name="hidAbsUrl" id="hidAbsUrl" value="{{URL::to('/')}}" />
         <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
-       
+
         <div class="wrapper">
-           
-                  <div class="errorpopup">
+
+            <div class="errorpopup">
                 <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div class="successmessage"> </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="successmessage"> </div>
                 </div>  
                 <div class="alert alert-danger alert-dismissible" role="alert" style="display: none">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <div class="errormessage"> </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="errormessage"> </div>
                 </div>  
             </div>
-             
+
             @include('frontend/sidebar/sidebar')
             @yield('content')   
         </div>
@@ -46,7 +46,7 @@
         <script type="text/javascript" src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js') }}"></script>
 
         <script type="text/javascript" src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
-        
+
         <script type="text/javascript" src="{{ asset('frontend/js/cleave.min.js') }}"></script>
 
         <!--=============================Card Details=============================-->
@@ -105,17 +105,17 @@
                     }
                 });
 
-              
+
             });
-           jQuery('#groupTab a').click(function (e) {
-                 
+            jQuery('#groupTab a').click(function (e) {
+
                 e.preventDefault();
                 jQuery(this).tab('show');
             });
 
             // store the currently selected tab in the hash value
             jQuery("ul.nav1 a").on("shown.bs.tab", function (e) {
-             
+
                 e.preventDefault();
                 var id = jQuery(e.target).attr("href").substr(1);
                 window.location.hash = id;
@@ -123,10 +123,10 @@
 
             // on load of the page: switch to the currently selected tab
             var hash = window.location.hash;
-     
+
             jQuery('#groupTab a[href="' + hash + '"]').tab('show');
 
-         
+
         </script>
         <script type="text/javascript" src="{{  asset('frontend/js/moment.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('frontend/js/bootstrap-datetimepicker.js') }}"></script>
@@ -142,7 +142,7 @@
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/dashboard.js') }}"></script>
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/couponlist.js') }}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing&callback=Maps"
-          async defer></script>
+        async defer></script>
 
         <!--=============================Line Chart=============================-->
         <script type="text/javascript">
@@ -308,10 +308,10 @@
             });
 
         </script>
-        
-        
-      
-    
+
+
+
+
         @yield('scripts')
     </body>
 

@@ -24,13 +24,16 @@ class HomeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
- 
-        $coupon_lists=\App\Coupon::couponList();
-        $vendor_detail= \App\VendorDetail::where('user_id',Auth::id())
+
+        $coupon_lists = \App\Coupon::couponList();
+        $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+                ->where('vendor_detail.user_id', Auth::id())
                 ->first();
-        
-        return view('frontend.dashboard.main')->with(['coupon_lists'=>$coupon_lists,
-            'vendor_detail'=>$vendor_detail]);
+        $country_list = \App\Country::countryList();
+//        echo '<pre>';
+//        print_r($vendor_detail);die;
+        return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
+                    'vendor_detail' => $vendor_detail, 'country_list' => $country_list]);
     }
 
 }
