@@ -22,23 +22,30 @@ class StripeController extends Controller {
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
         $cardid = $stripedetails->card_id;
-        $customer = \App\StripeUser::deleteCard($customerid, $cardid);
-        if ($customer['deleted'] == 1) {
-            return 1;
-        } else {
-            return 0;
+        try {
+            $customer = \App\StripeUser::deleteCard($customerid, $cardid);
+            if ($customer['deleted'] == 1) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (\Cartalyst\Stripe\Exception\NotFoundException $e) {
+            return explode(':', $e->getMessage());
         }
     }
 
-    public function updateCard() {
-        $data = array('card_expiry' => '10/23', 'card_no' => '4242424242424242', 'card_cvv' => '123');
+    public function updateCard($details) {
+        $data = array('card_expiry' => $details['card_expiry'], 'card_no' => $details['card_no'], 'card_cvv' => $details['card_cvv']);
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
         $stripe_id = $stripedetails->id;
-        $createcard = StripeUser::createCard($customerid, $data, $stripe_id);
-        print_r($createcard);
-        die;
+        try {
+            $createcard = StripeUser::createCard($customerid, $data, $stripe_id);
+            return $createcard;
+        } catch (\Cartalyst\Stripe\Exception\CardErrorException $e) {
+            return $e->getMessage();
+        }
     }
 
     public function changeSubscription() {
@@ -65,6 +72,21 @@ class StripeController extends Controller {
         $subscription = \App\Subscription::getSubscription($customerid, $userid);
         $data = array('subscription_id' => $subscription->sub_id, 'stripe_id' => $customerid);
         $cancelsubscription = \App\StripeUser::cancelSubscription($data);
+    }
+
+    public function editCreditCard(Request $request) {
+        $data = $request->all();
+        $deletcard = $this->deleteCard();
+        if ($deletcard == 1 || $deletcard[0] == 'No such source') {
+            $updatecard = $this->updateCard($data);
+            if (is_array($updatecard) && $updatecard) {
+                return response()->json(['status' => 1, 'message' => 'Card Updated SuccessFully!!!'], 200);
+            } else {
+                return response()->json(['status' => 0, 'message' => $updatecard], 400);
+            }
+        } else {
+            return response()->json(['status' => 0, 'message' => $deletcard[0]], 400);
+        }
     }
 
 }

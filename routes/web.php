@@ -43,15 +43,17 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('user.loginform');
     Route::post('vendor/login', 'Auth\LoginController@login')->name('vendor.login');
     Route::post('vendor/logout', 'Auth\LoginController@logout')->name('vendor.logout');
-    Route::get('/vendor/deleteCard', 'StripeController@deleteCard')->name('vendor.cardDelete');
-    Route::get('/vendor/updateCard', 'StripeController@updateCard')->name('vendor.updateCard');
-    Route::get('/vendor/cancelSubscription', 'StripeController@cancelSubscription')->name('vendor.cancelSubscription');
-    Route::get('/vendor/updateSubscription', 'StripeController@updateSubscription')->name('vendor.updateSubscription');
-    Route::get('/vendor/changeSubscription', 'StripeController@changeSubscription')->name('vendor.changeSubscription');
+    Route::post('vendor/editCreditCard', 'StripeController@editCreditCard')->name('vendor.editCreditCard');
+//    Route::get('/vendor/deleteCard', 'StripeController@deleteCard')->name('vendor.cardDelete');
+//    Route::get('/vendor/updateCard', 'StripeController@updateCard')->name('vendor.updateCard');
+//    Route::get('/vendor/cancelSubscription', 'StripeController@cancelSubscription')->name('vendor.cancelSubscription');
+//    Route::get('/vendor/updateSubscription', 'StripeController@updateSubscription')->name('vendor.updateSubscription');
+//    Route::get('/vendor/changeSubscription', 'StripeController@changeSubscription')->name('vendor.changeSubscription');
     Route::get('/dashboard', 'HomeController@index')->name('frontend.main');
     Route::post('/user/forgetpassword', 'Auth\ResetPasswordController@postEmail');
     Route::delete('/coupon/{id}', 'CouponController@destroy');
-    Route::post('/coupon/store', 'CouponController@store');});
+    Route::post('/coupon/store', 'CouponController@store');
+});
 // Admin routes
 Route::group(['namespace' => 'Admin',], function () {
     Route::get('/admin/dashboard', 'HomeController@index')->name('home');
