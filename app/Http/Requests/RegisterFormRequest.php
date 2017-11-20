@@ -21,6 +21,7 @@ class RegisterFormRequest extends FormRequest {
      * @return array
      */
     public function rules() {
+
         switch ($this->method()) {
             case 'POST': {
                     return [
@@ -36,13 +37,12 @@ class RegisterFormRequest extends FormRequest {
                         'vendor_state' => 'required',
                         'vendor_country' => 'required',
                         'vendor_zip' => 'required|min:5|max:10',
-                        'billing_home' => 'required|max:255',
-                        'billing_city' => 'required|max:255',
-                        'billing_state' => 'required|max:255',
-                        'billing_zip' =>  'required|min:5|max:10',
-                        'billing_country' => 'required',
-                        'billing_firstname' => 'required|max:255',
-                        'billing_lastname' => 'required|max:255',
+                        'billing_home' => 'required_without:check-address|max:255',
+                        'billing_city' => 'required_without:check-address|max:255',
+                        'billing_state' => 'required_without:check-address|max:255',
+                        'billing_zip' =>  'required_without:check-address|max:10',
+                        'billing_country' => 'required_without:check-address',
+                        'billing_businessname' => 'required_without:check-address|max:255',
                         'card_no' => 'required',
                         'card_holder_name' => 'required',
                         'card_expiry' => 'required',

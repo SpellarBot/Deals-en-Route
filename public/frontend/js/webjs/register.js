@@ -12,7 +12,15 @@ $(document).ready(function () {
     });
 
    
-    
+      $('#check-address').on('click', function (event) {
+        if($('#check-address').is(':checked')){
+           //check the name
+             $("#billingdetails").slideUp();
+        } else{
+            $("#billingdetails").slideDown();
+        }
+
+    });
     // sign up form
     $('#signupform').on('submit', function (event) {
         event.preventDefault();
@@ -134,4 +142,4 @@ $(document).ready(function () {
     
   }
 
-     
+    

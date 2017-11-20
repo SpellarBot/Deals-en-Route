@@ -90,11 +90,11 @@
                 });
             });
 
-        </script>
-        <script type="text/javascript">
+     
             jQuery(document).ready(function () {
                 //Initialize tooltips
                 jQuery('.nav-tabs-step > li a[title]').tooltip();
+
 
                 //Wizard
                 jQuery('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
