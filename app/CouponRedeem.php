@@ -48,4 +48,14 @@ class CouponRedeem extends Model {
         return $result;
     }
 
+    public static function getRedeemCoupon() {
+        $user_id = Auth::id();
+        $coupons = CouponRedeem::select(DB::raw("coupon_redeem.is_redeem,coupon_redeem.created_at as coupoun_redeem_date, user_detail.user_id,TIMESTAMPDIFF(YEAR,user_detail.dob,NOW()) as age"))
+                ->leftjoin('coupon', 'coupon.coupon_id', 'coupon_redeem.coupon_id')
+                ->leftjoin('user_detail', 'user_detail.user_id', 'coupon_redeem.user_id')
+                ->where('coupon.created_by', $user_id)
+                ->get();
+        return $coupons;
+    }
+
 }

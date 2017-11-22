@@ -76,6 +76,8 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/vendor/logout', 'Auth\LoginController@vendorlogout');
         Route::post('/vendor/getCoupons', 'CouponController@getCoupons');
         Route::post('/vendor/couponRedemption', 'CouponController@CouponRedemption');
+        Route::post('/vendor/dashboard', 'HomeController@dashboard');
+        Route::post('/vendor/getReedeemCouponByYear', 'HomeController@getReedeemCouponByYear');
     });
 });
 

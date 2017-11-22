@@ -30,8 +30,6 @@ class HomeController extends Controller {
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
         $country_list = \App\Country::countryList();
-//        echo '<pre>';
-//        print_r($vendor_detail);die;
         return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
                     'vendor_detail' => $vendor_detail, 'country_list' => $country_list]);
     }

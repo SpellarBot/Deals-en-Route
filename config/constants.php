@@ -13,6 +13,8 @@ return [
     'USER_UPDATED_SUCCESSFULLY' => 'User Updated Successsfully.',
     'USER_UNAUTHENTICATED' => 'unauthenticated',
     'USER_DETAIL' => 'user detail',
+    'DASHBOARD_DETAIL' => 'Dashboard detail',
+    'REDEEM_COUPON_YEAR' => 'Monthly Redeem Coupon detail',
     'USER_CREATED' => 'User Created Successfully.',
     //email
     'EMAIL_VERIFIED' => 'You have successfully verified your account.',
@@ -41,15 +43,14 @@ return [
     'COMMENT_LIST' => 'comment listed successfully.',
     'COUPON_ADD_REDEEM' => 'coupon redeemed successfully,',
     'COUPON_DELETE' => 'coupon deleted successfully.',
-    'COUPON_DELETE'=>'coupon deleted successfully.',
-    'COUPON_CREATE'=>'coupon added successfully.',
+    'COUPON_DELETE' => 'coupon deleted successfully.',
+    'COUPON_CREATE' => 'coupon added successfully.',
     'EARTH_RADIUS' => 3959,
     'USER_DELETE' => 'sorry your account have been deleted by admin.please contact admin.',
     'USER_DEACTIVE' => 'sorry your account have been deactivated by admin.please contact admin.',
-    'CONTACT_SUCCESS'=>'Mail Send Successfully.',
-    
-     //client mail
-    'CLIENT_MAIL'=>'support@dealsenroute.com',
+    'CONTACT_SUCCESS' => 'Mail Send Successfully.',
+    //client mail
+    'CLIENT_MAIL' => 'support@dealsenroute.com',
     //activity message
     'ACTVITY_CREATOR_MESSAGE' => 'You shared {{coupon_name}} coupon with {{count}} others',
     'ACTVITY_FRIEND_MESSAGE' => '{{created_by}} shared a {{coupon_name}} coupon with you ',
@@ -69,7 +70,6 @@ return [
     'STRIPE_KEY' => 'pk_test_dvnwoMABEgschsRqPZRuGJrp',
     'STRIPE_SECRET' => 'sk_test_ZBNhTnKmE3hEkk26awNMDdcc',
     'STRIPE_VERSION' => '2017-08-15',
-  
 ];
 
 
