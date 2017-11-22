@@ -13,6 +13,8 @@ return [
     'USER_UPDATED_SUCCESSFULLY' => 'User Updated Successsfully.',
     'USER_UNAUTHENTICATED' => 'unauthenticated',
     'USER_DETAIL' => 'user detail',
+    'DASHBOARD_DETAIL' => 'Dashboard detail',
+    'REDEEM_COUPON_YEAR' => 'Monthly Redeem Coupon detail',
     'USER_CREATED' => 'User Created Successfully.',
     //email
     'EMAIL_VERIFIED' => 'You have successfully verified your account.',
@@ -41,7 +43,6 @@ return [
     'COMMENT_LIST' => 'comment listed successfully.',
     'COUPON_ADD_REDEEM' => 'coupon redeemed successfully,',
     'COUPON_DELETE' => 'coupon deleted successfully.',
-    'COUPON_DELETE'=>'coupon deleted successfully.',
     'COUPON_CREATE'=>'coupon added successfully.',
     'EARTH_RADIUS' => 3959,
     'USER_DELETE' => 'sorry your account have been deleted by admin.please contact admin.',

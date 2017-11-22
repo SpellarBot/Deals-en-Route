@@ -35,7 +35,7 @@ class CouponController extends Controller {
             // get the request
             $data = $request->all();
             //add lat long if passsed to the data
-            $passdata= $data;
+            $passdata = $data;
             unset($passdata['category_id']);
             $user_detail = \App\UserDetail::saveUserDetail($passdata, Auth::user()->id);
             //find nearby coupon
@@ -302,6 +302,19 @@ class CouponController extends Controller {
     }
 
     public function CouponRedemption(Request $request) {
+        $data = $request->all();
+        $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
+        if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
+            return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
+        } else {
+//            $this->deductiveInterest();
+            $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
+            $getCoupondetails->save();
+            return $this->responseJson('success', 'Coupon Redeemed Successfully', 200);
+        }
+    }
+
+    public function deductiveInterest() {
         
     }
 

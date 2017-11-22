@@ -74,7 +74,7 @@ class StripeUser extends Model {
         return $customer;
     }
 
-    //create customer
+//create customer
     public function createCustomer($data) {
 
         $customer = $this->stripe->customers()->create([
@@ -87,7 +87,7 @@ class StripeUser extends Model {
         return false;
     }
 
-    // store the card of particular customer
+// store the card of particular customer
     public function storeCard($customerid, $token, $data) {
 
         $card = $this->stripe->cards()->create($customerid, $token['id']);
@@ -98,7 +98,7 @@ class StripeUser extends Model {
         $this->save();
     }
 
-    //create subcription
+//create subcription
     public function createSubcription($plan_id) {
 
         $stripeid = $this->stripe_id;
@@ -121,20 +121,20 @@ class StripeUser extends Model {
         }
     }
 
-    //delete a customer with existing id
+//delete a customer with existing id
     public static function deleteCustomer($customerid) {
         $stripe = new StripeUser();
         $customer = $stripe->stripe->customers()->delete($customerid);
     }
 
-    //Delete Current Card for existing stripe customer
+//Delete Current Card for existing stripe customer
     public static function deleteCard($customerid, $card_id) {
         $stripe = new StripeUser();
         $card = $stripe->stripe->cards()->delete($customerid, $card_id);
         return $card;
     }
 
-    //Create New Card and update details to database
+//Create New Card and update details to database
     public static function createCard($customerid, $data, $stripe_id) {
         $stripe = New StripeUser();
         $dateexplode = explode('/', $data['card_expiry']);
@@ -146,11 +146,15 @@ class StripeUser extends Model {
                 'exp_year' => $dateexplode[1],
             ],
         ]);
-        $card = $stripe->updateCard($customerid, $token, $stripe_id);
-        return $card;
+        if ($token && array_key_exists('id', $token)) {
+            $card = $stripe->updateCard($customerid, $token, $stripe_id);
+            return $card;
+        } else {
+            return $token;
+        }
     }
 
-    // store the card of particular customer
+// store the card of particular customer
     public function updateCard($customerid, $token, $stripe_id) {
 
         $card = $this->stripe->cards()->create($customerid, $token['id']);
@@ -160,7 +164,7 @@ class StripeUser extends Model {
         $addCard->card_brand = $card['brand'];
         $addCard->card_last_four = $card['last4'];
         $addCard->save();
-//        return $card;
+        return $card;
     }
 
     public static function cancelSubscription($data) {
@@ -185,7 +189,6 @@ class StripeUser extends Model {
             'plan' => $data['plan_id'], 'trial_end' => 'now',
         ]);
         \App\Subscription::updateSubcriptionPlan($subscription, $data['user_id']);
-
         return TRUE;
     }
 

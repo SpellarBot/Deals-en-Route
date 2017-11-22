@@ -27,7 +27,7 @@ class Coupon extends Model {
     const IS_TRUE = 1;
     const IS_FALSE = 0;
 
-    protected $fillable = [
+  protected $fillable = [
         'coupon_id', 'coupon_category_id', 'coupon_name', 'coupon_detail', 'coupon_logo',
         'coupon_start_date', 'coupon_end_date', 'coupon_redemption_code',
         'coupon_qrcode', 'coupon_code', 'coupon_lat', 'coupon_long', 'coupon_radius',
@@ -132,6 +132,16 @@ class Coupon extends Model {
         return $query;
     }
 
+    public static function getCouponDetailByCode($data) {
+
+        $query = Coupon::active()->deleted()
+                ->where('coupon_code', $data['coupon_code'])
+                ->where('created_by', Auth::id())
+                ->first();
+
+        return $query;
+    }
+
     public static function couponList() {
         $coupon_list = \App\Coupon::where('created_by', Auth::id())
                 ->active()
@@ -197,4 +207,71 @@ class Coupon extends Model {
 
 
    }
+public static function getReedemCouponMonthly($year = '') {
+        if ($year) {
+            $newyear = $year;
+        } elsE {
+            $newyear = date('Y');
+        }
+        $user_id = Auth::id();
+        $coupons = Coupon::select(DB::raw("SUM(case when month(created_at)=1 then coupon_total_redeem end) jan,
+SUM(case when month(created_at)=2 then coupon_total_redeem end) feb,
+SUM(case when month(created_at)=3 then coupon_total_redeem end) mar,
+SUM(case when month(created_at)=4 then coupon_total_redeem end) april,
+SUM(case when month(created_at)=5 then coupon_total_redeem end) may,
+SUM(case when month(created_at)=6 then coupon_total_redeem end) june,
+SUM(case when month(created_at)=7 then coupon_total_redeem end) july,
+SUM(case when month(created_at)=8 then coupon_total_redeem end) aug,
+SUM(case when month(created_at)=9 then coupon_total_redeem end) sep,
+SUM(case when month(created_at)=10 then coupon_total_redeem end) oct,
+SUM(case when month(created_at)=11 then coupon_total_redeem end) nov,
+SUM(case when month(created_at)=12 then coupon_total_redeem end) dece"))
+                ->where('created_by', $user_id)
+                ->where(DB::raw('YEAR(created_at)'), '=', $newyear)
+                ->first();
+        return $coupons;
+    }
+
+    public static function getTotalCouponMonthly() {
+        $user_id = Auth::id();
+        $coupons = Coupon::select(DB::raw("SUM(case when month(created_at)=1 then coupon_redeem_limit end) jan,
+SUM(case when month(created_at)=2 then coupon_redeem_limit end) feb,
+SUM(case when month(created_at)=3 then coupon_redeem_limit end) mar,
+SUM(case when month(created_at)=4 then coupon_redeem_limit end) april,
+SUM(case when month(created_at)=5 then coupon_redeem_limit end) may,
+SUM(case when month(created_at)=6 then coupon_redeem_limit end) june,
+SUM(case when month(created_at)=7 then coupon_redeem_limit end) july,
+SUM(case when month(created_at)=8 then coupon_redeem_limit end) aug,
+SUM(case when month(created_at)=9 then coupon_redeem_limit end) sep,
+SUM(case when month(created_at)=10 then coupon_redeem_limit end) oct,
+SUM(case when month(created_at)=11 then coupon_redeem_limit end) nov,
+SUM(case when month(created_at)=12 then coupon_redeem_limit end) dece"))
+                ->where('created_by', $user_id)
+                ->where(DB::raw('YEAR(created_at)'), '=', date('Y'))
+                ->first();
+        return $coupons;
+    }
+
+    public static function getTotalActiveCouponMonthly() {
+        $user_id = Auth::id();
+        $coupons = Coupon::select(DB::raw("SUM(case when month(created_at)=1 then coupon_redeem_limit end) jan,
+SUM(case when month(created_at)=2 then coupon_redeem_limit end) feb,
+SUM(case when month(created_at)=3 then coupon_redeem_limit end) mar,
+SUM(case when month(created_at)=4 then coupon_redeem_limit end) april,
+SUM(case when month(created_at)=5 then coupon_redeem_limit end) may,
+SUM(case when month(created_at)=6 then coupon_redeem_limit end) june,
+SUM(case when month(created_at)=7 then coupon_redeem_limit end) july,
+SUM(case when month(created_at)=8 then coupon_redeem_limit end) aug,
+SUM(case when month(created_at)=9 then coupon_redeem_limit end) sep,
+SUM(case when month(created_at)=10 then coupon_redeem_limit end) oct,
+SUM(case when month(created_at)=11 then coupon_redeem_limit end) nov,
+SUM(case when month(created_at)=12 then coupon_redeem_limit end) dece"))
+                ->where('created_by', $user_id)
+                ->where('is_active', 1)
+                ->where('is_delete', 0)
+                ->where(DB::raw('YEAR(created_at)'), '=', date('Y'))
+                ->first();
+        return $coupons;
+    }
+
 }

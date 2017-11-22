@@ -19,8 +19,9 @@ class StripeController extends Controller {
 
         $endpoint_secret = "whsec_hu613xZdLxCA3gjkLaFmrDawl3V4DZsq";
 
+        $stripe_secret = \Config::get('constants.STRIPE_SECRET');
 //        http_response_code(200);
-        \Stripe\Stripe::setApiKey('sk_test_ZBNhTnKmE3hEkk26awNMDdcc');
+        \Stripe\Stripe::setApiKey($stripe_secret);
 
         $input = @file_get_contents("php://input");
 
