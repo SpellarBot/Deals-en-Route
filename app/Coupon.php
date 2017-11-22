@@ -7,6 +7,8 @@ use DB;
 use URL;
 use Auth;
 use Carbon\Carbon;
+ use Endroid\QrCode\QrCode;
+ use Endroid\QrCode\ErrorCorrectionLevel;
 
 class Coupon extends Model {
 
@@ -46,6 +48,11 @@ class Coupon extends Model {
 
     public function getCouponLogoAttribute($value) {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";
+    }
+  
+    
+     public function getCouponEndDateAttribute($value) {
+        return (!empty($value)? Carbon::parse($value)->format(\Config::get('constants.DATE_FORMAT')):'');
     }
 
     public function getCouponQrcodeImageAttribute($value) {
@@ -147,10 +154,47 @@ class Coupon extends Model {
          $explode=explode(',',$data['coupon_end_date']);
          $enddate= \Carbon\Carbon::parse($explode[1]." ".$explode[0])->toDateTimeString();        
          $coupon->coupon_end_date=$enddate;
+        
+         $coupon->coupon_qrcode_image=self::generateQrImage($coupon->coupon_code);
         if($coupon->save()){
+            
             return $coupon;
         }
         return false;
         
     }
+    
+    public static function updateCoupon($data,$id){
+            
+         $coupon = Coupon::where('coupon_id',$id)->first();
+         $coupon->fill($data);
+         if(isset($data['coupon_end_date'])){
+         $explode=explode(',',$data['coupon_end_date']);
+         $enddate= \Carbon\Carbon::parse($explode[1]." ".$explode[0])->toDateTimeString(); 
+         $coupon->coupon_end_date=$enddate;
+         }
+          if(isset($data['coupon_code'])){
+         $coupon->coupon_qrcode_image=self::generateQrImage($coupon->coupon_code);
+          }
+        if($coupon->save()){
+            return true;
+        }
+      return false;
+    
+    }
+   
+
+   public static function generateQrImage($code){
+
+        $qrCode = new QrCode($code);
+        $qrCode->setSize(300)
+         ->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH);
+        header('Content-Type: '.$qrCode->getContentType());
+        $qrcodename=time().'.png';
+        $qrCode->writeFile(storage_path() . '/app/public/qr_code_image/'.$qrcodename);
+        return $qrcodename; 
+   
+
+
+   }
 }

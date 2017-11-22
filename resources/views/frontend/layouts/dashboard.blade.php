@@ -17,6 +17,8 @@
         <link rel="stylesheet" href="{{ asset('frontend/css/paper-dashboard.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" />
            <link href="{{ asset('frontend/css/jasny-bootstrap.css')}}" rel="stylesheet">
+            <link href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css')}}" rel="stylesheet">
+       
     </head>
 
     <body>
@@ -46,7 +48,8 @@
         <script type="text/javascript" src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js') }}"></script>
 
         <script type="text/javascript" src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
-        
+        <script type="text/javascript" src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js') }}"></script>
+       
         <script type="text/javascript" src="{{ asset('frontend/js/cleave.min.js') }}"></script>
 
         <!--=============================Card Details=============================-->
@@ -90,8 +93,6 @@
                 });
             });
 
-     
-            jQuery(document).ready(function () {
                 //Initialize tooltips
                 jQuery('.nav-tabs-step > li a[title]').tooltip();
 
@@ -105,8 +106,7 @@
                     }
                 });
 
-              
-            });
+         
            jQuery('#groupTab a').click(function (e) {
                  
                 e.preventDefault();

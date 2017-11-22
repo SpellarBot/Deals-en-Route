@@ -39,8 +39,8 @@
             <div class="tab-content">
                     @include('frontend/dashboard/dash')
                     @include("frontend/coupon/couponlist",['coupon_lists'=>$coupon_lists])
-                   @include("frontend/coupon/create")
-                  
+                    @include("frontend/coupon/create")
+            
                     <div id="settings" class="tab-pane fade in">
                             <div class="container-fluid">
                                     <div class="row">
