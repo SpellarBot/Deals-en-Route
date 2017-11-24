@@ -58,7 +58,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/activity/comment', 'ActivityController@comment');
         Route::post('/activity/commentlist', 'ActivityController@commentList');
         Route::post('/activity/share', 'ActivityController@shareActivity');
-
+         Route::post('/activity/commentedit', 'ActivityController@commentEdit');
 
         Route::post('/user/logout', 'Auth\LoginController@logout');
 
