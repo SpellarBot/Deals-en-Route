@@ -146,7 +146,7 @@ class CouponController extends Controller
         // If we reach here, then// data is valid and working.//
         DB::commit();
         if(isset($coupon) && $coupon==true ){
-        return response()->json(['status'=>1,'message' => \Config::get('constants.COUPON_CREATE')], 200);
+        return response()->json(['status'=>1,'message' => \Config::get('constants.COUPON_UPDATE')], 200);
         }
     }
     
