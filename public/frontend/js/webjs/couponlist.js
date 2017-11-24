@@ -171,15 +171,23 @@ $(document).ready(function () {
 
 // date picker
 $(document).on("focus", ".datepicker", function () {
-    var maxdate = new Date();
+    var date = new Date();
+    var startdate=$('#couponstartdate').val();
 
+    if(startdate==''){
+        var start=new Date(date.getTime());
+         var end=date.setDate(date.getDate() + 30);
+    }else{
+         var start = new Date(startdate);
+         var end=date.setDate(start.getDate() + 30);
+    }
     $(this).datetimepicker({
 
         format: 'h  A, DD MMM Y',
         showClose: true,
-        useCurrent: true,
-        minDate: new Date(date.getTime()),
-        maxDate: maxdate.setDate(maxdate.getDate() + 30),
+        useCurrent:true,
+        minDate: start,
+        maxDate: end,
         icons: {
             time: "fa fa-clock-o",
             date: "fa fa-calendar",
@@ -200,7 +208,7 @@ $(document).on("focus", ".datepicker", function () {
         //show in last tab
         $(".coupon_end_date").text(date);
 
-    })
+    });
 });
 
 
@@ -242,7 +250,7 @@ $(document).on("submit", "#update-coupon", function (event) {
             if (data.status == 1) {
                 $('#loadingDiv').hide();
                 setDashboardNotification(data);
-                window.location.href = $('#hidAbsUrl').val();
+                window.location.href = $('#hidAbsUrl').val()+"#create";
             } else {
 
                 var $active = jQuery('.wizard .nav-tabs-step li.active');
@@ -609,6 +617,7 @@ function getSquareFeet(radius) {
     // set polygon shape for second map
 
     var sqfeet = google.maps.geometry.spherical.computeArea(radius.getPath()) * 10.7639;
+
     $('#info').html('<label> Area Sqft Covered:- </label>' + sqfeet + ' ft²');
 
     $('.couponsqft').text(sqfeet + ' ft²');

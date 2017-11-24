@@ -44,7 +44,7 @@ class CouponRequest extends FormRequest {
                     // step 1
                     'coupon_code' => 'required|unique:coupon,coupon_code,' . $this->request->get('coupon_id') . ',coupon_id',
                     //step 2
-                    'coupon_notification_sqfeet' => 'required'
+                    'coupon_notification_point' => 'required'
                 ];
             } elseif ($this->request->get('steps') == 3) {
                 return $commonvaldiation +
@@ -52,7 +52,7 @@ class CouponRequest extends FormRequest {
                     // step 1
                     'coupon_code' => 'required|unique:coupon,coupon_code,' . $this->request->get('coupon_id') . ',coupon_id',
                     // step 2
-                    'coupon_notification_sqfeet' => 'required',
+                    'coupon_notification_point' => 'required',
                     // step 3        
                     'agree' => 'required'
                 ];
@@ -75,7 +75,7 @@ class CouponRequest extends FormRequest {
                 // step 1
                 'coupon_code' => 'required|unique:coupon',
                 //step 2
-                'coupon_notification_sqfeet' => 'required'
+                'coupon_notification_point' => 'required'
             ];
         } elseif ($this->request->get('steps') == 3) {
 
@@ -84,7 +84,7 @@ class CouponRequest extends FormRequest {
                 // step 1
                 'coupon_code' => 'required|unique:coupon',
                 //step 2
-                'coupon_notification_sqfeet' => 'required',
+                'coupon_notification_point' => 'required',
                 // step 3
                 'agree' => 'required'
             ];

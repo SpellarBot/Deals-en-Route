@@ -31,7 +31,6 @@
                         <div class="col-sm-6">
 
                             <h4>Sign Up Details</h4>
-
                             <div class="form-group">
                                 {{ Form::select('vendor_category',[''=>'Select Category']+$signup_category_images,$category_image->category_id,
                                                       ['class'=>'form-control selectinput','id'=>'vendorcategory'])

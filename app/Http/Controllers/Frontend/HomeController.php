@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
+use App\Http\Services\CouponTrait;
 
 class HomeController extends Controller {
 
+    use CouponTrait;
     /**
      * Create a new controller instance.
      *
@@ -30,8 +32,11 @@ class HomeController extends Controller {
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
         $country_list = \App\Country::countryList();
+        $date= \Carbon\Carbon::now();
+        $currenttime=$this->convertDateInUserTZ($date); 
         return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
-                    'vendor_detail' => $vendor_detail, 'country_list' => $country_list]);
+                    'vendor_detail' => $vendor_detail, 'country_list' => $country_list,
+            'currenttime'=>$currenttime]);
     }
 
 }

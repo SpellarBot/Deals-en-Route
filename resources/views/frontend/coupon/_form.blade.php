@@ -9,7 +9,7 @@
             {{ Form::hidden('validationcheck', 0, ['class' => 'validationcheck']) }}
             {{ Form::hidden('vendor_lat', $vendor_detail->vendor_lat, ['class' => 'vendor_lat']) }}
             {{ Form::hidden('vendor_long', $vendor_detail->vendor_long, ['class' => 'vendor_long']) }}
-
+         {{ Form::hidden('coupon_start_date', old('coupon_start_date'), ['id' => 'couponstartdate']) }}
 
             <div class="tab-pane active" role="tabpanel" id="step1">
                 <h3>Coupon Details</h3>
@@ -30,7 +30,7 @@
                             <div class="barcode"><img src="{{ \Config::get('app.url') . '/public/frontend/img/sample2.png' }}" width="47" alt=""></div>
                             <div class="red-code1" >Redemption Code</div>
                             <div class="red-code2 coupon_code" >{{ !isset($coupon->coupon_code) ? 'XXXXX': $coupon->coupon_code }} </div>
-                            <div class="validity">Valid until <div class="coupon_end_date">{{ !isset($coupon->coupon_end_date) ? 'XX XXX XXXX': $coupon->coupon_end_date }}  </div></div>         
+                            <div class="validity">Valid until <div class="coupon_end_date">{{ !isset($end_date_converted) ? 'XX XXX XXXX': Carbon\Carbon::parse($end_date_converted)->format(\Config::get('constants.DATE_FORMAT')) }}  </div></div>         
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -50,7 +50,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_end_date', 'Valid Until:') }}
-                            {{ Form::text('coupon_end_date',old('coupon_end_date'), ['placeholder'=>'Enter Your Valid Until','class'=>'form-control datepicker']) }}
+                            {{ Form::text('coupon_end_date',isset($end_date_converted)?Carbon\Carbon::parse($end_date_converted)->format(\Config::get('constants.DATE_FORMAT')):'', ['placeholder'=>'Enter Your Valid Until','class'=>'form-control datepicker']) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_code', 'Coupon Code:') }}
@@ -166,8 +166,8 @@
                             <div class="barcode"><img src="{{ \Config::get('app.url') . '/public/frontend/img/sample2.png' }}" width="47" alt=""></div>
                             <div class="red-code1" >Redemption Code</div>
                             <div class="red-code2 coupon_code" >{{ !isset($coupon->coupon_code) ? 'XXXXX': $coupon->coupon_code }} </div>
-                            <div class="validity">Valid until <div class="coupon_end_date">{{ !isset($coupon->coupon_end_date) ? 'XX XXX XXXX': $coupon->coupon_end_date }}  </div></div>         
-
+                           <div class="validity">Valid until <div class="coupon_end_date">{{ !isset($end_date_converted) ? 'XX XXX XXXX': Carbon\Carbon::parse($end_date_converted)->format(\Config::get('constants.DATE_FORMAT')) }}  </div></div>         
+                      
                         </div>
                     </div>
 
@@ -181,18 +181,19 @@
                             <tbody>
                                 <tr>
                                     <td>Start Time:</td>
-                                    <td class="coupon_start_date"> <?php echo date('g A, d M Y'); ?></td>
+                               
+                                    <td class="coupon_start_date"> {{ isset($start_date_converted) ? Carbon\Carbon::parse($start_date_converted)->format(\Config::get('constants.DATE_FORMAT')) : Carbon\Carbon::parse($currenttime)->format(\Config::get('constants.DATE_FORMAT'))  }} <?php// echo date('g A, d M Y'); ?></td>
                                 </tr>
                                 <tr>
                                     <td>End Time:</td>
-                                    <td class="coupon_end_date">{{ !isset($coupon->coupon_end_date) ? '': $coupon->coupon_end_date }}</td>
+                                    <td class="coupon_end_date">{{ isset($coupon->coupon_end_date) ? Carbon\Carbon::parse($end_date_converted)->format(\Config::get('constants.DATE_FORMAT')): '' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Area Covered(sq feet):</td>
                                     <td class="couponsqft">{{ !isset($coupon->coupon_notification_sqfeet) ? '': $coupon->coupon_notification_sqfeet }} ft² </td>
                                 </tr>
                                 {{ Form::hidden('coupon_notification_sqfeet', old('coupon_notification_sqfeet'), ['id' => 'coupon_notification_sqfeet']) }}
-                                =
+                                
                             </tbody>
                             <tfoot>
                                 <tr>

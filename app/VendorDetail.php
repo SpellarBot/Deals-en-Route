@@ -18,7 +18,7 @@ class VendorDetail extends Model {
         'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state', 
         'billing_home', 'billing_state', 'billing_zip', 'billing_city',
         'billing_country','vendor_country', 'vendor_state','vendor_lat',
-        'vendor_long','billing_businessname','check-address'
+        'vendor_long','billing_businessname','check-address','vendor_time_zone'
     ];
 
     public function getVendorLogoAttribute($value) {
@@ -95,8 +95,10 @@ class VendorDetail extends Model {
 		->setParam (['address' =>$model->vendor_address])
  		->get();
        $response1=json_decode($response);
+       if($response1->status != 'ZERO_RESULTS'){
        $model->vendor_lat= $response1->results[0]->geometry->location->lat; 
        $model->vendor_long= $response1->results[0]->geometry->location->lng; 
+       }
        $model->save();        
     }
     
@@ -110,5 +112,23 @@ class VendorDetail extends Model {
      $vendor_detail->billing_country = $data['vendor_country'];
  
     }
-
+    
+    public function setTimezone(){
+      if(!empty($this->vendor_lat) && !empty($this->vendor_long) ){
+        $response =  \GoogleMaps::load('timezone')
+        ->setParam ([
+               'location'  => "$this->vendor_lat,$this->vendor_long",
+                              'timestamp' => 1458000000,
+              ])
+        ->get();
+     $responseTime=json_decode($response);
+     $timezone=$responseTime->timeZoneId;
+      }else{
+      $timezone='America/New_York';
+      }
+     $model_user=User::find($this->user_id);
+     $model_user->timezone=$timezone;
+     $model_user->save();
+  
+}
 }

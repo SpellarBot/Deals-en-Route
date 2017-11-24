@@ -58,13 +58,14 @@ class RegisterController extends Controller {
      * @param  array  $data
      * @return \App\User
      */
-    public function create(RegisterFormRequest $request) {
+    public function create(Request $request) {
         DB::beginTransaction();
         try {
             // process the store
             $data = $request->all();
             $user_detail = \App\VendorDetail::createVendorFront($data);
             $file = Input::file('vendor_logo');
+            
             //store image
             if (!empty($file)) {
                 $this->addImageWeb($file, $user_detail, 'vendor_logo');
@@ -96,7 +97,7 @@ class RegisterController extends Controller {
             return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
         }
         catch (\Exception $e) {
-            //throw $e;
+            throw $e;
         //    \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
             return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);

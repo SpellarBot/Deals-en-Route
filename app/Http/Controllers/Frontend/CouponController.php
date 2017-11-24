@@ -67,7 +67,6 @@ class CouponController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\CouponRequest $request) { 
-       
         DB::beginTransaction();
         try {
          $request = $request->all();
@@ -103,13 +102,17 @@ class CouponController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
+      
          $id= base64_decode($id);
         $coupon_lists=\App\Coupon::couponList();
         $vendor_detail= \App\VendorDetail::where('user_id',Auth::id())
                 ->first();
         $coupon = Coupon::where('coupon_id',$id)->first();
+        $start_date=$coupon->convertDateInUserTZ($coupon->coupon_start_date);
+        $end_date=$coupon->convertDateInUserTZ($coupon->coupon_end_date);      
         return view('frontend.coupon.edit')->with(['coupon' => $coupon,
-            'coupon_lists'=>$coupon_lists,'vendor_detail'=>$vendor_detail]);
+            'coupon_lists'=>$coupon_lists,'vendor_detail'=>$vendor_detail,
+            'start_date_converted'=>$start_date,'end_date_converted'=>$end_date]);
     }
     
      /**
@@ -137,7 +140,7 @@ class CouponController extends Controller
             
         } catch (\Exception $e) {
             DB::rollback();
-             throw $e;
+           //  throw $e;
             return response()->json(['status'=>0,'message' => \Config::get('constants.APP_ERROR')], 400);   
         }
         // If we reach here, then// data is valid and working.//
