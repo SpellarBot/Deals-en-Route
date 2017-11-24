@@ -1339,6 +1339,8 @@ span.round-tab i {
 
 #preview-in1 .logo img {
 	width: 58px;
+        height: 58px;
+        border-radius: 100%;
 }
 
 #preview-in1 .b-name {
@@ -1352,7 +1354,6 @@ span.round-tab i {
 	font-size: 8px;
 	color: #767676;
 	padding-top: 4px;
-	padding-bottom: 10px;
 	border-bottom: 1px solid #e0e0e0;
 }
 
