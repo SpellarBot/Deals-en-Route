@@ -36,6 +36,7 @@ return [
     'USER_PASSWORD_FETCH' => 'We Are Unable To Find Your E-Mail.',
     'USER_PASSWORD_RESET' => 'We have e-mailed you a Password Reset Link.Please Check Your Email.',
     'COUPON_ADD_FAV' => 'added coupon to favourtie successfully.',
+    'COMMENT_UPDATE'=>'comment updated successfully.',
     'ADD_FB_FRIEND' => 'successfully added fb friend',
     'ACTIVITY_LIKE_SUCCESS' => 'activity liked successfully.',
     'ACTIVITY_LIST' => 'activity listed successfully.',
