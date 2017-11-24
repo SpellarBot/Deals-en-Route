@@ -58,7 +58,7 @@ class RegisterController extends Controller {
      * @param  array  $data
      * @return \App\User
      */
-    public function create(Request $request) {
+    public function create(RegisterFormRequest $request) {
         DB::beginTransaction();
         try {
             // process the store
@@ -97,7 +97,7 @@ class RegisterController extends Controller {
             return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
         }
         catch (\Exception $e) {
-            throw $e;
+           // throw $e;
         //    \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
             return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
