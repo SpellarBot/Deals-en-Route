@@ -66,7 +66,7 @@ use AuthenticatesUsers;
     }
 
     public function login(LoginFormRequest $request) {
-
+  
         $data = $request->all();
         $email = $data['email'];
         $password = $data['password'];
@@ -86,7 +86,8 @@ use AuthenticatesUsers;
             } else if (empty($subcription)) {
                 Auth::guard('web')->logout();
                 Session::flash('success', \Config::get('constants.USER_SELECT_PLAN'));
-                return view('frontend.signup.pricetable')->with(['user_id' => $auth->id], 200);
+                $view= base64_encode(view('frontend.signup.pricetable')->with(['user_id' => $auth->id]));
+                return ['status'=>3,'view'=>$view];
             } else {
                 Auth::guard('web')->attempt($credentials);
                 Session::flash('success', \Config::get('constants.USER_LOGIN_SUCCESS'));
@@ -95,6 +96,7 @@ use AuthenticatesUsers;
         } else {
             return response()->json(['status' => 0, 'message' => ucwords(trans('auth.failed'))], 422);
         }
+        
     }
 
     public function dashboard() {

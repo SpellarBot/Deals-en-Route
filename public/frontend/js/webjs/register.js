@@ -23,9 +23,10 @@ $(document).ready(function () {
     });
     // sign up form
     $('#signupform').on('submit', function (event) {
+
         event.preventDefault();
-        formData = new FormData($(this)[0]);
-       
+        formData = new FormData($(this)[0]);        
+        formData.append('vendor_time_zone', (new Date()).getTimezoneOffset());
         $.ajax({
             url: $('#hidAbsUrl').val() + "/register/create",
             type: 'POST',
@@ -126,6 +127,7 @@ $(document).ready(function () {
          
         // Get the place details from the autocomplete object.
         var place = autocomplete.getPlace();
+      
         // Get each component of the address from the place details
         // and fill the corresponding field on the form.
       
@@ -139,6 +141,9 @@ $(document).ready(function () {
             document.getElementById(addressType).value = val;
           }
         }
+        
+       
+
     
   }
 

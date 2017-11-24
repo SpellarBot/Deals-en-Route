@@ -2,45 +2,53 @@
 @section('title', 'Deals en Route|Index')
 @section('content')
 
+<div class="main-panel">
 
-<div class="main-panel">   	
     <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                    <div class="navbar-header">
-                            <button type="button" class="navbar-toggle"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar bar1"></span> <span class="icon-bar bar2"></span> <span class="icon-bar bar3"></span> </button>
-                            <p class="navbar-brand">Hello, {{ Auth::user()->vendorDetail->vendor_name }} </p>
-                    </div>
-                    <div class="collapse navbar-collapse">
-                            <ul class="nav navbar-nav navbar-right">
-                                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon fa fa-user"></i>
-                             <p>User</p>
-                           <b class="caret"></b> </a>
-                                            <ul class="dropdown-menu">
-                                                    <li><a href="{{ route('vendor.logout') }}"
-                        onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
-                        Sign Out
-                    </a>
-
-                    <form id="logout-form" action="{{ route('vendor.logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form></li>
-                                            </ul>
-                                    </li>
-                            </ul>
-                    </div>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar bar1"></span> <span class="icon-bar bar2"></span> <span class="icon-bar bar3"></span> </button>
+                <p class="navbar-brand">Hello, {{ Auth::user()->vendorDetail->vendor_name }} </p>
             </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon fa fa-user"></i>
+                            <p>User</p>
+                            <b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('vendor.logout') }}"
+                                   onclick="event.preventDefault();
+                                           document.getElementById('logout-form').submit();">
+                                    Sign Out
+                                </a>
+
+                                <form id="logout-form" action="{{ route('vendor.logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
-     
-
-
     <div class="content">
+<<<<<<< HEAD
           
             <div class="tab-content">
                     @include('frontend/dashboard/dash')
                     @include("frontend/coupon/couponlist",['coupon_lists'=>$coupon_lists])
-                   @include("frontend/coupon/create",['currenttime'=>$currenttime])
-                             <div id="settings" class="tab-pane fade in">
+                    @include("frontend/coupon/create")
+            
+                    <div id="settings" class="tab-pane fade in">
+                            <div class="container-fluid">
+=======
+
+        <div class="tab-content">
+            @include('frontend/dashboard/dash')
+            @include("frontend/coupon/couponlist",['coupon_lists'=>$coupon_lists])
+            @include("frontend/coupon/create")
+
+            <div id="settings" class="tab-pane fade in">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -49,6 +57,7 @@
                                     <h5 class="title">Company Details</h5>
                                 </div>
                                 <div class="content">
+>>>>>>> refs/remotes/origin/master
                                     <div class="row">
                                         <div class="col-md-12">
                                             <form>

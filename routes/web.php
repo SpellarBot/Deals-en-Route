@@ -34,26 +34,37 @@ Route::group(['namespace' => 'Frontend'], function () {
         'as' => 'confirmation_path_vendor',
         'uses' => 'Auth\LoginController@confirmvendor'
     ]);
-    // frontend home page register
+    // vendor   register
     Route::get('/', 'Auth\LoginController@index')->name('vendormain');
     Route::get('/register', 'Auth\RegisterController@showCategoryForm')->name('frontend.register');
     Route::post('/register/create', 'Auth\RegisterController@create');
     Route::post('/register/subcription', 'Auth\RegisterController@subscribe');
 
+    //vendor login
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('user.loginform');
     Route::post('vendor/login', 'Auth\LoginController@login')->name('vendor.login');
     Route::post('vendor/logout', 'Auth\LoginController@logout')->name('vendor.logout');
-    Route::get('/vendor/deleteCard', 'StripeController@deleteCard')->name('vendor.cardDelete');
-    Route::get('/vendor/updateCard', 'StripeController@updateCard')->name('vendor.updateCard');
-    Route::get('/vendor/cancelSubscription', 'StripeController@cancelSubscription')->name('vendor.cancelSubscription');
-    Route::get('/vendor/updateSubscription', 'StripeController@updateSubscription')->name('vendor.updateSubscription');
-    Route::get('/vendor/changeSubscription', 'StripeController@changeSubscription')->name('vendor.changeSubscription');
-    Route::get('/dashboard', 'HomeController@index')->name('frontend.main');
+    
+    //vendor update card
+       Route::post('vendor/editCreditCard', 'StripeController@editCreditCard')->name('vendor.editCreditCard');
+//    Route::get('/vendor/deleteCard', 'StripeController@deleteCard')->name('vendor.cardDelete');
+//    Route::get('/vendor/updateCard', 'StripeController@updateCard')->name('vendor.updateCard');
+//    Route::get('/vendor/cancelSubscription', 'StripeController@cancelSubscription')->name('vendor.cancelSubscription');
+//    Route::get('/vendor/updateSubscription', 'StripeController@updateSubscription')->name('vendor.updateSubscription');
+//    Route::get('/vendor/changeSubscription', 'StripeController@changeSubscription')->name('vendor.changeSubscription');
+   Route::get('/dashboard', 'HomeController@index')->name('frontend.main');
     Route::post('/user/forgetpassword', 'Auth\ResetPasswordController@postEmail');
+    //coupon crud
     Route::delete('/coupon/{id}', 'CouponController@destroy');
-    Route::post('/coupon/store', 'CouponController@store');});
+    Route::get('/coupon/edit/{id}', 'CouponController@edit');
+    
+    Route::post('/coupon/update', 'CouponController@update')->name('front.coupon.update');
+    Route::post('/coupon/store', 'CouponController@store');
+    
+    
+});
 // Admin routes
-Route::group(['namespace' => 'Admin',], function () {
+Route::group(['namespace' => 'Admin'], function () {
     Route::get('/admin/dashboard', 'HomeController@index')->name('home');
     Route::get('/admin', 'Auth\LoginController@showLoginForm');
     Route::get('admin/login', 'Auth\LoginController@showLoginForm')->name('admin.loginform');

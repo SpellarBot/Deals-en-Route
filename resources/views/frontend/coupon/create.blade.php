@@ -16,9 +16,12 @@
                                                                         </ul>
                                                                 </div>
                                                               
+                                                                     
+                                 
                                                                 {{ Form::open([ 'id' => 'create-coupon','file'=>true]) }}
                                                                 {{ csrf_field() }}
-                                                                @include("frontend/coupon/_form",['vendor_detail'=>$vendor_detail])
+                                                                @include("frontend/coupon/_form",['vendor_detail'=>$vendor_detail,
+                                                                'currenttime'=>$currenttime])
 
                                                                 {{ Form::close() }}
 
