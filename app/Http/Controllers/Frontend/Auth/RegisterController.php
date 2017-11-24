@@ -108,7 +108,7 @@ class RegisterController extends Controller {
                     'type' => 'verifyvendor',
                     'data' => ['confirmation_code' => User::find($user_detail->user_id)->confirmation_code],
                 ];
-        // $this->sendMail($array_mail);
+         $this->sendMail($array_mail);
         // redirect
         return view('frontend.signup.pricetable')->with(['user_id' => $user_detail->user_id]);
     }
