@@ -538,7 +538,7 @@ function createPolygon() {
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
 
         var radius = e.overlay;
-
+  
         getSquareFeet(radius);
 
 
@@ -571,8 +571,9 @@ function deletePolygon() {
     $('#resetfence').text('Draw Fence');
     $('#coupon_notification_sqfeet').val('');
     $('#coupon_notification_point').val('');
+    if(showFirstMap!=''){
     showFirstMap.setMap(null);
-
+    }
     drawingManager.setDrawingMode(null);
     // To hide:
     drawingManager.setOptions({
