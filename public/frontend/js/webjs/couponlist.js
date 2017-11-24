@@ -276,7 +276,7 @@ $(document).on("submit", "#update-coupon", function (event) {
                 $.each(data.responseJSON.errors, function (key, value) {
                     if (key == 'coupon_logo') {
                         $('.couponlogo').append('<span  class="has-error help-block"> <strong style="color:#a94442">' + value[0] + '</strong> </span>'); //showing only the first error.
-                    } else if (key == 'coupon_notification_sqfeet') {
+                    } else if (key == 'coupon_notification_point') {
                         setDashboardNotification({message: value[0], status: 0}); //showing only the first error.
                     } else {
                         $("input[name=" + key + "]").parent().addClass('has-error');
@@ -344,7 +344,7 @@ $(document).on("submit", "#create-coupon", function (event) {
                 $.each(data.responseJSON.errors, function (key, value) {
                     if (key == 'coupon_logo') {
                         $('.couponlogo').append('<span  class="has-error help-block"> <strong style="color:#a94442">' + value[0] + '</strong> </span>'); //showing only the first error.
-                    } else if (key == 'coupon_notification_sqfeet') {
+                    } else if (key == 'coupon_notification_point') {
                         setDashboardNotification({message: value[0], status: 0}); //showing only the first error.
                     } else {
                         $("input[name=" + key + "]").parent().addClass('has-error');
@@ -492,10 +492,11 @@ function setSelection(shape) {
 function onClickEvent() {
 
     if ($('#resetfence').text() == 'Draw Fence') {
-        if (showFirstMap != '' || showSecMap != '') {
+        if (showFirstMap != '') {
             showFirstMap.setMap(null);
+        } if (showSecMap != '') {
             showSecMap.setMap(null);
-        }
+        } 
         createPolygon();
     } else {
         deletePolygon();
@@ -538,8 +539,8 @@ function createPolygon() {
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
 
         var radius = e.overlay;
-  
-        getSquareFeet(radius);
+
+       
 
 
         if (e.type != google.maps.drawing.OverlayType.MARKER) {
@@ -556,7 +557,7 @@ function createPolygon() {
             newShape.type = e.type;
             changeShape(newShape);
             setSelection(newShape);
-
+             getSquareFeet(radius);
         }
 
     });
