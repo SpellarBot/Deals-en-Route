@@ -14,11 +14,11 @@ class VendorDetail extends Model {
     public $timestamps = false;
     public $primaryKey = 'vendor_id';
     protected $fillable = [
-        'user_id', 'vendor_name', 'vendor_address', 'vendor_city', 'vendor_zip', 
-        'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state', 
+        'user_id', 'vendor_name', 'vendor_address', 'vendor_city', 'vendor_zip',
+        'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state',
         'billing_home', 'billing_state', 'billing_zip', 'billing_city',
-        'billing_country','vendor_country', 'vendor_state','vendor_lat',
-        'vendor_long','billing_businessname','check-address','vendor_time_zone'
+        'billing_country', 'vendor_country', 'vendor_state','vendor_city', 'vendor_lat',
+        'vendor_long', 'billing_businessname', 'check-address', 'vendor_time_zone'
     ];
 
     public function getVendorLogoAttribute($value) {
@@ -28,27 +28,27 @@ class VendorDetail extends Model {
 
     // save vendor detail
     public static function saveVendorDetail($data, $user_id) {
-        if(isset($data['check-address'])){
-          $checkaddress=$data['check-address'];
-          unset($data['check-address']);
+        if (isset($data['check-address'])) {
+            $checkaddress = $data['check-address'];
+            unset($data['check-address']);
         }
         $vendor_detail = VendorDetail::firstOrNew(["user_id" => $user_id]);
         $vendor_detail->user_id = $user_id;
-      
+
         $vendor_detail->fill($data);
         $vendor_detail->save();
-       
-         if(isset($checkaddress) && $checkaddress=='yes'){
-             
-            self::saveBusinessAddress($vendor_detail,$data);
+
+        if (isset($checkaddress) && $checkaddress == 'yes') {
+
+            self::saveBusinessAddress($vendor_detail, $data);
         }
-        if(empty($data['vendor_lat'])  || empty($data['vendor_long']) ){
-        self::saveMapLatLong($vendor_detail);
+        if (empty($data['vendor_lat']) || empty($data['vendor_long'])) {
+            self::saveMapLatLong($vendor_detail);
         }
-       
+
         return $vendor_detail;
     }
-  
+
     //create vendor for admin
     public static function createVendor($data = []) {
 
@@ -73,6 +73,26 @@ class VendorDetail extends Model {
         return self::saveVendorDetail($data, $id);
     }
 
+    //update vendor
+    public static function updateVendorDetails($data = [], $id) {
+//        print_r($data);die;
+        $vendor = VendorDetail::where('user_id', $id)
+                ->first();
+        $vendor->vendor_name = $data['vendor_name'];
+        $vendor->vendor_address = $data['vendor_address'];
+        $vendor->vendor_city = $data['vendor_city'];
+        $vendor->vendor_state = $data['vendor_state'];
+        $vendor->vendor_zip = $data['vendor_zip'];
+        $vendor->vendor_phone = $data['vendor_phone'];
+        $vendor->billing_businessname = $data['billing_businessname'];
+        $vendor->billing_home = $data['billing_home'];
+        $vendor->billing_city = $data['billing_city'];
+        $vendor->billing_state = $data['billing_state'];
+        $vendor->billing_country = $data['billing_country'];
+        $vendor->save();
+        return $vendor;
+    }
+
     //create vendor for front
     public static function createVendorFront($data = []) {
 
@@ -88,47 +108,45 @@ class VendorDetail extends Model {
         return self::saveVendorDetail($data, $user_id);
     }
 
-    
     // save map lat long 
-    public static function saveMapLatLong($model){
+    public static function saveMapLatLong($model) {
         $response = \GoogleMaps::load('geocoding')
-		->setParam (['address' =>$model->vendor_address])
- 		->get();
-       $response1=json_decode($response);
-       if($response1->status != 'ZERO_RESULTS'){
-       $model->vendor_lat= $response1->results[0]->geometry->location->lat; 
-       $model->vendor_long= $response1->results[0]->geometry->location->lng; 
-       }
-       $model->save();        
+                ->setParam(['address' => $model->vendor_address])
+                ->get();
+        $response1 = json_decode($response);
+        if ($response1->status != 'ZERO_RESULTS') {
+            $model->vendor_lat = $response1->results[0]->geometry->location->lat;
+            $model->vendor_long = $response1->results[0]->geometry->location->lng;
+        }
+        $model->save();
     }
-    
-    public static function saveBusinessAddress($vendor_detail,$data){
-        
-     $vendor_detail->billing_businessname = $data['vendor_name'];
-     $vendor_detail->billing_home = $data['vendor_address'];
-     $vendor_detail->billing_state = $data['vendor_state'];
-     $vendor_detail->billing_city = $data['vendor_city'];
-     $vendor_detail->billing_zip = $data['vendor_zip'];
-     $vendor_detail->billing_country = $data['vendor_country'];
- 
+
+    public static function saveBusinessAddress($vendor_detail, $data) {
+
+        $vendor_detail->billing_businessname = $data['vendor_name'];
+        $vendor_detail->billing_home = $data['vendor_address'];
+        $vendor_detail->billing_state = $data['vendor_state'];
+        $vendor_detail->billing_city = $data['vendor_city'];
+        $vendor_detail->billing_zip = $data['vendor_zip'];
+        $vendor_detail->billing_country = $data['vendor_country'];
     }
-    
-    public function setTimezone(){
-      if(!empty($this->vendor_lat) && !empty($this->vendor_long) ){
-        $response =  \GoogleMaps::load('timezone')
-        ->setParam ([
-               'location'  => "$this->vendor_lat,$this->vendor_long",
-                              'timestamp' => 1458000000,
-              ])
-        ->get();
-     $responseTime=json_decode($response);
-     $timezone=$responseTime->timeZoneId;
-      }else{
-      $timezone='America/New_York';
-      }
-     $model_user=User::find($this->user_id);
-     $model_user->timezone=$timezone;
-     $model_user->save();
-  
-}
+
+    public function setTimezone() {
+        if (!empty($this->vendor_lat) && !empty($this->vendor_long)) {
+            $response = \GoogleMaps::load('timezone')
+                    ->setParam([
+                        'location' => "$this->vendor_lat,$this->vendor_long",
+                        'timestamp' => 1458000000,
+                    ])
+                    ->get();
+            $responseTime = json_decode($response);
+            $timezone = $responseTime->timeZoneId;
+        } else {
+            $timezone = 'America/New_York';
+        }
+        $model_user = User::find($this->user_id);
+        $model_user->timezone = $timezone;
+        $model_user->save();
+    }
+
 }

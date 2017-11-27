@@ -29,10 +29,10 @@ class RegisterController extends Controller {
       |
      */
 
-    use RegistersUsers;
+use RegistersUsers;
     use ImageTrait;
     use ResponseTrait;
-     use MailTrait;
+    use MailTrait;
 
     /**
      * Where to redirect users after registration.
@@ -65,7 +65,7 @@ class RegisterController extends Controller {
             $data = $request->all();
             $user_detail = \App\VendorDetail::createVendorFront($data);
             $file = Input::file('vendor_logo');
-            
+
             //store image
             if (!empty($file)) {
                 $this->addImageWeb($file, $user_detail, 'vendor_logo');
@@ -90,25 +90,24 @@ class RegisterController extends Controller {
                 return response()->json(['errors' => ['card_no' => [0 => ucwords($message)]]], 422);
             }
             return response()->json(['status' => 0, 'message' => ucwords($message)], 422);
-        } catch(\Cartalyst\Stripe\Exception\UnauthorizedExceptioncatch $e) {
+        } catch (\Cartalyst\Stripe\Exception\UnauthorizedExceptioncatch $e) {
             //throw $e;
-           // \App\StripeUser::findCustomer($data['email']);
+            // \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
             return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
-        }
-        catch (\Exception $e) {
-           // throw $e;
-        //    \App\StripeUser::findCustomer($data['email']);
+        } catch (\Exception $e) {
+            // throw $e;
+            //    \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
             return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
-         $array_mail = ['to' => $data['email'],
-                    'type' => 'verifyvendor',
-                    'data' => ['confirmation_code' => User::find($user_detail->user_id)->confirmation_code],
-                ];
-         $this->sendMail($array_mail);
+        $array_mail = ['to' => $data['email'],
+            'type' => 'verifyvendor',
+            'data' => ['confirmation_code' => User::find($user_detail->user_id)->confirmation_code],
+        ];
+        $this->sendMail($array_mail);
         // redirect
         return view('frontend.signup.pricetable')->with(['user_id' => $user_detail->user_id]);
     }
@@ -128,7 +127,6 @@ class RegisterController extends Controller {
                     'category_images' => $category_images, 'signup_category_images' => $signup_category_images,
                     'country_list' => $country_list]);
     }
-
     /**
      * Get the guard to be used during registration.
      *
@@ -140,41 +138,37 @@ class RegisterController extends Controller {
 
     //create subscription for customer 
     public function subscribe(Request $request) {
-   
+
         try {
             $request = $request->all();
             $stripeuser = \App\StripeUser::where('user_id', $request['user_id'])->first();
-           $user=\App\User::find($request['user_id']);  
-            if(empty($stripeuser->userSubscription)){
-            $result = $stripeuser->createSubcription($request['plan_id']);
-            
-            if ($result) {  
-            if($user->is_confirmed==1){
-                 Auth::guard('web')->loginUsingId($user->id);
-                 Session::flash('success', \Config::get('constants.USER_LOGIN_SUCCESS'));
-                 return response()->json(['status' => 1], 200);
-            }else{
-                Session::flash('success', \Config::get('constants.USER_EMAIL_VERIFICATION'));
-                return response()->json(['status' => 0], 200);
+            $user = \App\User::find($request['user_id']);
+            if (empty($stripeuser->userSubscription)) {
+                $result = $stripeuser->createSubcription($request['plan_id']);
+
+                if ($result) {
+                    if ($user->is_confirmed == 1) {
+                        Auth::guard('web')->loginUsingId($user->id);
+                        Session::flash('success', \Config::get('constants.USER_LOGIN_SUCCESS'));
+                        return response()->json(['status' => 1], 200);
+                    } else {
+                        Session::flash('success', \Config::get('constants.USER_EMAIL_VERIFICATION'));
+                        return response()->json(['status' => 0], 200);
+                    }
+                }
+                Session::flash('error', \Config::get('constants.APP_ERROR'));
+                return response()->json(['status' => 0], 422);
             }
-            }
-            Session::flash('error', \Config::get('constants.APP_ERROR'));
-            return response()->json(['status' => 0], 422);
-            }
-             Auth::guard('web')->loginUsingId($user->id);
-             Session::flash('error', \Config::get('constants.ALREADY_SUBCRIBE'));
+            Auth::guard('web')->loginUsingId($user->id);
+            Session::flash('error', \Config::get('constants.ALREADY_SUBCRIBE'));
             return response()->json(['status' => 1], 200);
         } catch (\Exception $e) {
-           
+
             // throw $e;     
-             Session::flash('error', \Config::get('constants.APP_ERROR'));
-             return response()->json(['status' => 0], 422);
+            Session::flash('error', \Config::get('constants.APP_ERROR'));
+            return response()->json(['status' => 0], 422);
         }
         // If we reach here, then// data is valid and working.//
-      
     }
-    
-    
-     
 
 }

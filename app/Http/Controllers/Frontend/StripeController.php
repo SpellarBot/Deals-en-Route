@@ -10,6 +10,7 @@ use App\Subscription;
 use App\Stripewebhook;
 use App\User;
 use App\StripeUser;
+use App\VendorDetail;
 use App\Http\Controllers\Frontend\Auth;
 use Mail;
 
