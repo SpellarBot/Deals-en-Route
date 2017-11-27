@@ -148,7 +148,7 @@ select,
 }
 .fileinput .form-control{
 	cursor: pointer;
-	line-height: 2.7;
+	line-height: 2.7 !important;
 }
 .fileinput .input-group-addon{
 	width: auto;
@@ -159,7 +159,7 @@ select,
     font-size: 13px;
     text-transform: capitalize;
     border-radius: 4px !important;
-    top: 3px;
+  
     bottom: 3px;
     cursor: pointer;
     position: absolute !important;
@@ -1264,6 +1264,8 @@ span.round-tab i {
 
 #preview-in .logo img {
 	width: 58px;
+        height: 58px;
+        border-radius: 100%;
 }
 
 #preview-in .b-name {
@@ -1277,7 +1279,7 @@ span.round-tab i {
 	font-size: 8px;
 	color: #767676;
 	padding-top: 4px;
-	padding-bottom: 10px;
+	/*padding-bottom: 10px;*/
 	border-bottom: 1px solid #e0e0e0;
 }
 
@@ -1337,6 +1339,8 @@ span.round-tab i {
 
 #preview-in1 .logo img {
 	width: 58px;
+        height: 58px;
+        border-radius: 100%;
 }
 
 #preview-in1 .b-name {
@@ -1350,7 +1354,6 @@ span.round-tab i {
 	font-size: 8px;
 	color: #767676;
 	padding-top: 4px;
-	padding-bottom: 10px;
 	border-bottom: 1px solid #e0e0e0;
 }
 
@@ -2118,3 +2121,9 @@ margin: -50px 0px 0px -50px;
 .pac-container {
      z-index: 10000 !important;
 }
+#ex1Slider .slider-selection {
+	background: #BABABA;
+}
+.slider.slider-horizontal{
+ width:520px !important;
+ }

@@ -9,6 +9,7 @@ use Session;
 use DB;
 use Illuminate\Support\Facades\Input;
 use App\Http\Services\ImageTrait;
+use Auth;
 
 class CouponController extends Controller
 {
@@ -66,7 +67,6 @@ class CouponController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\CouponRequest $request) { 
-       
         DB::beginTransaction();
         try {
          $request = $request->all();
@@ -91,6 +91,62 @@ class CouponController extends Controller
         DB::commit();
         if(isset($coupon) && $coupon==true ){
         return response()->json(['status'=>1,'message' => \Config::get('constants.COUPON_CREATE')], 200);
+        }
+    }
+    
+    
+    
+     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id) {
+      
+         $id= base64_decode($id);
+        $coupon_lists=\App\Coupon::couponList();
+        $vendor_detail= \App\VendorDetail::where('user_id',Auth::id())
+                ->first();
+        $coupon = Coupon::where('coupon_id',$id)->first();
+        $start_date=$coupon->convertDateInUserTZ($coupon->coupon_start_date);
+        $end_date=$coupon->convertDateInUserTZ($coupon->coupon_end_date);      
+        return view('frontend.coupon.edit')->with(['coupon' => $coupon,
+            'coupon_lists'=>$coupon_lists,'vendor_detail'=>$vendor_detail,
+            'start_date_converted'=>$start_date,'end_date_converted'=>$end_date]);
+    }
+    
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Contact  $contact
+     * @return \Illuminate\Http\Response
+     */
+    public function update(\App\Http\Requests\CouponRequest $request) {
+
+        DB::beginTransaction();
+        try {
+            // process the store
+            $data = $request->all();
+          if(!empty($request['validationcheck']) && $request['validationcheck']==1){
+             $id= $data['coupon_id'];
+           $coupon=Coupon::updateCoupon($data,$id);
+           $file = Input::file('coupon_logo');
+            //store image
+            if (!empty($file)) {
+               $this->addImageWeb($file, $coupon, 'coupon_logo');
+            }
+        }
+            
+        } catch (\Exception $e) {
+            DB::rollback();
+           //  throw $e;
+            return response()->json(['status'=>0,'message' => \Config::get('constants.APP_ERROR')], 400);   
+        }
+        // If we reach here, then// data is valid and working.//
+        DB::commit();
+        if(isset($coupon) && $coupon==true ){
+        return response()->json(['status'=>1,'message' => \Config::get('constants.COUPON_UPDATE')], 200);
         }
     }
     

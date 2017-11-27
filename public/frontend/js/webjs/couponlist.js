@@ -2,7 +2,8 @@ var $table = $('#bootstrap-table, #bootstrap-table1, #bootstrap-table2');
 var map;
 var mapshow;
 var drawingManager;
-var drawingManager1;
+var showFirstMap = '';
+var showSecMap = '';
 var selectedShape;
 var marker;
 var count = 1;
@@ -15,9 +16,9 @@ var polyOptions = {
 };
 var date = new Date();
 var markershow;
-var testArray = [];
+var showArray = [];
 
-$().ready(function () {
+$(document).ready(function () {
 
     $('.fileinput').fileinput();
     jQuery(".prev-step").click(function (e) {
@@ -26,8 +27,13 @@ $().ready(function () {
         prevTab($active);
 
     });
-    
-    
+
+// slider
+    $('#couponslider').slider({
+        formatter: function (value) {
+            return 'Radius miles: ' + value;
+        }
+    });
 
     window.operateEvents = {
         'click .view': function (e, value, row, index) {
@@ -37,15 +43,14 @@ $().ready(function () {
             console.log(info);
         },
         'click .edit': function (e, value, row, index) {
-               $('#loadingDiv').show();
-               window.location.href=$('#hidAbsUrl').val()+'create/#edit';
-            
+            $('#loadingDiv').hide();
+            window.location.href = $('#hidAbsUrl').val() + '/coupon/edit/' + btoa(row._id);
 
         },
         'click .remove': function (e, value, row, index) {
 
             info = JSON.stringify(row);
-            conf = confirm("Do you ready want to delete this row?");
+            conf = confirm("Are you sure you want to delete this coupon?");
             if (conf === true) {
                 $('#loadingDiv').show();
 
@@ -113,7 +118,7 @@ $().ready(function () {
     //$('[rel="tooltip"]').tooltip();
 
     $(window).resize(function () {
-       
+
         $('#loadingDiv').hide();
         $table.bootstrapTable('resetView');
     });
@@ -123,13 +128,7 @@ $().ready(function () {
         id = $(this).attr('id');
         value = $(this).val();
         $("." + id).text(value);
-
-
-
     });
-
-
-
 
     // change percentage value  
     $(document).on("change keyup blur", '#original_price, #percentage_price, #value_price', function (e) {
@@ -160,7 +159,7 @@ $().ready(function () {
 
 
     // Select your input element.
-    $('#coupon_radius ,#coupon_redeem_limit,#percentage_price,#value_price').keydown(function (e) {
+    $('#coupon_redeem_limit,#percentage_price,#value_price').keydown(function (e) {
         if (!((e.keyCode > 95 && e.keyCode < 106)
                 || (e.keyCode > 47 && e.keyCode < 58)
                 || e.keyCode == 8)) {
@@ -168,51 +167,135 @@ $().ready(function () {
         }
     });
 
-
 });
 
- 
-
 // date picker
-$('.datepicker').datetimepicker({
+$(document).on("focus", ".datepicker", function () {
+    var date = new Date();
+    var startdate=$('#couponstartdate').val();
 
-    format: 'h  A, DD MMM Y',
-    showClose: true,
-    useCurrent: true,
-    minDate: new Date(date.getTime()),
-    icons: {
-        time: "fa fa-clock-o",
-        date: "fa fa-calendar",
-        up: "fa fa-chevron-up",
-        down: "fa fa-chevron-down",
-        previous: 'fa fa-chevron-left',
-        next: 'fa fa-chevron-right',
-        today: 'fa fa-screenshot',
-        clear: 'fa fa-trash',
-        close: 'fa fa-remove',
-        todayBtn: true,
-        autoclose: true,
-
+    if(startdate==''){
+        var start=new Date(date.getTime());
+         var end=date.setDate(date.getDate() + 30);
+    }else{
+         var start = new Date(startdate);
+         var end=date.setDate(start.getDate() + 30);
     }
-}).on('dp.change', function (e) {
-    var date = $('.datepicker').data('date');
-    $("#coupon_end_date").val(date);
-    //show in last tab
-    $(".coupon_end_date").text(date);
+    $(this).datetimepicker({
 
-})
+        format: 'h  A, DD MMM Y',
+        showClose: true,
+        useCurrent:true,
+        minDate: start,
+        maxDate: end,
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove',
+            todayBtn: true,
+            autoclose: true,
+
+        }
+    }).on('dp.change', function (e) {
+        var date = $('.datepicker').data('date');
+        $("#coupon_end_date").val(date);
+        //show in last tab
+        $(".coupon_end_date").text(date);
+
+    });
+});
 
 
-
-// create coupon form
-$('.next-step').on('click', function (event) {
+//create coupon
+$('#create2').on("click", ".next-step", function (event) {
     $('#create-coupon').trigger('submit');
 });
 
+//update coupon
+$('#update').on("click", ".next-step", function (event) {
+    $('#update-coupon').trigger('submit');
+});
+
+
+// update coupon submit
+$(document).on("submit", "#update-coupon", function (event) {
+    event.preventDefault();
+    var id = $('.coupon_id').val();
+    formData = new FormData($(this)[0]);
+    formData.append('coupon_id', id);
+    //if value =4 i.e last step then
+    value = parseInt($('.stepsincrement').val()) + 1;
+
+    if (value == 4) {
+
+        if ($("#create-coupon").hasClass("has-error") == false) {
+            formData.append('validationcheck', '1');
+        }
+    }
+
+    $.ajax({
+        url: $('#hidAbsUrl').val() + "/coupon/update",
+        type: 'POST',
+        data: formData,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data.status == 1) {
+                $('#loadingDiv').hide();
+                setDashboardNotification(data);
+                window.location.href = $('#hidAbsUrl').val()+"#create";
+            } else {
+
+                var $active = jQuery('.wizard .nav-tabs-step li.active');
+                $active.next().removeClass('disabled');
+                nextTab($active);
+                $(".form-group").removeClass('has-error');
+                $(".help-block").html('');
+
+            }
+        },
+        beforeSend: function () {
+            $('#loadingDiv').show();
+        },
+        complete: function () {
+            $('#loadingDiv').hide();
+        },
+        error: function (data) {
+            $(".form-group").removeClass('has-error');
+            $(".checkbox").removeClass('has-error');
+            $(".help-block").html('');
+
+            if (data.responseJSON.errors != '') {
+                $.each(data.responseJSON.errors, function (key, value) {
+                    if (key == 'coupon_logo') {
+                        $('.couponlogo').append('<span  class="has-error help-block"> <strong style="color:#a94442">' + value[0] + '</strong> </span>'); //showing only the first error.
+                    } else if (key == 'coupon_notification_point') {
+                        setDashboardNotification({message: value[0], status: 0}); //showing only the first error.
+                    } else {
+                        $("input[name=" + key + "]").parent().addClass('has-error');
+                        $("input[name=" + key + "]").parent().append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
+                    }
+                });
+            }
+        }
+
+
+    });
+
+});
 
 // create coupon submit
-$('#create-coupon').on('submit', function (event) {
+$(document).on("submit", "#create-coupon", function (event) {
+
     event.preventDefault();
+
     formData = new FormData($(this)[0]);
     //if value =4 i.e last step then
     value = parseInt($('.stepsincrement').val()) + 1;
@@ -232,18 +315,18 @@ $('#create-coupon').on('submit', function (event) {
         contentType: false,
         success: function (data) {
             if (data.status == 1) {
-                $('#loadingDiv').hide();  
-                setDashboardNotification(data); 
-                
-                 location.reload(true);
-            }else{
+                $('#loadingDiv').hide();
+                setDashboardNotification(data);
 
-            var $active = jQuery('.wizard .nav-tabs-step li.active');
-            $active.next().removeClass('disabled');
-            nextTab($active);
-            $(".form-group").removeClass('has-error');
-            $(".help-block").html('');
-            
+                location.reload(true);
+            } else {
+
+                var $active = jQuery('.wizard .nav-tabs-step li.active');
+                $active.next().removeClass('disabled');
+                nextTab($active);
+                $(".form-group").removeClass('has-error');
+                $(".help-block").html('');
+
             }
         },
         beforeSend: function () {
@@ -261,7 +344,7 @@ $('#create-coupon').on('submit', function (event) {
                 $.each(data.responseJSON.errors, function (key, value) {
                     if (key == 'coupon_logo') {
                         $('.couponlogo').append('<span  class="has-error help-block"> <strong style="color:#a94442">' + value[0] + '</strong> </span>'); //showing only the first error.
-                    } else if (key == 'coupon_notification_sqfeet') {
+                    } else if (key == 'coupon_notification_point') {
                         setDashboardNotification({message: value[0], status: 0}); //showing only the first error.
                     } else {
                         $("input[name=" + key + "]").parent().addClass('has-error');
@@ -301,9 +384,10 @@ function nextTab(elem) {
 }
 
 // resize google map
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-    var href=$(this).attr('href');
-    if(href=='#create2'){
+$(document).on("shown.bs.tab", "a[data-toggle='tab']", function (event) {
+
+    var href = $(this).attr('href');
+    if (href == '#create2') {
         clearFormData();
     }
     var value = $(this).find('.round-tab').text();
@@ -311,11 +395,27 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         $('.stepsincrement').val($.trim(value));
 
     }
-
+    // set center positionv of shape
+    google.maps.Polygon.prototype.my_getBounds = function () {
+        var bounds = new google.maps.LatLngBounds()
+        this.getPath().forEach(function (element, index) {
+            bounds.extend(element)
+        })
+        return bounds
+    }
     google.maps.event.trigger(map, 'resize');
-    map.setCenter(marker.getPosition());
     google.maps.event.trigger(mapshow, 'resize');
-    mapshow.setCenter(markershow.getPosition());
+    map.setZoom(7);
+    mapshow.setZoom(7);
+    if (showFirstMap != '') {
+        map.setCenter(showFirstMap.my_getBounds().getCenter());
+       
+    } else {
+        map.setCenter(marker.getPosition());
+    }
+    if (showSecMap != '') {
+        mapshow.setCenter(showSecMap.my_getBounds().getCenter());
+    }
 });
 
 //previous tab
@@ -328,17 +428,14 @@ function prevTab(elem) {
 
 }
 
-
-
 // This example requires the Drawing library. Include the libraries=drawing
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=drawing">
 //initialize map
 function Maps() {
 
     position = {lat: parseFloat($('.vendor_lat').val()), lng: parseFloat($('.vendor_long').val())};
     // show map 1
     map = new google.maps.Map(document.getElementById('googlegeofencing'), {
-        center: position,
+
         zoom: 7,
         fullscreenControl: false,
         streetViewControl: false,
@@ -361,7 +458,14 @@ function Maps() {
         position: position,
         map: mapshow
     });
-    // selectedShape.setMap(mapshow);
+    if ($('#coupon_notification_point').val() != '') {
+        showArray = JSON.parse($('#coupon_notification_point').val());
+        setPolygonFirstMapShape();
+        setPolygonSecMapShape();
+    }
+
+
+
 //    var centerControlDiv = document.createElement('div');
 //    var centerControl = new CenterControl(centerControlDiv, map);
 //    centerControlDiv.index = 1;
@@ -369,39 +473,6 @@ function Maps() {
 
 }
 
-// add div
-function CenterControl(controlDiv, map) {
-
-    // Set CSS for the control border.
-    var controlUI = document.createElement('div');
-    controlUI.style.backgroundColor = '#fff';
-    controlUI.style.border = '2px solid #fff';
-    controlUI.style.borderRadius = '3px';
-    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-    controlUI.style.cursor = 'pointer';
-    controlUI.style.marginBottom = '22px';
-    controlUI.style.textAlign = 'center';
-    controlUI.title = 'Draw Fence';
-    controlDiv.appendChild(controlUI);
-
-    // Set CSS for the control interior.
-    var controlText = document.createElement('div');
-    controlText.style.color = 'rgb(25,25,25)';
-    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-    controlText.style.fontSize = '16px';
-    controlText.id = 'resetfence';
-    controlText.style.lineHeight = '38px';
-    controlText.style.paddingLeft = '5px';
-    controlText.style.paddingRight = '5px';
-    controlText.innerHTML = 'Draw Fence';
-    controlUI.appendChild(controlText);
-
-    // Setup the click event listeners: simply set the map to Chicago.
-    controlUI.addEventListener('click', function () {
-        onClickEvent();
-    });
-
-}
 
 // clear selection
 function clearSelection() {
@@ -423,6 +494,11 @@ function setSelection(shape) {
 function onClickEvent() {
 
     if ($('#resetfence').text() == 'Draw Fence') {
+        if (showFirstMap != '') {
+            showFirstMap.setMap(null);
+        } if (showSecMap != '') {
+            showSecMap.setMap(null);
+        } 
         createPolygon();
     } else {
         deletePolygon();
@@ -433,6 +509,7 @@ function onClickEvent() {
 //create polygon
 function createPolygon() {
     $('#resetfence').text('Reset Fence');
+
     drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.POLYGON,
         drawingControlOptions: {
@@ -454,12 +531,19 @@ function createPolygon() {
     drawingManager.setOptions({
         drawingControl: false
     });
-
+//        google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
+//        document.getElementById('info').innerHTML += "polygon points:" + "<br>";
+//        for (var i = 0; i < polygon.getPath().getLength(); i++) {
+//            document.getElementById('info').innerHTML += polygon.getPath().getAt(i).toUrlValue(6) + "<br>";
+//        }
+//    });
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
+
         var radius = e.overlay;
+
        
-        getSquareFeet(radius);
-       
+
+
         if (e.type != google.maps.drawing.OverlayType.MARKER) {
             // Switch back to non-drawing mode after drawing a shape.
             drawingManager.setDrawingMode(null);
@@ -467,18 +551,14 @@ function createPolygon() {
             drawingManager.setOptions({
                 drawingControl: false
             });
-         
+
             // Add an event listener that selects the newly-drawn shape when the user
             // mouses down on it.
             var newShape = e.overlay;
             newShape.type = e.type;
             changeShape(newShape);
-
-//                google.maps.event.addListener(newShape, 'click', function () {
-//                    setSelection(newShape);
-//                });
             setSelection(newShape);
-
+             getSquareFeet(radius);
         }
 
     });
@@ -493,14 +573,16 @@ function deletePolygon() {
     $('#resetfence').text('Draw Fence');
     $('#coupon_notification_sqfeet').val('');
     $('#coupon_notification_point').val('');
-
+    if(showFirstMap!=''){
+    showFirstMap.setMap(null);
+    }
     drawingManager.setDrawingMode(null);
     // To hide:
     drawingManager.setOptions({
         drawingControl: false
     });
     selectedShape.setMap(null);
-      
+
 }
 
 //change latitude longitude after polygon gets changed
@@ -525,39 +607,41 @@ function changeShape(newShape) {
 
 //display sq feet
 function getSquareFeet(radius) {
-  
+
     var polygonBounds = radius.getPath();
-    if(testArray!=''){
-         drawingManager1.setMap(null);
-         for (var a = 0; a < polygonBounds.length; a++)
-    {
-        testArray.pop({"lat": polygonBounds.getAt(a).lat(), "lng": polygonBounds.getAt(a).lng()});
+    if (showArray != '') {
+        showArray = [];
     }
-    }
-  
+
     for (var a = 0; a < polygonBounds.length; a++)
     {
-        testArray.push({"lat": polygonBounds.getAt(a).lat(), "lng": polygonBounds.getAt(a).lng()});
+        showArray.push({"lat": polygonBounds.getAt(a).lat(), "lng": polygonBounds.getAt(a).lng()});
     }
     // set polygon shape for second map
-   
+
     var sqfeet = google.maps.geometry.spherical.computeArea(radius.getPath()) * 10.7639;
+
     $('#info').html('<label> Area Sqft Covered:- </label>' + sqfeet + ' ft²');
 
     $('.couponsqft').text(sqfeet + ' ft²');
     $('#coupon_notification_sqfeet').val(JSON.stringify(sqfeet));
-    $('#coupon_notification_point').val(JSON.stringify(testArray));
+    $('#coupon_notification_point').val(JSON.stringify(showArray));
+    if (showSecMap != '') {
+        showSecMap.setMap(null);
+    }
 
-     setPolygonShape();
+    setPolygonSecMapShape();
 }
 
 
-// set polygon shape 
-function setPolygonShape() {
-    var triangleCoords = testArray;
+// set polygon shape for first map 
+function setPolygonFirstMapShape() {
+
 // show polygon
-    drawingManager1 = new google.maps.Polygon({
-        paths: triangleCoords,
+
+
+    showFirstMap = new google.maps.Polygon({
+        paths: showArray,
         strokeWeight: 0,
         fillOpacity: 0.45,
         editable: true,
@@ -565,8 +649,24 @@ function setPolygonShape() {
         strokeColor: '#ff0000',
         editable: false
     });
-    drawingManager1.setMap(mapshow);
+
+    showFirstMap.setMap(map);
+
 }
 
+// set polygon shape for second map 
+function setPolygonSecMapShape() {
+// show polygon
+    showSecMap = new google.maps.Polygon({
 
-  
+        paths: showArray,
+        strokeWeight: 0,
+        fillOpacity: 0.45,
+        editable: true,
+        fillColor: '#ff0000',
+        strokeColor: '#ff0000',
+        editable: false
+    });
+    showSecMap.setMap(mapshow);
+
+}

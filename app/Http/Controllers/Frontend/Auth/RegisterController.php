@@ -65,6 +65,7 @@ class RegisterController extends Controller {
             $data = $request->all();
             $user_detail = \App\VendorDetail::createVendorFront($data);
             $file = Input::file('vendor_logo');
+            
             //store image
             if (!empty($file)) {
                 $this->addImageWeb($file, $user_detail, 'vendor_logo');
@@ -96,7 +97,7 @@ class RegisterController extends Controller {
             return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
         }
         catch (\Exception $e) {
-            //throw $e;
+           // throw $e;
         //    \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
             return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
@@ -107,7 +108,7 @@ class RegisterController extends Controller {
                     'type' => 'verifyvendor',
                     'data' => ['confirmation_code' => User::find($user_detail->user_id)->confirmation_code],
                 ];
-        // $this->sendMail($array_mail);
+         $this->sendMail($array_mail);
         // redirect
         return view('frontend.signup.pricetable')->with(['user_id' => $user_detail->user_id]);
     }

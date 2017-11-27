@@ -5,6 +5,8 @@ namespace App\Http\Services;
 use App\Coupon;
 use App\CouponShare;
 use Auth;
+use Carbon\Carbon;
+use App\User;
 
 trait CouponTrait {
 
@@ -46,5 +48,42 @@ trait CouponTrait {
         $message = str_replace($find, $replace, $message);
         return $message;
     }
+    
+    
+    public static function convertDateInUtc($date){
+      
+      $date = Carbon::parse($date);
+      $authtimezone=User::find(Auth::id())->vendorDetail->vendor_time_zone;  
+      if (strpos($authtimezone, '-') !== false) {
+          $timezone=str_replace('-','',$authtimezone); 
+          $finalDate=$date->subMinutes($timezone);  
+      }else if (strpos($date, '+') !== false) {
+          $timezone=str_replace('+','',$authtimezone); 
+          $finalDate=$date->addMinutes($timezone);  
+      }else{
+          $finalDate=$date;
+      }
+        return   $finalDate;
+    }
+    
+    
+    public static function convertDateInUserTZ($date){
+      
+      $date = Carbon::parse($date);
+      $authtimezone=User::find(Auth::id())->vendorDetail->vendor_time_zone;  
+      if (strpos($authtimezone, '-') !== false) {
+          $timezone=str_replace('-','',$authtimezone); 
+          $finalDate=$date->addMinutes($timezone);  
+      }else if (strpos($date, '+') !== false) {
+          $timezone=str_replace('+','',$authtimezone); 
+          $finalDate=$date->subMinutes($timezone);  
+      }else{
+          $finalDate=$date;
+      }
+        return   $finalDate;
+    }
+    
+    
+    
 
 }

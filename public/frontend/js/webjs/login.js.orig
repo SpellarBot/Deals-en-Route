@@ -10,6 +10,7 @@ $(document).ready(function () {
             type: 'POST',
             data: formData,
             success: function (data) {
+<<<<<<< HEAD
                 
 
                   if (data.status == 3) {
@@ -18,6 +19,14 @@ $(document).ready(function () {
                 } else {
                     $('#login').modal('hide');
                     location.reload(true);
+=======
+
+                if (data.status == 1) {
+                    $('#login').modal('hide');
+                    location.reload();
+                } else {
+                    $('body').removeClass('modal-open pages pages-homepage').addClass('price-page').removeAttr('style').html(data);
+>>>>>>> refs/remotes/origin/master
                 }
 
             },

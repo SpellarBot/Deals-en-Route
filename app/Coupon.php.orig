@@ -7,13 +7,10 @@ use DB;
 use URL;
 use Auth;
 use Carbon\Carbon;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\ErrorCorrectionLevel;
-use App\Http\Services\CouponTrait;
+ use Endroid\QrCode\QrCode;
+ use Endroid\QrCode\ErrorCorrectionLevel;
 
 class Coupon extends Model {
-
-    use CouponTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -52,10 +49,11 @@ class Coupon extends Model {
     public function getCouponLogoAttribute($value) {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";
     }
-
-//     public function getCouponEndDateAttribute($value) {
-//        return (!empty($value)? Carbon::parse($value)->format(\Config::get('constants.DATE_FORMAT')):'');
-//    }
+  
+    
+     public function getCouponEndDateAttribute($value) {
+        return (!empty($value)? Carbon::parse($value)->format(\Config::get('constants.DATE_FORMAT')):'');
+    }
 
     public function getCouponQrcodeImageAttribute($value) {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/qr_code_image/' . $value))) ? URL::to('/storage/app/public/qr_code_image') . '/' . $value : "";
@@ -144,9 +142,7 @@ class Coupon extends Model {
     }
 
     public static function couponList() {
-        $coupon_list = Coupon::where('created_by', Auth::id())
-                ->where(\DB::raw('coupon_redeem_limit'), '>', \DB::raw('coupon_total_redeem'))
-                ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
+        $coupon_list = \App\Coupon::where('created_by', Auth::id())
                 ->active()
                 ->deleted()
                 ->orderBy('coupon_id', 'desc')
@@ -155,71 +151,78 @@ class Coupon extends Model {
     }
 
     //save coupon
+<<<<<<< HEAD
+    public static function addCoupon($data){
+   
+         $coupon=new Coupon();
+         $coupon->fill($data);
+         $coupon->created_by=Auth::id();
+         $coupon->coupon_start_date=date('Y-m-d H:i:s');
+         $coupon->coupon_category_id=User::find(Auth::id())->vendorDetail->vendor_category;
+         $coupon->coupon_lat=User::find(Auth::id())->vendorDetail->vendor_lat;
+         $coupon->coupon_long=User::find(Auth::id())->vendorDetail->vendor_long;
+         $explode=explode(',',$data['coupon_end_date']);
+         $enddate= \Carbon\Carbon::parse($explode[1]." ".$explode[0])->toDateTimeString();        
+         $coupon->coupon_end_date=$enddate;
+        
+         $coupon->coupon_qrcode_image=self::generateQrImage($coupon->coupon_code);
+        if($coupon->save()){
+            
+=======
     public static function addCoupon($data) {
 
         $coupon = new Coupon();
         $coupon->fill($data);
         $coupon->created_by = Auth::id();
-        // start date
-        $startdate = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
-        $coupon->coupon_start_date = $startdate;
-
+        $coupon->coupon_start_date = date('Y-m-d H:i:s');
         $coupon->coupon_category_id = User::find(Auth::id())->vendorDetail->vendor_category;
         $coupon->coupon_lat = User::find(Auth::id())->vendorDetail->vendor_lat;
         $coupon->coupon_long = User::find(Auth::id())->vendorDetail->vendor_long;
-        // end date
         $explode = explode(',', $data['coupon_end_date']);
         $enddate = \Carbon\Carbon::parse($explode[1] . " " . $explode[0])->toDateTimeString();
-        $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
-        $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
+        $coupon->coupon_end_date = $enddate;
         if ($coupon->save()) {
-
+>>>>>>> refs/remotes/origin/master
             return $coupon;
         }
         return false;
     }
-
-    public static function updateCoupon($data, $id) {
-
-        $coupon = Coupon::where('coupon_id', $id)->first();
-        $coupon->fill($data);
-        if (isset($data['coupon_end_date'])) {
-            $explode = explode(',', $data['coupon_end_date']);
-
-            $enddate = \Carbon\Carbon::parse($explode[1] . " " . $explode[0])->toDateTimeString();
-            $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
-        }
-        if (isset($data['coupon_code'])) {
-            $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
-        }
-        if ($coupon->save()) {
+<<<<<<< HEAD
+    
+    public static function updateCoupon($data,$id){
+            
+         $coupon = Coupon::where('coupon_id',$id)->first();
+         $coupon->fill($data);
+         if(isset($data['coupon_end_date'])){
+         $explode=explode(',',$data['coupon_end_date']);
+         $enddate= \Carbon\Carbon::parse($explode[1]." ".$explode[0])->toDateTimeString(); 
+         $coupon->coupon_end_date=$enddate;
+         }
+          if(isset($data['coupon_code'])){
+         $coupon->coupon_qrcode_image=self::generateQrImage($coupon->coupon_code);
+          }
+        if($coupon->save()){
             return true;
         }
-        return false;
+      return false;
+    
     }
+   
 
-    public static function generateQrImage($code) {
+   public static function generateQrImage($code){
 
         $qrCode = new QrCode($code);
         $qrCode->setSize(300)
-                ->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH);
-        header('Content-Type: ' . $qrCode->getContentType());
-        $qrcodename = time() . '.png';
-        $qrCode->writeFile(storage_path() . '/app/public/qr_code_image/' . $qrcodename);
-        return $qrcodename;
-    }
-
-  
-     public static function getCouponAllList() {
-        $coupon_list = Coupon::where(\DB::raw('coupon_redeem_limit'), '>', \DB::raw('coupon_total_redeem'))
-                ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
-                ->active()
-                ->deleted()
-                ->orderBy('coupon_id', 'desc')
-                ->get();
-        return $coupon_list;
-    }
+         ->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH);
+        header('Content-Type: '.$qrCode->getContentType());
+        $qrcodename=time().'.png';
+        $qrCode->writeFile(storage_path() . '/app/public/qr_code_image/'.$qrcodename);
+        return $qrcodename; 
    
+
+
+   }
+=======
 
     public static function getReedemCouponMonthly($year = '') {
         if ($year) {
@@ -288,4 +291,5 @@ SUM(case when month(created_at)=12 then coupon_redeem_limit end) dece"))
         return $coupons;
     }
 
+>>>>>>> refs/remotes/origin/master
 }

@@ -36,21 +36,23 @@ return [
     'USER_PASSWORD_FETCH' => 'We Are Unable To Find Your E-Mail.',
     'USER_PASSWORD_RESET' => 'We have e-mailed you a Password Reset Link.Please Check Your Email.',
     'COUPON_ADD_FAV' => 'added coupon to favourtie successfully.',
+    'COMMENT_UPDATE'=>'comment updated successfully.',
     'ADD_FB_FRIEND' => 'successfully added fb friend',
     'ACTIVITY_LIKE_SUCCESS' => 'activity liked successfully.',
     'ACTIVITY_LIST' => 'activity listed successfully.',
     'COMMENT_ADD' => 'comment added successfully.',
+    'COUPON_UPDATE'=>'Coupon Updated Successfully.',
     'COMMENT_LIST' => 'comment listed successfully.',
     'COUPON_ADD_REDEEM' => 'coupon redeemed successfully,',
     'COUPON_DELETE' => 'coupon deleted successfully.',
-    'COUPON_DELETE' => 'coupon deleted successfully.',
-    'COUPON_CREATE' => 'coupon added successfully.',
+    'COUPON_CREATE'=>'Coupon Added Successfully.',
     'EARTH_RADIUS' => 3959,
     'USER_DELETE' => 'sorry your account have been deleted by admin.please contact admin.',
     'USER_DEACTIVE' => 'sorry your account have been deactivated by admin.please contact admin.',
-    'CONTACT_SUCCESS' => 'Mail Send Successfully.',
-    //client mail
-    'CLIENT_MAIL' => 'support@dealsenroute.com',
+    'CONTACT_SUCCESS'=>'Mail Send Successfully.',
+    
+     //client mail
+    'CLIENT_MAIL'=>'support@dealsenroute.com',
     //activity message
     'ACTVITY_CREATOR_MESSAGE' => 'You shared {{coupon_name}} coupon with {{count}} others',
     'ACTVITY_FRIEND_MESSAGE' => '{{created_by}} shared a {{coupon_name}} coupon with you ',
@@ -70,6 +72,8 @@ return [
     'STRIPE_KEY' => 'pk_test_dvnwoMABEgschsRqPZRuGJrp',
     'STRIPE_SECRET' => 'sk_test_ZBNhTnKmE3hEkk26awNMDdcc',
     'STRIPE_VERSION' => '2017-08-15',
+    'DATE_FORMAT'=>'g A, d M Y',
+  
 ];
 
 
