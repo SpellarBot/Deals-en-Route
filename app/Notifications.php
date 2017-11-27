@@ -44,7 +44,7 @@ class Notifications extends Model {
         $option = $optionBuiler->build();
         $notification = $notificationBuilder->build();
         $data = $dataBuilder->build();
-     
+
 // You must change it to get your tokens
         $tokens = DeviceDetail::where('user_id', $returnvalue->notifiable_id)->first();
         if (!empty($tokens)) {
