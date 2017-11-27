@@ -5,42 +5,42 @@
 
 <div class="main-panel">   	
     <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                    <div class="navbar-header">
-                            <button type="button" class="navbar-toggle"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar bar1"></span> <span class="icon-bar bar2"></span> <span class="icon-bar bar3"></span> </button>
-                            <p class="navbar-brand">Hello, {{ Auth::user()->vendorDetail->vendor_name }} </p>
-                    </div>
-                    <div class="collapse navbar-collapse">
-                            <ul class="nav navbar-nav navbar-right">
-                                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon fa fa-user"></i>
-                             <p>User</p>
-                           <b class="caret"></b> </a>
-                                            <ul class="dropdown-menu">
-                                                    <li><a href="{{ route('vendor.logout') }}"
-                        onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
-                        Sign Out
-                    </a>
-
-                    <form id="logout-form" action="{{ route('vendor.logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form></li>
-                                            </ul>
-                                    </li>
-                            </ul>
-                    </div>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar bar1"></span> <span class="icon-bar bar2"></span> <span class="icon-bar bar3"></span> </button>
+                <p class="navbar-brand">Hello, {{ Auth::user()->vendorDetail->vendor_name }} </p>
             </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon fa fa-user"></i>
+                            <p>User</p>
+                            <b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('vendor.logout') }}"
+                                   onclick="event.preventDefault();
+                                           document.getElementById('logout-form').submit();">
+                                    Sign Out
+                                </a>
+
+                                <form id="logout-form" action="{{ route('vendor.logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
-     
+
 
 
     <div class="content">
-          
-            <div class="tab-content">
-                    @include('frontend/dashboard/dash')
-                    @include("frontend/coupon/couponlist",['coupon_lists'=>$coupon_lists])
-                   @include("frontend/coupon/create",['currenttime'=>$currenttime])
-                             <div id="settings" class="tab-pane fade in">
+
+        <div class="tab-content">
+            @include('frontend/dashboard/dash')
+            @include("frontend/coupon/couponlist",['coupon_lists'=>$coupon_lists])
+            @include("frontend/coupon/create",['currenttime'=>$currenttime])
+            <div id="settings" class="tab-pane fade in">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -51,41 +51,54 @@
                                 <div class="content">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <form>
+                                            <form class="editCompanyDetails">
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="Business Name">
+                                                    <input type="text" placeholder="@if($vendor_detail->vendor_name != '' ) {{$vendor_detail->vendor_name}} @else Business Name @endif" name="vendor_name">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="Street Address">
+                                                    <input type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" name="vendor_address">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="City/State">
+                                                    <input type="text" placeholder="@if($vendor_detail->vendor_city != '' ) {{$vendor_detail->vendor_city}} @else City @endif" name="vendor_city">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="Zip">
+                                                    <input type="text" placeholder="@if($vendor_detail->vendor_state != '' ) {{$vendor_detail->vendor_state}} @else State @endif" name="vendor_state">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="tel" placeholder="Phone (x-xxx-xxx-xxxx)" pattern="^\d{1}-\d{3}-\d{3}-\d{4}$" maxlength="11" required>
+                                                    <input type="text" placeholder="@if($vendor_detail->vendor_zip != '' ) {{$vendor_detail->vendor_zip}} @else Zip Code @endif" name="vendor_zip">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="email" placeholder="Email" required>
+                                                    <input type="tel" name="vendor_phone" placeholder="@if($vendor_detail->vendor_phone != '' ) {{$vendor_detail->vendor_phone}} (x-xxx-xxx-xxxx) @endif (x-xxx-xxx-xxxx)" pattern="^\d{1}-\d{3}-\d{3}-\d{4}$" maxlength="11" required>
+                                                </div>
+                                                <!--                                                <div class="form-group">
+                                                                                                    <input type="email" placeholder="Email" required>
+                                                                                                </div>-->
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="@if($vendor_detail->billing_businessname != '' ) {{$vendor_detail->billing_businessname}} @else Billing Businessname @endif" name="billing_businessname">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="{{$vendor_detail->billing_home}}" name="address1">
+                                                    <input type="text" placeholder="@if($vendor_detail->billing_home != '' ) {{$vendor_detail->billing_home}} @else Business Billing Home @endif" name="billing_home">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="{{$vendor_detail->billing_city}}" name="city">
+                                                    <input type="text" placeholder="@if($vendor_detail->billing_city != '' ) {{$vendor_detail->billing_city}} @else Business Billing City @endif" name="billing_city">
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-control" name="country">
+                                                    <input type="text" placeholder="@if($vendor_detail->billing_state != '' ) {{$vendor_detail->billing_state}} @else Business Billing State @endif" name="billing_state">
+                                                </div>
+                                                <div class="form-group">
+                                                    <select class="form-control" name="billing_country">
                                                         <option>Country</option>
                                                         @foreach($country_list as $key=>$value)
+                                                        @if($vendor_detail->billing_country == $value)
+                                                        <option value="{{ $key }}" selected="selected">{{ $value }}</option>
+                                                        @else
                                                         <option value="{{ $key }}">{{ $value }}</option>
+                                                        @endif
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <fieldset>
-                                                    <input type="file" name="file" id="file" accept="image/*" />
+                                                    <input type="file" name="vendor_logo" id="file" accept="image/*" />
                                                 </fieldset>
                                                 <ul class="list-inline pad-top1 pull-right">
                                                     <li>
