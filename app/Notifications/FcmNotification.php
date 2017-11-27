@@ -42,8 +42,8 @@ class FcmNotification extends Notification {
     public function toDatabase($notifiable) {
         
         $DatabaseNotification = $notifiable->notifications->first();
-
-        return [
+         if(isset($this->data['name']) && isset( $this->data['name'])) {
+            return [
             'type' => $this->data['type'],
             'message' => $this->data['message'],
             'name' => $this->data['name'],
@@ -51,7 +51,17 @@ class FcmNotification extends Notification {
             'notification_message' => $this->data['notification_message'],
             'coupon_id' => $this->data['coupon_id'],
             'notification_id' => (empty($DatabaseNotification))?'1':$DatabaseNotification->getKey(),
+        ];  
+         }else {
+
+        return [
+            'type' => $this->data['type'],
+            'message' => $this->data['message'],
+            'notification_message' => $this->data['notification_message'],
+            'coupon_id' => $this->data['coupon_id'],
+            'notification_id' => (empty($DatabaseNotification))?'1':$DatabaseNotification->getKey(),
         ];
+         }
     }
 
 }

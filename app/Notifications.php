@@ -41,15 +41,15 @@ class Notifications extends Model {
         $dataBuilder = new PayloadDataBuilder();
 
         $dataBuilder->addData($returnvalue->data);
-
         $option = $optionBuiler->build();
         $notification = $notificationBuilder->build();
         $data = $dataBuilder->build();
-
+     
 // You must change it to get your tokens
         $tokens = DeviceDetail::where('user_id', $returnvalue->notifiable_id)->first();
         if (!empty($tokens)) {
             $downstreamResponse = FCM::sendTo([$tokens->device_token], $option, $notification, $data);
+            return $downstreamResponse->numberSuccess();
         }
     }
 
