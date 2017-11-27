@@ -531,12 +531,12 @@ function createPolygon() {
     drawingManager.setOptions({
         drawingControl: false
     });
-        google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
-        document.getElementById('info').innerHTML += "polygon points:" + "<br>";
-        for (var i = 0; i < polygon.getPath().getLength(); i++) {
-            document.getElementById('info').innerHTML += polygon.getPath().getAt(i).toUrlValue(6) + "<br>";
-        }
-    });
+//        google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
+//        document.getElementById('info').innerHTML += "polygon points:" + "<br>";
+//        for (var i = 0; i < polygon.getPath().getLength(); i++) {
+//            document.getElementById('info').innerHTML += polygon.getPath().getAt(i).toUrlValue(6) + "<br>";
+//        }
+//    });
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
 
         var radius = e.overlay;
