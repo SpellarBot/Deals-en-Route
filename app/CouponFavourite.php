@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
 use URL;
+use Carbon\Carbon;
 
 class CouponFavourite extends Model {
 
@@ -78,5 +79,50 @@ class CouponFavourite extends Model {
 
         return $result;
     }
+    
+    // coupon favorite list limit 5
+    public static function getCouponAllFavListLimit() {
+
+        $circle_radius = \Config::get('constants.EARTH_RADIUS');
+        $result = CouponFavourite::
+                select(DB::raw('coupon.coupon_id,coupon_favourite.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
+                        . 'coupon_name,coupon_logo,coupon_lat, (coupon_redeem_limit - coupon_total_redeem) AS new_bal,'
+                        . 'coupon_long,created_by,coupon_category_id,user_detail.user_id,((' . $circle_radius . ' * acos(cos(radians(user_detail.latitude)) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(user_detail.longitude)) + sin(radians(user_detail.latitude)) * sin(radians(coupon_lat))))) as distance'))
+                ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
+                ->leftJoin('user_detail', 'coupon_favourite.user_id', '=', 'user_detail.user_id')
+                ->where('is_active', self::IS_TRUE)
+                ->where('is_delete', self::IS_FALSE)
+                ->where('is_favorite', self::IS_TRUE)
+                ->havingRaw('new_bal = 5')
+                ->havingRaw('coupon_radius >= distance')
+                ->orderBy('distance')
+                ->get();
+
+        return $result;
+    }
+    
+      // coupon favorite list fav expire
+    public static function getCouponAllFavExpire() {
+        $date = Carbon::now()->format('Y-m-d');
+
+        $circle_radius = \Config::get('constants.EARTH_RADIUS');
+        $result = CouponFavourite::
+                select(DB::raw('coupon.coupon_id,coupon_favourite.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
+                        . 'coupon_name,coupon_lat,DATE_SUB(coupon_end_date, INTERVAL 1 DAY)  as datesub,'
+                        . 'coupon_long,created_by,coupon_category_id,user_detail.user_id,((' . $circle_radius . ' * acos(cos(radians(user_detail.latitude)) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(user_detail.longitude)) + sin(radians(user_detail.latitude)) * sin(radians(coupon_lat))))) as distance'))
+                 ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
+                ->leftJoin('user_detail', 'coupon_favourite.user_id', '=', 'user_detail.user_id')
+                ->where('is_active', self::IS_TRUE)
+                ->where('is_delete', self::IS_FALSE)
+                ->where('is_favorite', self::IS_TRUE)
+                ->having(\DB::raw('date_format(datesub,"%Y-%m-%d")'), "$date")
+                ->havingRaw('coupon_radius >= distance')
+                ->orderBy('distance')
+                ->get();
+
+        return $result;
+    }
+    
+    
 
 }

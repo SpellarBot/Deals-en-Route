@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api\v1;
 
 use Illuminate\Http\Request;
 use App\Http\Services\ResponseTrait;
-use \App\Http\Services\CouponTrait;
+use App\Http\Services\CouponTrait;
+use \App\Http\Services\NotificationTrait;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Notifications\Notifiable;
@@ -14,62 +15,130 @@ use DB;
 use Carbon\Carbon;
 use App\Coupon;
 use App\User;
+use Url;
 
 class NotificationController extends Controller {
 
-    use CouponTrait;
     use ResponseTrait;
+    use CouponTrait;
 
     // coupon geo notification
     public function couponGeoNotification(Request $request) {
-        $request = $request->all();
+        try {
+            $request = $request->all();
+             
+           
+                $validator = Validator::make($request, [
+                            'latitude' => 'required',
+                            'longitude' => 'required',
+                ]);
+                if ($validator->fails()) {
+                    return $this->responseJson('error', $validator->errors()->first(), 400);
+                } 
+                \App\UserDetail::saveUserDetail($request,Auth::id());
+                $usernotify = User::find(Auth::id())->userDetail->notification_new_offer;
+                 if ($usernotify == 1) {
+                $couponlist = Coupon::getCouponAllList();
+                foreach ($couponlist as $key => $value) {
 
-        $usernotify = User::find(Auth::id())->userDetail->notification_new_offer;
-        if ($usernotify == 1) {
-            $validator = Validator::make($request, [
-                        'lat' => 'required',
-                        'long' => 'required',
-            ]);
-            if ($validator->fails()) {
-                return $this->responseJson('error', $validator->errors()->first(), 400);
-            }
-            $couponlist = Coupon::getCouponAllList();
-            $xaxis = [];
-            $yaxis = [];
+                    $xAxis = '';
+                    $yAxis = '';
+                    $checkUserNotifyGeoOffer = $this->getUserNotificationOffer(Auth::id(), $value['coupon_id'], 'geonotification');
+ 
+                    if ($checkUserNotifyGeoOffer <= 0) {
 
-            foreach ($couponlist as $key => $value) {
-                $jsondecode = json_decode($value['coupon_notification_point']);
-                foreach ($jsondecode as $keyjson => $valuejson) {
-                    $xaxis[] = $valuejson->lat;
-                    $yaxis[] = $valuejson->lat;
+                        $jsonDecode = json_decode($value['coupon_notification_point']);
+
+                        foreach ($jsonDecode as $keyJson => $valueJson) {
+                            $xAxis[] = $valueJson->lat;
+                            $yAxis[] = $valueJson->lng;
+                        }
+
+                        $verticesX = $xAxis;    // x-coordinates of the vertices of the polygon
+                        $verticesY = $yAxis;
+                        $pointsPolygon = count($verticesX);  // number vertices - zero-based array
+                        $longitudeX = $request['latitude'];  // x-coordinate of the point to test
+                        $latitudeY = $request['longitude'];    // y-coordinate of the point to test
+                        $isPolygon = self::is_in_polygon($pointsPolygon, $verticesX, $verticesY, $longitudeX, $latitudeY);
+
+                        if ($isPolygon) {
+                                
+                            $coupon = Coupon::where('coupon_id', $value['coupon_id'])->first();
+                            $rand = rand(0, 5);
+                            $nMessage = \Config::get('constants.NOTIFY_GEO')[$rand];
+                            $fMessage = $coupon->finalNotifyMessage(Auth::id(), Auth::id(), $coupon, $nMessage);
+                            // send notification
+                            Notification::send(Auth::user(), new FcmNotification([
+                                'type' => 'geonotification',
+                                'notification_message' => $nMessage,
+                                'message' => $fMessage,
+                                'coupon_id' => $coupon->coupon_id,
+                            ]));
+                        }
+                    }
                 }
-
-                $vertices_x = $xaxis;    // x-coordinates of the vertices of the polygon
-                $vertices_y = $yaxis;
-                $points_polygon = count($vertices_x) - 1;  // number vertices - zero-based array
-                $longitude_x = $request['lat'];  // x-coordinate of the point to test
-                $latitude_y = $request['long'];    // y-coordinate of the point to test
-
-                if (self::is_in_polygon($points_polygon, $vertices_x, $vertices_y, $longitude_x, $latitude_y)) {
-                    $coupon = Coupon::where('coupon_id', $value['coupon_id'])->first();
-
-                    // send notification
-                    Notification::send(Auth::user(), new FcmNotification([
-                        'type' => 'geonotification',
-                        'notification_message' => '{{vendor_name}} is offering deal around you.',
-                        'message' => $coupon->vendorDetail->vendor_name . ' is offering deal around you.',
-                        'coupon_id' => $coupon->coupon_id,
-                    ]));
-                }
             }
+        } catch (\Exception $e) {
+            throw $e;
         }
     }
 
-    public static function is_in_polygon($points_polygon, $vertices_x, $vertices_y, $longitude_x, $latitude_y) {
+     //cron job for coupon expiring
+    public function CouponNotificationFavExpire(Request $request) {
+        
+         $couponlist = \App\CouponFavourite::getCouponAllFavExpire();
+
+        foreach ($couponlist as $couponlists) {
+            $to_id = \App\User::find($couponlists['user_id']);
+            $coupondetail = \App\Coupon::find($couponlists['coupon_id']);
+            $checkUserNotify = $this->getUserNotification($couponlists['user_id'], $couponlists['coupon_id'], 'favexpire');
+
+            if ($checkUserNotify <= 0) {
+
+                // send notification
+                Notification::send($to_id, new FcmNotification([
+                    'type' => 'favexpire',
+                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
+                    'message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
+                   'coupon_id' => $couponlists['coupon_id']
+                ]));
+            }
+        }
+        
+    
+
+
+    }
+    
+    //cron job for coupon expiring
+    public function CouponNotificationFavLeft(Request $request) {
+  
+         $couponlist = \App\CouponFavourite::getCouponAllFavListLimit();
+
+        foreach ($couponlist as $couponlists) {
+            $to_id = \App\User::find($couponlists['user_id']);
+            $coupondetail = \App\Coupon::find($couponlists['coupon_id']);
+            $checkUserNotify = $this->getUserNotification($couponlists['user_id'], $couponlists['coupon_id'], 'favleft');
+
+            if ($checkUserNotify <= 0) {
+
+                // send notification
+                Notification::send($to_id, new FcmNotification([
+                    'type' => 'favleft',
+                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
+                    'message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
+                   'coupon_id' => $couponlists['coupon_id']
+                ]));
+            }
+        }
+    }
+    
+    
+    public static function is_in_polygon($pointsPolygon, $verticesX, $verticesY, $longitudeX, $latitudeY) {
         $i = $j = $c = 0;
-        for ($i = 0, $j = $points_polygon; $i < $points_polygon; $j = $i++) {
-            if ((($vertices_y[$i] > $latitude_y != ($vertices_y[$j] > $latitude_y)) &&
-                    ($longitude_x < ($vertices_x[$j] - $vertices_x[$i]) * ($latitude_y - $vertices_y[$i]) / ($vertices_y[$j] - $vertices_y[$i]) + $vertices_x[$i])))
+        for ($i = 0, $j = $pointsPolygon - 1; $i < $pointsPolygon; $j = $i++) {
+            if ((($verticesY[$i] > $latitudeY != ($verticesY[$j] > $latitudeY)) &&
+                    ($longitudeX < ($verticesX[$j] - $verticesX[$i]) * ($latitudeY - $verticesY[$i]) / ($verticesY[$j] - $verticesY[$i]) + $verticesX[$i])))
                 $c = !$c;
         }
         return $c;

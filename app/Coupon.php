@@ -10,10 +10,12 @@ use Carbon\Carbon;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use App\Http\Services\CouponTrait;
+use App\Http\Services\NotificationTrait;
 
 class Coupon extends Model {
 
     use CouponTrait;
+     use NotificationTrait;
 
     /**
      * The attributes that are mass assignable.

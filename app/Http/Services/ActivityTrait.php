@@ -19,21 +19,8 @@ trait ActivityTrait {
                         ->count();
     }
 
-    public function getUserNotification($toid, $couponid, $type) {
+   
 
-        return \App\Notifications::where('notifiable_id', $toid)
-                        ->where('coupon_id', $couponid)
-                        ->where('type', $type)
-                        ->count();
-    }
-
-    public function getUserNotificationOffer($toid, $couponid, $type) {
-
-        return \App\Notifications::where('notifiable_id', $toid)
-                        ->where('coupon_id', $couponid)
-                        ->where('type', $type)
-                        ->where(\DB::raw('date_format(created_at,"%Y-%m-%d")'), date('Y-m-d'))
-                        ->count();
-    }
+    
 
 }

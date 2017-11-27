@@ -42,7 +42,7 @@ class FcmNotification extends Notification {
     public function toDatabase($notifiable) {
         
         $DatabaseNotification = $notifiable->notifications->first();
-         if(isset($this->data['name']) && isset( $this->data['name'])) {
+         if(isset($this->data['name']) && isset( $this->data['image'])) {
             return [
             'type' => $this->data['type'],
             'message' => $this->data['message'],

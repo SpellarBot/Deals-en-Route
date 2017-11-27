@@ -240,39 +240,7 @@ class CouponController extends Controller {
         }
     }
 
-    //cron job for coupon expiring
-    public function CouponNotificationFavExpire(Request $request) {
-        $date = Carbon::now()->format('Y-m-d');
-
-        $coupon = \App\CouponFavourite::
-                        select(DB::raw('coupon.coupon_id,coupon_favourite.user_id,coupon.created_by,coupon_end_date,
-                               DATE_SUB(coupon_end_date, INTERVAL 1 DAY)  as datesub'))
-                        ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
-                        ->where('is_active', \App\CouponFavourite::IS_TRUE)
-                        ->where('is_delete', \App\CouponFavourite::IS_FALSE)
-                        ->having(\DB::raw('date_format(datesub,"%Y-%m-%d")'), "$date")
-                        ->where('is_favorite', \App\CouponFavourite::IS_TRUE)
-                        ->get()->toArray();
-
-        foreach ($coupon as $coupons) {
-            $to_id = \App\User::find($coupons['user_id']);
-            $coupondetail = \App\Coupon::find($coupons['coupon_id']);
-            $checkUserNotify = $this->getUserNotification($to_id->id, $coupons['coupon_id'], 'favexpire');
-
-            if ($checkUserNotify <= 0 && $to_id->userDetail->notification_fav_expire == 1) {
-
-                // send notification
-                Notification::send($to_id, new FcmNotification([
-                    'type' => 'favexpire',
-                    'notification_message' => 'Hey {{to_name}}, Your Favorite deal on {{coupon_name}} expiring soon! Redeem before it goes away!!',
-                    'message' => 'Hey ' . $to_id->userDetail->first_name . ' ' . $to_id->userDetail->last_name . ' Your Favorite deal on ' . $coupondetail->coupon_name . ' expiring soon! ',
-                    'name' => $to_id->first_name . ' ' . $to_id->last_name,
-                    'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/profile_pic') . '/' . $coupondetail->vendorDetail->vendor_logo : "",
-                    'coupon_id' => $coupons['coupon_id']
-                ]));
-            }
-        }
-    }
+   
 
     public function getCoupons() {
         $coupon = \App\Coupon::couponList();
