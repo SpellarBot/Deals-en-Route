@@ -64,7 +64,7 @@
 
                         <div class="form-group">
                             {{ Form::label('coupon_original_price', 'Original Price:') }}
-                            {{ Form::number('coupon_original_price', old('coupon_original_price'), ['placeholder'=>'Enter Your Coupon Original Price ','class'=>'form-control','min'=>1,'id'=>'original_price']) }}
+                            {{ Form::text('coupon_original_price', old('coupon_original_price'), ['placeholder'=>'Enter Your Coupon Original Price ','class'=>'form-control','min'=>1,'id'=>'original_price']) }}
 
                         </div>
                         <div class="form-group">
@@ -72,7 +72,7 @@
                             {{ Form::number('coupon_discounted_percent', old('coupon_discounted_percent'), ['placeholder'=>'Enter Your Discount in %','maxlength'=>2,'class'=>'form-control','min'=>1,'id'=>'percentage_price']) }} 
                             OR 
                             {{ Form::label('coupon_discount', 'Discount Price:') }}
-                            {{ Form::number('coupon_discounted_price', old('coupon_discounted_price'), ['placeholder'=>'Enter Your Discount in $','class'=>'form-control','min'=>1,'id'=>'value_price']) }}
+                            {{ Form::text('coupon_discounted_price', old('coupon_discounted_price'), ['placeholder'=>'Enter Your Discount in $','class'=>'form-control','min'=>1,'id'=>'value_price']) }}
 
                         </div>
 

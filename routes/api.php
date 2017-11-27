@@ -33,7 +33,10 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
 
     Route::any('/stripe/endpoint', 'StripeController@handleStripeResponse');
     
-   
+   // cron notification
+    Route::post('/coupon/reddemleft', 'NotificationController@CouponNotificationFavLeft');
+     Route::post('/coupon/favexpire', 'NotificationController@CouponNotificationFavExpire');
+    
 
     Route::group(['middleware' => ['auth:api', 'check-permission:user']], function() {
         // Routes that passed auth, confirmed, subscribed, and active middleware

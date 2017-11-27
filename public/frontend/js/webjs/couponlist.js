@@ -152,8 +152,9 @@ $(document).ready(function () {
             var finalvalue = (orig) - (dval);
 
         }
+ 
         if (finalvalue == 0 || finalvalue != '') {
-            $('#final_value').val(finalvalue);
+            $('#final_value').val(finalvalue.toFixed(2));
         }
     });
 
