@@ -274,12 +274,31 @@ class CouponController extends Controller {
         $data = $request->all();
         $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
         if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
+            $user = \App\User::find(7);
+              // send notification success for coupon redeem
+            Notification::send($user, new FcmNotification([
+                'type' => 'redeemsuccess',
+                'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
+                'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
+                'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                'coupon_id' => $getCoupondetails->coupon_id,
+            ]));  
+            
             return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
         } else {
             $deduction = $this->deductiveInterest($getCoupondetails);
             $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
             $getCoupondetails->save();
-                return $this->responseJson('success', 'Coupon Redeemed Successfully. ' . $deduction['outcome']['seller_message'], 200);
+             $user = \App\User::find(7);
+             // send notification success for coupon failure
+              Notification::send($user, new FcmNotification([
+                'type' => 'redeemfailure',
+                'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
+                'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
+                'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                'coupon_id' => $getCoupondetails->coupon_id,
+            ]));
+            return $this->responseJson('success', 'Coupon Redeemed Successfully. ' . $deduction['outcome']['seller_message'], 200);
         }
     }
 
