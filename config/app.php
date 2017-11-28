@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Dealsenroute'),
+    'name' => env('APP_NAME', 'Deals en Route'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' =>'http://localhost/dealenroute/',
+    
+
 
     /*
     |--------------------------------------------------------------------------
@@ -164,6 +166,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+           Collective\Html\HtmlServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -178,6 +181,10 @@ return [
         App\Providers\RouteServiceProvider::class,
         L5Swagger\L5SwaggerServiceProvider::class,
         LaravelFCM\FCMServiceProvider::class,
+        Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
+        GoogleMaps\ServiceProvider\GoogleMapsServiceProvider::class,
+       
+
 
     ],
 
@@ -230,7 +237,11 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
 	'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
-
+         'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
+         'GoogleMaps' => 'GoogleMaps\Facade\GoogleMapsFacade',
     ],
 
 ];

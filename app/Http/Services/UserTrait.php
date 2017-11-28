@@ -23,6 +23,8 @@ trait UserTrait {
     public function generateAuthToken() {
         return bin2hex(openssl_random_pseudo_bytes(16));
     }
+    
+   
 
     public function getVendorName($id) {
         $vendor = \App\VendorDetail::where('user_id', $id)->first();
@@ -48,8 +50,8 @@ trait UserTrait {
         $fromid = (!empty($userfrom) ? $userfrom->userDetail->first_name . " " . $userfrom->userDetail->last_name : '');
         $toid = (!empty($tofrom) ? $tofrom->userDetail->first_name . " " . $tofrom->userDetail->last_name : '');
         $coupon_name = \App\Coupon::getCouponDetail(['coupon_id' => $item->coupon_id]);
-        $find = ['{{to_name}}', '{{from_name}}', '{{coupon_name}}'];
-        $replace = [$toid, $fromid, empty($coupon_name) ? "" : $coupon_name->coupon_name];
+        $find = ['{{to_name}}', '{{from_name}}', '{{coupon_name}}','{{vendor_name}}'];
+        $replace = [$toid, $fromid, empty($coupon_name) ? "" : $coupon_name->coupon_name,empty($coupon_name) ?"":$coupon_name->vendorDetail->vendor_name];
         $message = str_replace($find, $replace, $item->message);
         return $message;
     }

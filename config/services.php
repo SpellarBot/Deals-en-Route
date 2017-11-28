@@ -20,8 +20,8 @@ return [
     ],
 
     'ses' => [
-        'key' => env('SES_KEY'),
-        'secret' => env('SES_SECRET'),
+        'key' => 'AKIAJDJ2OUUKUEU4VH6A',
+        'secret' => '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',
         'region' => 'us-east-1',
     ],
 
@@ -30,9 +30,9 @@ return [
     ],
 
     'stripe' => [
-        'model' => App\User::class,
+        'model' => App\StripeUser::class,
         'key' => env('STRIPE_KEY'),
-        'secret' => env('STRIPE_SECRET'),
+        'secret' =>env('STRIPE_SECRET'),
     ],
 
 ];

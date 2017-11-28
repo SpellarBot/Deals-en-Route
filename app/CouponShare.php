@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Services\UserTrait;
+use App\Http\Services\NotificationTrait;
 use DB;
 use Auth;
 use URL;
@@ -15,6 +16,7 @@ class CouponShare extends Model {
 
     use UserTrait;
     use Notifiable;
+    use NotificationTrait;
 
     public $table = 'coupon_share';
     public $primaryKey = 'share_id';
@@ -63,21 +65,32 @@ class CouponShare extends Model {
                 ];
             }
             $user = User::leftJoin('user_detail', 'user_detail.user_id', '=', 'users.id')
-                    ->where('notification_recieve_offer', 1)
                     ->whereIn('id', $userid)
                     ->get();
 
             $coupon = Coupon::find($couponid);
-
-            // send notification
-            Notification::send($user, new FcmNotification([
+            $fMessage = $coupon->finalNotifyMessage(Auth::id(),'', $coupon,  \Config::get('constants.NOTIFY_SHARED_COUPON'));
+               
+               // send notification to your friends
+                Notification::send($user, new FcmNotification([
                 'type' => 'sharecoupon',
-                'notification_message' => '{{to_name}}, Your friend {{from_name}} has shared a coupon with you : {{coupon_name}}',
-                'message' => $creator_id->userDetail->first_name . ' ' . $creator_id->userDetail->last_name . ' shared a coupon with you:' . $coupon->coupon_detail,
-                'name' => $creator_id->first_name . ' ' . $creator_id->last_name,
-                'image' => (!empty($creator_id->userDetail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $creator_id->userDetail->profile_pic : "",
+                'notification_message' =>\Config::get('constants.NOTIFY_SHARED_COUPON'),
+                'message' => $fMessage ,
+                'name' => $creator_id->userDetail->first_name . ' ' . $creator_id->userDetail->last_name,
+                'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
                 'coupon_id' => $coupon->coupon_id
             ]));
+                
+            // send notification to yourself
+                Notification::send($creator_id, new FcmNotification([
+                'type' => 'sharedcoupon',
+                'notification_message' =>\Config::get('constants.NOTIFY_SHARE_COUPON'),
+                'message' => \Config::get('constants.NOTIFY_SHARE_COUPON'),
+                 'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
+                 'coupon_id' => $coupon->coupon_id
+            ]));
+         
+          
             if (CouponShare::insert($datafb)) {
                 Activity::where('activity_id', $activity->activity_id)
                         ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid)]);

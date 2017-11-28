@@ -32,6 +32,11 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     Route::get('/user/cron', 'CouponController@CouponNotification');
 
     Route::any('/stripe/endpoint', 'StripeController@handleStripeResponse');
+    
+   // cron notification
+    Route::post('/coupon/reddemleft', 'NotificationController@CouponNotificationFavLeft');
+     Route::post('/coupon/favexpire', 'NotificationController@CouponNotificationFavExpire');
+    
 
     Route::group(['middleware' => ['auth:api', 'check-permission:user']], function() {
         // Routes that passed auth, confirmed, subscribed, and active middleware
@@ -58,7 +63,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/activity/comment', 'ActivityController@comment');
         Route::post('/activity/commentlist', 'ActivityController@commentList');
         Route::post('/activity/share', 'ActivityController@shareActivity');
-         Route::post('/activity/commentedit', 'ActivityController@commentEdit');
+        Route::post('/activity/commentedit', 'ActivityController@commentEdit');
 
         Route::post('/user/logout', 'Auth\LoginController@logout');
 
@@ -69,6 +74,10 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         //contact us 
         Route::post('/contact/addcontact', 'CouponController@addContact');
 
+        //geonotification
+        Route::post('/coupon/geonotify', 'NotificationController@couponGeoNotification');
+
+
         // additional routes here
     });
     Route::group(['middleware' => ['auth:api', 'check-permission:vendor']], function() {
@@ -78,6 +87,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/vendor/couponRedemption', 'CouponController@CouponRedemption');
         Route::post('/vendor/dashboard', 'HomeController@dashboard');
         Route::post('/vendor/getReedeemCouponByYear', 'HomeController@getReedeemCouponByYear');
+        Route::post('/vendor/editCreditCard', 'StripeController@editCreditCard');
     });
 });
 

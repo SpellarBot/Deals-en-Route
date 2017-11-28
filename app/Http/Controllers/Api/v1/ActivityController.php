@@ -36,7 +36,7 @@ class ActivityController extends Controller {
             \App\CouponShare::addShareCoupon($exp, $data['coupon_id'], $activity);
             return $this->responseJson('success', \Config::get('constants.ADD_FB_FRIEND'), 200);
         } catch (\Exception $e) {
-            // throw $e;
+             throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }

@@ -42,16 +42,17 @@ class FcmNotification extends Notification {
     public function toDatabase($notifiable) {
         
         $DatabaseNotification = $notifiable->notifications->first();
-
-        return [
+   
+            return [
             'type' => $this->data['type'],
             'message' => $this->data['message'],
-            'name' => $this->data['name'],
-            'image' => $this->data['image'],
+            'name' => empty($this->data['name'])?$this->data['name']:'',
+            'image' =>empty($this->data['image'])?$this->data['image']:'',
             'notification_message' => $this->data['notification_message'],
             'coupon_id' => $this->data['coupon_id'],
             'notification_id' => (empty($DatabaseNotification))?'1':$DatabaseNotification->getKey(),
-        ];
+        ]; 
+         
     }
 
 }

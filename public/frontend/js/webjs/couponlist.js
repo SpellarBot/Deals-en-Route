@@ -152,8 +152,9 @@ $(document).ready(function () {
             var finalvalue = (orig) - (dval);
 
         }
+ 
         if (finalvalue == 0 || finalvalue != '') {
-            $('#final_value').val(finalvalue);
+            $('#final_value').val(finalvalue.toFixed(2));
         }
     });
 
@@ -405,9 +406,11 @@ $(document).on("shown.bs.tab", "a[data-toggle='tab']", function (event) {
     }
     google.maps.event.trigger(map, 'resize');
     google.maps.event.trigger(mapshow, 'resize');
-
+    map.setZoom(7);
+    mapshow.setZoom(7);
     if (showFirstMap != '') {
         map.setCenter(showFirstMap.my_getBounds().getCenter());
+       
     } else {
         map.setCenter(marker.getPosition());
     }
@@ -534,7 +537,6 @@ function createPolygon() {
 //        for (var i = 0; i < polygon.getPath().getLength(); i++) {
 //            document.getElementById('info').innerHTML += polygon.getPath().getAt(i).toUrlValue(6) + "<br>";
 //        }
-//        polygonArray.push(polygon);
 //    });
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
 
