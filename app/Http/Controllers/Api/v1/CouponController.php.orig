@@ -227,7 +227,7 @@ class CouponController extends Controller {
             foreach ($couponlist as $couponlists) {
                 $checkUserNotifyNewOffer = $this->getUserNotificationOffer($newcouponusers->id, $couponlists->coupon_id, 'newoffer');
                 if ($checkUserNotifyNewOffer <= 0) {
-                    // send notification
+// send notification
                     Notification::send($newcouponusers, new FcmNotification([
                         'type' => 'newoffer',
                         'notification_message' => 'Hey {{to_name}}, you have new  deal on {{coupon_name}} !!',
@@ -241,7 +241,43 @@ class CouponController extends Controller {
         }
     }
 
+<<<<<<< HEAD
    
+=======
+//cron job for coupon expiring
+    public function CouponNotificationFavExpire(Request $request) {
+        $date = Carbon::now()->format('Y-m-d');
+
+        $coupon = \App\CouponFavourite::
+                        select(DB::raw('coupon.coupon_id,coupon_favourite.user_id,coupon.created_by,coupon_end_date,
+                               DATE_SUB(coupon_end_date, INTERVAL 1 DAY)  as datesub'))
+                        ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
+                        ->where('is_active', \App\CouponFavourite::IS_TRUE)
+                        ->where('is_delete', \App\CouponFavourite::IS_FALSE)
+                        ->having(\DB::raw('date_format(datesub,"%Y-%m-%d")'), "$date")
+                        ->where('is_favorite', \App\CouponFavourite::IS_TRUE)
+                        ->get()->toArray();
+
+        foreach ($coupon as $coupons) {
+            $to_id = \App\User::find($coupons['user_id']);
+            $coupondetail = \App\Coupon::find($coupons['coupon_id']);
+            $checkUserNotify = $this->getUserNotification($to_id->id, $coupons['coupon_id'], 'favexpire');
+
+            if ($checkUserNotify <= 0 && $to_id->userDetail->notification_fav_expire == 1) {
+
+// send notification
+                Notification::send($to_id, new FcmNotification([
+                    'type' => 'favexpire',
+                    'notification_message' => 'Hey {{to_name}}, Your Favorite deal on {{coupon_name}} expiring soon! Redeem before it goes away!!',
+                    'message' => 'Hey ' . $to_id->userDetail->first_name . ' ' . $to_id->userDetail->last_name . ' Your Favorite deal on ' . $coupondetail->coupon_name . ' expiring soon! ',
+                    'name' => $to_id->first_name . ' ' . $to_id->last_name,
+                    'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/profile_pic') . '/' . $coupondetail->vendorDetail->vendor_logo : "",
+                    'coupon_id' => $coupons['coupon_id']
+                ]));
+            }
+        }
+    }
+>>>>>>> refs/remotes/origin/master
 
     public function getCoupons() {
         $coupon = \App\Coupon::couponList();
@@ -269,37 +305,17 @@ class CouponController extends Controller {
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-   // $2y$10$QLrpSIFbxrfCVoyk0DW7Fe.QeH4lBzyZDx/ZDeVaU0omK9Gq0Pb6.
+
     public function CouponRedemption(Request $request) {
         $data = $request->all();
         $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
-
         if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
-            $user = \App\User::find(7);
-              // send notification success for coupon redeem
-            Notification::send($user, new FcmNotification([
-                'type' => 'redeemsuccess',
-                'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                'coupon_id' => $getCoupondetails->coupon_id,
-            ]));  
-            
             return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
         } else {
             $deduction = $this->deductiveInterest($getCoupondetails);
             $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
             $getCoupondetails->save();
-             $user = \App\User::find(7);
-             // send notification success for coupon failure
-              Notification::send($user, new FcmNotification([
-                'type' => 'redeemfailure',
-                'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                'coupon_id' => $getCoupondetails->coupon_id,
-            ]));
-            return $this->responseJson('success', 'Coupon Redeemed Successfully. ' . $deduction['outcome']['seller_message'], 200);
+                return $this->responseJson('success', 'Coupon Redeemed Successfully. ' . $deduction['outcome']['seller_message'], 200);
         }
     }
 

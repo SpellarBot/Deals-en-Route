@@ -104,6 +104,9 @@ return [
         'coupon_notification_sqfeet' => [
             'check-required' => 'Please Select Geo Fencing Area.',
         ],
+        'coupon_original_price' => [
+            'greater_than' => 'The original price should be greater than discounted price.',
+        ],
          'coupon_discounted_percent.required_without'=>'The coupon percent/value is required.',
         'billing_home.required_without'=>'The billing address field is required.',
          'billing_city.required_without'=>'The billing city field is required.',

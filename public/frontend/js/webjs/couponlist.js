@@ -152,7 +152,7 @@ $(document).ready(function () {
             var finalvalue = (orig) - (dval);
 
         }
- 
+
         if (finalvalue == 0 || finalvalue != '') {
             $('#final_value').val(finalvalue.toFixed(2));
         }
@@ -160,12 +160,27 @@ $(document).ready(function () {
 
 
     // Select your input element.
-    $('#coupon_redeem_limit,#percentage_price,#value_price').keydown(function (e) {
-        if (!((e.keyCode > 95 && e.keyCode < 106)
-                || (e.keyCode > 47 && e.keyCode < 58)
-                || e.keyCode == 8)) {
-            return false;
+    $('#coupon_redeem_limit,#percentage_price,#value_price,#original_price').keydown(function (e) {
+        var regex = new RegExp("^[0-9]+$");
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if (regex.test(str) || e.which == 8 || e.which == 190) {
+            return true;
         }
+
+        e.preventDefault();
+        return false;
+
+    });
+    // Select your input element.
+    $('#coupon_code').keydown(function (e) {
+        var regex = new RegExp("^[a-zA-Z0-9]+$");
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if (regex.test(str) || e.which == 8) {
+            return true;
+        }
+
+        e.preventDefault();
+        return false;
     });
 
 });
@@ -173,20 +188,22 @@ $(document).ready(function () {
 // date picker
 $(document).on("focus", ".datepicker", function () {
     var date = new Date();
-    var startdate=$('#couponstartdate').val();
-
-    if(startdate==''){
-        var start=new Date(date.getTime());
-         var end=date.setDate(date.getDate() + 30);
-    }else{
-         var start = new Date(startdate);
-         var end=date.setDate(start.getDate() + 30);
+    var currentdate= $("#couponenddate").val();
+    var startdate = $('#couponstartdate').val();
+    var start = new Date(date.getTime());
+    if (startdate == '') {
+       
+        var end = date.setDate(date.getDate() + 30);
+    } else {
+        var startdate = new Date(startdate);
+        var end = date.setDate(startdate.getDate() + 30);
     }
     $(this).datetimepicker({
 
         format: 'h  A, DD MMM Y',
+        date:  currentdate,
         showClose: true,
-        useCurrent:true,
+        useCurrent: true,
         minDate: start,
         maxDate: end,
         icons: {
@@ -251,7 +268,7 @@ $(document).on("submit", "#update-coupon", function (event) {
             if (data.status == 1) {
                 $('#loadingDiv').hide();
                 setDashboardNotification(data);
-                window.location.href = $('#hidAbsUrl').val()+"#create";
+                window.location.href = $('#hidAbsUrl').val() + "#create";
             } else {
 
                 var $active = jQuery('.wizard .nav-tabs-step li.active');
@@ -410,7 +427,7 @@ $(document).on("shown.bs.tab", "a[data-toggle='tab']", function (event) {
     mapshow.setZoom(7);
     if (showFirstMap != '') {
         map.setCenter(showFirstMap.my_getBounds().getCenter());
-       
+
     } else {
         map.setCenter(marker.getPosition());
     }
@@ -497,9 +514,10 @@ function onClickEvent() {
     if ($('#resetfence').text() == 'Draw Fence') {
         if (showFirstMap != '') {
             showFirstMap.setMap(null);
-        } if (showSecMap != '') {
+        }
+        if (showSecMap != '') {
             showSecMap.setMap(null);
-        } 
+        }
         createPolygon();
     } else {
         deletePolygon();
@@ -542,7 +560,7 @@ function createPolygon() {
 
         var radius = e.overlay;
 
-       
+
 
 
         if (e.type != google.maps.drawing.OverlayType.MARKER) {
@@ -559,7 +577,7 @@ function createPolygon() {
             newShape.type = e.type;
             changeShape(newShape);
             setSelection(newShape);
-             getSquareFeet(radius);
+            getSquareFeet(radius);
         }
 
     });
@@ -574,8 +592,8 @@ function deletePolygon() {
     $('#resetfence').text('Draw Fence');
     $('#coupon_notification_sqfeet').val('');
     $('#coupon_notification_point').val('');
-    if(showFirstMap!=''){
-    showFirstMap.setMap(null);
+    if (showFirstMap != '') {
+        showFirstMap.setMap(null);
     }
     drawingManager.setDrawingMode(null);
     // To hide:
