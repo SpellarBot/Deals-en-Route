@@ -74,11 +74,8 @@ use ResponseTrait;
 
     protected function validatorupdate(array $data) {
         return Validator::make($data, [
-                    'first_name' => 'sometimes|required|string|max:255',
-                    'last_name' => 'sometimes|required|string|max:255',
-                    'password' => 'sometimes|required|string|min:6',
-                    'mobile_no' => 'sometimes|required|min:6|max:20',
-                    'name' => 'sometimes|required',
+                    'vendor_name' => 'sometimes|required|string|max:255',
+                    'vendor_phone' => 'required|max:15|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
                     'vendor_logo' => 'sometimes|required|image|mimes:jpg,png,jpeg',
         ]);
     }
@@ -183,10 +180,8 @@ use ResponseTrait;
             $user_detail = \App\VendorDetail::saveVendorDetail($data, $user->id);
 
             if ($request->file('vendor_logo')) {
-
                 $this->updateImage($request, $user_detail, 'vendor_logo');
             }
-
             \App\DeviceDetail::saveDeviceToken($data, $user->id);
 
 // save the user
@@ -197,7 +192,7 @@ use ResponseTrait;
         }
 // If we reach here, then// data is valid and working.//
         DB::commit();
-        $data = (new UserTransformer)->transformLogin($user);
+        $data = (new VendorTransformer)->transformLogin($user);
         return $this->responseJson('success', \Config::get('constants.USER_UPDATED_SUCCESSFULLY'), 200, $data);
     }
 

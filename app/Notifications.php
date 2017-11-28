@@ -15,7 +15,7 @@ class Notifications extends Model {
     use Notifiable;
 
     public function send($notifiable, Notification $notification) {
-        $data = $notification->toDatabase(($notifiable));
+        $data = $notification->toDatabase($notifiable);
         $notificationmessage = $data['notification_message'];
         unset($data['notification_message']);
         $returnvalue = $notifiable->routeNotificationFor('database')->create([
@@ -44,11 +44,12 @@ class Notifications extends Model {
         $option = $optionBuiler->build();
         $notification = $notificationBuilder->build();
         $data = $dataBuilder->build();
+
 // You must change it to get your tokens
         $tokens = DeviceDetail::where('user_id', $returnvalue->notifiable_id)->first();
         if (!empty($tokens)) {
             $downstreamResponse = FCM::sendTo([$tokens->device_token], $option, $notification, $data);
-          //  return $downstreamResponse->numberSuccess();
+            return $downstreamResponse->numberSuccess();
         }
     }
 
