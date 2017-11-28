@@ -120,7 +120,7 @@ class CouponFavourite extends Model {
                 ->orderBy('distance')
                 ->get();
 
-        return $result;
+       return $result;
     }
     
     

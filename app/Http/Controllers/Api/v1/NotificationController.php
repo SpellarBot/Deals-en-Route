@@ -72,6 +72,7 @@ class NotificationController extends Controller {
                                 'type' => 'geonotification',
                                 'notification_message' => $nMessage,
                                 'message' => $fMessage,
+                                'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
                                 'coupon_id' => $coupon->coupon_id,
                             ]));
                         }
@@ -94,12 +95,13 @@ class NotificationController extends Controller {
             $checkUserNotify = $this->getUserNotification($couponlists['user_id'], $couponlists['coupon_id'], 'favexpire');
 
             if ($checkUserNotify <= 0) {
-
+            $fMessage = $coupondetail->finalNotifyMessage(Auth::id(), Auth::id(), $coupondetail,  \Config::get('constants.NOTIFY_FAV_EXPIRE'));
                 // send notification
                 Notification::send($to_id, new FcmNotification([
                     'type' => 'favexpire',
-                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
-                    'message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
+                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE') ,
+                    'message' => $fMessage,
+                   'image' => (!empty($coupondetail->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupondetail->coupon_logo : "",
                    'coupon_id' => $couponlists['coupon_id']
                 ]));
             }
@@ -127,6 +129,7 @@ class NotificationController extends Controller {
                     'type' => 'favleft',
                     'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
                     'message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
+                    'image' => (!empty($couponlists['coupon_logo'])) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $couponlists['coupon_logo'] : "",        
                    'coupon_id' => $couponlists['coupon_id']
                 ]));
             }
