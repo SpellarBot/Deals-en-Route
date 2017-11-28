@@ -173,7 +173,7 @@ class Coupon extends Model {
         $explode = explode(',', $data['coupon_end_date']);
         $enddate = \Carbon\Carbon::parse($explode[1] . " " . $explode[0])->toDateTimeString();
         $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
-        $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
+       // $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
         if ($coupon->save()) {
 
             return $coupon;
@@ -191,9 +191,9 @@ class Coupon extends Model {
             $enddate = \Carbon\Carbon::parse($explode[1] . " " . $explode[0])->toDateTimeString();
             $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
         }
-        if (isset($data['coupon_code'])) {
-            $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
-        }
+//        if (isset($data['coupon_code'])) {
+//            $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
+//        }
         if ($coupon->save()) {
             return true;
         }
