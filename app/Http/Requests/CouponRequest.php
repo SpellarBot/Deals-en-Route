@@ -27,7 +27,7 @@ class CouponRequest extends FormRequest {
             'coupon_end_date' => 'required',
             'coupon_logo' => 'sometimes|required|image|mimes:jpg,png,jpeg',
             'coupon_radius' => 'required|integer|min:1|max:10',
-            'coupon_original_price' => 'numeric|required|min:0',
+            'coupon_original_price' => 'numeric|required|min:0|greater_than:coupon_discounted_price',
             'coupon_discounted_percent' => 'required_without:coupon_discounted_price',
         ];
         //update coupon validation 

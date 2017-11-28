@@ -9,7 +9,9 @@
             {{ Form::hidden('validationcheck', 0, ['class' => 'validationcheck']) }}
             {{ Form::hidden('vendor_lat', $vendor_detail->vendor_lat, ['class' => 'vendor_lat']) }}
             {{ Form::hidden('vendor_long', $vendor_detail->vendor_long, ['class' => 'vendor_long']) }}
-         {{ Form::hidden('coupon_start_date', old('coupon_start_date'), ['id' => 'couponstartdate']) }}
+            {{ Form::hidden('coupon_start_date', old('coupon_start_date'), ['id' => 'couponstartdate']) }}
+            {{ Form::hidden('couponenddate', isset($end_date_converted)?$end_date_converted:'', ['id' => 'couponenddate']) }}
+          
 
             <div class="tab-pane active" role="tabpanel" id="step1">
                 <h3>Coupon Details</h3>
@@ -54,7 +56,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_code', 'Coupon Code:') }}
-                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control']) }}
+                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code']) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
@@ -69,7 +71,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_discount', 'Discount Percentage:') }}
-                            {{ Form::number('coupon_discounted_percent', old('coupon_discounted_percent'), ['placeholder'=>'Enter Your Discount in %','maxlength'=>2,'class'=>'form-control','min'=>1,'id'=>'percentage_price']) }} 
+                            {{ Form::text('coupon_discounted_percent', old('coupon_discounted_percent'), ['placeholder'=>'Enter Your Discount in %','maxlength'=>'3','class'=>'form-control','min'=>1,'id'=>'percentage_price']) }} 
                             OR 
                             {{ Form::label('coupon_discount', 'Discount Price:') }}
                             {{ Form::text('coupon_discounted_price', old('coupon_discounted_price'), ['placeholder'=>'Enter Your Discount in $','class'=>'form-control','min'=>1,'id'=>'value_price']) }}
