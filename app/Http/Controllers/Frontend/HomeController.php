@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use Session;
 use Auth;
 use App\Http\Services\CouponTrait;
+use App\Coupon;
+use App\Http\Services\ResponseTrait;
 
 class HomeController extends Controller {
 
     use CouponTrait;
+    use ResponseTrait;
     /**
      * Create a new controller instance.
      *
@@ -37,6 +40,17 @@ class HomeController extends Controller {
         return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
                     'vendor_detail' => $vendor_detail, 'country_list' => $country_list,
             'currenttime'=>$currenttime]);
+    }
+    
+    public function dashboard(){
+        $data = [];
+        $total_redeem_monthly = Coupon::getReedemCouponMonthly();
+        $total_coupon_monthly = Coupon::getTotalCouponMonthly();
+        $total_active_coupon_monthly = Coupon::getTotalActiveCouponMonthly();
+        $data['total_redeem_monthly'] = $total_redeem_monthly->getAttributes();
+        $data['total_coupon_monthly'] = $total_coupon_monthly->getAttributes();
+        $data['total_active_coupon_monthly'] = $total_active_coupon_monthly->getAttributes();
+        return $this->responseJson('success', \Config::get('constants.DASHBOARD_DETAIL'), 200, $data);
     }
 
 }

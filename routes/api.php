@@ -34,8 +34,8 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     Route::any('/stripe/endpoint', 'StripeController@handleStripeResponse');
     
    // cron notification
-    Route::post('/coupon/reddemleft', 'NotificationController@CouponNotificationFavLeft');
-     Route::post('/coupon/favexpire', 'NotificationController@CouponNotificationFavExpire');
+    Route::post('/coupon/reddemleft', 'NotificationController@couponNotificationFavLeft');
+     Route::post('/coupon/favexpire', 'NotificationController@couponNotificationFavExpire');
     
 
     Route::group(['middleware' => ['auth:api', 'check-permission:user']], function() {
@@ -80,6 +80,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
 
         // additional routes here
     });
+    //vendor routes
     Route::group(['middleware' => ['auth:api', 'check-permission:vendor']], function() {
         Route::post('/vendor/update', 'Auth\VendorRegisterController@update');
         Route::post('/vendor/logout', 'Auth\LoginController@vendorlogout');

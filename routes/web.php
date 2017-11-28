@@ -60,9 +60,11 @@ Route::group(['namespace' => 'Frontend'], function () {
     //coupon crud
     Route::delete('/coupon/{id}', 'CouponController@destroy');
     Route::get('/coupon/edit/{id}', 'CouponController@edit');
-
     Route::post('/coupon/update', 'CouponController@update')->name('front.coupon.update');
     Route::post('/coupon/store', 'CouponController@store');
+    
+    // coupon dashboard
+    Route::get('/vendor/dashboard', 'HomeController@dashboard');
 });
 // Admin routes
 Route::group(['namespace' => 'Admin'], function () {
