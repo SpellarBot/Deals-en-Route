@@ -182,6 +182,10 @@ $('#charty1,#charty').val(TodayDate.getFullYear());
                 axisX: {
                     showGrid: false
                 },
+                axisY: {
+                    onlyInteger: true,
+                   
+                },
                 height: "250px",
                 low: 0,
             };
