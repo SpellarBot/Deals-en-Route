@@ -85,7 +85,7 @@ class NotificationController extends Controller {
     }
 
      //cron job for coupon expiring
-    public function CouponNotificationFavExpire(Request $request) {
+    public function couponNotificationFavExpire(Request $request) {
         
          $couponlist = \App\CouponFavourite::getCouponAllFavExpire();
 
@@ -112,8 +112,8 @@ class NotificationController extends Controller {
 
     }
     
-    //cron job for coupon expiring
-    public function CouponNotificationFavLeft(Request $request) {
+    //cron job for coupon left
+    public function couponNotificationFavLeft(Request $request) {
   
          $couponlist = \App\CouponFavourite::getCouponAllFavListLimit();
 

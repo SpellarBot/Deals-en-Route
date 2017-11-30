@@ -269,7 +269,7 @@ class CouponController extends Controller {
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-   // $2y$10$QLrpSIFbxrfCVoyk0DW7Fe.QeH4lBzyZDx/ZDeVaU0omK9Gq0Pb6.
+
     public function CouponRedemption(Request $request) {
         $data = $request->all();
         $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
