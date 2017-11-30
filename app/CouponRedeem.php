@@ -95,9 +95,9 @@ class CouponRedeem extends Model {
         }
        
         $data['redeem_by_18_below_per'] = ($redeem_by_18_below !=0)?number_format(($redeem_by_18_below / $total_coupon) * 100, 2):0;
-        $data['redeem_by_18_34_per'] = (($redeem_by_18_below !=0))? number_format(($redeem_by_18_34 / $total_coupon) * 100, 2):0;
-        $data['redeem_by_35_50_per'] = (($redeem_by_18_below !=0))?numb0er_format(($redeem_by_35_50 / $total_coupon) * 100, 2):0;
-        $data['redeem_by_above_50_per'] =  (($redeem_by_18_below !=0))?number_format(($redeem_by_above_50 / $total_coupon) * 100, 2):0;
+        $data['redeem_by_18_34_per'] = ($redeem_by_18_34 !=0)? number_format(($redeem_by_18_34 / $total_coupon) * 100, 2):0;
+        $data['redeem_by_35_50_per'] = ($redeem_by_35_50 !=0)?number_format(($redeem_by_35_50 / $total_coupon) * 100, 2):0;
+        $data['redeem_by_above_50_per'] =  ($redeem_by_above_50 !=0)?number_format(($redeem_by_above_50 / $total_coupon) * 100, 2):0;
         $data['redeem_by_18_below'] = $redeem_by_18_below;
         $data['redeem_by_18_34'] = $redeem_by_18_34;
         $data['redeem_by_35_50'] = $redeem_by_35_50;
