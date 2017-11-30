@@ -99,5 +99,12 @@ trait CouponTrait {
                         ->where('type', $type)
                         ->count();
     }
+    
+    public static function getLastYear(){
+        
+        return [date('Y')=>date('Y'),date('Y')-1=>date('Y')-1,date('Y')-2=>date('Y')-2,date('Y')-3=>date('Y')-3];
+    }
 
+   
+    
 }  

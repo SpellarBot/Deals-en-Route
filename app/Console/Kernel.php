@@ -28,9 +28,8 @@ class Kernel extends ConsoleKernel {
      */
     protected function schedule(Schedule $schedule) {
 
-    $schedule->call('\App\Http\Controllers\Api\v1\CouponController@CouponNotificationNew')->everyMinute();
-    $schedule->call('\App\Http\Controllers\Api\v1\CouponController@CouponNotificationFavExpire')->everyMinute();
-        
+    $schedule->call('\App\Http\Controllers\Api\v1\NotificationController@couponNotificationFavExpire')->daily();
+    $schedule->call('\App\Http\Controllers\Api\v1\NotificationController@couponNotificationFavLeft')->daily();    
     }
 
     /**
