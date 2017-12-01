@@ -16,6 +16,7 @@ return [
     'DASHBOARD_DETAIL' => 'Dashboard detail',
     'REDEEM_COUPON_YEAR' => 'Monthly Redeem Coupon detail',
     'USER_CREATED' => 'User Created Successfully.',
+
     //email
     'EMAIL_VERIFIED' => 'You have successfully verified your account.',
     'EMAIL_CODE_EXPIRED' => 'Sorry code which you entered has expired.',

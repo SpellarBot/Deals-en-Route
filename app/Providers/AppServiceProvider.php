@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Validator;
 use Illuminate\Support\Facades\Input;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider {
 
@@ -31,6 +32,19 @@ class AppServiceProvider extends ServiceProvider {
 
             return isset($other) and intval($value) < intval($other);
         });
+        
+         //less than other field
+        Validator::extend('currentpassword', function($attribute, $value, $parameters) {
+                   $hasher = app('hash');
+if ($hasher->check($value, Auth::user()->password)) {
+            return true;
+       
+}
+return false;
+        
+        });
+        
+        
     }
 
     /**

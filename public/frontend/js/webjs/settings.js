@@ -104,5 +104,46 @@ $(document).ready(function () {
             }
         });
     });
+    
+    // update password
+     $('#updatePassword').on('submit', function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            url: "vendor/updatePassword",
+            type: 'POST',
+            data: formData,
+            success: function (data) {
+                       $(".form-group").removeClass('has-error');
+                $(".input-group").removeClass('has-error');
+                $(".help-block").html('');
+                
+                if (data.status =='success') {
+                    
+                    setDashboardNotification(data);
+                }
+            },
+            beforeSend: function () {
+                $('#loadingDiv').show();
+            },
+            complete: function () {
+                $('#loadingDiv').hide();
+            },
+            error: function (data) {
+                $(".form-group").removeClass('has-error');
+                $(".input-group").removeClass('has-error');
+                $(".help-block").html('');
+                     if (data.responseJSON != '') {
+                    var errors = data.responseJSON.message;
+                    $.each(errors, function (key, value) {
+                        var inputname = $("input[name=" + key + "]").parent();
+                        inputname.addClass('has-error');
+                        inputname.append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
+                    });
+                }
+            }
+        });
+    });
+    
 });
 

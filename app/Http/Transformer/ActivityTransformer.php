@@ -57,6 +57,7 @@ class ActivityTransformer {
                 'activity_id' => $item->activity_id ?? '',
                 'comment_desc' => $item->comment_desc ?? '',
                 'created_by' => $item->user->first_name . " " . $item->user->last_name ?? '',
+                'user_id' => $item->created_by ?? '',
                 'creator_image' => (!empty($item->user->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $item->user->profile_pic : "",
             ];
         });
