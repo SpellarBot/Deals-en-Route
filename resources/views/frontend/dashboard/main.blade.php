@@ -157,22 +157,23 @@
                                 <div class="content">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <form>
+                                            {{ Form::open([ 'id' => 'updatePassword']) }}
                                                 <div class="form-group">
-                                                    <input type="password" placeholder="Current Password">
+                                                    
+                                                   {{ Form::password('current_password', ['placeholder'=>'Current Password','class'=>'form-control']) }}
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="password" placeholder="New Password">
+                                                   {{ Form::password('password',  ['placeholder'=>'New Password','class'=>'form-control']) }}
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="password" placeholder="Re-Enter Password">
+                                                   {{ Form::password('password_confirm',  ['placeholder'=>'Re-Enter Password','class'=>'form-control']) }}
                                                 </div>
                                                 <ul class="list-inline pad-top pull-right">
                                                     <li>
                                                         <button type="submit" class="btn btn-create">Submit</button>
                                                     </li>
                                                 </ul>
-                                            </form>
+                                            {{ Form::close() }}
                                         </div>
                                     </div>
                                 </div>

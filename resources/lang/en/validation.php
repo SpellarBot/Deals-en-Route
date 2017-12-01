@@ -107,6 +107,7 @@ return [
         'coupon_original_price' => [
             'greater_than' => 'The original price should be greater than discounted price.',
         ],
+        'current_password'=>['currentpassword'=>'Your current password is wrong.'],
          'coupon_discounted_percent.required_without'=>'The coupon percent/value is required.',
         'billing_home.required_without'=>'The billing address field is required.',
          'billing_city.required_without'=>'The billing city field is required.',
