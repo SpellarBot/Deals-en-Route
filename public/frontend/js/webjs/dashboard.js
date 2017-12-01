@@ -2,7 +2,7 @@ var redeem_weekly='';
 var redeem_monthly='';
 var monthlabels=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 var weekslabels=['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
-
+var bar1;
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -200,7 +200,7 @@ $('#charty1,#charty').val(TodayDate.getFullYear());
                         }
                     }]
             ];
-            var bar1 = Chartist.Bar('#chartCoupons', data, options, responsiveOptions);
+             bar1 = Chartist.Bar('#chartCoupons', data, options, responsiveOptions);
 
             // <!--================Redeemption Pie Chart=============================-->
             $('#charttotal').data('easyPieChart').update(total_coupon_reedemed);
@@ -240,6 +240,7 @@ $('#charty1,#charty').val(TodayDate.getFullYear());
 
         redeem_monthly.update();
         redeem_weekly.update();
+        bar1.update();
     });
 
 
