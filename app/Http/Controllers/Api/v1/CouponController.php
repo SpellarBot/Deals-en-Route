@@ -9,6 +9,7 @@ use Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\FcmNotification;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications;
 use App\StripeUser;
 use Notification;
 use DB;
@@ -241,8 +242,6 @@ class CouponController extends Controller {
         }
     }
 
-   
-
     public function getCoupons() {
         $coupon = \App\Coupon::couponList();
         if (count($coupon) > 0) {
@@ -272,66 +271,70 @@ class CouponController extends Controller {
 
     public function CouponRedemption(Request $request) {
         $data = $request->all();
+        $coupondata = explode(',', $data['coupon']);
+        $data['coupon_code'] = $coupondata[0];
+        $data['user_id'] = $coupondata[1];
         $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
-
         if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
-            $user = \App\User::find(7);
-              // send notification success for coupon redeem
+            $user = \App\User::find($data['user_id']);
+            // send notification success for coupon failure
             Notification::send($user, new FcmNotification([
-                'type' => 'redeemsuccess',
-                'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                'coupon_id' => $getCoupondetails->coupon_id,
-            ]));  
-            
-            return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
-        } else {
-            $deduction = $this->deductiveInterest($getCoupondetails);
-            $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
-            $getCoupondetails->save();
-             $user = \App\User::find(7);
-             // send notification success for coupon failure
-              Notification::send($user, new FcmNotification([
                 'type' => 'redeemfailure',
                 'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
                 'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
                 'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
                 'coupon_id' => $getCoupondetails->coupon_id,
             ]));
-            return $this->responseJson('success', 'Coupon Redeemed Successfully. ' . $deduction['outcome']['seller_message'], 200);
-        }
-    }
-
-    public function deductiveInterest($coupon) {
-        if ($coupon['coupon_discounted_price'] && !empty($coupon['coupon_discounted_price'])) {
-            $discount = number_format(($coupon['coupon_discounted_price'] * 30) / 100, 2);
-            if ($discount < 1) {
-                $amount = 1;
-            } else {
-                $amount = $discount;
-            }
+            return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
         } else {
-            $coupon_discount_price = $coupon['coupon_original_price'] - $coupon['coupon_total_discount'];
-            $discount = number_format(($coupon_discount_price * 30) / 100, 2);
-            if ($discount < 1) {
-                $amount = 1;
-            } else {
-                $amount = $discount;
-            }
-        }
-        $vendor_id = Auth::id();
-        $vendor = StripeUser::select('*')
-                ->where('user_id', $vendor_id)
-                ->first();
-        try {
-            $deduct = \App\StripeUser::chargeVendor($vendor, $amount);
-            $return = $deduct;
-        } catch (\Cartalyst\Stripe\Exception\CardErrorException $e) {
-            $return = $e->getMessage();
-        }
+//            $deduction = $this->deductiveInterest($getCoupondetails);
+            $user = \App\User::find($data['user_id']);
+            // send notification success for coupon redeem
+            Notification::send($user, new FcmNotification([
+                'type' => 'redeemsuccess',
+                'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
+                'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
+                'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                'coupon_id' => $getCoupondetails->coupon_id,
+            ]));
+            $couponReedem = array();
+            $couponReedem['user_id'] = $data['user_id'];
+            $couponReedem['coupon_id'] = $getCoupondetails['coupon_id'];
+            \App\CouponRedeem::addCouponReedem($couponReedem);
+            $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
+            $getCoupondetails->save();
 
-        return $return;
+            return $this->responseJson('success', 'Coupon Redeemed Successfully. ', 200);
+        }
     }
 
+//    public function deductiveInterest($coupon) {
+//        if ($coupon['coupon_discounted_price'] && !empty($coupon['coupon_discounted_price'])) {
+//            $discount = number_format(($coupon['coupon_discounted_price'] * 30) / 100, 2);
+//            if ($discount < 1) {
+//                $amount = 1;
+//            } else {
+//                $amount = $discount;
+//            }
+//        } else {
+//            $coupon_discount_price = $coupon['coupon_original_price'] - $coupon['coupon_total_discount'];
+//            $discount = number_format(($coupon_discount_price * 30) / 100, 2);
+//            if ($discount < 1) {
+//                $amount = 1;
+//            } else {
+//                $amount = $discount;
+//            }
+//        }
+//        $vendor_id = Auth::id();
+//        $vendor = StripeUser::select('*')
+//                ->where('user_id', $vendor_id)
+//                ->first();
+//        try {
+//            $deduct = \App\StripeUser::chargeVendor($vendor, $amount);
+//            $return = $deduct;
+//        } catch (\Cartalyst\Stripe\Exception\CardErrorException $e) {
+//            $return = $e->getMessage();
+//        }
+//        return $return;
+//    }
 }

@@ -30,6 +30,11 @@ class VendorController extends Controller {
         try {
             $data = $request->all();
             $user_id = Auth::id();
+            foreach($data as $key=>$value){
+                if(!$value || $value == 'Country' || $value == 'undefined'){
+                    unset($data[$key]);
+                }
+            }
             $user = \App\VendorDetail::updateVendorDetails($data, $user_id);
             if ($request->file('vendor_logo')) {
                 $this->updateImage($request, $user, 'vendor_logo');
