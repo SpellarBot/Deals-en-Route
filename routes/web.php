@@ -44,10 +44,13 @@ Route::group(['namespace' => 'Frontend'], function () {
 
     //vendor login
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('user.loginform');
-
     Route::post('vendor/login', 'Auth\LoginController@login')->name('vendor.login');
     Route::post('vendor/logout', 'Auth\LoginController@logout')->name('vendor.logout');
 
+    
+    //vendor update
+     Route::post('vendor/updatePassword', 'Auth\ResetPasswordController@updatePasssword')->name('vendor.updatePassword');
+    
     //vendor update card
     Route::post('vendor/editCreditCard', 'StripeController@editCreditCard')->name('vendor.editCreditCard');
 //    Route::get('/vendor/deleteCard', 'StripeController@deleteCard')->name('vendor.cardDelete');
@@ -60,9 +63,11 @@ Route::group(['namespace' => 'Frontend'], function () {
     //coupon crud
     Route::delete('/coupon/{id}', 'CouponController@destroy');
     Route::get('/coupon/edit/{id}', 'CouponController@edit');
-
     Route::post('/coupon/update', 'CouponController@update')->name('front.coupon.update');
     Route::post('/coupon/store', 'CouponController@store');
+    
+    // coupon dashboard
+    Route::get('/vendor/dashboard', 'HomeController@dashboard');
 });
 // Admin routes
 Route::group(['namespace' => 'Admin'], function () {

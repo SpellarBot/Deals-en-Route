@@ -32,8 +32,11 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     Route::get('/user/cron', 'CouponController@CouponNotification');
 
     Route::any('/stripe/endpoint', 'StripeController@handleStripeResponse');
-
-
+    
+   // cron notification
+    Route::post('/coupon/reddemleft', 'NotificationController@couponNotificationFavLeft');
+     Route::post('/coupon/favexpire', 'NotificationController@couponNotificationFavExpire');
+    
 
     Route::group(['middleware' => ['auth:api', 'check-permission:user']], function() {
         // Routes that passed auth, confirmed, subscribed, and active middleware
@@ -50,8 +53,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/coupon/redeemlist', 'CouponController@redeemCouponList');
         Route::post('/coupon/sharelist', 'CouponController@shareCouponList');
         Route::post('/coupon/addredeem', 'CouponController@addRedeem');
-
-
+        
         //activity feed
         Route::post('/activity/checkfb', 'ActivityController@checkFb');
         Route::post('/activity/addfbfriend', 'ActivityController@addFbFriend');
@@ -61,7 +63,8 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/activity/commentlist', 'ActivityController@commentList');
         Route::post('/activity/share', 'ActivityController@shareActivity');
         Route::post('/activity/commentedit', 'ActivityController@commentEdit');
-
+        
+        // user logout
         Route::post('/user/logout', 'Auth\LoginController@logout');
 
         //notification list
@@ -77,6 +80,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
 
         // additional routes here
     });
+    //vendor routes
     Route::group(['middleware' => ['auth:api', 'check-permission:vendor']], function() {
         Route::post('/vendor/update', 'Auth\VendorRegisterController@update');
         Route::post('/vendor/logout', 'Auth\LoginController@vendorlogout');

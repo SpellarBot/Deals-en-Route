@@ -10,10 +10,8 @@ $(document).ready(function () {
             type: 'POST',
             data: formData,
             success: function (data) {
-                
-
-                  if (data.status == 3) {
-                      var decodedString = atob(data.view);
+                if (data.status == 3) {
+                    var decodedString = atob(data.view);
                     $('body').removeClass('modal-open pages pages-homepage').addClass('price-page').removeAttr('style').html(decodedString);
                 } else {
                     $('#login').modal('hide');
@@ -52,10 +50,6 @@ $(document).ready(function () {
         });
 
     });
-    // add custom rules for credit card validating
-
-
-
 });
 
 

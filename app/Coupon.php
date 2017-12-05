@@ -10,10 +10,12 @@ use Carbon\Carbon;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use App\Http\Services\CouponTrait;
+use App\Http\Services\NotificationTrait;
 
 class Coupon extends Model {
 
     use CouponTrait;
+    use NotificationTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -171,7 +173,7 @@ class Coupon extends Model {
         $explode = explode(',', $data['coupon_end_date']);
         $enddate = \Carbon\Carbon::parse($explode[1] . " " . $explode[0])->toDateTimeString();
         $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
-        $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
+        // $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
         if ($coupon->save()) {
 
             return $coupon;
@@ -189,9 +191,9 @@ class Coupon extends Model {
             $enddate = \Carbon\Carbon::parse($explode[1] . " " . $explode[0])->toDateTimeString();
             $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
         }
-        if (isset($data['coupon_code'])) {
-            $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
-        }
+//        if (isset($data['coupon_code'])) {
+//            $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
+//        }
         if ($coupon->save()) {
             return true;
         }
@@ -209,8 +211,7 @@ class Coupon extends Model {
         return $qrcodename;
     }
 
-  
-     public static function getCouponAllList() {
+    public static function getCouponAllList() {
         $coupon_list = Coupon::where(\DB::raw('coupon_redeem_limit'), '>', \DB::raw('coupon_total_redeem'))
                 ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
                 ->active()
@@ -219,47 +220,43 @@ class Coupon extends Model {
                 ->get();
         return $coupon_list;
     }
-   
 
     public static function getReedemCouponMonthly($year = '') {
-        if ($year) {
-            $newyear = $year;
-        } elsE {
-            $newyear = date('Y');
-        }
         $user_id = Auth::id();
-        $coupons = Coupon::select(DB::raw("SUM(case when month(created_at)=1 then coupon_total_redeem end) jan,
-SUM(case when month(created_at)=2 then coupon_total_redeem end) feb,
-SUM(case when month(created_at)=3 then coupon_total_redeem end) mar,
-SUM(case when month(created_at)=4 then coupon_total_redeem end) april,
-SUM(case when month(created_at)=5 then coupon_total_redeem end) may,
-SUM(case when month(created_at)=6 then coupon_total_redeem end) june,
-SUM(case when month(created_at)=7 then coupon_total_redeem end) july,
-SUM(case when month(created_at)=8 then coupon_total_redeem end) aug,
-SUM(case when month(created_at)=9 then coupon_total_redeem end) sep,
-SUM(case when month(created_at)=10 then coupon_total_redeem end) oct,
-SUM(case when month(created_at)=11 then coupon_total_redeem end) nov,
-SUM(case when month(created_at)=12 then coupon_total_redeem end) dece"))
+        $coupons = Coupon::select(DB::raw("COALESCE(SUM(case when  month(coupon_redeem.created_at)=1 then (coupon_redeem.is_redeem) else 0 end),0) jan,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=2 then (coupon_redeem.is_redeem) else 0 end),0) feb,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=3 then (coupon_redeem.is_redeem) else 0 end),0) mar,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=4 then (coupon_redeem.is_redeem) else 0 end),0) april,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=5 then (coupon_redeem.is_redeem) else 0 end),0) may,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=6 then (coupon_redeem.is_redeem) else 0 end),0) june,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=7 then (coupon_redeem.is_redeem) else 0 end),0) july,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=8 then (coupon_redeem.is_redeem) else 0 end),0) aug,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=9 then (coupon_redeem.is_redeem) else 0 end),0) sep,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=10 then (coupon_redeem.is_redeem) else 0 end),0) oct,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=11 then (coupon_redeem.is_redeem) else 0 end),0) nov,
+COALESCE(SUM(case when month(coupon_redeem.created_at)=12 then (coupon_redeem.is_redeem) else 0 end),0) dece"))
+                ->leftjoin('coupon_redeem', 'coupon.coupon_id', 'coupon_redeem.coupon_id')
                 ->where('created_by', $user_id)
-                ->where(DB::raw('YEAR(created_at)'), '=', $newyear)
+                ->where(DB::raw('YEAR(coupon_redeem.created_at)'), '=', $year)
                 ->first();
+
         return $coupons;
     }
 
     public static function getTotalCouponMonthly() {
         $user_id = Auth::id();
-        $coupons = Coupon::select(DB::raw("SUM(case when month(created_at)=1 then coupon_redeem_limit end) jan,
-SUM(case when month(created_at)=2 then coupon_redeem_limit end) feb,
-SUM(case when month(created_at)=3 then coupon_redeem_limit end) mar,
-SUM(case when month(created_at)=4 then coupon_redeem_limit end) april,
-SUM(case when month(created_at)=5 then coupon_redeem_limit end) may,
-SUM(case when month(created_at)=6 then coupon_redeem_limit end) june,
-SUM(case when month(created_at)=7 then coupon_redeem_limit end) july,
-SUM(case when month(created_at)=8 then coupon_redeem_limit end) aug,
-SUM(case when month(created_at)=9 then coupon_redeem_limit end) sep,
-SUM(case when month(created_at)=10 then coupon_redeem_limit end) oct,
-SUM(case when month(created_at)=11 then coupon_redeem_limit end) nov,
-SUM(case when month(created_at)=12 then coupon_redeem_limit end) dece"))
+        $coupons = Coupon::select(DB::raw("COALESCE(SUM(case when month(created_at)=1 then coupon_redeem_limit else 0 end),0) jan,
+COALESCE(SUM(case when month(created_at)=2 then coupon_redeem_limit else 0  end),0) feb,
+COALESCE(SUM(case when month(created_at)=3 then coupon_redeem_limit else 0 end),0) mar,
+COALESCE(SUM(case when month(created_at)=4 then coupon_redeem_limit else 0 end),0) april,
+COALESCE(SUM(case when month(created_at)=5 then coupon_redeem_limit else 0 end),0) may,
+COALESCE(SUM(case when month(created_at)=6 then coupon_redeem_limit else 0 end),0) june,
+COALESCE(SUM(case when month(created_at)=7 then coupon_redeem_limit else 0 end),0) july,
+COALESCE(SUM(case when month(created_at)=8 then coupon_redeem_limit else 0 end),0) aug,
+COALESCE(SUM(case when month(created_at)=9 then coupon_redeem_limit else 0 end),0) sep,
+COALESCE(SUM(case when month(created_at)=10 then coupon_redeem_limit else 0 end),0) oct,
+COALESCE(SUM(case when month(created_at)=11 then coupon_redeem_limit else 0 end),0) nov,
+COALESCE(SUM(case when month(created_at)=12 then coupon_redeem_limit else 0 end),0) dece"))
                 ->where('created_by', $user_id)
                 ->where(DB::raw('YEAR(created_at)'), '=', date('Y'))
                 ->first();
@@ -268,18 +265,18 @@ SUM(case when month(created_at)=12 then coupon_redeem_limit end) dece"))
 
     public static function getTotalActiveCouponMonthly() {
         $user_id = Auth::id();
-        $coupons = Coupon::select(DB::raw("SUM(case when month(created_at)=1 then coupon_redeem_limit end) jan,
-SUM(case when month(created_at)=2 then coupon_redeem_limit end) feb,
-SUM(case when month(created_at)=3 then coupon_redeem_limit end) mar,
-SUM(case when month(created_at)=4 then coupon_redeem_limit end) april,
-SUM(case when month(created_at)=5 then coupon_redeem_limit end) may,
-SUM(case when month(created_at)=6 then coupon_redeem_limit end) june,
-SUM(case when month(created_at)=7 then coupon_redeem_limit end) july,
-SUM(case when month(created_at)=8 then coupon_redeem_limit end) aug,
-SUM(case when month(created_at)=9 then coupon_redeem_limit end) sep,
-SUM(case when month(created_at)=10 then coupon_redeem_limit end) oct,
-SUM(case when month(created_at)=11 then coupon_redeem_limit end) nov,
-SUM(case when month(created_at)=12 then coupon_redeem_limit end) dece"))
+        $coupons = Coupon::select(DB::raw("COALESCE(SUM(case when month(created_at)=1 then coupon_total_redeem else 0 end),0) jan,
+COALESCE(SUM(case when month(created_at)=2 then coupon_redeem_limit-coupon_total_redeem else 0 end),0) feb,
+COALESCE(SUM(case when month(created_at)=3 then coupon_redeem_limit-coupon_total_redeem else 0 end),0) mar,
+COALESCE(SUM(case when month(created_at)=4 then coupon_redeem_limit-coupon_total_redeem else 0 end),0) april,
+COALESCE(SUM(case when month(created_at)=5 then coupon_redeem_limit-coupon_total_redeem else 0 end),0) may,
+COALESCE(SUM(case when month(created_at)=6 then coupon_redeem_limit-coupon_total_redeem else 0 end),0) june,
+COALESCE(SUM(case when month(created_at)=7 then coupon_redeem_limit-coupon_total_redeem else 0  end),0) july,
+COALESCE(SUM(case when month(created_at)=8 then coupon_redeem_limit-coupon_total_redeem else 0 end),0) aug,
+COALESCE(SUM(case when month(created_at)=9 then coupon_redeem_limit-coupon_total_redeem else 0 end),0) sep,
+COALESCE(SUM(case when month(created_at)=10 then coupon_redeem_limit-coupon_total_redeem else 0 end),0) oct,
+COALESCE(SUM(case when month(created_at)=11 then coupon_redeem_limit-coupon_total_redeem else 0 end),0) nov,
+COALESCE(SUM(case when month(created_at)=12 then coupon_redeem_limit-coupon_total_redeem else 0 end),0) dece"))
                 ->where('created_by', $user_id)
                 ->where('is_active', 1)
                 ->where('is_delete', 0)
@@ -287,5 +284,25 @@ SUM(case when month(created_at)=12 then coupon_redeem_limit end) dece"))
                 ->first();
         return $coupons;
     }
+
+    public static function getReedemCouponWeekly($year = '', $month = '') {
+
+        $user_id = Auth::id();
+        $coupons = Coupon::select(DB::raw("COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01'),coupon_redeem.created_at)+1=1 then (coupon_redeem.is_redeem) else 0 end),0) week1,
+COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01'),coupon_redeem.created_at)+1=2 then (coupon_redeem.is_redeem) else 0 end),0) week2,
+COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01'),coupon_redeem.created_at)+1=3 then (coupon_redeem.is_redeem) else 0 end),0) week3,
+COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01'),coupon_redeem.created_at)+1=4 then (coupon_redeem.is_redeem) else 0 end),0) week4,
+COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01'),coupon_redeem.created_at)+1=5 then (coupon_redeem.is_redeem) else 0 end),0) week5"))
+                ->leftjoin('coupon_redeem', 'coupon.coupon_id', 'coupon_redeem.coupon_id')
+                ->where('created_by', $user_id)
+                ->where(DB::raw('YEAR(coupon_redeem.created_at)'), '=', $year)
+                ->where(DB::raw('MONTH(coupon_redeem.created_at)'), '=', $month)               
+                ->first();
+        return $coupons;
+    }
+    
+ 
+
+    
 
 }
