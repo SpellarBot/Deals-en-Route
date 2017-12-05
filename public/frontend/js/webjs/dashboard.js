@@ -69,15 +69,17 @@ $(document).ready(function () {
             cache: false, 
             processData: false,
             success: function (data) {
+                console.log(data);
+//                return false;
                 if (data.status == 0) {
-                    $('.editCreditCard').find("input").val("");
+                    $('.editCompanyDetails').find("input").val("");
                     $('.alert-danger').show();
                     setTimeout(function () {
                         $('.alert-danger').fadeOut('slow');
                     }, 10000);
                     $('.errormessage').html(data.message);
                 } else {
-                    $('.editCreditCard').find("input").val("");
+                    $('.editCompanyDetails').find("input").val("");
                     $('.alert-success').show();
                     setTimeout(function () {
                         $('.alert-success').fadeOut('slow');
@@ -94,7 +96,7 @@ $(document).ready(function () {
             },
             error: function (data) {
                 console.log(data)
-                $('.editCreditCard').find("input").val("");
+                $('.editCompanyDetails').find("input").val("");
                 $('#loadingDiv').hide();
                 $('.alert-danger').show();
                 setTimeout(function () {
