@@ -136,17 +136,17 @@ use ResponseTrait;
             } elseif (strpos($message, 'number') !== false || strpos($message, 'card') !== false) {
                 return response()->json(['errors' => ['card_no' => [0 => ucwords($message)]]], 422);
             }
-            return response()->json(['status' => 0, 'message' => ucwords($message)], 422);
+            return response()->json(['status' => 'error', 'message' => ucwords($message)], 422);
         } catch (\Cartalyst\Stripe\Exception\UnauthorizedExceptioncatch $e) {
 //throw $e;
 // \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
-            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
+            return response()->json(['status' => 'error', 'message' => ucwords($e->getMessage())], 422);
         } catch (\Exception $e) {
 //throw $e;
 //    \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
-            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
+            return response()->json(['status' => 'error', 'message' => ucwords($e->getMessage())], 422);
 //            return response()->json(['status' => 0, 'message' => 'Email Already Registered!!'], 422);
         }
 // If we reach here, then// data is valid and working.//

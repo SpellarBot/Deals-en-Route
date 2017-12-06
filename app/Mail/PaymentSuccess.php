@@ -17,8 +17,9 @@ class PaymentSuccess extends Mailable {
      *
      * @return void
      */
-    public function __construct($data) {
+    public function __construct($data, $invoice) {
         $this->data = $data;
+        $this->invoice = $invoice;
     }
 
     /**
@@ -29,7 +30,8 @@ class PaymentSuccess extends Mailable {
     public function build() {
         return $this->markdown('emails.paymentsuccess')
                         ->subject('Payment Successful')
-                        ->with($this->data);
+                        ->with($this->data)
+                        ->attach($this->invoice);
     }
 
 }
