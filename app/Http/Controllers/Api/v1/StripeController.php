@@ -11,6 +11,7 @@ use App\Stripewebhook;
 use App\User;
 use App\StripeUser;
 use App\VendorDetail;
+use App\PaymentInfo;
 use App\Http\Controllers\Api\v1\Auth;
 use Mail;
 
@@ -49,6 +50,7 @@ class StripeController extends Controller {
             exit();
         }
         $user_id = $event->data->object->customer;
+        $amount = $event->data->object->amount;
         $user_details = Stripewebhook::getUserDetails($user_id);
         if ($event->type == 'charge.failed') {
             $array_mail = ['to' => $user_details->email,
@@ -56,12 +58,24 @@ class StripeController extends Controller {
                 'data' => ['confirmation_code' => 'Test'],
             ];
             $this->sendMail($array_mail);
+            $data = array();
+            $data['vendor_id'] = $user_details->user_id;
+            $data['totalcommision'] = $amount / 100;
+            $data['status'] = 'failed';
+            $data['description'] = 'PaymentFailed';
+            PaymentInfo::create($data);
         } elseif ($event->type == 'charge.succeeded') {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
             ];
             $this->sendMail($array_mail);
+            $data = array();
+            $data['vendor_id'] = $user_details->user_id;
+            $data['totalcommision'] = $amount / 100;
+            $data['status'] = 'success';
+            $data['description'] = 'PaymentSuccessfull';
+            \App\PaymentInfo::create($data);
         } elseif ($event->type == 'customer.subscription.deleted') {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'subscription_cancel_success',

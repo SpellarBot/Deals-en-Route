@@ -15,6 +15,8 @@ use Notification;
 use DB;
 use URL;
 use Carbon\Carbon;
+use App\Commision;
+use App\PaymentInfo;
 
 class CouponController extends Controller {
 
@@ -228,7 +230,7 @@ class CouponController extends Controller {
             foreach ($couponlist as $couponlists) {
                 $checkUserNotifyNewOffer = $this->getUserNotificationOffer($newcouponusers->id, $couponlists->coupon_id, 'newoffer');
                 if ($checkUserNotifyNewOffer <= 0) {
-                    // send notification
+// send notification
                     Notification::send($newcouponusers, new FcmNotification([
                         'type' => 'newoffer',
                         'notification_message' => 'Hey {{to_name}}, you have new  deal on {{coupon_name}} !!',
@@ -277,7 +279,7 @@ class CouponController extends Controller {
         $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
         if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
             $user = \App\User::find($data['user_id']);
-            // send notification success for coupon failure
+// send notification success for coupon failure
             Notification::send($user, new FcmNotification([
                 'type' => 'redeemfailure',
                 'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
@@ -287,9 +289,9 @@ class CouponController extends Controller {
             ]));
             return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
         } else {
-//            $deduction = $this->deductiveInterest($getCoupondetails);
+            $commision = $this->deductiveCommision($getCoupondetails);
             $user = \App\User::find($data['user_id']);
-            // send notification success for coupon redeem
+// send notification success for coupon redeem
             Notification::send($user, new FcmNotification([
                 'type' => 'redeemsuccess',
                 'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
@@ -308,33 +310,65 @@ class CouponController extends Controller {
         }
     }
 
-//    public function deductiveInterest($coupon) {
-//        if ($coupon['coupon_discounted_price'] && !empty($coupon['coupon_discounted_price'])) {
-//            $discount = number_format(($coupon['coupon_discounted_price'] * 30) / 100, 2);
-//            if ($discount < 1) {
-//                $amount = 1;
-//            } else {
-//                $amount = $discount;
-//            }
-//        } else {
-//            $coupon_discount_price = $coupon['coupon_original_price'] - $coupon['coupon_total_discount'];
-//            $discount = number_format(($coupon_discount_price * 30) / 100, 2);
-//            if ($discount < 1) {
-//                $amount = 1;
-//            } else {
-//                $amount = $discount;
-//            }
-//        }
-//        $vendor_id = Auth::id();
-//        $vendor = StripeUser::select('*')
-//                ->where('user_id', $vendor_id)
-//                ->first();
-//        try {
-//            $deduct = \App\StripeUser::chargeVendor($vendor, $amount);
-//            $return = $deduct;
-//        } catch (\Cartalyst\Stripe\Exception\CardErrorException $e) {
-//            $return = $e->getMessage();
-//        }
-//        return $return;
-//    }
+    public function deductiveCommision($coupon) {
+        if ($coupon['coupon_discounted_price'] && !empty($coupon['coupon_discounted_price'])) {
+            $discount = number_format(($coupon['coupon_discounted_price'] * 30) / 100, 2);
+            if ($discount < 1) {
+                $amount = 1;
+            } else {
+                $amount = $discount;
+            }
+        } else {
+            $coupon_discount_price = $coupon['coupon_original_price'] - $coupon['coupon_total_discount'];
+            $discount = number_format(($coupon_discount_price * 30) / 100, 2);
+            if ($discount < 1) {
+                $amount = 1;
+            } else {
+                $amount = $discount;
+            }
+        }
+        $vendor_id = Auth::id();
+        $data = array();
+        $data['vendor_id'] = $vendor_id;
+        $data['amount'] = $amount;
+        $data['coupon_id'] = $coupon['coupon_id'];
+        $addcommision = Commision::create($data);
+        if ($addcommision) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+// Payout commission every month cron
+    public function commisionPayout() {
+        $payouts = Commision::getCommisionDetails();
+        foreach ($payouts as $pay) {
+            $commisiondetails = $pay->getAttributes();
+            $vendor = StripeUser::getCustomerDetails($commisiondetails['vendor_id']);
+            try {
+                $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalcommision']);
+                $commisiondetails['status'] = 'success';
+                $commisiondetails['description'] = 'PaymentSuccessfull';
+                $this->addPaymentDetails($commisiondetails);
+            } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
+                $commisiondetails['status'] = 'failed';
+                $commisiondetails['description'] = $e->getMessage();
+                $this->addPaymentDetails($commisiondetails);
+            } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
+                $commisiondetails['status'] = 'failed';
+                $commisiondetails['description'] = $e->getMessage();
+                $this->addPaymentDetails($commisiondetails);
+            }
+        }
+    }
+
+    public function addPaymentDetails($data) {
+        if ($data['status'] == 'success') {
+            Commision::updateCommision($data);
+        }
+        $info = PaymentInfo::create($data);
+        return true;
+    }
+
 }
