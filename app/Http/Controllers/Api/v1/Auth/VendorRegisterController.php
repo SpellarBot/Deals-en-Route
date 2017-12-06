@@ -145,8 +145,14 @@ use ResponseTrait;
         } catch (\Exception $e) {
 //throw $e;
 //    \App\StripeUser::findCustomer($data['email']);
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == '1062') {
+                $message = 'Email Already Registered !!';
+            } else {
+                $message = ucwords($e->getMessage());
+            }
             DB::rollback();
-            return response()->json(['status' => 'error', 'message' => ucwords($e->getMessage())], 422);
+            return response()->json(['status' => 'error', 'message' => $message], 422);
 //            return response()->json(['status' => 0, 'message' => 'Email Already Registered!!'], 422);
         }
 // If we reach here, then// data is valid and working.//
