@@ -146,7 +146,8 @@ use ResponseTrait;
 //throw $e;
 //    \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
-            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
+//            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
+            return response()->json(['status' => 0, 'message' => 'Email Already Registered!!'], 422);
         }
 // If we reach here, then// data is valid and working.//
         DB::commit();
@@ -156,11 +157,11 @@ use ResponseTrait;
         ];
         $subscribe = $this->subscribe($user_detail->user_id, $data['pakage']);
         if ($subscribe == TRUE) {
-//            $this->sendMail($array_mail);
+            $this->sendMail($array_mail);
             $data = (new VendorTransformer)->transformLogin($data);
             return $this->responseJson('success', \Config::get('constants.USER_EMAIL_VERIFICATION'), 200);
         } else {
-//            $this->sendMail($array_mail);
+            $this->sendMail($array_mail);
             $data = (new VendorTransformer)->transformLogin($data);
             return $this->responseJson('success', \Config::get('constants.SUBSCRIPTION_ERROR'), 200);
         }
