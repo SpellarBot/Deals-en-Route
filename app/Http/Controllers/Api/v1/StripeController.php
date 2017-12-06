@@ -71,6 +71,7 @@ class StripeController extends Controller {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
+                'invoice' => 'test'
             ];
             $this->sendMail($array_mail);
             if ($description != 'CommisionPayment') {
