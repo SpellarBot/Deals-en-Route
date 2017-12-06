@@ -347,7 +347,7 @@ class CouponController extends Controller {
             $commisiondetails = $pay->getAttributes();
             $vendor = StripeUser::getCustomerDetails($commisiondetails['vendor_id']);
             try {
-                $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalcommision']);
+                $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalcommision'], 'CommisionPayment');
                 $commisiondetails['status'] = 'success';
                 $commisiondetails['description'] = 'PaymentSuccessfull';
                 $this->addPaymentDetails($commisiondetails);

@@ -192,13 +192,13 @@ class StripeUser extends Model {
         return TRUE;
     }
 
-    public static function chargeVendor($vendor, $amount) {
+    public static function chargeVendor($vendor, $amount, $description = '') {
         $stripe = New StripeUser();
         $charge = $stripe->stripe->charges()->create([
             'customer' => $vendor['stripe_id'],
             'currency' => 'USD',
             'amount' => $amount,
-            'description' => ''
+            'description' => $description
         ]);
 
         return $charge;

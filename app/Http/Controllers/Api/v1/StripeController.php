@@ -51,6 +51,7 @@ class StripeController extends Controller {
         }
         $user_id = $event->data->object->customer;
         $amount = $event->data->object->amount;
+        $description = $event->data->object->description;
         $user_details = Stripewebhook::getUserDetails($user_id);
         if ($event->type == 'charge.failed') {
             $array_mail = ['to' => $user_details->email,
@@ -58,24 +59,28 @@ class StripeController extends Controller {
                 'data' => ['confirmation_code' => 'Test'],
             ];
             $this->sendMail($array_mail);
-            $data = array();
-            $data['vendor_id'] = $user_details->user_id;
-            $data['totalcommision'] = $amount / 100;
-            $data['status'] = 'failed';
-            $data['description'] = 'PaymentFailed';
-            PaymentInfo::create($data);
+            if ($description != 'CommisionPayment') {
+                $data = array();
+                $data['vendor_id'] = $user_details->user_id;
+                $data['totalcommision'] = $amount / 100;
+                $data['status'] = 'failed';
+                $data['description'] = 'PaymentFailed';
+                PaymentInfo::create($data);
+            }
         } elseif ($event->type == 'charge.succeeded') {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
             ];
             $this->sendMail($array_mail);
-            $data = array();
-            $data['vendor_id'] = $user_details->user_id;
-            $data['totalcommision'] = $amount / 100;
-            $data['status'] = 'success';
-            $data['description'] = 'PaymentSuccessfull';
-            \App\PaymentInfo::create($data);
+            if ($description != 'CommisionPayment') {
+                $data = array();
+                $data['vendor_id'] = $user_details->user_id;
+                $data['totalcommision'] = $amount / 100;
+                $data['status'] = 'success';
+                $data['description'] = 'PaymentSuccessfull';
+                \App\PaymentInfo::create($data);
+            }
         } elseif ($event->type == 'customer.subscription.deleted') {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'subscription_cancel_success',
