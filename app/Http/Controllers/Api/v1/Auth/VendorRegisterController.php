@@ -146,8 +146,8 @@ use ResponseTrait;
 //throw $e;
 //    \App\StripeUser::findCustomer($data['email']);
             DB::rollback();
-//            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
-            return response()->json(['status' => 0, 'message' => 'Email Already Registered!!'], 422);
+            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
+//            return response()->json(['status' => 0, 'message' => 'Email Already Registered!!'], 422);
         }
 // If we reach here, then// data is valid and working.//
         DB::commit();
