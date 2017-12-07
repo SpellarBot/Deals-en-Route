@@ -281,36 +281,40 @@ class CouponController extends Controller {
         $data['coupon_code'] = $coupondata[0];
         $data['user_id'] = $coupondata[1];
         $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
-        if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
-            $user = \App\User::find($data['user_id']);
+        if (count($getCoupondetails) > 0) {
+            if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
+                $user = \App\User::find($data['user_id']);
 // send notification success for coupon failure
-            Notification::send($user, new FcmNotification([
-                'type' => 'redeemfailure',
-                'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                'coupon_id' => $getCoupondetails->coupon_id,
-            ]));
-            return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
-        } else {
-            $commision = $this->deductiveCommision($getCoupondetails);
-            $user = \App\User::find($data['user_id']);
+                Notification::send($user, new FcmNotification([
+                    'type' => 'redeemfailure',
+                    'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
+                    'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
+                    'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                    'coupon_id' => $getCoupondetails->coupon_id,
+                ]));
+                return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
+            } else {
+                $commision = $this->deductiveCommision($getCoupondetails);
+                $user = \App\User::find($data['user_id']);
 // send notification success for coupon redeem
-            Notification::send($user, new FcmNotification([
-                'type' => 'redeemsuccess',
-                'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                'coupon_id' => $getCoupondetails->coupon_id,
-            ]));
-            $couponReedem = array();
-            $couponReedem['user_id'] = $data['user_id'];
-            $couponReedem['coupon_id'] = $getCoupondetails['coupon_id'];
-            \App\CouponRedeem::addCouponReedem($couponReedem);
-            $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
-            $getCoupondetails->save();
+                Notification::send($user, new FcmNotification([
+                    'type' => 'redeemsuccess',
+                    'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
+                    'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
+                    'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                    'coupon_id' => $getCoupondetails->coupon_id,
+                ]));
+                $couponReedem = array();
+                $couponReedem['user_id'] = $data['user_id'];
+                $couponReedem['coupon_id'] = $getCoupondetails['coupon_id'];
+                \App\CouponRedeem::addCouponReedem($couponReedem);
+                $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
+                $getCoupondetails->save();
 
-            return $this->responseJson('success', 'Coupon Redeemed Successfully. ', 200);
+                return $this->responseJson('success', 'Coupon Redeemed Successfully. ', 200);
+            }
+        } else {
+            return $this->responseJson('failed', 'No Coupon Found. ', 200);
         }
     }
 
@@ -377,7 +381,7 @@ class CouponController extends Controller {
             Commision::updateCommision($data);
         }
         $info = PaymentInfo::create($data);
-        return true;
+        return $info;
     }
 
     public function invoice($payment) {
