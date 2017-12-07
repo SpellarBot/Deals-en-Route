@@ -110,7 +110,10 @@ use ResponseTrait;
         try {
 // process the store
             $data = $request->all();
-            $this->validatoremail($data);
+            $validator = $this->validatoremail($data);
+            if ($validator->fails()) {
+                return $this->responseJson('error', $validator->errors()->first(), 400);
+            }
             $user_detail = VendorDetail::createVendorFront($data);
             $file = Input::file('vendor_logo');
 //store image
