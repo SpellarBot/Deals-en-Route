@@ -11,16 +11,20 @@ use App\Notifications\FcmNotification;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications;
 use App\StripeUser;
+use App\VendorDetail;
+use App\User;
 use Notification;
 use DB;
 use URL;
 use Carbon\Carbon;
 use App\Commision;
 use App\PaymentInfo;
+use App\Http\Services\PdfTrait;
 
 class CouponController extends Controller {
 
     use ResponseTrait;
+    use PdfTrait;
     use Notifiable;
     use \App\Http\Services\CouponTrait;
     use \App\Http\Services\ActivityTrait;
@@ -347,17 +351,22 @@ class CouponController extends Controller {
             $commisiondetails = $pay->getAttributes();
             $vendor = StripeUser::getCustomerDetails($commisiondetails['vendor_id']);
             try {
-                $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalcommision'], 'CommisionPayment');
+                $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalamount'], 'CommisionPayment');
+                $commisiondetails['transaction_id'] = $pay['id'];
+                $invoice = $this->invoice($commisiondetails);
                 $commisiondetails['status'] = 'success';
                 $commisiondetails['description'] = 'PaymentSuccessfull';
+                $commisiondetails['invoice'] = $invoice;
                 $this->addPaymentDetails($commisiondetails);
             } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
                 $commisiondetails['status'] = 'failed';
                 $commisiondetails['description'] = $e->getMessage();
+                $commisiondetails['invoice'] = '';
                 $this->addPaymentDetails($commisiondetails);
             } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
                 $commisiondetails['status'] = 'failed';
                 $commisiondetails['description'] = $e->getMessage();
+                $commisiondetails['invoice'] = '';
                 $this->addPaymentDetails($commisiondetails);
             }
         }
@@ -369,6 +378,35 @@ class CouponController extends Controller {
         }
         $info = PaymentInfo::create($data);
         return true;
+    }
+
+    public function invoice($payment) {
+        $details = array();
+        $vendor_email = User::select('email')->find($payment['vendor_id']);
+        $vendor_details = VendorDetail::select('country.country_name', 'billing_businessname', 'billing_home', 'billing_city', 'billing_country', 'billing_state', 'billing_zip')
+                ->leftjoin('country', 'id', 'billing_country')
+                ->where('user_id', $payment['vendor_id'])
+                ->first();
+        $commisionentries = Commision::select('coupon.coupon_name  as item_name', 'commision.amount')
+                ->where('vendor_id', $payment['vendor_id'])
+                ->where('commision.is_paid', 0)
+                ->leftjoin('coupon', 'coupon.coupon_id', 'commision.coupon_id')
+                ->get();
+        $details['items'] = array();
+        foreach ($commisionentries as $entry) {
+            $item = $entry->getAttributes();
+            $item['item_type'] = 'Commision Deduction';
+            array_push($details['items'], $item);
+        }
+        $vendor_mail = $vendor_email->getAttributes();
+        $vendor = $vendor_details->getAttributes();
+        $vendor['email'] = $vendor_mail['email'];
+        $details['total_amount'] = $payment['totalamount'];
+        $details['transaction_id'] = $payment['transaction_id'];
+        $details['vendor'] = $vendor;
+        $details['commision'] = TRUE;
+        $invoice = $this->generateInvoice($details);
+        return $invoice;
     }
 
 }
