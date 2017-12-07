@@ -49,7 +49,7 @@ class PaymentInfo extends Model {
         $payment->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $payment->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $payment->save();
-        return $payment;
+        return $payment->id;
     }
 
 }
