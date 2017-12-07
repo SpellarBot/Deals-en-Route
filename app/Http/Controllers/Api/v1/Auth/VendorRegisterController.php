@@ -133,11 +133,14 @@ use ResponseTrait;
 
             $message = $e->getMessage();
             if (strpos($message, 'year') !== false || strpos($message, 'month') !== false) {
-                return response()->json(['error' => ['card_expiry' => [0 => ucwords($message)]]], 422);
+                return response()->json(['status' => 'error', 'message' => ucwords($message)], 422);
+//                return response()->json(['error' => ['card_expiry' => [0 => ucwords($message)]]], 422);
             } elseif (strpos($message, 'cvv') !== false || strpos($message, 'security code') !== false) {
-                return response()->json(['error' => ['card_cvv' => [0 => ucwords($message)]]], 422);
+                return response()->json(['status' => 'error', 'message' => ucwords($message)], 422);
+//                return response()->json(['error' => ['card_cvv' => [0 => ucwords($message)]]], 422);
             } elseif (strpos($message, 'number') !== false || strpos($message, 'card') !== false) {
-                return response()->json(['error' => ['card_no' => [0 => ucwords($message)]]], 422);
+                return response()->json(['status' => 'error', 'message' => ucwords($message)], 422);
+//                return response()->json(['error' => ['card_no' => [0 => ucwords($message)]]], 422);
             }
             return response()->json(['status' => 'error', 'message' => ucwords($message)], 422);
         } catch (\Cartalyst\Stripe\Exception\UnauthorizedExceptioncatch $e) {
