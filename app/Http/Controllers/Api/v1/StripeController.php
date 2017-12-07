@@ -15,6 +15,7 @@ use App\PaymentInfo;
 use App\Http\Controllers\Api\v1\Auth;
 use Mail;
 use App\Http\Services\PdfTrait;
+use Illuminate\Support\Facades\Storage;
 
 class StripeController extends Controller {
 
@@ -54,7 +55,7 @@ class StripeController extends Controller {
         $user_id = $event->data->object->customer;
         $amount = $event->data->object->amount;
         $description = $event->data->object->description;
-        $transaction_id = $event->data->object->charge;
+        $transaction_id = $event->data->object->id;
         $user_details = Stripewebhook::getUserDetails($user_id);
         $plan_details = Subscription::select('stripe_plan')->where('user_id', $user_details->user_id)->first();
         $plan_array = $plan_details->getAttributes();
@@ -85,13 +86,13 @@ class StripeController extends Controller {
                 $data['description'] = 'PaymentSuccessfull';
                 $data['plan'] = $plan;
                 $data['transaction_id'] = $transaction_id;
-                $data['invoice'] = $this->invoice($payment);
+                $data['invoice'] = $this->invoice($data);
                 \App\PaymentInfo::create($data);
             }
             $array_mail = ['to' => $user_details->email,
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
-                'invoice' => $data['invoice']
+                'invoice' => storage_path('app/pdf/' . $data['invoice'])
             ];
             $this->sendMail($array_mail);
         } elseif ($event->type == 'customer.subscription.deleted') {
@@ -196,7 +197,7 @@ class StripeController extends Controller {
                 ->where('user_id', $payment['vendor_id'])
                 ->first();
         $details['items'] = array();
-        $item = array('item_name' => $payment['plan'], 'item_type' => 'Subscription');
+        $item = array('item_name' => $payment['plan'], 'item_type' => 'Subscription', 'amount' => $payment['totalamount']);
         array_push($details['items'], $item);
         $vendor_mail = $vendor_email->getAttributes();
         $vendor = $vendor_details->getAttributes();
