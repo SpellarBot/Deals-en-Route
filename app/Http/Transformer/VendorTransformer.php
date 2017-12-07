@@ -17,6 +17,7 @@ class VendorTransformer {
 
     public function transformLogin($user) {
         return [
+            'user_id'=>$user->vendor->user_id ?? '',
             'vendor_name' => $user->vendor->vendor_name ?? '',
             'vendor_address' => $user->vendor->vendor_address ?? '',
             'email' => $user->email ?? '',
