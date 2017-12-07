@@ -7,16 +7,24 @@ var showSecMap = '';
 var selectedShape;
 var marker;
 var count = 1;
-var polyOptions = {
+var polyOptions_invalid = {
     strokeWeight: 0,
     fillOpacity: 0.45,
     editable: true,
     fillColor: '#ff0000',
     strokeColor: '#ff0000'
 };
+var polyOptions_valid = {
+    strokeWeight: 0,
+    fillOpacity: 0.45,
+    editable: true,
+    fillColor: '#008000',
+    strokeColor: '#008000'
+};
 var date = new Date();
 var markershow;
 var showArray = [];
+var s
 
 $(document).ready(function () {
 
@@ -40,7 +48,7 @@ $(document).ready(function () {
             info = JSON.stringify(row);
 
             swal('You click view icon, row: ', info);
-            console.log(info);
+          
         },
         'click .edit': function (e, value, row, index) {
             $('#loadingDiv').hide();
@@ -151,10 +159,11 @@ $(document).ready(function () {
 
             var finalvalue = (orig) - (dval);
 
+        }else {
+            finalvalue=0;
         }
-
         if (finalvalue == 0 || finalvalue != '') {
-            $('#final_value').val(finalvalue.toFixed(2));
+            $('#final_value').val(parseInt(finalvalue).toFixed(2));
         }
     });
 
@@ -188,11 +197,11 @@ $(document).ready(function () {
 // date picker
 $(document).on("focus", ".datepicker", function () {
     var date = new Date();
-    var currentdate= $("#couponenddate").val();
+    var currentdate = $("#couponenddate").val();
     var startdate = $('#couponstartdate').val();
     var start = new Date(date.getTime());
     if (startdate == '') {
-       
+
         var end = date.setDate(date.getDate() + 30);
     } else {
         var startdate = new Date(startdate);
@@ -200,8 +209,8 @@ $(document).on("focus", ".datepicker", function () {
     }
     $(this).datetimepicker({
 
-        format: 'h  A, DD MMM Y',
-        date:  currentdate,
+        format: 'M/D/YY - h:00 A',
+        date: currentdate,
         showClose: true,
         useCurrent: true,
         minDate: start,
@@ -268,7 +277,8 @@ $(document).on("submit", "#update-coupon", function (event) {
             if (data.status == 1) {
                 $('#loadingDiv').hide();
                 setDashboardNotification(data);
-                window.location.href = $('#hidAbsUrl').val() + "#create";
+                window.location = $('#hidAbsUrl').val() + "#create";
+
             } else {
 
                 var $active = jQuery('.wizard .nav-tabs-step li.active');
@@ -337,6 +347,7 @@ $(document).on("submit", "#create-coupon", function (event) {
                 setDashboardNotification(data);
 
                 location.reload(true);
+
             } else {
 
                 var $active = jQuery('.wizard .nav-tabs-step li.active');
@@ -362,7 +373,7 @@ $(document).on("submit", "#create-coupon", function (event) {
                 $.each(data.responseJSON.errors, function (key, value) {
                     if (key == 'coupon_logo') {
                         $('.couponlogo').append('<span  class="has-error help-block"> <strong style="color:#a94442">' + value[0] + '</strong> </span>'); //showing only the first error.
-                    } else if (key == 'coupon_notification_point') {
+                    } else if (key == 'coupon_notification_point' || key == 'coupon_notification_sqfeet') {
                         setDashboardNotification({message: value[0], status: 0}); //showing only the first error.
                     } else {
                         $("input[name=" + key + "]").parent().addClass('has-error');
@@ -405,14 +416,18 @@ function nextTab(elem) {
 $(document).on("shown.bs.tab", "a[data-toggle='tab']", function (event) {
 
     var href = $(this).attr('href');
-    if (href == '#create2') {
-        clearFormData();
+    if (href == '#create2' || href == '#settings'  || href == '#contact') {  
+         clearFormData();
+         deletePolygon();
+        $('#resetfence').text('Draw Fence');
+        $('#info').html('');
     }
     var value = $(this).find('.round-tab').text();
     if (value == 1 || value == 2 || value == 3) {
         $('.stepsincrement').val($.trim(value));
 
     }
+   
     // set center positionv of shape
     google.maps.Polygon.prototype.my_getBounds = function () {
         var bounds = new google.maps.LatLngBounds()
@@ -423,8 +438,8 @@ $(document).on("shown.bs.tab", "a[data-toggle='tab']", function (event) {
     }
     google.maps.event.trigger(map, 'resize');
     google.maps.event.trigger(mapshow, 'resize');
-    map.setZoom(7);
-    mapshow.setZoom(7);
+    map.setZoom(19);
+    mapshow.setZoom(19);
     if (showFirstMap != '') {
         map.setCenter(showFirstMap.my_getBounds().getCenter());
 
@@ -454,7 +469,7 @@ function Maps() {
     // show map 1
     map = new google.maps.Map(document.getElementById('googlegeofencing'), {
 
-        zoom: 7,
+        zoom: 19,
         fullscreenControl: false,
         streetViewControl: false,
         mapTypeControl: false,
@@ -467,7 +482,7 @@ function Maps() {
 
     // show map 2
     mapshow = new google.maps.Map(document.getElementById('googelgeofencingshow'), {
-        zoom: 7,
+        zoom: 19,
         center: position,
 
     });
@@ -543,7 +558,7 @@ function createPolygon() {
         polylineOptions: {
             editable: true
         },
-        polygonOptions: polyOptions,
+
         map: map
     });
 
@@ -561,9 +576,8 @@ function createPolygon() {
         var radius = e.overlay;
 
 
-
-
         if (e.type != google.maps.drawing.OverlayType.MARKER) {
+
             // Switch back to non-drawing mode after drawing a shape.
             drawingManager.setDrawingMode(null);
             // To hide:
@@ -578,6 +592,7 @@ function createPolygon() {
             changeShape(newShape);
             setSelection(newShape);
             getSquareFeet(radius);
+
         }
 
     });
@@ -595,12 +610,14 @@ function deletePolygon() {
     if (showFirstMap != '') {
         showFirstMap.setMap(null);
     }
+    if(drawingManager){
     drawingManager.setDrawingMode(null);
     // To hide:
     drawingManager.setOptions({
         drawingControl: false
     });
     selectedShape.setMap(null);
+    }
 
 }
 
@@ -638,17 +655,27 @@ function getSquareFeet(radius) {
     }
     // set polygon shape for second map
 
-    var sqfeet = google.maps.geometry.spherical.computeArea(radius.getPath()) * 10.7639;
+    var sqfeet = google.maps.geometry.spherical.computeArea(radius.getPath()) * 10.76;
 
-    $('#info').html('<label> Area Sqft Covered:- </label>' + sqfeet + ' ft²');
 
-    $('.couponsqft').text(sqfeet + ' ft²');
-    $('#coupon_notification_sqfeet').val(JSON.stringify(sqfeet));
+    var sqnum = Number((sqfeet).toFixed(2)).toLocaleString('en');
+    var sqnumfixed= Number((sqfeet).toFixed(2));
+    $('#info').html('<label> Area Sqft Covered : </label>  ' + sqnum + ' ft²');
+    
+    $('.couponsqft').text(sqnum + ' ft²');
+    $('#coupon_notification_sqfeet').val(JSON.stringify(sqnumfixed));
     $('#coupon_notification_point').val(JSON.stringify(showArray));
+    var geofencing=$('.geofencing').text();
     if (showSecMap != '') {
         showSecMap.setMap(null);
     }
+    b = parseInt(geofencing).toFixed(2);
 
+    if ((sqfeet) < (b)) {
+        selectedShape.setOptions({'fillColor': '#008000',strokeColor:'#008000',strokeWeight: 0,editable:false});
+    } else {
+        selectedShape.setOptions({'fillColor': '#ff0000',strokeColor:'#ff0000',strokeWeight: 0});
+    }
     setPolygonSecMapShape();
 }
 
@@ -657,35 +684,18 @@ function getSquareFeet(radius) {
 function setPolygonFirstMapShape() {
 
 // show polygon
-
-
-    showFirstMap = new google.maps.Polygon({
-        paths: showArray,
-        strokeWeight: 0,
-        fillOpacity: 0.45,
-        editable: true,
-        fillColor: '#ff0000',
-        strokeColor: '#ff0000',
-        editable: false
-    });
-
+    var options = $.extend(polyOptions_valid, {'paths': showArray}, {editable: false});
+    showFirstMap = new google.maps.Polygon((options));
     showFirstMap.setMap(map);
+
 
 }
 
 // set polygon shape for second map 
 function setPolygonSecMapShape() {
-// show polygon
-    showSecMap = new google.maps.Polygon({
-
-        paths: showArray,
-        strokeWeight: 0,
-        fillOpacity: 0.45,
-        editable: true,
-        fillColor: '#ff0000',
-        strokeColor: '#ff0000',
-        editable: false
-    });
+// show polygon   
+    var options = $.extend(polyOptions_valid, {'paths': showArray}, {editable: false});
+    showSecMap = new google.maps.Polygon((options));
     showSecMap.setMap(mapshow);
 
 }

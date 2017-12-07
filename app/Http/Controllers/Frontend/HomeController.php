@@ -9,11 +9,13 @@ use Auth;
 use App\Http\Services\CouponTrait;
 use App\Coupon;
 use App\Http\Services\ResponseTrait;
+use App\Http\Services\UserTrait;
 
 class HomeController extends Controller {
 
     use CouponTrait;
     use ResponseTrait;
+    use UserTrait;
     /**
      * Create a new controller instance.
      *
@@ -29,11 +31,16 @@ class HomeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-
+    
         $coupon_lists = \App\Coupon::couponList();
         $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
+        $user_access=$vendor_detail->userSubscription;
+        $user = \App\Subscription::where('user_id', Auth::id())->first();
+        if($user){  
+            $deals_left=$user->getRenewalCoupon($user_access[0]); 
+        }
         $country_list = \App\Country::countryList();
         $date= \Carbon\Carbon::now();
         $currenttime=$this->convertDateInUserTZ($date);
@@ -42,7 +49,8 @@ class HomeController extends Controller {
        
         return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
                     'vendor_detail' => $vendor_detail, 'country_list' => $country_list,
-            'currenttime'=>$currenttime,'year'=>$year]);
+            'currenttime'=>$currenttime,'year'=>$year,'user_access'=>$user_access[0],
+            'deals_left'=>$deals_left]);
     }
 
     public function dashboard(Request $request){

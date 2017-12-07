@@ -40,6 +40,7 @@
 
             @include('frontend/sidebar/sidebar')
             @yield('content')   
+            @include('frontend/modal/createcoupon')
         </div>
         <!--=============================Core JS Files=============================-->
 
@@ -82,7 +83,7 @@
             //Wizard
             jQuery('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
                 var $target = jQuery(e.target);
-
+               
                 if ($target.parent().hasClass('disabled')) {
                     return false;
                 }

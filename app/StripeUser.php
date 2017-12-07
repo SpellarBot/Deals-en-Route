@@ -4,11 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Cartalyst\Stripe\Stripe;
-use Laravel\Cashier\Billable;
 
 class StripeUser extends Model {
 
-    use Billable;
+ 
 
     protected $table = 'stripe_users';
     public $stripe;
@@ -205,5 +204,13 @@ class StripeUser extends Model {
 
         return $charge;
     }
+ 
+    
+    
+    
+    
+    
+    
+
 
 }

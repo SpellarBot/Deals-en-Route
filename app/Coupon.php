@@ -170,8 +170,8 @@ class Coupon extends Model {
         $coupon->coupon_lat = User::find(Auth::id())->vendorDetail->vendor_lat;
         $coupon->coupon_long = User::find(Auth::id())->vendorDetail->vendor_long;
         // end date
-        $explode = explode(',', $data['coupon_end_date']);
-        $enddate = \Carbon\Carbon::parse($explode[1] . " " . $explode[0])->toDateTimeString();
+        $explode = explode('-', $data['coupon_end_date']);
+        $enddate = \Carbon\Carbon::parse($explode[0] . " " . $explode[1])->toDateTimeString();
         $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
         // $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
         if ($coupon->save()) {
@@ -186,9 +186,9 @@ class Coupon extends Model {
         $coupon = Coupon::where('coupon_id', $id)->first();
         $coupon->fill($data);
         if (isset($data['coupon_end_date'])) {
-            $explode = explode(',', $data['coupon_end_date']);
+            $explode = explode('-', $data['coupon_end_date']);
 
-            $enddate = \Carbon\Carbon::parse($explode[1] . " " . $explode[0])->toDateTimeString();
+            $enddate = \Carbon\Carbon::parse($explode[0] . " " . $explode[1])->toDateTimeString();
             $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
         }
 //        if (isset($data['coupon_code'])) {

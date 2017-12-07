@@ -105,14 +105,18 @@ class CouponController extends Controller
       
          $id= base64_decode($id);
         $coupon_lists=\App\Coupon::couponList();
-        $vendor_detail= \App\VendorDetail::where('user_id',Auth::id())
+         $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+                ->where('vendor_detail.user_id', Auth::id())
                 ->first();
+        $user_access=$vendor_detail->userSubscription;
+        
         $coupon = Coupon::where('coupon_id',$id)->first();
         $start_date=$coupon->convertDateInUserTZ($coupon->coupon_start_date);
         $end_date=$coupon->convertDateInUserTZ($coupon->coupon_end_date);      
         return view('frontend.coupon.edit')->with(['coupon' => $coupon,
             'coupon_lists'=>$coupon_lists,'vendor_detail'=>$vendor_detail,
-            'start_date_converted'=>$start_date,'end_date_converted'=>$end_date]);
+            'start_date_converted'=>$start_date,'end_date_converted'=>$end_date,
+            'user_access'=>$user_access[0]]);
     }
     
      /**
@@ -130,6 +134,7 @@ class CouponController extends Controller
             $data = $request->all();
           if(!empty($request['validationcheck']) && $request['validationcheck']==1){
              $id= $data['coupon_id'];
+          
            $coupon=Coupon::updateCoupon($data,$id);
            $file = Input::file('coupon_logo');
             //store image
@@ -140,7 +145,7 @@ class CouponController extends Controller
             
         } catch (\Exception $e) {
             DB::rollback();
-           //  throw $e;
+             throw $e;
             return response()->json(['status'=>0,'message' => \Config::get('constants.APP_ERROR')], 400);   
         }
         // If we reach here, then// data is valid and working.//

@@ -20,10 +20,25 @@ class VendorDetail extends Model {
         'billing_country', 'vendor_country', 'vendor_state','vendor_city', 'vendor_lat',
         'vendor_long', 'billing_businessname', 'check-address', 'vendor_time_zone'
     ];
+    
+    
+    public function userSubscription() {
+        return $this->hasManyThrough('App\PlanAccess','App\Subscription','user_id','plan_id','user_id','stripe_plan');
+    }
+     public function planAccess() {
+        return $this->belongsTo('App\PlanAccess', 'stripe_plan', 'plan_id');
+    }
 
     public function getVendorLogoAttribute($value) {
 
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/vendor_logo/tmp/' . $value))) ? URL::to('/storage/app/public/vendor_logo/tmp') . '/' . $value : "";
+    }
+    
+     /**
+     * Get the vendor detail record associated with the user.
+     */
+    public function vendorDetail() {
+        return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
     }
 
     // save vendor detail

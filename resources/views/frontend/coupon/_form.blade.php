@@ -11,7 +11,7 @@
             {{ Form::hidden('vendor_long', $vendor_detail->vendor_long, ['class' => 'vendor_long']) }}
             {{ Form::hidden('coupon_start_date', old('coupon_start_date'), ['id' => 'couponstartdate']) }}
             {{ Form::hidden('couponenddate', isset($end_date_converted)?$end_date_converted:'', ['id' => 'couponenddate']) }}
-          
+            <div class="geofencing" style="display:none">{{ $user_access->geofencing }}</div>
 
             <div class="tab-pane active" role="tabpanel" id="step1">
                 <h3>Coupon Details</h3>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
-                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>1,'data-slider-max'=>10,'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:'','id'=>'couponslider']) }}
+                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$user_access->geolocation,'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:'','id'=>'couponslider']) }}
                             <p> (in miles) </p>
                         </div>
 
@@ -86,7 +86,7 @@
 
 
                         @if(isset($coupon)) 
-    
+
                         <div class="fileinput input-group fileinput-exists " data-provides="fileinput">
                             <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
                                 <img src="{{$coupon->coupon_logo}}">
@@ -130,7 +130,7 @@
 
                 <div class="row">
 
-                    <div class="col-sm-10 col-sm-offset-1 form-group"> <div id="info"><label> Area Sqft Covered:- </label>{{ !isset($coupon->coupon_notification_sqfeet) ? '': $coupon->coupon_notification_sqfeet }} ft²</div></div>
+                    <div class="col-sm-10 col-sm-offset-1 form-group"> <div id="info">{!! !isset($coupon->coupon_notification_sqfeet) ? '': '<label> Area Sqft Covered:- </label>'.$coupon->coupon_notification_sqfeet.'ft²' !!} </div></div>
                     <div  class="col-sm-10 col-sm-offset-1" id="googlegeofencing" style="height: 400px;max-width: 980px;"></div> 
 
                 </div>
@@ -140,11 +140,11 @@
                         <li class="pull-left">
                             <button type="button" class="btn btn-create prev-step">Previous</button>
                         </li>
-                         @if(!isset($coupon)) 
+                        @if(!isset($coupon)) 
                         <li>
                             <button type="button" id="resetfence" onclick="onClickEvent()" class="btn btn-create">Draw Fence</button>
                         </li>
-                          @endif
+                        @endif
                         <li class="pull-right">
 
                             <button type="button" class="btn btn-create next-step">Save and continue</button>
@@ -168,8 +168,8 @@
                             <div class="barcode"><img src="{{ \Config::get('app.url') . '/public/frontend/img/sample2.png' }}" width="47" alt=""></div>
                             <div class="red-code1" >Redemption Code</div>
                             <div class="red-code2 coupon_code" >{{ !isset($coupon->coupon_code) ? 'XXXXX': $coupon->coupon_code }} </div>
-                           <div class="validity">Valid until <div class="coupon_end_date">{{ !isset($end_date_converted) ? 'XX XXX XXXX': Carbon\Carbon::parse($end_date_converted)->format(\Config::get('constants.DATE_FORMAT')) }}  </div></div>         
-                      
+                            <div class="validity">Valid until <div class="coupon_end_date">{{ !isset($end_date_converted) ? 'XX XXX XXXX': Carbon\Carbon::parse($end_date_converted)->format(\Config::get('constants.DATE_FORMAT')) }}  </div></div>         
+
                         </div>
                     </div>
 
@@ -183,8 +183,8 @@
                             <tbody>
                                 <tr>
                                     <td>Start Time:</td>
-                               
-                                    <td class="coupon_start_date"> {{ isset($start_date_converted) ? Carbon\Carbon::parse($start_date_converted)->format(\Config::get('constants.DATE_FORMAT')) : Carbon\Carbon::parse($currenttime)->format(\Config::get('constants.DATE_FORMAT'))  }} <?php// echo date('g A, d M Y'); ?></td>
+
+                                    <td class="coupon_start_date"> {{ isset($start_date_converted) ? Carbon\Carbon::parse($start_date_converted)->format(\Config::get('constants.DATE_FORMAT')) : Carbon\Carbon::parse($currenttime)->format(\Config::get('constants.DATE_FORMAT'))  }} <?php // echo date('g A, d M Y');  ?></td>
                                 </tr>
                                 <tr>
                                     <td>End Time:</td>
@@ -195,7 +195,7 @@
                                     <td class="couponsqft">{{ !isset($coupon->coupon_notification_sqfeet) ? '': $coupon->coupon_notification_sqfeet }} ft² </td>
                                 </tr>
                                 {{ Form::hidden('coupon_notification_sqfeet', old('coupon_notification_sqfeet'), ['id' => 'coupon_notification_sqfeet']) }}
-                                
+
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -210,7 +210,7 @@
                     <div class="col-sm-10 col-sm-offset-1" align="left">
 
                         <div class="checkbox">
-                       
+
                             {{ Form::checkbox('agree', 'no',isset($coupon)?true:false,['id' => 'checkbox1']) }}
 
                             <label for="checkbox1"> I have read the <a href="#">Privacy Policy</a> and agree to the <a href="#">Terms of Service</a>. </label>
