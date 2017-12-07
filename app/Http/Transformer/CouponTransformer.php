@@ -88,8 +88,12 @@ class CouponTransformer {
                 'coupon_category_name' => $item->categoryDetail->category_name ?? '',
                 'coupon_name' => $item->coupon_name ?? '',
                 'coupon_detail' => $item->coupon_detail ?? '',
+                'coupon_reedem' => $item->coupon_total_redeem ?? '',
+                'coupon_created' => $item->coupon_redeem_limit ?? '',
+                'coupon_active' => $item->coupon_redeem_limit - $item->coupon_total_redeem,
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
+                'coupon_logo' => $item->coupon_logo ?? "",
             ];
         });
         return ['listing' => $var];
