@@ -39,6 +39,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
 
     Route::get('/vendor/commisionPayout', 'CouponController@commisionPayout');
     Route::get('/vendor/getCountry', 'HomeController@getCountry');
+    Route::get('/vendor/htmltopdfview', array('as' => 'htmltopdfview', 'uses' => 'HomeController@htmltopdfview'));
 
     Route::group(['middleware' => ['auth:api', 'check-permission:user']], function() {
         // Routes that passed auth, confirmed, subscribed, and active middleware
