@@ -82,9 +82,7 @@ use ResponseTrait;
 
     protected function validatoremail(array $data) {
         return Validator::make($data, [
-                    'first_name' => 'required|string|max:255',
-                    'last_name' => 'required|string|max:255',
-                    'email' => 'required|string|email|max:255',
+                    'vendor_email' => 'required|string|email|max:255|unique:users',
         ]);
     }
 
@@ -111,6 +109,7 @@ use ResponseTrait;
         try {
 // process the store
             $data = $request->all();
+            $this->validatoremail($data);
             $user_detail = VendorDetail::createVendorFront($data);
             $file = Input::file('vendor_logo');
 //store image
@@ -130,11 +129,11 @@ use ResponseTrait;
 
             $message = $e->getMessage();
             if (strpos($message, 'year') !== false || strpos($message, 'month') !== false) {
-                return response()->json(['errors' => ['card_expiry' => [0 => ucwords($message)]]], 422);
+                return response()->json(['error' => ['card_expiry' => [0 => ucwords($message)]]], 422);
             } elseif (strpos($message, 'cvv') !== false || strpos($message, 'security code') !== false) {
-                return response()->json(['errors' => ['card_cvv' => [0 => ucwords($message)]]], 422);
+                return response()->json(['error' => ['card_cvv' => [0 => ucwords($message)]]], 422);
             } elseif (strpos($message, 'number') !== false || strpos($message, 'card') !== false) {
-                return response()->json(['errors' => ['card_no' => [0 => ucwords($message)]]], 422);
+                return response()->json(['error' => ['card_no' => [0 => ucwords($message)]]], 422);
             }
             return response()->json(['status' => 'error', 'message' => ucwords($message)], 422);
         } catch (\Cartalyst\Stripe\Exception\UnauthorizedExceptioncatch $e) {
@@ -145,13 +144,17 @@ use ResponseTrait;
         } catch (\Exception $e) {
 //throw $e;
 //    \App\StripeUser::findCustomer($data['email']);
-            $errorCode = $e->errorInfo[1];
-            if ($errorCode == '1062') {
-                $message = 'Email Already Registered !!';
+
+            DB::rollback();
+            if ($e->errorInfo) {
+                if ($e->errorInfo[1] == '1062') {
+                    $message = 'Email Already Registered!!';
+                } else {
+                    $message = ucwords($e->getMessage());
+                }
             } else {
                 $message = ucwords($e->getMessage());
             }
-            DB::rollback();
             return response()->json(['status' => 'error', 'message' => $message], 422);
 //            return response()->json(['status' => 0, 'message' => 'Email Already Registered!!'], 422);
         }
