@@ -8,8 +8,6 @@ use App\Http\Services\ResponseTrait;
 use App\CouponRedeem;
 use App\Coupon;
 use Auth;
-use PDF;
-use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller {
 
@@ -78,17 +76,6 @@ class HomeController extends Controller {
         $data = array();
         $data['country_list'] = $country_list;
         return $this->responseJson('success', 'Country list', 200, $data);
-    }
-
-    public function htmltopdfview(Request $request) {
-        if ($request->has('download')) {
-            $pdf = PDF::loadView('htmltopdfview');
-            $filename = time() . '.pdf';
-            Storage::put('/pdf/' . $filename, $pdf->output());
-            return 'test';
-//            return $pdf->download('htmltopdfview');
-        }
-        return view('htmltopdfview');
     }
 
 }
