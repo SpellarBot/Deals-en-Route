@@ -82,7 +82,7 @@ use ResponseTrait;
 
     protected function validatoremail(array $data) {
         return Validator::make($data, [
-                    'vendor_email' => 'required|string|email|max:255|unique:users',
+                    'email' => 'required|string|email|max:255|unique:users',
                     'card_expiry' => 'required|date_format:m/y'
         ]);
     }
