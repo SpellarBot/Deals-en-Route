@@ -33,13 +33,13 @@
     </nav>
 
 
-
     <div class="content">
 
         <div class="tab-content">
+           
             @include('frontend/dashboard/dash',['year'=>$year])
             @include("frontend/coupon/couponlist",['coupon_lists'=>$coupon_lists])
-            @include("frontend/coupon/create",['currenttime'=>$currenttime])
+            @include("frontend/coupon/create",['currenttime'=>$currenttime,'user_access'=>$user_access])
             <div id="settings" class="tab-pane fade in">
                 <div class="container-fluid">
                     <div class="row">
@@ -253,6 +253,7 @@
             </div>
         </div>
     </div>
+
     @include('frontend/footer/footer_dash')
 </div>
 

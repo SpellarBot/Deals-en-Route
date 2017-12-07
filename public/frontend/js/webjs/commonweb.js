@@ -19,6 +19,13 @@ $(document).ready(function () {
         $(".help-block").html('');
         $('.alert-danger').hide();
     });
+    
+    
+$('#changepackage').on('click', function(e) {
+    var hash = '#settings';
+    $('#myModal').modal('hide');
+     $('#groupTab li a[href='+hash+']').tab('show');
+});
 
 });
 
@@ -124,7 +131,6 @@ function setDashboardNotification(response) {
         }, 10000);
         $('.successmessage').html(response.message);
     }
-
 
 
 

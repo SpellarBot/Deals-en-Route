@@ -31,9 +31,9 @@
 					<p class="price-pm">PER MONTH</p>
 					<p class="deals">~ Create and Send Coupons
 						<br><br> ~ Geolocation (Mile Radius 5-10 miles)
-						<br><br> ~ Geofencing (2 events up to 20,00 sq. feet-leftover sq. feet doesn't roll over)
+						<br><br> ~ Geofencing (one per deal up to 20,000 Sq. Feet)
 						<br><br> ~ Analytics ( Age + Gender + Coupon Views + Potential Customer Reach)
-						<br><br> ~ 30 Deals/ Unlimited Deals
+						<br><br> ~ 30 Deals/ Unlimited Coupons
 						<br><br> ~ Sticker for Store window (Deals en Route certified)</p>
 					<p class="head2">Additional Packages</p>
 					<p class="deals">Geolocation - $4.99/additional mile
@@ -48,6 +48,7 @@
 					<p class="price-pm">PER MONTH</p>
 					<p class="deals">~ Create and Send Coupons
 						<br><br> ~ Geolocation (Mile Radius 1-5 Miles)
+                                                <br><br> ~ Geofencing (one per deal up to 20,000 Sq. Feet)
 						<br><br> ~ Analytics ( Age + Gender)
 						<br><br> ~ 20 Deals / Unlimited Coupons
 						<br><br> ~ Sticker for Store window (Deals en Route certified)</p>
@@ -64,6 +65,7 @@
 					<p class="price-pm">PER MONTH</p>
 					<p class="deals">~ Create and Send Coupons
 						<br><br> ~ Geolocation (Mile Radius 0-1 Miles)
+                                                <br><br> ~ Geofencing (one per deal up to 20,000 Sq. Feet)
 						<br><br> ~ 10 Deals / Unlimited Coupons
 						<br><br> ~ Sticker for Store window (Deals en Route certified)</p>
 					<p class="head2">Additional Packages</p>

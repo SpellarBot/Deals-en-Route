@@ -96,8 +96,7 @@ return [
     'STRIPE_KEY' => 'pk_test_dvnwoMABEgschsRqPZRuGJrp',
     'STRIPE_SECRET' => 'sk_test_ZBNhTnKmE3hEkk26awNMDdcc',
     'STRIPE_VERSION' => '2017-08-15',
-    'DATE_FORMAT'=>'g A, d M Y',
-  
+    'DATE_FORMAT'=>'n/j/y - g:00 A',
 ];
 
 

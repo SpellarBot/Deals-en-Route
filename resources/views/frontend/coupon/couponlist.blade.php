@@ -51,8 +51,13 @@
                                         <div class="content">
                                                 <div class="row create-img1" style="text-align: center;"> <img src="{{ \Config::get('app.url') . '/public/frontend/img/coupon.png' }}" width="200" alt=""> </div>
                                                 <div class="footer" style="text-align: center;">
+                                                    @if ($deals_left==0)
+                                                     
+                                                              <div class="row create-btn1"> <a href="#myModal" data-toggle="modal" class="btn btn-info btn-fill btn-wd btn-create createcoupon">Create Now</a> </div>
+                                                   
+                                                    @else
                                                         <div class="row create-btn1"> <a href="#create2" data-toggle="tab" class="btn btn-info btn-fill btn-wd btn-create createcoupon">Create Now</a> </div>
-                                               
+                                                     @endif
                                                 </div>
                                         </div>
                                 </div>

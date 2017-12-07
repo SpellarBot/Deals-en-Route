@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Auth;
+use App\Http\Services\StripeTrait;
 
 class Subscription extends Model {
 
@@ -12,6 +14,15 @@ class Subscription extends Model {
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
+
+    use StripeTrait;
+
+    /**
+     * Get the vendor detail record associated with the user.
+     */
+    public function planAccess() {
+        return $this->hasOne('App\PlanAccess', 'plan_id', 'plan_id');
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +34,10 @@ class Subscription extends Model {
         'created_at', 'updated_at', 'ends_at', 'trial_ends_at'
     ];
 
+    public function __construct() {
+        
+    }
+
     public static function saveSubcriptionPlan($subcription, $userid) {
         $subcribe = new Subscription();
         $subcribe->user_id = $userid;
@@ -31,7 +46,7 @@ class Subscription extends Model {
         $subcribe->stripe_plan = $subcription['plan']['id'];
         $subcribe->name = $subcription['plan']['name'];
         $subcribe->quantity = $subcription['quantity'];
-        $subcribe->trial_ends_at = Carbon::now()->addDays(31)->format('Y-m-d H:i:s');
+        $subcribe->trial_ends_at = Carbon::now()->addDays(30)->format('Y-m-d H:i:s');
         $subcribe->save();
         return true;
     }
@@ -53,9 +68,30 @@ class Subscription extends Model {
         $subcribe->stripe_plan = $subcription['plan']['id'];
         $subcribe->name = $subcription['plan']['name'];
         $subcribe->quantity = $subcription['quantity'];
-        $subcribe->trial_ends_at = Carbon::now()->addDays(31)->format('Y-m-d H:i:s');
+        $subcribe->trial_ends_at = Carbon::now()->addDays(30)->format('Y-m-d H:i:s');
         $subcribe->save();
         return true;
+    }
+
+    public function getRenewalCoupon($userAccess) {
+
+        $renewEndDate = $this->calcMonthlyRenewal($this->created_at);
+        $renewStartDate = Carbon::parse($renewEndDate)->subDays(30);
+        //echo  $renewstartdate.$renewenddate;   exit;
+        $totalCouponsUsed = $this->totalCouponForMonth($renewStartDate, $renewEndDate);
+        if ($totalCouponsUsed) {
+            $totalCouponLeft = $userAccess->deals - $totalCouponsUsed;
+            return $totalCouponLeft;
+        }
+        return 0;
+    }
+
+    public function totalCouponForMonth($startdate, $enddate) {
+
+        $count = Coupon::whereBetween('created_at', [$startdate, $enddate])
+                ->where('created_by', Auth::id())
+                ->count();
+        return $count;
     }
 
 }

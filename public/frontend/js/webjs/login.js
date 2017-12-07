@@ -10,6 +10,7 @@ $(document).ready(function () {
             type: 'POST',
             data: formData,
             success: function (data) {
+                 $('#loadingDiv').hide();
                 if (data.status == 3) {
                     var decodedString = atob(data.view);
                     $('body').removeClass('modal-open pages pages-homepage').addClass('price-page').removeAttr('style').html(decodedString);

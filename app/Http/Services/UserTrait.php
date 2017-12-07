@@ -3,14 +3,10 @@
 namespace App\Http\Services;
 
 use App\User;
+use Auth;
 
 trait UserTrait {
 
-    public function createUser() {
-
-        // Get all the brands from the Brands Table.
-        Brand::all();
-    }
 
     public function generateRandomString() {
         return str_random(30);
@@ -54,6 +50,13 @@ trait UserTrait {
         $replace = [$toid, $fromid, empty($coupon_name) ? "" : $coupon_name->coupon_name,empty($coupon_name) ?"":$coupon_name->vendorDetail->vendor_name];
         $message = str_replace($find, $replace, $item->message);
         return $message;
+    }
+    
+     // get indivdual subcribed plan
+    public  static function getVendorDetailRole(){
+        
+     
+        
     }
 
 }

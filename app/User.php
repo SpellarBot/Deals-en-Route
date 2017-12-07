@@ -70,6 +70,7 @@ class User extends Authenticatable {
      public function vendorDetail() {
          return $this->hasOne('App\VendorDetail', 'user_id', 'id');
     }
+   
 
     /*
      * Get the vendor detail record associated with the user.
