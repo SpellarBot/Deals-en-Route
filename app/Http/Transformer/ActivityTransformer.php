@@ -24,11 +24,9 @@ class ActivityTransformer {
         $var = [];
         foreach ($data as $item) {
             $user = $this->getUserDetail($item->created_by);
-            if (strpos($item->activity_message, 'created_by') !== false) {
-                $name = $user->first_name . " " . $user->last_name;
-            } else {
-                $name = 'You';
-            }
+            $share_friend = $this->getUserDetail($item->share_friend_id); 
+            $name = $user->first_name . " " . $user->last_name;
+            $sharename=$share_friend->first_name . " " . $share_friend->last_name;
             $image = (!empty($user->profile_pic)) ? URL::to('/storage/app/public/profile_pic/tmp') . '/' . $user->profile_pic : "";
 
             $fmessage = $this->finalMessage($item->activity_message, $item);
@@ -39,7 +37,8 @@ class ActivityTransformer {
                 'total_share' => $item->total_share ?? 0,
                 'total_comment' => $item->total_comment ?? 0,
                 'is_like' => $item->activitylike->is_like ?? 0,
-                'name' => $name,
+                'creator_name' => $name,
+                'share_name' => $sharename,
                 'image' => $image,
             ];
         }

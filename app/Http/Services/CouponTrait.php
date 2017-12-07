@@ -42,9 +42,11 @@ trait CouponTrait {
     }
 
     public function finalMessage($message, $item) {
-
-        $find = ['{{coupon_name}}', '{{count}}', '{{created_by}}','{{}}'];
-        $replace = [$item->coupon->coupon_name, $item->count_fb_friend, $item->user->first_name . " " . $item->user->last_name];
+        $count=$item->count_fb_friend-1;
+        $share_friend = $this->getUserDetail($item->share_friend_id); 
+        $find = ['{{coupon_name}}', '{{count}}', '{{created_by}}','{{shared_name}}'];
+        $replace = [$item->coupon->coupon_name, $count, $item->user->first_name . " " . $item->user->last_name,
+            $share_friend->first_name . " " . $share_friend->last_name];
         $message = str_replace($find, $replace, $message);
         return $message;
     }

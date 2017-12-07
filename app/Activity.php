@@ -58,7 +58,7 @@ class Activity extends Model {
 
     public static function activityList() {
         $userid = Auth::id();
-        $activity = Activity::select(['activity.activity_id', 'total_like', 'total_share', 'activity_name_friends',
+        $activity = Activity::select(['activity.activity_id','share_friend_id', 'total_like', 'total_share', 'activity_name_friends',
                     'activity.created_by', 'total_comment', 'count_fb_friend', 'activity_name_creator', 'activity.coupon_id',
                     \DB::raw('(if(created_by != "' . $userid . '",activity_name_friends,activity_name_creator )) as activity_message')])
                 ->leftJoin('coupon_share', 'coupon_share.activity_id', '=', 'activity.activity_id')

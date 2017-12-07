@@ -92,8 +92,14 @@ class CouponShare extends Model {
          
           
             if (CouponShare::insert($datafb)) {
+                if($activity->getCouponShareCount($activity->activity_id, $couponid)==1){
                 Activity::where('activity_id', $activity->activity_id)
+                        ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid),
+                            'activity_name_creator'=> \Config::get('constants.ACTVITY_CREATOR_MESSAGE_1')  ]);
+                }else {
+                      Activity::where('activity_id', $activity->activity_id)
                         ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid)]);
+                }
             }
         }
     }

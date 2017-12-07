@@ -256,13 +256,15 @@ $(document).ready(function () {
                 $('.errormessage').html(data.responseJSON.message);
             }
         });
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (event) {
+       
+    });
+    
+     $('a[data-toggle="tab"]').on('shown.bs.tab', function (event) {
 
             redeem_monthly.update();
             redeem_weekly.update();
             bar1.update();
         });
-    });
     $('#charty').change(function () {
         var value = $(this).val();
         $.ajax({
