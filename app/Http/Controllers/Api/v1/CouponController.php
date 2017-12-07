@@ -250,7 +250,7 @@ class CouponController extends Controller {
             $data = (new CouponTransformer)->transformListVendor($coupon);
             return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
         } else {
-            return $this->reseponseJson('success', \Config::get('constants.NO_RECORDS'), 200);
+            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         }
     }
 
