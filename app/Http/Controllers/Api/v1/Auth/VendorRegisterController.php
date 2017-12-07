@@ -82,7 +82,8 @@ use ResponseTrait;
 
     protected function validatoremail(array $data) {
         return Validator::make($data, [
-                    'vendor_email' => 'required|string|email|max:255|unique:users',
+                    'email' => 'required|string|email|max:255|unique:users',
+                    'card_expiry' => 'required|date_format:m/y'
         ]);
     }
 
@@ -109,7 +110,10 @@ use ResponseTrait;
         try {
 // process the store
             $data = $request->all();
-            $this->validatoremail($data);
+            $validator = $this->validatoremail($data);
+            if ($validator->fails()) {
+                return $this->responseJson('error', $validator->errors()->first(), 400);
+            }
             $user_detail = VendorDetail::createVendorFront($data);
             $file = Input::file('vendor_logo');
 //store image
@@ -129,11 +133,14 @@ use ResponseTrait;
 
             $message = $e->getMessage();
             if (strpos($message, 'year') !== false || strpos($message, 'month') !== false) {
-                return response()->json(['error' => ['card_expiry' => [0 => ucwords($message)]]], 422);
+                return response()->json(['status' => 'error', 'message' => ucwords($message)], 422);
+//                return response()->json(['error' => ['card_expiry' => [0 => ucwords($message)]]], 422);
             } elseif (strpos($message, 'cvv') !== false || strpos($message, 'security code') !== false) {
-                return response()->json(['error' => ['card_cvv' => [0 => ucwords($message)]]], 422);
+                return response()->json(['status' => 'error', 'message' => ucwords($message)], 422);
+//                return response()->json(['error' => ['card_cvv' => [0 => ucwords($message)]]], 422);
             } elseif (strpos($message, 'number') !== false || strpos($message, 'card') !== false) {
-                return response()->json(['error' => ['card_no' => [0 => ucwords($message)]]], 422);
+                return response()->json(['status' => 'error', 'message' => ucwords($message)], 422);
+//                return response()->json(['error' => ['card_no' => [0 => ucwords($message)]]], 422);
             }
             return response()->json(['status' => 'error', 'message' => ucwords($message)], 422);
         } catch (\Cartalyst\Stripe\Exception\UnauthorizedExceptioncatch $e) {
