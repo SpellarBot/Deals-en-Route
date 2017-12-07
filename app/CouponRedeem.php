@@ -17,6 +17,9 @@ class CouponRedeem extends Model {
     const IS_FALSE = 0;
 
     public $primaryKey = 'redeem_id';
+    protected $fillable = [
+        'user_id', 'coupon_id', 'created_at', 'updated_at', 'is_redeem'
+    ];
 
     /**
      * Get the vendor detail record associated with the user.
@@ -70,12 +73,12 @@ class CouponRedeem extends Model {
             $total_coupon = $coupon->coupon_redeem_limit + $total_coupon;
             $total_coupon_reedem = $coupon->coupon_total_redeem + $total_coupon_reedem;
         }
-        if($total_coupon_reedem!=0 && $total_coupon!=0){
-         $data['total_coupon_reedemed'] = number_format(($total_coupon_reedem / $total_coupon) * 100, 2);
-        }else{
-         $data['total_coupon_reedemed']=0;
+        if ($total_coupon_reedem != 0 && $total_coupon != 0) {
+            $data['total_coupon_reedemed'] = number_format(($total_coupon_reedem / $total_coupon) * 100, 2);
+        } else {
+            $data['total_coupon_reedemed'] = 0;
         }
-        
+
         $allreedemcoupons = CouponRedeem::getRedeemCoupon();
         $redeem_by_18_below = 0;
         $redeem_by_18_34 = 0;
@@ -93,16 +96,27 @@ class CouponRedeem extends Model {
                 $redeem_by_above_50 = $redeem_by_above_50 + 1;
             }
         }
-       
-        $data['redeem_by_18_below_per'] = ($redeem_by_18_below !=0)?number_format(($redeem_by_18_below / $total_coupon) * 100, 2):0;
-        $data['redeem_by_18_34_per'] = ($redeem_by_18_34 !=0)? number_format(($redeem_by_18_34 / $total_coupon) * 100, 2):0;
-        $data['redeem_by_35_50_per'] = ($redeem_by_35_50 !=0)?number_format(($redeem_by_35_50 / $total_coupon) * 100, 2):0;
-        $data['redeem_by_above_50_per'] =  ($redeem_by_above_50 !=0)?number_format(($redeem_by_above_50 / $total_coupon) * 100, 2):0;
+
+        $data['redeem_by_18_below_per'] = ($redeem_by_18_below != 0) ? number_format(($redeem_by_18_below / $total_coupon) * 100, 2) : 0;
+        $data['redeem_by_18_34_per'] = ($redeem_by_18_34 != 0) ? number_format(($redeem_by_18_34 / $total_coupon) * 100, 2) : 0;
+        $data['redeem_by_35_50_per'] = ($redeem_by_35_50 != 0) ? number_format(($redeem_by_35_50 / $total_coupon) * 100, 2) : 0;
+        $data['redeem_by_above_50_per'] = ($redeem_by_above_50 != 0) ? number_format(($redeem_by_above_50 / $total_coupon) * 100, 2) : 0;
         $data['redeem_by_18_below'] = $redeem_by_18_below;
         $data['redeem_by_18_34'] = $redeem_by_18_34;
         $data['redeem_by_35_50'] = $redeem_by_35_50;
         $data['redeem_by_above_50'] = $redeem_by_above_50;
         return $data;
+    }
+
+    public static function addCouponReedem($data) {
+        $coupon = new CouponRedeem();
+        $coupon->user_id = $data['user_id'];
+        $coupon->coupon_id = $data['coupon_id'];
+        $coupon->is_redeem = self::IS_TRUE;
+        if ($coupon->save()) {
+            return $coupon;
+        }
+        return false;
     }
 
 }

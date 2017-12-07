@@ -95,7 +95,7 @@
              $('#loadingDiv').hide();
             },
             error: function (data) {
-             window.location.href = $('#hidAbsUrl').val();
+              window.location.href = 'http://dealsenroute.com/dealenroute';
             },
         
      });

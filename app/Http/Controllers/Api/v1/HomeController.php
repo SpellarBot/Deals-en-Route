@@ -67,4 +67,11 @@ class HomeController extends Controller {
         return $this->responseJson('success', \Config::get('constants.REDEEM_COUPON_YEAR'), 200, $data);
     }
 
+    public function getCountry() {
+        $country_list = \App\Country::countryList();
+        $data = array();
+        $data['country_list'] = $country_list;
+        return $this->responseJson('success', 'Country list', 200, $data);
+    }
+
 }

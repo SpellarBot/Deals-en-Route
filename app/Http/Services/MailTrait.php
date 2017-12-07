@@ -34,7 +34,7 @@ trait MailTrait {
         } else if ($array_mail['type'] == 'contactuser') {
             Mail::to($array_mail['to'])->send(new ContactUs($array_mail['data']));
         } else if ($array_mail['type'] == 'payment_success') {
-            Mail::to($array_mail['to'])->send(new PaymentSuccess($array_mail['data']));
+            Mail::to($array_mail['to'])->send(new PaymentSuccess($array_mail['data'], $array_mail['invoice']));
         } else if ($array_mail['type'] == 'payment_cancel') {
             Mail::to($array_mail['to'])->send(new PaymentCancel($array_mail['data']));
         } else if ($array_mail['type'] == 'subscription_cancel_success') {
