@@ -79,7 +79,9 @@ class Subscription extends Model {
         $renewStartDate = Carbon::parse($renewEndDate)->subDays(30);
         //echo  $renewstartdate.$renewenddate;   exit;
         $totalCouponsUsed = $this->totalCouponForMonth($renewStartDate, $renewEndDate);
-        if ($totalCouponsUsed) {
+        
+        if ($totalCouponsUsed || $totalCouponsUsed==0 ) {
+ 
             $totalCouponLeft = $userAccess->deals - $totalCouponsUsed;
             return $totalCouponLeft;
         }

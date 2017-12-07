@@ -95,7 +95,7 @@ class ActivityController extends Controller {
             // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-    }
+    }  
 
     public function commentList(Request $request) {
         try {
