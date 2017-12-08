@@ -8,6 +8,9 @@ use App\Http\Services\ResponseTrait;
 use App\CouponRedeem;
 use App\Coupon;
 use Auth;
+use App\VendorDetail;
+use App\Country;
+use App\Http\Transformer\VendorTransformer;
 
 class HomeController extends Controller {
 
@@ -71,8 +74,8 @@ class HomeController extends Controller {
     public function getReedeemCouponByYear(Request $request) {
         $details = $request->all();
         $total_redeem_monthly = Coupon::getReedemCouponMonthly($details['year']);
-        $data['total_redeem_monthly'] = $total_redeem_monthly;
-        return $this->responseJson('success', \Config::get('constants.REDEEM_COUPON_YEAR'), 200, $data);
+//        $data['total_redeem_monthly'] = $total_redeem_monthly;
+        return $this->responseJson('success', \Config::get('constants.REDEEM_COUPON_YEAR'), 200, $total_redeem_monthly);
     }
 
     public function getCountry() {
@@ -80,6 +83,17 @@ class HomeController extends Controller {
         $data = array();
         $data['country_list'] = $country_list;
         return $this->responseJson('success', 'Country list', 200, $data);
+    }
+
+    public function getSettings() {
+        $user_id = Auth::id();
+        $userdata = VendorDetail::getVendorDetails($user_id);
+        $settings = $userdata->getAttributes();
+        $countries = Country::select('country_name')->find($settings['billing_country']);
+        $country = $countries->getAttributes();
+        $settings['billing_country_name'] = $country['country_name'];
+        $data = (new VendorTransformer)->settingsData($settings);
+        return $this->responseJson('success', \Config::get('constants.SETTINGS'), 200, $data);
     }
 
 }

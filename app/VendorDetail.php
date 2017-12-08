@@ -17,15 +17,15 @@ class VendorDetail extends Model {
         'user_id', 'vendor_name', 'vendor_address', 'vendor_city', 'vendor_zip',
         'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state',
         'billing_home', 'billing_state', 'billing_zip', 'billing_city',
-        'billing_country', 'vendor_country', 'vendor_state','vendor_city', 'vendor_lat',
+        'billing_country', 'vendor_country', 'vendor_state', 'vendor_city', 'vendor_lat',
         'vendor_long', 'billing_businessname', 'check-address', 'vendor_time_zone'
     ];
-    
-    
+
     public function userSubscription() {
-        return $this->hasManyThrough('App\PlanAccess','App\Subscription','user_id','plan_id','user_id','stripe_plan');
+        return $this->hasManyThrough('App\PlanAccess', 'App\Subscription', 'user_id', 'plan_id', 'user_id', 'stripe_plan');
     }
-     public function planAccess() {
+
+    public function planAccess() {
         return $this->belongsTo('App\PlanAccess', 'stripe_plan', 'plan_id');
     }
 
@@ -33,8 +33,8 @@ class VendorDetail extends Model {
 
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/vendor_logo/tmp/' . $value))) ? URL::to('/storage/app/public/vendor_logo/tmp') . '/' . $value : "";
     }
-    
-     /**
+
+    /**
      * Get the vendor detail record associated with the user.
      */
     public function vendorDetail() {
@@ -162,6 +162,16 @@ class VendorDetail extends Model {
         $model_user = User::find($this->user_id);
         $model_user->timezone = $timezone;
         $model_user->save();
+    }
+
+    public static function getVendorDetails($vendor_id) {
+        $details = VendorDetail::select('*')
+                ->leftjoin('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+                ->leftjoin('subscriptions', 'subscriptions.user_id', 'vendor_detail.user_id')
+                ->leftjoin('country', 'country.id', 'vendor_detail.vendor_country')
+                ->where('vendor_detail.user_id', $vendor_id)
+                ->first();
+        return $details;
     }
 
 }
