@@ -8367,7 +8367,7 @@ star {
 
 .alert-success {
 	background-color: #8EF3C5;
-	color: #54b07d;
+	color: #397b56;
 }
 
 .alert-warning {
@@ -8377,7 +8377,7 @@ star {
 
 .alert-danger {
 	background-color: #FF8F5E;
-	color: #c84513;
+	color: #8c3c1e;
 }
 
 .table {
@@ -12839,17 +12839,17 @@ star {
 }
 
 .chart-circle {
-	display: inline-block;
-	font-size: 2em;
-	height: 200px;
-	line-height: 200px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	position: relative;
-	text-align: center;
-	width: 200px;
-	margin-left: 25px;
-	margin-right: 25px;
+    display: inline-block;
+    font-size: 1em;
+    height: 100px;
+    line-height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    text-align: center;
+    width: 100px;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 .chart-circle1 {

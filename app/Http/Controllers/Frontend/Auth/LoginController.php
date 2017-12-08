@@ -66,7 +66,7 @@ use AuthenticatesUsers;
     }
 
     public function login(LoginFormRequest $request) {
-  
+        
         $data = $request->all();
         $email = $data['email'];
         $password = $data['password'];
@@ -76,13 +76,13 @@ use AuthenticatesUsers;
             $subcription = \App\User::find($auth->id)->subscription;
             if ($auth->is_delete == 1) {
                 Auth::guard('web')->logout();
-                return response()->json(['status' => 0, 'message' => ucwords(\Config::get('constants.USER_DELETE'))], 422);
+                return response()->json(['status' => 0, 'errormessage' => ucwords(\Config::get('constants.USER_DELETE'))], 422);
             } else if ($auth->is_active == 0) {
                 Auth::guard('web')->logout();
-                return response()->json(['status' => 0, 'message' => ucwords(\Config::get('constants.USER_DEACTIVE'))], 422);
+                return response()->json(['status' => 0, 'errormessage' => ucwords(\Config::get('constants.USER_DEACTIVE'))], 422);
             } else if ($auth->is_confirmed == 0) {
                 Auth::guard('web')->logout();
-                return response()->json(['status' => 0, 'message' => ucwords(\Config::get('constants.USER_NOT_CONFIRMED'))], 422);
+                return response()->json(['status' => 0, 'errormessage' => ucwords(\Config::get('constants.USER_NOT_CONFIRMED'))], 422);
             } else if (empty($subcription)) {
                 Auth::guard('web')->logout();
                 Session::flash('success', \Config::get('constants.USER_SELECT_PLAN'));

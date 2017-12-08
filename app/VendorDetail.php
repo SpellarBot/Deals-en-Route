@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use URL;
+use Auth;
 
 class VendorDetail extends Model {
 
@@ -29,16 +30,33 @@ class VendorDetail extends Model {
         return $this->belongsTo('App\PlanAccess', 'stripe_plan', 'plan_id');
     }
 
-    public function getVendorLogoAttribute($value) {
-
-        return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/vendor_logo/tmp/' . $value))) ? URL::to('/storage/app/public/vendor_logo/tmp') . '/' . $value : "";
-    }
-
     /**
      * Get the vendor detail record associated with the user.
      */
     public function vendorDetail() {
         return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
+    }
+
+    public function stripeUser() {
+        return $this->hasOne('App\StripeUser', 'user_id', 'user_id');
+    }
+
+    public function getVendorLogoAttribute($value) {
+
+        return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/vendor_logo/tmp/' . $value))) ? URL::to('/storage/app/public/vendor_logo/tmp') . '/' . $value : "";
+    }
+
+    public static function getStripeVendor() {
+        $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+                ->where('vendor_detail.user_id', Auth::id())
+                ->first();
+        $user_access = $vendor_detail->userSubscription;
+        $user = \App\Subscription::where('user_id', Auth::id())->first();
+        if ($user) {
+            $deals_left = $user->getRenewalCoupon($user_access[0]);
+            $deals_percent = ($deals_left / $user_access[0]->deals) * 100;
+            return ['deals_left' => $deals_left, 'deals_percent' => $deals_percent];
+        }
     }
 
     // save vendor detail
