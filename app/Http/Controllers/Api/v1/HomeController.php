@@ -76,8 +76,9 @@ class HomeController extends Controller {
         $total_redeem_monthly = Coupon::getReedemCouponMonthly($details['year']);
 //        $data['total_redeem_monthly'] = $total_redeem_monthly;
         return $this->responseJson('success', \Config::get('constants.REDEEM_COUPON_YEAR'), 200, $total_redeem_monthly);
+         
     }
-
+  
     public function getCountry() {
         $country_list = \App\Country::countryList();
         $data = array();
