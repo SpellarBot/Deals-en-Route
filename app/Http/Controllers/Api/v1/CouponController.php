@@ -354,6 +354,8 @@ class CouponController extends Controller {
         foreach ($payouts as $pay) {
             $commisiondetails = $pay->getAttributes();
             $vendor = StripeUser::getCustomerDetails($commisiondetails['vendor_id']);
+            $user_details = \App\User::select('email')->find($commisiondetails['vendor_id']);
+            $vendor_mail = $vendor_email->getAttributes();
             try {
                 $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalamount'], 'CommisionPayment');
                 $commisiondetails['transaction_id'] = $pay['id'];
@@ -361,16 +363,32 @@ class CouponController extends Controller {
                 $commisiondetails['status'] = 'success';
                 $commisiondetails['description'] = 'PaymentSuccessfull';
                 $commisiondetails['invoice'] = $invoice;
+                $array_mail = ['to' => $vendor_mail['email'],
+                    'type' => 'payment_success',
+                    'data' => ['confirmation_code' => 'Test'],
+                    'invoice' => storage_path('app/pdf/' . $commisiondetails['invoice'])
+                ];
+                $this->sendMail($array_mail);
                 $this->addPaymentDetails($commisiondetails);
             } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
                 $commisiondetails['status'] = 'failed';
                 $commisiondetails['description'] = $e->getMessage();
                 $commisiondetails['invoice'] = '';
+                $array_mail = ['to' => $vendor_mail['email'],
+                    'type' => 'paymentfailed',
+                    'data' => ['confirmation_code' => 'Test']
+                ];
+                $this->sendMail($array_mail);
                 $this->addPaymentDetails($commisiondetails);
             } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
                 $commisiondetails['status'] = 'failed';
                 $commisiondetails['description'] = $e->getMessage();
                 $commisiondetails['invoice'] = '';
+                $array_mail = ['to' => $vendor_mail['email'],
+                    'type' => 'paymentfailed',
+                    'data' => ['confirmation_code' => 'Test']
+                ];
+                $this->sendMail($array_mail);
                 $this->addPaymentDetails($commisiondetails);
             }
         }

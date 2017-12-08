@@ -28,10 +28,16 @@ class PaymentSuccess extends Mailable {
      * @return $this
      */
     public function build() {
-        return $this->markdown('emails.paymentsuccess')
-                        ->subject('Payment Successful')
-                        ->with($this->data)
-                        ->attach($this->invoice);
+        if ($this->invoice && !empty($this->invoice)) {
+            return $this->markdown('emails.paymentsuccess')
+                            ->subject('Payment Successful')
+                            ->with($this->data)
+                            ->attach($this->invoice);
+        } else {
+            return $this->markdown('emails.paymentsuccess')
+                            ->subject('Payment Successful')
+                            ->with($this->data);
+        }
     }
 
 }
