@@ -22,7 +22,7 @@ class HomeController extends Controller {
         $coupons = Coupon::select('coupon.coupon_id', 'coupon.coupon_redeem_limit', 'coupon.coupon_total_redeem', 'coupon.created_at')
                 ->where('created_by', $user_id)
                 ->get();
-        $vendor_detail = \App\VendorDetail::getStripeVendor();
+        $vendor_detail = \App\VendorDetail::getStriptateVendor();
         $total_redeem_monthly = Coupon::getReedemCouponMonthly();
         $total_coupon_monthly = Coupon::getTotalCouponMonthly();
         $total_active_coupon_monthly = Coupon::getTotalActiveCouponMonthly();
@@ -92,8 +92,12 @@ class HomeController extends Controller {
         $userdata = VendorDetail::getVendorDetails($user_id);
         $settings = $userdata->getAttributes();
         $countries = Country::select('country_name')->find($settings['billing_country']);
-        $country = $countries->getAttributes();
-        $settings['billing_country_name'] = $country['country_name'];
+        if ($countries && !empty($countries)) {
+            $country = $countries->getAttributes();
+            $settings['billing_country_name'] = $country['country_name'];
+        } else {
+            $settings['billing_country_name'] = '';
+        }
         $data = (new VendorTransformer)->settingsData($settings);
         return $this->responseJson('success', \Config::get('constants.SETTINGS'), 200, $data);
     }
