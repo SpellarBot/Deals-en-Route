@@ -106,6 +106,7 @@ use ResetsPasswords;
         $this->validate($request, [
             'token' => 'required',
             'password' => 'required|confirmed',
+            'password_confirmation'=>'required'
         ]);
 
 

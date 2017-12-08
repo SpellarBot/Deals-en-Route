@@ -20,18 +20,18 @@
     <body class="pages pages-homepage">
         <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
         <div class="errorpopup">
-             @if (Session::has('success'))
-        <div class="alert alert-success alert-dismissible" role="alert" style="display: none" >
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            {{ Session::get('success') }}
-        </div>  
-           @endif
- @if (Session::has('error'))
-        <div class="alert alert-danger alert-dismissible" role="alert" style="display: none">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            {{ Session::get('error') }}
-        </div>  
-  @endif
+            @if (Session::has('success'))
+            <div class="alert alert-success alert-dismissible" role="alert"  >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ Session::get('success') }}
+            </div>  
+            @endif
+            @if (Session::has('error'))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ Session::get('error') }}
+            </div>  
+            @endif
         </div>
         <div class="base-wrapper">
             <nav class="navbar nav">
@@ -41,16 +41,16 @@
             <!-- end of navbar -->
             @yield('content')
             @include('frontend/modal/login')
-            
+
             @include('frontend/footer/footer_main')
             <!-- Mainly scripts -->
             <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js') }}"></script>
             <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js')}}"></script>
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/login.js')}}"></script>
-             <script type="text/javascript" src="{{ asset('frontend/js/webjs/forget.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('frontend/js/webjs/forget.js')}}"></script>
             @yield('scripts')
-           
+
 
     </body>
 </html>

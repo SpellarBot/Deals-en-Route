@@ -1,7 +1,7 @@
 <div id="login" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-md">
 			<div class="modal-content">
-                                        <div class="errorpopup">
+                                         <div class="errorpopup">
                                             <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             <div class="successmessage"> </div>

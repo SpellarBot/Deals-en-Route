@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use URL;
+use Auth;
 
 class VendorDetail extends Model {
 
@@ -17,28 +18,45 @@ class VendorDetail extends Model {
         'user_id', 'vendor_name', 'vendor_address', 'vendor_city', 'vendor_zip',
         'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state',
         'billing_home', 'billing_state', 'billing_zip', 'billing_city',
-        'billing_country', 'vendor_country', 'vendor_state','vendor_city', 'vendor_lat',
+        'billing_country', 'vendor_country', 'vendor_state', 'vendor_city', 'vendor_lat',
         'vendor_long', 'billing_businessname', 'check-address', 'vendor_time_zone'
     ];
-    
-    
+
     public function userSubscription() {
-        return $this->hasManyThrough('App\PlanAccess','App\Subscription','user_id','plan_id','user_id','stripe_plan');
+        return $this->hasManyThrough('App\PlanAccess', 'App\Subscription', 'user_id', 'plan_id', 'user_id', 'stripe_plan');
     }
-     public function planAccess() {
+
+    public function planAccess() {
         return $this->belongsTo('App\PlanAccess', 'stripe_plan', 'plan_id');
+    }
+
+    /**
+     * Get the vendor detail record associated with the user.
+     */
+    public function vendorDetail() {
+        return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
+    }
+
+    public function stripeUser() {
+        return $this->hasOne('App\StripeUser', 'user_id', 'user_id');
     }
 
     public function getVendorLogoAttribute($value) {
 
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/vendor_logo/tmp/' . $value))) ? URL::to('/storage/app/public/vendor_logo/tmp') . '/' . $value : "";
     }
-    
-     /**
-     * Get the vendor detail record associated with the user.
-     */
-    public function vendorDetail() {
-        return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
+
+    public static function getStripeVendor() {
+        $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+                ->where('vendor_detail.user_id', Auth::id())
+                ->first();
+        $user_access = $vendor_detail->userSubscription;
+        $user = \App\Subscription::where('user_id', Auth::id())->first();
+        if ($user) {
+            $deals_left = $user->getRenewalCoupon($user_access[0]);
+            $deals_percent=($deals_left/ $user_access[0]->deals)*100;
+            return ['deals_left'=>$deals_left,'deals_percent'=> $deals_percent];
+        }
     }
 
     // save vendor detail

@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-12 ">
-                <div class="card card-dash1 row-md-5">
+                <div class="card card-dash0 row-md-5">
                     <div class="header head-coupons">
                         <div class="pull-left">
                             <h5>Coupons</h5>
@@ -25,6 +25,16 @@
                     </div>
                     <div class="card-content" align="center">
                         <div id="charttotal" class="chart-circle" data-percent="0"> <span>0%</span></div>
+                    </div>
+                </div>
+            </div>
+              <div class="col-lg-4 col-md-4 col-sm-8 col-lg-offset-0 col-md-offset-0 col-sm-offset-2">
+                <div class="card card-dash2">
+                    <div class="header head-coupons">
+                        <h5>Remaining deals in package</h5>
+                    </div>
+                    <div class="card-content" align="center">
+                        <div id="dealtotal" class="chart-circle" data-percent="0"> <span>0%</span></div>
                     </div>
                 </div>
             </div>
