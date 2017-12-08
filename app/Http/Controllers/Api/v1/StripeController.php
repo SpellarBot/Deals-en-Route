@@ -77,7 +77,10 @@ class StripeController extends Controller {
                 PaymentInfo::create($data);
             }
         } elseif ($event->type == 'charge.succeeded') {
-            $data['invoice'] = '';
+            $array_mail = ['to' => $user_details->email,
+                'type' => 'payment_success',
+                'data' => ['confirmation_code' => 'Test'],
+            ];
             if ($description != 'CommisionPayment') {
                 $data = array();
                 $data['vendor_id'] = $user_details->user_id;
@@ -88,12 +91,8 @@ class StripeController extends Controller {
                 $data['transaction_id'] = $transaction_id;
                 $data['invoice'] = $this->invoice($data);
                 \App\PaymentInfo::create($data);
+                $array_mail['invoice'] = storage_path('app/pdf/' . $data['invoice']);
             }
-            $array_mail = ['to' => $user_details->email,
-                'type' => 'payment_success',
-                'data' => ['confirmation_code' => 'Test'],
-                'invoice' => storage_path('app/pdf/' . $data['invoice'])
-            ];
             $this->sendMail($array_mail);
         } elseif ($event->type == 'customer.subscription.deleted') {
             $array_mail = ['to' => $user_details->email,
