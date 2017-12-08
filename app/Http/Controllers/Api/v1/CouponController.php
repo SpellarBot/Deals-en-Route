@@ -20,6 +20,8 @@ use Carbon\Carbon;
 use App\Commision;
 use App\PaymentInfo;
 use App\Http\Services\PdfTrait;
+use Mail;
+use Illuminate\Support\Facades\Storage;
 
 class CouponController extends Controller {
 
