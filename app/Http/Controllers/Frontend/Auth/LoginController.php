@@ -65,8 +65,7 @@ use AuthenticatesUsers;
         return Auth::guard('web');
     }
 
-    public function login(LoginFormRequest $request) {
-  
+    public function login(LoginFormRequest $request) { 
         $data = $request->all();
         $email = $data['email'];
         $password = $data['password'];
