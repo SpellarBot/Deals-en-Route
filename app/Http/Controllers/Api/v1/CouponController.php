@@ -353,46 +353,50 @@ class CouponController extends Controller {
 // Payout commission every month cron
     public function commisionPayout() {
         $payouts = Commision::getCommisionDetails();
-        foreach ($payouts as $pay) {
-            $commisiondetails = $pay->getAttributes();
-            $vendor = StripeUser::getCustomerDetails($commisiondetails['vendor_id']);
-            $user_details = \App\User::select('email')->find($commisiondetails['vendor_id']);
-            $vendor_mail = $user_details->getAttributes();
-            try {
-                $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalamount'], 'CommisionPayment');
-                $commisiondetails['transaction_id'] = $pay['id'];
-                $invoice = $this->invoice($commisiondetails);
-                $commisiondetails['status'] = 'success';
-                $commisiondetails['description'] = 'PaymentSuccessfull';
-                $commisiondetails['invoice'] = $invoice;
-                $array_mail = ['to' => $vendor_mail['email'],
-                    'type' => 'payment_success',
-                    'data' => ['confirmation_code' => 'Test'],
-                    'invoice' => storage_path('app/pdf/' . $commisiondetails['invoice'])
-                ];
-                $this->sendMail($array_mail);
-                $this->addPaymentDetails($commisiondetails);
-            } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
-                $commisiondetails['status'] = 'failed';
-                $commisiondetails['description'] = $e->getMessage();
-                $commisiondetails['invoice'] = '';
-                $array_mail = ['to' => $vendor_mail['email'],
-                    'type' => 'paymentfailed',
-                    'data' => ['confirmation_code' => 'Test']
-                ];
-                $this->sendMail($array_mail);
-                $this->addPaymentDetails($commisiondetails);
-            } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
-                $commisiondetails['status'] = 'failed';
-                $commisiondetails['description'] = $e->getMessage();
-                $commisiondetails['invoice'] = '';
-                $array_mail = ['to' => $vendor_mail['email'],
-                    'type' => 'paymentfailed',
-                    'data' => ['confirmation_code' => 'Test']
-                ];
-                $this->sendMail($array_mail);
-                $this->addPaymentDetails($commisiondetails);
+        if (count($payouts) > 0) {
+            foreach ($payouts as $pay) {
+                $commisiondetails = $pay->getAttributes();
+                $vendor = StripeUser::getCustomerDetails($commisiondetails['vendor_id']);
+                $user_details = \App\User::select('email')->find($commisiondetails['vendor_id']);
+                $vendor_mail = $user_details->getAttributes();
+                try {
+                    $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalamount'], 'CommisionPayment');
+                    $commisiondetails['transaction_id'] = $pay['id'];
+                    $invoice = $this->invoice($commisiondetails);
+                    $commisiondetails['status'] = 'success';
+                    $commisiondetails['description'] = 'PaymentSuccessfull';
+                    $commisiondetails['invoice'] = $invoice;
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'payment_success',
+                        'data' => ['confirmation_code' => 'Test'],
+                        'invoice' => storage_path('app/pdf/' . $commisiondetails['invoice'])
+                    ];
+                    $this->sendMail($array_mail);
+                    $this->addPaymentDetails($commisiondetails);
+                } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
+                    $commisiondetails['status'] = 'failed';
+                    $commisiondetails['description'] = $e->getMessage();
+                    $commisiondetails['invoice'] = '';
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'paymentfailed',
+                        'data' => ['confirmation_code' => 'Test']
+                    ];
+                    $this->sendMail($array_mail);
+                    $this->addPaymentDetails($commisiondetails);
+                } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
+                    $commisiondetails['status'] = 'failed';
+                    $commisiondetails['description'] = $e->getMessage();
+                    $commisiondetails['invoice'] = '';
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'paymentfailed',
+                        'data' => ['confirmation_code' => 'Test']
+                    ];
+                    $this->sendMail($array_mail);
+                    $this->addPaymentDetails($commisiondetails);
+                }
             }
+        } else {
+            return json_encode('No Commision to payout');
         }
     }
 
@@ -401,7 +405,7 @@ class CouponController extends Controller {
             Commision::updateCommision($data);
         }
         $info = PaymentInfo::create($data);
-        return 'success';
+        return json_encode('Successfully Payout Commision');
     }
 
     public function invoice($payment) {
