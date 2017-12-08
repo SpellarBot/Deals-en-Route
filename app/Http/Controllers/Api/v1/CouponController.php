@@ -11,16 +11,22 @@ use App\Notifications\FcmNotification;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications;
 use App\StripeUser;
+use App\VendorDetail;
+use App\User;
 use Notification;
 use DB;
 use URL;
 use Carbon\Carbon;
 use App\Commision;
 use App\PaymentInfo;
+use App\Http\Services\PdfTrait;
+use Mail;
+use Illuminate\Support\Facades\Storage;
 
 class CouponController extends Controller {
 
     use ResponseTrait;
+    use PdfTrait;
     use Notifiable;
     use \App\Http\Services\CouponTrait;
     use \App\Http\Services\ActivityTrait;
@@ -277,36 +283,40 @@ class CouponController extends Controller {
         $data['coupon_code'] = $coupondata[0];
         $data['user_id'] = $coupondata[1];
         $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
-        if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
-            $user = \App\User::find($data['user_id']);
+        if (count($getCoupondetails) > 0) {
+            if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
+                $user = \App\User::find($data['user_id']);
 // send notification success for coupon failure
-            Notification::send($user, new FcmNotification([
-                'type' => 'redeemfailure',
-                'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                'coupon_id' => $getCoupondetails->coupon_id,
-            ]));
-            return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
-        } else {
-            $commision = $this->deductiveCommision($getCoupondetails);
-            $user = \App\User::find($data['user_id']);
+                Notification::send($user, new FcmNotification([
+                    'type' => 'redeemfailure',
+                    'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
+                    'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
+                    'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                    'coupon_id' => $getCoupondetails->coupon_id,
+                ]));
+                return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
+            } else {
+                $commision = $this->deductiveCommision($getCoupondetails);
+                $user = \App\User::find($data['user_id']);
 // send notification success for coupon redeem
-            Notification::send($user, new FcmNotification([
-                'type' => 'redeemsuccess',
-                'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                'coupon_id' => $getCoupondetails->coupon_id,
-            ]));
-            $couponReedem = array();
-            $couponReedem['user_id'] = $data['user_id'];
-            $couponReedem['coupon_id'] = $getCoupondetails['coupon_id'];
-            \App\CouponRedeem::addCouponReedem($couponReedem);
-            $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
-            $getCoupondetails->save();
+                Notification::send($user, new FcmNotification([
+                    'type' => 'redeemsuccess',
+                    'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
+                    'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
+                    'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                    'coupon_id' => $getCoupondetails->coupon_id,
+                ]));
+                $couponReedem = array();
+                $couponReedem['user_id'] = $data['user_id'];
+                $couponReedem['coupon_id'] = $getCoupondetails['coupon_id'];
+                \App\CouponRedeem::addCouponReedem($couponReedem);
+                $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
+                $getCoupondetails->save();
 
-            return $this->responseJson('success', 'Coupon Redeemed Successfully. ', 200);
+                return $this->responseJson('success', 'Coupon Redeemed Successfully. ', 200);
+            }
+        } else {
+            return $this->responseJson('failed', 'No Coupon Found. ', 200);
         }
     }
 
@@ -343,23 +353,50 @@ class CouponController extends Controller {
 // Payout commission every month cron
     public function commisionPayout() {
         $payouts = Commision::getCommisionDetails();
-        foreach ($payouts as $pay) {
-            $commisiondetails = $pay->getAttributes();
-            $vendor = StripeUser::getCustomerDetails($commisiondetails['vendor_id']);
-            try {
-                $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalcommision'], 'CommisionPayment');
-                $commisiondetails['status'] = 'success';
-                $commisiondetails['description'] = 'PaymentSuccessfull';
-                $this->addPaymentDetails($commisiondetails);
-            } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
-                $commisiondetails['status'] = 'failed';
-                $commisiondetails['description'] = $e->getMessage();
-                $this->addPaymentDetails($commisiondetails);
-            } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
-                $commisiondetails['status'] = 'failed';
-                $commisiondetails['description'] = $e->getMessage();
-                $this->addPaymentDetails($commisiondetails);
+        if (count($payouts) > 0) {
+            foreach ($payouts as $pay) {
+                $commisiondetails = $pay->getAttributes();
+                $vendor = StripeUser::getCustomerDetails($commisiondetails['vendor_id']);
+                $user_details = \App\User::select('email')->find($commisiondetails['vendor_id']);
+                $vendor_mail = $user_details->getAttributes();
+                try {
+                    $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalamount'], 'CommisionPayment');
+                    $commisiondetails['transaction_id'] = $pay['id'];
+                    $invoice = $this->invoice($commisiondetails);
+                    $commisiondetails['status'] = 'success';
+                    $commisiondetails['description'] = 'PaymentSuccessfull';
+                    $commisiondetails['invoice'] = $invoice;
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'payment_success',
+                        'data' => ['confirmation_code' => 'Test'],
+                        'invoice' => storage_path('app/pdf/' . $commisiondetails['invoice'])
+                    ];
+                    $this->sendMail($array_mail);
+                    $this->addPaymentDetails($commisiondetails);
+                } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
+                    $commisiondetails['status'] = 'failed';
+                    $commisiondetails['description'] = $e->getMessage();
+                    $commisiondetails['invoice'] = '';
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'paymentfailed',
+                        'data' => ['confirmation_code' => 'Test']
+                    ];
+                    $this->sendMail($array_mail);
+                    $this->addPaymentDetails($commisiondetails);
+                } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
+                    $commisiondetails['status'] = 'failed';
+                    $commisiondetails['description'] = $e->getMessage();
+                    $commisiondetails['invoice'] = '';
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'paymentfailed',
+                        'data' => ['confirmation_code' => 'Test']
+                    ];
+                    $this->sendMail($array_mail);
+                    $this->addPaymentDetails($commisiondetails);
+                }
             }
+        } else {
+            return json_encode('No Commision to payout');
         }
     }
 
@@ -368,7 +405,36 @@ class CouponController extends Controller {
             Commision::updateCommision($data);
         }
         $info = PaymentInfo::create($data);
-        return true;
+        return json_encode('Successfully Payout Commision');
+    }
+
+    public function invoice($payment) {
+        $details = array();
+        $vendor_email = User::select('email')->find($payment['vendor_id']);
+        $vendor_details = VendorDetail::select('country.country_name', 'billing_businessname', 'billing_home', 'billing_city', 'billing_country', 'billing_state', 'billing_zip')
+                ->leftjoin('country', 'id', 'billing_country')
+                ->where('user_id', $payment['vendor_id'])
+                ->first();
+        $commisionentries = Commision::select('coupon.coupon_name  as item_name', 'commision.amount')
+                ->where('vendor_id', $payment['vendor_id'])
+                ->where('commision.is_paid', 0)
+                ->leftjoin('coupon', 'coupon.coupon_id', 'commision.coupon_id')
+                ->get();
+        $details['items'] = array();
+        foreach ($commisionentries as $entry) {
+            $item = $entry->getAttributes();
+            $item['item_type'] = 'Commision Deduction';
+            array_push($details['items'], $item);
+        }
+        $vendor_mail = $vendor_email->getAttributes();
+        $vendor = $vendor_details->getAttributes();
+        $vendor['email'] = $vendor_mail['email'];
+        $details['total_amount'] = $payment['totalamount'];
+        $details['transaction_id'] = $payment['transaction_id'];
+        $details['vendor'] = $vendor;
+        $details['commision'] = TRUE;
+        $invoice = $this->generateInvoice($details);
+        return $invoice;
     }
 
 }

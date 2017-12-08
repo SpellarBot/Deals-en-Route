@@ -14,10 +14,13 @@ use App\VendorDetail;
 use App\PaymentInfo;
 use App\Http\Controllers\Api\v1\Auth;
 use Mail;
+use App\Http\Services\PdfTrait;
+use Illuminate\Support\Facades\Storage;
 
 class StripeController extends Controller {
 
     use MailTrait;
+    use PdfTrait;
 
     public function handleStripeResponse(Request $request) {
 
@@ -52,7 +55,11 @@ class StripeController extends Controller {
         $user_id = $event->data->object->customer;
         $amount = $event->data->object->amount;
         $description = $event->data->object->description;
+        $transaction_id = $event->data->object->id;
         $user_details = Stripewebhook::getUserDetails($user_id);
+        $plan_details = Subscription::select('stripe_plan')->where('user_id', $user_details->user_id)->first();
+        $plan_array = $plan_details->getAttributes();
+        $plan = $plan_array['stripe_plan'];
         if ($event->type == 'charge.failed') {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'paymentfailed',
@@ -62,26 +69,31 @@ class StripeController extends Controller {
             if ($description != 'CommisionPayment') {
                 $data = array();
                 $data['vendor_id'] = $user_details->user_id;
-                $data['totalcommision'] = $amount / 100;
+                $data['totalamount'] = $amount / 100;
                 $data['status'] = 'failed';
                 $data['description'] = 'PaymentFailed';
+                $data['transaction_id'] = $transaction_id;
+                $data['invoice'] = '';
                 PaymentInfo::create($data);
             }
         } elseif ($event->type == 'charge.succeeded') {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
-                'invoice' => 'test'
             ];
-            $this->sendMail($array_mail);
             if ($description != 'CommisionPayment') {
                 $data = array();
                 $data['vendor_id'] = $user_details->user_id;
-                $data['totalcommision'] = $amount / 100;
+                $data['totalamount'] = $amount / 100;
                 $data['status'] = 'success';
                 $data['description'] = 'PaymentSuccessfull';
+                $data['plan'] = $plan;
+                $data['transaction_id'] = $transaction_id;
+                $data['invoice'] = $this->invoice($data);
                 \App\PaymentInfo::create($data);
+                $array_mail['invoice'] = storage_path('app/pdf/' . $data['invoice']);
             }
+            $this->sendMail($array_mail);
         } elseif ($event->type == 'customer.subscription.deleted') {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'subscription_cancel_success',
@@ -174,6 +186,27 @@ class StripeController extends Controller {
         } else {
             return response()->json(['status' => 0, 'message' => $deletcard[0]], 400);
         }
+    }
+
+    public function invoice($payment) {
+        $details = array();
+        $vendor_email = User::select('email')->find($payment['vendor_id']);
+        $vendor_details = VendorDetail::select('country.country_name', 'billing_businessname', 'billing_home', 'billing_city', 'billing_country', 'billing_state', 'billing_zip')
+                ->leftjoin('country', 'id', 'billing_country')
+                ->where('user_id', $payment['vendor_id'])
+                ->first();
+        $details['items'] = array();
+        $item = array('item_name' => $payment['plan'], 'item_type' => 'Subscription', 'amount' => $payment['totalamount']);
+        array_push($details['items'], $item);
+        $vendor_mail = $vendor_email->getAttributes();
+        $vendor = $vendor_details->getAttributes();
+        $vendor['email'] = $vendor_mail['email'];
+        $details['total_amount'] = $payment['totalamount'];
+        $details['transaction_id'] = $payment['transaction_id'];
+        $details['vendor'] = $vendor;
+        $details['commision'] = TRUE;
+        $invoice = $this->generateInvoice($details);
+        return $invoice;
     }
 
 }

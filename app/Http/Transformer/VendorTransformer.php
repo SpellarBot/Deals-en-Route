@@ -22,8 +22,8 @@ class VendorTransformer {
             'vendor_address' => $user->vendor->vendor_address ?? '',
             'email' => $user->email ?? '',
             'vendor_phone' => $user->vendor->vendor_phone ?? '',
-            'vendor_logo' => (!empty($user->vendor->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $user->vendor->vendor_logo : "",
-            'profile_pic_thumbnail' => (!empty($user->vendor->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo/tmp') . '/' . $user->vendor->vendor_logo : "",
+            'vendor_logo' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo): "",
+            'profile_pic_thumbnail' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo) : "",
             'api_token' => $user->api_token ?? ''
         ];
     }

@@ -52,7 +52,7 @@ class Commision extends Model {
     }
 
     public static function getCommisionDetails() {
-        $commisiondetails = Commision::selectRaw('id,vendor_id,sum(amount) as totalcommision')
+        $commisiondetails = Commision::selectRaw('id,vendor_id,sum(amount) as totalamount')
                 ->where('is_paid', self::IS_FALSE)
                 ->groupBy('vendor_id')
                 ->get();

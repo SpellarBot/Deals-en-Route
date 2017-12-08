@@ -296,13 +296,9 @@ COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at
                 ->leftjoin('coupon_redeem', 'coupon.coupon_id', 'coupon_redeem.coupon_id')
                 ->where('created_by', $user_id)
                 ->where(DB::raw('YEAR(coupon_redeem.created_at)'), '=', $year)
-                ->where(DB::raw('MONTH(coupon_redeem.created_at)'), '=', $month)               
+                ->where(DB::raw('MONTH(coupon_redeem.created_at)'), '=', $month)
                 ->first();
         return $coupons;
     }
-    
- 
-
-    
 
 }

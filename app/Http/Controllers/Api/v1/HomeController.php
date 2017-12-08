@@ -8,8 +8,6 @@ use App\Http\Services\ResponseTrait;
 use App\CouponRedeem;
 use App\Coupon;
 use Auth;
-use PDF;
-use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller {
 
@@ -33,7 +31,11 @@ class HomeController extends Controller {
             $total_coupon = $coupon->coupon_redeem_limit + $total_coupon;
             $total_coupon_reedem = $coupon->coupon_total_redeem + $total_coupon_reedem;
         }
-        $data['total_coupon_reedemed'] = number_format(($total_coupon_reedem / $total_coupon) * 100, 2);
+        if ($total_coupon == 0) {
+            $data['total_coupon_reedemed'] = 0;
+        } else {
+            $data['total_coupon_reedemed'] = number_format(($total_coupon_reedem / $total_coupon) * 100, 2);
+        }
         $allreedemcoupons = CouponRedeem::getRedeemCoupon();
         $redeem_by_18_below = 0;
         $redeem_by_18_34 = 0;
@@ -51,10 +53,14 @@ class HomeController extends Controller {
                 $redeem_by_above_50 = $redeem_by_above_50 + 1;
             }
         }
-        $data['redeem_by_18_below_per'] = number_format(($redeem_by_18_below / $total_coupon) * 100, 2);
-        $data['redeem_by_18_34_per'] = number_format(($redeem_by_18_34 / $total_coupon) * 100, 2);
-        $data['redeem_by_35_50_per'] = number_format(($redeem_by_35_50 / $total_coupon) * 100, 2);
-        $data['redeem_by_above_50_per'] = number_format(($redeem_by_above_50 / $total_coupon) * 100, 2);
+//        $data['redeem_by_18_below_per'] = number_format(($redeem_by_18_below / $total_coupon) * 100, 2);
+//        $data['redeem_by_18_34_per'] = number_format(($redeem_by_18_34 / $total_coupon) * 100, 2);
+//        $data['redeem_by_35_50_per'] = number_format(($redeem_by_35_50 / $total_coupon) * 100, 2);
+//        $data['redeem_by_above_50_per'] = number_format(($redeem_by_above_50 / $total_coupon) * 100, 2);
+        $data['redeem_by_18_below_per'] = ($redeem_by_18_below != 0) ? number_format(($redeem_by_18_below / $total_coupon) * 100, 2) : 0;
+        $data['redeem_by_18_34_per'] = ($redeem_by_18_34 != 0) ? number_format(($redeem_by_18_34 / $total_coupon) * 100, 2) : 0;
+        $data['redeem_by_35_50_per'] = ($redeem_by_35_50 != 0) ? number_format(($redeem_by_35_50 / $total_coupon) * 100, 2) : 0;
+        $data['redeem_by_above_50_per'] = ($redeem_by_above_50 != 0) ? number_format(($redeem_by_above_50 / $total_coupon) * 100, 2) : 0;
         $data['redeem_by_18_below'] = $redeem_by_18_below;
         $data['redeem_by_18_34'] = $redeem_by_18_34;
         $data['redeem_by_35_50'] = $redeem_by_35_50;
@@ -74,17 +80,6 @@ class HomeController extends Controller {
         $data = array();
         $data['country_list'] = $country_list;
         return $this->responseJson('success', 'Country list', 200, $data);
-    }
-
-    public function htmltopdfview(Request $request) {
-        if ($request->has('download')) {
-            $pdf = PDF::loadView('htmltopdfview');
-            $filename = time() . '.pdf';
-            Storage::put('/pdf/' . $filename, $pdf->output());
-            return 'test';
-//            return $pdf->download('htmltopdfview');
-        }
-        return view('htmltopdfview');
     }
 
 }
