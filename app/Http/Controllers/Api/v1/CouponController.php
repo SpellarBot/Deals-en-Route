@@ -357,7 +357,7 @@ class CouponController extends Controller {
             $commisiondetails = $pay->getAttributes();
             $vendor = StripeUser::getCustomerDetails($commisiondetails['vendor_id']);
             $user_details = \App\User::select('email')->find($commisiondetails['vendor_id']);
-            $vendor_mail = $vendor_email->getAttributes();
+            $vendor_mail = $user_details->getAttributes();
             try {
                 $pay = StripeUser::chargeVendor($vendor, $commisiondetails['totalamount'], 'CommisionPayment');
                 $commisiondetails['transaction_id'] = $pay['id'];
