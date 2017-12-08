@@ -58,6 +58,7 @@ class HomeController extends Controller {
         $year=(isset($request) && !empty($request['year']))?$request['year']:date('Y'); 
         $month=(isset($request) && !empty($request['month']))?$request['month']:date('m'); 
         $data = [];
+        $vendor_detail = \App\VendorDetail::getStripeVendor(); 
         $total_redeem_monthly = Coupon::getReedemCouponMonthly($year);
         $total_redeem_weekly = Coupon::getReedemCouponWeekly($year,$month);
         $total_coupon_monthly = Coupon::getTotalCouponMonthly();
@@ -67,8 +68,12 @@ class HomeController extends Controller {
         $data['total_coupon_monthly'] = $total_coupon_monthly->getAttributes();
         $data['total_redeem_weekly'] = $total_redeem_weekly->getAttributes();
         $data['total_active_coupon_monthly'] = $total_active_coupon_monthly->getAttributes();
+        $data['deals_left'] = $vendor_detail['deals_left'];
+        $data['deals_percent'] = $vendor_detail['deals_percent'];
         $data=$data+$total_age_wise_redeem;
         return $this->responseJson('success', \Config::get('constants.DASHBOARD_DETAIL'), 200, $data);
     }
+    
+    
 
 }

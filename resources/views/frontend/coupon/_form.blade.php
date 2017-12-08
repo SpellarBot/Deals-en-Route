@@ -60,7 +60,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
-                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$user_access->geolocation,'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:'','id'=>'couponslider']) }}
+                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$user_access->geolocation,'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider']) }}
                             <p> (in miles) </p>
                         </div>
 

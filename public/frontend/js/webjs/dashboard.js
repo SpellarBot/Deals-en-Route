@@ -107,7 +107,20 @@ $(document).ready(function () {
     });
     $('#charttotal').easyPieChart({
         lineWidth: 12,
-        size: 200,
+        size: 100,
+        scaleColor: false,
+        trackColor: 'rgba(70,85,109,.25)',
+        barColor: '#46b96d',
+        animate: ({
+            duration: 5000,
+            enabled: true
+        })
+
+    });
+    
+    $('#dealtotal').easyPieChart({
+         lineWidth: 12,
+        size: 100,
         scaleColor: false,
         trackColor: 'rgba(70,85,109,.25)',
         barColor: '#46b96d',
@@ -134,6 +147,9 @@ $(document).ready(function () {
             var redeem_by_35_50 = data.data.redeem_by_35_50;
             var redeem_by_above_50_per = data.data.redeem_by_above_50_per;
             var redeem_by_above_50 = data.data.redeem_by_above_50;
+            var deals_left=data.data.deals_left;
+            var deals_percent=data.data.deals_percent;
+          
             // <!--=============================Bar Chart=============================-->
             // total redeeem monthly 
             $.each(data.data.total_redeem_monthly, function (index, value) {
@@ -176,8 +192,12 @@ $(document).ready(function () {
             ];
             bar1 = Chartist.Bar('#chartCoupons', data, options, responsiveOptions);
             // <!--================Redeemption Pie Chart=============================-->
+            //total coupon redeemed
             $('#charttotal').data('easyPieChart').update(total_coupon_reedemed);
             $('span', $('#charttotal')).text(total_coupon_reedemed + "%");
+              //remaining deals in package
+            $('#dealtotal').data('easyPieChart').update(deals_percent);
+            $('span', $('#dealtotal')).text(deals_left);
             // <!--================Other Pie Chart=============================-->
             // less than 18
             $('#chartunder18').data('easyPieChart').update(redeem_by_18_below_per);
