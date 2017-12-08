@@ -17,12 +17,12 @@ class VendorTransformer {
 
     public function transformLogin($user) {
         return [
-            'user_id'=>$user->vendor->user_id ?? '',
+            'user_id' => $user->vendor->user_id ?? '',
             'vendor_name' => $user->vendor->vendor_name ?? '',
             'vendor_address' => $user->vendor->vendor_address ?? '',
             'email' => $user->email ?? '',
             'vendor_phone' => $user->vendor->vendor_phone ?? '',
-            'vendor_logo' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo): "",
+            'vendor_logo' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo) : "",
             'profile_pic_thumbnail' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo) : "",
             'api_token' => $user->api_token ?? ''
         ];
@@ -50,6 +50,29 @@ class VendorTransformer {
             ];
         }
         return ['has_page' => $data->hasMorePages(), 'current_page' => $data->currentPage(), 'listing' => $var];
+    }
+
+    public function settingsData($data) {
+        return [
+            'user_id' => $data['user_id'] ?? '',
+            'businessname1' => $data['vendor_name'] ?? '',
+            'businessname2' => $data['billing_businessname'] ?? '',
+            'vendor_address' => $data['vendor_address'] ?? '',
+            'vendor_city' => $data['vendor_city'] ?? '',
+            'vendor_state' => $data['vendor_state'] ?? '',
+            'vendor_zip' => $data['vendor_zip'] ?? '',
+            'vendor_phone' => $data['vendor_phone'] ?? '',
+            'vendor_country' => $data['country_name'] ?? '',
+            'billing_home' => $data['billing_home'] ?? '',
+            'billing_city' => $data['billing_city'] ?? '',
+            'billing_state' => $data['billing_state'] ?? '',
+            'billing_zip' => $data['billing_zip'] ?? '',
+            'billing_country' => $data['billing_country_name'] ?? '',
+            'card_last_four' => $data['card_last_four'] ?? '',
+            'subscription_plan' => $data['stripe_plan'] ?? '',
+            'card_brand' => $data['card_brand'] ?? '',
+            'vendor_logo' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo) : "",
+        ];
     }
 
 }

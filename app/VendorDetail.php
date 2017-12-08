@@ -54,8 +54,8 @@ class VendorDetail extends Model {
         $user = \App\Subscription::where('user_id', Auth::id())->first();
         if ($user) {
             $deals_left = $user->getRenewalCoupon($user_access[0]);
-            $deals_percent=($deals_left/ $user_access[0]->deals)*100;
-            return ['deals_left'=>$deals_left,'deals_percent'=> $deals_percent];
+            $deals_percent = ($deals_left / $user_access[0]->deals) * 100;
+            return ['deals_left' => $deals_left, 'deals_percent' => $deals_percent];
         }
     }
 
@@ -180,6 +180,16 @@ class VendorDetail extends Model {
         $model_user = User::find($this->user_id);
         $model_user->timezone = $timezone;
         $model_user->save();
+    }
+
+    public static function getVendorDetails($vendor_id) {
+        $details = VendorDetail::select('*')
+                ->leftjoin('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+                ->leftjoin('subscriptions', 'subscriptions.user_id', 'vendor_detail.user_id')
+                ->leftjoin('country', 'country.id', 'vendor_detail.vendor_country')
+                ->where('vendor_detail.user_id', $vendor_id)
+                ->first();
+        return $details;
     }
 
 }
