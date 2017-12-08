@@ -19,7 +19,9 @@ class PaymentSuccess extends Mailable {
      */
     public function __construct($data, $invoice) {
         $this->data = $data;
-        $this->invoice = $invoice;
+        if ($invoice && !empty($invoice)) {
+            $this->invoice = $invoice;
+        }
     }
 
     /**
