@@ -399,7 +399,7 @@ class CouponController extends Controller {
             Commision::updateCommision($data);
         }
         $info = PaymentInfo::create($data);
-        return true;
+        return 'success';
     }
 
     public function invoice($payment) {
