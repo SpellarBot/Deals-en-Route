@@ -31,7 +31,11 @@ class HomeController extends Controller {
             $total_coupon = $coupon->coupon_redeem_limit + $total_coupon;
             $total_coupon_reedem = $coupon->coupon_total_redeem + $total_coupon_reedem;
         }
-        $data['total_coupon_reedemed'] = number_format(($total_coupon_reedem / $total_coupon) * 100, 2);
+        if ($total_coupon == 0) {
+            $data['total_coupon_reedemed'] = 0;
+        } else {
+            $data['total_coupon_reedemed'] = number_format(($total_coupon_reedem / $total_coupon) * 100, 2);
+        }
         $allreedemcoupons = CouponRedeem::getRedeemCoupon();
         $redeem_by_18_below = 0;
         $redeem_by_18_34 = 0;
