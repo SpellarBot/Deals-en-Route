@@ -9,6 +9,7 @@
         "alexpechkarev/google-maps": "1.0.8",
         "algolia/algoliasearch-client-php": "^1.20",
         "aws/aws-sdk-php": "~3.0",
+        "barryvdh/laravel-dompdf": "^0.8.1",
         "brozot/laravel-fcm": "^1.2",
         "cartalyst/stripe-laravel": "7.0.*",
         "darkaonline/l5-swagger": "5.5.*",
