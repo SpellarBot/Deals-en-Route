@@ -672,7 +672,7 @@ function getSquareFeet(radius) {
     b = parseInt(geofencing).toFixed(2);
 
     if ((sqfeet) < (b)) {
-        selectedShape.setOptions({'fillColor': '#008000',strokeColor:'#008000',strokeWeight: 0,editable:false});
+        selectedShape.setOptions({'fillColor': '#008000',strokeColor:'#008000',strokeWeight: 0});
     } else {
         selectedShape.setOptions({'fillColor': '#ff0000',strokeColor:'#ff0000',strokeWeight: 0});
     }
@@ -699,3 +699,5 @@ function setPolygonSecMapShape() {
     showSecMap.setMap(mapshow);
 
 }
+
+

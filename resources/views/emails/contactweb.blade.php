@@ -8,18 +8,18 @@
                 <td align="center" valign="top" style="font-family:'Lato', Arial, sans-serif; font-size:19px; color:#777777; line-height:22px; font-weight:bold; padding:0 0 25px;" class="pb">Welcome to the Deals en Route family</td>
             </tr>
             <tr>
-                <td align="left" valign="top" style="font-family:'Lato', Arial, sans-serif; font-size:15px; color:#777777; line-height:20px; padding:0 0 20px;">Here is feedback from user named {{$username}}</td>
+                <td align="left" valign="top" style="font-family:'Lato', Arial, sans-serif; font-size:15px; color:#777777; line-height:20px; padding:0 0 20px;">Here is query from user named {{$name}}</td>
             </tr>
             <tr>
                 <td align="center" valign="top" style="padding:0 0 20px;"><table width="135" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#3b5997" style="background-color:#3b5997;">
                         <tr>
-                            topic :- {{$topic}}
+                            email :- {{$email}}
                         </tr>
 
                     </table></td>
                 <td align="center" valign="top" style="padding:0 0 20px;"><table width="135" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#3b5997" style="background-color:#3b5997;">
                         <tr>
-                            questions :- {{$question}}
+                            query :- {{$query}}
                         </tr>
                     </table></td>
             </tr>
@@ -29,7 +29,8 @@
 </table></td>
 </tr>
 <tr>
-    <td align="center" valign="top" style="padding:30px 15px; border-bottom:1px solid #bfc7cb;" class="pa"><table width="400" border="0" cellspacing="0" cellpadding="0" align="center" class="wrap">
+    <td align="center" valign="top" style="padding:30px 15px; border-bottom:1px solid #bfc7cb;" class="pa">
+        <table width="400" border="0" cellspacing="0" cellpadding="0" align="center" class="wrap">
             <tr>
                 <td align="center" valign="top"><table border="0" cellspacing="0" cellpadding="0" align="left" class="wrap">
                         <tr>
@@ -60,7 +61,8 @@
                         </tr>
                     </table></td>
             </tr>
-        </table></td>
+        </table>
+    </td>
 </tr>
 
 
