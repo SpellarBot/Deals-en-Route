@@ -250,12 +250,12 @@ class StripeController extends Controller {
                 $vendor_mail = $user_details->getAttributes();
                 try {
                     $pay = StripeUser::chargeVendor($vendor, $pay['payment_amount'], 'PendingPayment');
-                    $commisiondetails['transaction_id'] = $pay['id'];
-                    $commisiondetails['vendor_id'] = $pay['vendor_id'];
-                    $commisiondetails['totalamount'] = $pay['payment_amount'];
-                    $commisiondetails['item_name'] = $pay['payment_type'];
-                    $commisiondetails['item_type'] = $pay['payment_type'];
-                    $invoice = $this->invoice($commisiondetails);
+                    $payment['transaction_id'] = $pay['id'];
+                    $payment['vendor_id'] = $pay['vendor_id'];
+                    $payment['totalamount'] = $pay['payment_amount'];
+                    $payment['item_name'] = $pay['payment_type'];
+                    $payment['item_type'] = $pay['payment_type'];
+                    $invoice = $this->invoice($payment);
                     $array_mail = ['to' => $vendor_mail['email'],
                         'type' => 'payment_success',
                         'data' => ['confirmation_code' => 'Test'],
