@@ -193,6 +193,7 @@ class StripeController extends Controller {
         } else {
             $data = array('subscription_id' => $subscription->sub_id, 'stripe_id' => $customerid);
             $cancelsubscription = \App\StripeUser::cancelSubscription($data);
+            return 1;
         }
     }
 
