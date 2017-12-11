@@ -81,6 +81,7 @@ class StripeController extends Controller {
                 $data['totalamount'] = $amount / 100;
                 $data['status'] = 'failed';
                 $data['description'] = 'PaymentFailed';
+                $details['payment_type'] = 'subscription';
                 $data['transaction_id'] = $transaction_id;
                 $data['invoice'] = '';
                 PaymentInfo::create($data);
@@ -96,7 +97,9 @@ class StripeController extends Controller {
                 $data['totalamount'] = $amount / 100;
                 $data['status'] = 'success';
                 $data['description'] = 'PaymentSuccessfull';
-                $data['plan'] = $plan;
+                $data['item_name'] = $plan;
+                $data['item_type'] = 'subscription';
+                $details['payment_type'] = 'subscription';
                 $data['transaction_id'] = $transaction_id;
                 $data['invoice'] = $this->invoice($data);
                 \App\PaymentInfo::create($data);
@@ -205,6 +208,7 @@ class StripeController extends Controller {
         if ($deletcard == 1 || $deletcard[0] == 'No such source') {
             $updatecard = $this->updateCard($data);
             if (is_array($updatecard) && $updatecard) {
+                $this->checkPendingPayment();
                 return $this->responseJson('success', 'Card Updated SuccessFully!!!', 200);
             } else {
                 return $this->responseJson('error', $updatecard, 400);
@@ -222,7 +226,7 @@ class StripeController extends Controller {
                 ->where('user_id', $payment['vendor_id'])
                 ->first();
         $details['items'] = array();
-        $item = array('item_name' => $payment['plan'], 'item_type' => 'Subscription', 'amount' => $payment['totalamount']);
+        $item = array('item_name' => $payment['item_name'], 'item_type' => $payment['item_type'], 'amount' => $payment['totalamount']);
         array_push($details['items'], $item);
         $vendor_mail = $vendor_email->getAttributes();
         $vendor = $vendor_details->getAttributes();
@@ -233,6 +237,57 @@ class StripeController extends Controller {
         $details['commision'] = TRUE;
         $invoice = $this->generateInvoice($details);
         return $invoice;
+    }
+
+    public function checkPendingPayment() {
+        $user_id = Auth::id();
+        $pendingPayment = PaymentInfo::getPendingPayments($user_id);
+        if (count($pendingPayment) > 0) {
+            foreach ($pendingPayment as $payment) {
+                $pay = $payment->getAttributes();
+                $vendor = StripeUser::getCustomerDetails($pay['vendor_id']);
+                $user_details = \App\User::select('email')->find($pay['vendor_id']);
+                $vendor_mail = $user_details->getAttributes();
+                try {
+                    $pay = StripeUser::chargeVendor($vendor, $pay['payment_amount'], 'PendingPayment');
+                    $commisiondetails['transaction_id'] = $pay['id'];
+                    $commisiondetails['vendor_id'] = $pay['vendor_id'];
+                    $commisiondetails['totalamount'] = $pay['payment_amount'];
+                    $commisiondetails['item_name'] = $pay['payment_type'];
+                    $commisiondetails['item_type'] = $pay['payment_type'];
+                    $invoice = $this->invoice($commisiondetails);
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'payment_success',
+                        'data' => ['confirmation_code' => 'Test'],
+                        'invoice' => storage_path('app/pdf/' . $invoice)
+                    ];
+                    $this->sendMail($array_mail);
+                    $payment->transaction_id = $pay['id'];
+                    $payment->description = 'PaymentSuccessfull';
+                    $payment->invoice = $invoice;
+                    $payment->payment_status = 'success';
+                    $pyament->save();
+                } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'paymentfailed',
+                        'data' => ['confirmation_code' => 'Test']
+                    ];
+                    $this->sendMail($array_mail);
+                    $payment->description = $e->getMessage();
+                    $payment->payment_status = 'failed';
+                    $pyament->save();
+                } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'paymentfailed',
+                        'data' => ['confirmation_code' => 'Test']
+                    ];
+                    $this->sendMail($array_mail);
+                    $payment->description = $e->getMessage();
+                    $payment->payment_status = 'failed';
+                    $pyament->save();
+                }
+            }
+        }
     }
 
 }
