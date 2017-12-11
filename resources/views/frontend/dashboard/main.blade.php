@@ -49,8 +49,8 @@
                                     <h5 class="title">Company Details</h5>
                                 </div>
                                 <div class="content">
-                                    <div class="row">
-                                        <form class="editCompanyDetails">
+                                    <form class="editCompanyDetails">
+                                        <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <input type="text" placeholder="@if($vendor_detail->vendor_name != '' ) {{$vendor_detail->vendor_name}} @else Business Name @endif" name="vendor_name">
@@ -76,9 +76,11 @@
                                                                                                  <input type="email" placeholder="Email" required>
                                                                                                 </div>-->
                                             </div>
-                                            <div class="header">
-                                                <h5 class="title">Billing Information</h5>
-                                            </div>
+                                        </div>
+                                        <div class="header">
+                                            <h5 class="title">Billing Information</h5>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <input type="text" placeholder="@if($vendor_detail->billing_businessname != '' ) {{$vendor_detail->billing_businessname}} @else Billing Businessname @endif" name="billing_businessname">
@@ -112,75 +114,76 @@
                                                         <button type="submit" class="btn btn-create">Submit</button>
                                                     </li>
                                                 </ul>
-                                        </form>
+                                                </form>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h5 class="title">Edit Credit/Debit Card Info</h5>
+                                </div>
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form class="editCreditCard">
+                                                {{ csrf_field() }}
+                                                <div class="form-group">
+                                                    <div class="input-group"> <span class="input-group-addon"> <span class="type"></span> </span>
+                                                        <input class="cardNumber type" name="card_no" placeholder="xxxx xxxx xxxx {{$vendor_detail->card_last_four}}" required/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="{{$vendor_detail->vendor_name}}" name="cardholder_name">
+                                                </div>
+                                                <div class="form-group">
+                                                        <!-- <input type="text" placeholder="Expiration Date MM/YY" required> -->
+                                                    <input class="expiry" placeholder="MM/YY" name="card_expiry" required />
+                                                </div>
+                                                <div class="form-group">
+                                                        <!-- <input type="number" placeholder="CVV" required> -->
+                                                    <input class="cvv" maxlength="4" placeholder="CVV" name="card_cvv" required />
+                                                </div>
+
+                                                <ul class="list-inline pad-top pull-right">
+                                                    <li>
+                                                        <button type="submit" class="btn btn-create">Submit</button>
+                                                    </li>
+                                                </ul>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card">
-                            <div class="header">
-                                <h5 class="title">Edit Credit/Debit Card Info</h5>
-                            </div>
-                            <div class="content">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <form class="editCreditCard">
-                                            {{ csrf_field() }}
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h5 class="title">Change Password</h5>
+                                </div>
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{ Form::open([ 'id' => 'updatePassword']) }}
                                             <div class="form-group">
-                                                <div class="input-group"> <span class="input-group-addon"> <span class="type"></span> </span>
-                                                    <input class="cardNumber type" name="card_no" placeholder="xxxx xxxx xxxx {{$vendor_detail->card_last_four}}" required/>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" placeholder="{{$vendor_detail->vendor_name}}" name="cardholder_name">
-                                            </div>
-                                            <div class="form-group">
-                                                    <!-- <input type="text" placeholder="Expiration Date MM/YY" required> -->
-                                                <input class="expiry" placeholder="MM/YY" name="card_expiry" required />
-                                            </div>
-                                            <div class="form-group">
-                                                    <!-- <input type="number" placeholder="CVV" required> -->
-                                                <input class="cvv" maxlength="4" placeholder="CVV" name="card_cvv" required />
-                                            </div>
 
+                                                {{ Form::password('current_password', ['placeholder'=>'Current Password','class'=>'form-control']) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ Form::password('password',  ['placeholder'=>'New Password','class'=>'form-control']) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ Form::password('password_confirm',  ['placeholder'=>'Re-Enter Password','class'=>'form-control']) }}
+                                            </div>
                                             <ul class="list-inline pad-top pull-right">
                                                 <li>
                                                     <button type="submit" class="btn btn-create">Submit</button>
                                                 </li>
                                             </ul>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card">
-                            <div class="header">
-                                <h5 class="title">Change Password</h5>
-                            </div>
-                            <div class="content">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        {{ Form::open([ 'id' => 'updatePassword']) }}
-                                        <div class="form-group">
-
-                                            {{ Form::password('current_password', ['placeholder'=>'Current Password','class'=>'form-control']) }}
+                                            {{ Form::close() }}
                                         </div>
-                                        <div class="form-group">
-                                            {{ Form::password('password',  ['placeholder'=>'New Password','class'=>'form-control']) }}
-                                        </div>
-                                        <div class="form-group">
-                                            {{ Form::password('password_confirm',  ['placeholder'=>'Re-Enter Password','class'=>'form-control']) }}
-                                        </div>
-                                        <ul class="list-inline pad-top pull-right">
-                                            <li>
-                                                <button type="submit" class="btn btn-create">Submit</button>
-                                            </li>
-                                        </ul>
-                                        {{ Form::close() }}
                                     </div>
                                 </div>
                             </div>
@@ -188,75 +191,75 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="contact" class="tab-pane fade in">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="content">
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <h5 class="title">Send us a Message</h5>
-                                        <div class="row">
-                                            <div class="col-md-12">       
-                                                {{ Form::open([ 'id' => 'sendcontact']) }}
-                                                {{ csrf_field() }}
+            <div id="contact" class="tab-pane fade in">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <h5 class="title">Send us a Message</h5>
+                                            <div class="row">
+                                                <div class="col-md-12">       
+                                                    {{ Form::open([ 'id' => 'sendcontact']) }}
+                                                    {{ csrf_field() }}
 
 
-                                                <div class="form-group">
+                                                    <div class="form-group">
 
-                                                    {{ Form::label('user_name', 'Name:') }}
-                                                    {{ Form::text('user_name', '', ['class'=>'form-control']) }}
+                                                        {{ Form::label('user_name', 'Name:') }}
+                                                        {{ Form::text('user_name', '', ['class'=>'form-control']) }}
 
+                                                    </div>
+                                                    <div class="form-group">
+
+                                                        {{ Form::label('email', 'Email:') }}
+                                                        {{ Form::text('email', '', ['class'=>'form-control']) }}
+
+                                                    </div>
+                                                    <div class="form-group">
+
+                                                        {{ Form::label('query', 'Query:') }}
+                                                        {{ Form::textarea('query','',['class'=>'form-control','style'=>'height:200px !important']) }}
+
+                                                    </div>
+                                                    <ul class="list-inline pad-top">
+                                                        <li>
+                                                            <button type="submit" class="btn btn-create">Submit</button>
+                                                        </li>
+                                                    </ul>
+                                                    {{ Form::close() }}
                                                 </div>
-                                                <div class="form-group">
-
-                                                    {{ Form::label('email', 'Email:') }}
-                                                    {{ Form::text('email', '', ['class'=>'form-control']) }}
-
-                                                </div>
-                                                <div class="form-group">
-
-                                                    {{ Form::label('query', 'Query:') }}
-                                                    {{ Form::textarea('query','',['class'=>'form-control','style'=>'height:200px !important']) }}
-
-                                                </div>
-                                                <ul class="list-inline pad-top">
-                                                    <li>
-                                                        <button type="submit" class="btn btn-create">Submit</button>
-                                                    </li>
-                                                </ul>
-                                                {{ Form::close() }}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <h5 class="title">Contact Information</h5>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <ul class="table-contact">
-                                                    <li>
-                                                            <!-- <i class="fa fa-map-marker"></i> -->
-                                                        <span>35 Street Bellasis, Albani, NY, USA</span>
-                                                    </li>
-                                                    <li>
-                                                            <!-- <i class="fa fa-envelope"></i> -->
-                                                        <span><a href="mailto:abc@xyz.com" style="color: #252422;">abc@xyz.com</a></span>
-                                                    </li>
-                                                    <li>
-                                                            <!-- <i class="fa fa-mobile"></i> -->
-                                                        <span>+1 231 564 879</span>
-                                                    </li>
-                                                    <li>
-                                                        <div class="social-cont">
-                                                            <div> <a target="_blank" href="#s"><i class="fa fa-facebook"></i> </a> </div>
-                                                            <div> <a target="_blank" href="#"><i class="fa fa-linkedin"></i> </a> </div>
-                                                            <div> <a target="_blank" href="#s"><i class="fa fa-twitter"></i> </a> </div>
-                                                            <div> <a target="_blank" href="#"><i class="fa fa-instagram"></i> </a> </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                        <div class="col-md-5">
+                                            <h5 class="title">Contact Information</h5>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <ul class="table-contact">
+                                                        <li>
+                                                                <!-- <i class="fa fa-map-marker"></i> -->
+                                                            <span>35 Street Bellasis, Albani, NY, USA</span>
+                                                        </li>
+                                                        <li>
+                                                                <!-- <i class="fa fa-envelope"></i> -->
+                                                            <span><a href="mailto:abc@xyz.com" style="color: #252422;">abc@xyz.com</a></span>
+                                                        </li>
+                                                        <li>
+                                                                <!-- <i class="fa fa-mobile"></i> -->
+                                                            <span>+1 231 564 879</span>
+                                                        </li>
+                                                        <li>
+                                                            <div class="social-cont">
+                                                                <div> <a target="_blank" href="#s"><i class="fa fa-facebook"></i> </a> </div>
+                                                                <div> <a target="_blank" href="#"><i class="fa fa-linkedin"></i> </a> </div>
+                                                                <div> <a target="_blank" href="#s"><i class="fa fa-twitter"></i> </a> </div>
+                                                                <div> <a target="_blank" href="#"><i class="fa fa-instagram"></i> </a> </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -268,9 +271,8 @@
             </div>
         </div>
     </div>
-</div>
 
-@include('frontend/footer/footer_dash')
+    @include('frontend/footer/footer_dash')
 </div>
 
 @endsection
