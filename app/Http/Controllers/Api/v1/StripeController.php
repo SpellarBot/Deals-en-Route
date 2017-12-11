@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Services\MailTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Stripe\Stripe;
 use App\Subscription;
 use App\Stripewebhook;
@@ -21,6 +22,12 @@ class StripeController extends Controller {
 
     use MailTrait;
     use PdfTrait;
+
+    protected function validatorplan(array $data) {
+        return Validator::make($data, [
+                    'plan' => 'in:bronze,silver,gold',
+        ]);
+    }
 
     public function handleStripeResponse(Request $request) {
 
@@ -147,12 +154,19 @@ class StripeController extends Controller {
         }
     }
 
-    public function changeSubscription() {
+    public function changeSubscription(Request $request) {
+        $data = $request->all();
+        $validate = $this->validatorplan($data);
+        if ($validate->fails()) {
+            return $this->responseJson('error', $validator->errors()->first(), 400);
+        }
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
-        $data = array('stripe_id' => $customerid, 'plan_id' => 'gold', 'user_id' => $stripedetails->user_id);
+        $this->cancelSubscription();
+        $data = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
         $change = \App\StripeUser::changeSubscription($data);
+        return response()->json(['status' => 1, 'message' => 'Subscription Updated SuccessFully!!!'], 200);
     }
 
     public function updateSubscription() {
