@@ -54,7 +54,7 @@ class VendorTransformer {
 
     public function settingsData($data) {
         return [
-            'user_id' => $data['user_id'] ?? '',
+            'user_id' => $data['vendor_id'] ?? '',
             'businessname1' => $data['vendor_name'] ?? '',
             'businessname2' => $data['billing_businessname'] ?? '',
             'vendor_address' => $data['vendor_address'] ?? '',

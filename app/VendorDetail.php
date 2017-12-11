@@ -183,7 +183,7 @@ class VendorDetail extends Model {
     }
 
     public static function getVendorDetails($vendor_id) {
-        $details = VendorDetail::select('*')
+        $details = VendorDetail::select('*', 'stripe_users.user_id as vendor_id')
                 ->leftjoin('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
                 ->leftjoin('subscriptions', 'subscriptions.user_id', 'vendor_detail.user_id')
                 ->leftjoin('country', 'country.id', 'vendor_detail.vendor_country')
