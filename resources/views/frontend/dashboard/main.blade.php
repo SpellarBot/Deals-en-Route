@@ -57,6 +57,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <input class="form-control" id="autocomplete1" name="vendor_address" type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" value="" autocomplete="off">
+                                                    
                                                     <!--<input type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" name="vendor_address">-->
                                                 </div>
                                                 <div class="form-group">

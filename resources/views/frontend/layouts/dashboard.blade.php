@@ -129,10 +129,6 @@
         <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing&libraries=places&callback=Maps&callback=initAutocomplete"
         async defer></script>
 
-
-
-
-
         @yield('scripts')
     </body>
 
