@@ -168,10 +168,15 @@ class StripeUser extends Model {
     public static function cancelSubscription($data) {
         $stripe = New StripeUser();
         $subscription = $stripe->stripe->subscriptions()->cancel($data['stripe_id'], $data['subscription_id']);
-        print_r($subscription);
-        die;
-        \App\Subscription::updateSubcriptionPlan($subscription, $data['user_id']);
-        return TRUE;
+        if ($subscription['status'] == 'canceled') {
+            $subupdate = \App\Subscription::select('*')
+                    ->where('user_id', $data['user_id'])
+                    ->first();
+            $subupdate->sub_id = '';
+            $subupdate->save();
+            return 1;
+        }
+        return 1;
     }
 
     public static function updateSubscription($data) {
