@@ -36,7 +36,7 @@
     <div class="content">
 
         <div class="tab-content">
-           
+
             @include('frontend/dashboard/dash',['year'=>$year])
             @include("frontend/coupon/couponlist",['coupon_lists'=>$coupon_lists])
             @include("frontend/coupon/create",['currenttime'=>$currenttime,'user_access'=>$user_access])
@@ -56,7 +56,8 @@
                                                     <input type="text" placeholder="@if($vendor_detail->vendor_name != '' ) {{$vendor_detail->vendor_name}} @else Business Name @endif" name="vendor_name">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" name="vendor_address">
+                                                    <input class="form-control" id="autocomplete1" name="vendor_address" type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" value="" autocomplete="off">
+                                                    <!--<input type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" name="vendor_address">-->
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="text" placeholder="@if($vendor_detail->vendor_city != '' ) {{$vendor_detail->vendor_city}} @else City @endif" name="vendor_city">
@@ -158,21 +159,21 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             {{ Form::open([ 'id' => 'updatePassword']) }}
-                                                <div class="form-group">
-                                                    
-                                                   {{ Form::password('current_password', ['placeholder'=>'Current Password','class'=>'form-control']) }}
-                                                </div>
-                                                <div class="form-group">
-                                                   {{ Form::password('password',  ['placeholder'=>'New Password','class'=>'form-control']) }}
-                                                </div>
-                                                <div class="form-group">
-                                                   {{ Form::password('password_confirm',  ['placeholder'=>'Re-Enter Password','class'=>'form-control']) }}
-                                                </div>
-                                                <ul class="list-inline pad-top pull-right">
-                                                    <li>
-                                                        <button type="submit" class="btn btn-create">Submit</button>
-                                                    </li>
-                                                </ul>
+                                            <div class="form-group">
+
+                                                {{ Form::password('current_password', ['placeholder'=>'Current Password','class'=>'form-control']) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ Form::password('password',  ['placeholder'=>'New Password','class'=>'form-control']) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ Form::password('password_confirm',  ['placeholder'=>'Re-Enter Password','class'=>'form-control']) }}
+                                            </div>
+                                            <ul class="list-inline pad-top pull-right">
+                                                <li>
+                                                    <button type="submit" class="btn btn-create">Submit</button>
+                                                </li>
+                                            </ul>
                                             {{ Form::close() }}
                                         </div>
                                     </div>
