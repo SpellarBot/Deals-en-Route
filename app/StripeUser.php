@@ -7,8 +7,6 @@ use Cartalyst\Stripe\Stripe;
 
 class StripeUser extends Model {
 
- 
-
     protected $table = 'stripe_users';
     public $stripe;
     public $primaryKey = 'id';
@@ -30,7 +28,6 @@ class StripeUser extends Model {
 
 
         $this->stripe = new Stripe(\Config::get('constants.STRIPE_SECRET'), \Config::get('constants.STRIPE_VERSION'));
-
     }
 
     /**
@@ -171,6 +168,9 @@ class StripeUser extends Model {
     public static function cancelSubscription($data) {
         $stripe = New StripeUser();
         $subscription = $stripe->stripe->subscriptions()->cancel($data['stripe_id'], $data['subscription_id']);
+        print_r($subscription);
+        die;
+        \App\Subscription::updateSubcriptionPlan($subscription, $data['user_id']);
         return TRUE;
     }
 
@@ -204,13 +204,5 @@ class StripeUser extends Model {
 
         return $charge;
     }
- 
-    
-    
-    
-    
-    
-    
-
 
 }
