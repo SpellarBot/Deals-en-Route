@@ -266,7 +266,7 @@ class StripeController extends Controller {
                     $payment->description = 'PaymentSuccessfull';
                     $payment->invoice = $invoice;
                     $payment->payment_status = 'success';
-                    $pyament->save();
+                    $payment->save();
                 } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
                     $array_mail = ['to' => $vendor_mail['email'],
                         'type' => 'paymentfailed',
@@ -275,7 +275,7 @@ class StripeController extends Controller {
                     $this->sendMail($array_mail);
                     $payment->description = $e->getMessage();
                     $payment->payment_status = 'failed';
-                    $pyament->save();
+                    $payment->save();
                 } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
                     $array_mail = ['to' => $vendor_mail['email'],
                         'type' => 'paymentfailed',
@@ -284,7 +284,7 @@ class StripeController extends Controller {
                     $this->sendMail($array_mail);
                     $payment->description = $e->getMessage();
                     $payment->payment_status = 'failed';
-                    $pyament->save();
+                    $payment->save();
                 }
             }
         }
