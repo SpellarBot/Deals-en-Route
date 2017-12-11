@@ -79,7 +79,7 @@ class Subscription extends Model {
         $renewStartDate = Carbon::parse($renewEndDate)->subDays(30);
         //echo  $renewstartdate.$renewenddate;   exit;
         $totalCouponsUsed = $this->totalCouponForMonth($renewStartDate, $renewEndDate);
-        
+
         if ($totalCouponsUsed || $totalCouponsUsed==0 ) {
  
             $totalCouponLeft = $userAccess->deals - $totalCouponsUsed;
@@ -90,7 +90,8 @@ class Subscription extends Model {
 
     public function totalCouponForMonth($startdate, $enddate) {
 
-        $count = Coupon::whereBetween('created_at', [$startdate, $enddate])
+       
+        $count = Coupon:: whereBetween('created_at', [$startdate->format('Y-m-d')." 00:00:00", $enddate->format('Y-m-d')." 23:59:59"])
                 ->where('created_by', Auth::id())
                 ->count();
         return $count;
