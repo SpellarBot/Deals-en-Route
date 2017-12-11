@@ -46,10 +46,19 @@ class PaymentInfo extends Model {
         $payment->description = $data['description'];
         $payment->transaction_id = $data['transaction_id'];
         $payment->invoice = $data['invoice'];
+        $payment->payment_type = $data['payment_type'];
         $payment->created_at = Carbon::now()->format('Y-m-d H:i:s');
         $payment->updated_at = Carbon::now()->format('Y-m-d H:i:s');
         $payment->save();
         return $payment->id;
+    }
+
+    public static function getPendingPayments($user_id) {
+        $payments = PaymentInfo::select('*')
+                ->where('payment_status', 'failed')
+                ->where('vendor_id', $user_id)
+                ->get();
+        return $payments;
     }
 
 }

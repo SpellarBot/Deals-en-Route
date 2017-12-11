@@ -366,6 +366,7 @@ class CouponController extends Controller {
                     $commisiondetails['status'] = 'success';
                     $commisiondetails['description'] = 'PaymentSuccessfull';
                     $commisiondetails['invoice'] = $invoice;
+                    $commisiondetails['payment_type'] = 'commision';
                     $array_mail = ['to' => $vendor_mail['email'],
                         'type' => 'payment_success',
                         'data' => ['confirmation_code' => 'Test'],
@@ -377,6 +378,7 @@ class CouponController extends Controller {
                     $commisiondetails['status'] = 'failed';
                     $commisiondetails['description'] = $e->getMessage();
                     $commisiondetails['invoice'] = '';
+                    $commisiondetails['payment_type'] = 'commision';
                     $array_mail = ['to' => $vendor_mail['email'],
                         'type' => 'paymentfailed',
                         'data' => ['confirmation_code' => 'Test']
@@ -387,6 +389,7 @@ class CouponController extends Controller {
                     $commisiondetails['status'] = 'failed';
                     $commisiondetails['description'] = $e->getMessage();
                     $commisiondetails['invoice'] = '';
+                    $commisiondetails['payment_type'] = 'commision';
                     $array_mail = ['to' => $vendor_mail['email'],
                         'type' => 'paymentfailed',
                         'data' => ['confirmation_code' => 'Test']
