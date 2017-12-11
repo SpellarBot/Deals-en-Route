@@ -156,8 +156,8 @@ class StripeController extends Controller {
 
     public function changeSubscription(Request $request) {
         $data = $request->all();
-        $validate = $this->validatorplan($data);
-        if ($validate->fails()) {
+        $validator = $this->validatorplan($data);
+        if ($validator->fails()) {
             return $this->responseJson('error', $validator->errors()->first(), 400);
         }
         $userid = auth()->id();
