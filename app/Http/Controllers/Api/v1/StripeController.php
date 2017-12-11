@@ -165,8 +165,9 @@ class StripeController extends Controller {
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
-        $cancelcurrentsub = $this->cancelSubscription();
-        print_r($cancelcurrentsub);die;
+        $cancelcurrentsub = $this->cancelSubscription($data['plan']);
+        print_r($cancelcurrentsub);
+        die;
         $data = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
         $change = \App\StripeUser::changeSubscription($data);
         return $this->responseJson('success', 'Subscription Updated SuccessFully!!!', 200);
@@ -181,14 +182,17 @@ class StripeController extends Controller {
         $change = \App\StripeUser::updateSubscription($data);
     }
 
-    public function cancelSubscription() {
+    public function cancelSubscription($plan) {
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
         $subscription = \App\Subscription::getSubscription($customerid, $userid);
-        print_r($subscription);die;
-        $data = array('subscription_id' => $subscription->sub_id, 'stripe_id' => $customerid);
-        $cancelsubscription = \App\StripeUser::cancelSubscription($data);
+        if ($subscription->stripe_plan == $plan) {
+            return false;
+        } else {
+            $data = array('subscription_id' => $subscription->sub_id, 'stripe_id' => $customerid);
+            $cancelsubscription = \App\StripeUser::cancelSubscription($data);
+        }
     }
 
     public function editCreditCard(Request $request) {
