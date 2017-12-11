@@ -76,43 +76,42 @@
                                                                                                  <input type="email" placeholder="Email" required>
                                                                                                 </div>-->
                                             </div>
-                                            </
                                             <div class="header">
                                                 <h5 class="title">Billing Information</h5>
                                             </div>
                                             <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_businessname != '' ) {{$vendor_detail->billing_businessname}} @else Billing Businessname @endif" name="billing_businessname">
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_home != '' ) {{$vendor_detail->billing_home}} @else Business Billing Home @endif" name="billing_home">
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_city != '' ) {{$vendor_detail->billing_city}} @else Business Billing City @endif" name="billing_city">
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_state != '' ) {{$vendor_detail->billing_state}} @else Business Billing State @endif" name="billing_state">
-                                                </div>
-                                                <div class="form-group">
-                                                    <select class="form-control" name="billing_country">
-                                                        <option>Country</option>
-                                                        @foreach($country_list as $key=>$value)
-                                                        @if($vendor_detail->billing_country == $value)
-                                                        <option value="{{ $key }}" selected="selected">{{ $value }}</option>
-                                                        @else
-                                                        <option value="{{ $key }}">{{ $value }}</option>
-                                                        @endif
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <fieldset>
-                                                    <input type="file" name="vendor_logo" id="file" accept="image/*" />
-                                                </fieldset>
-                                                <ul class="list-inline pad-top1 pull-right">
-                                                    <li>
-                                                        <button type="submit" class="btn btn-create">Submit</button>
-                                                    </li>
-                                                </ul>
+                                            <div class="form-group">
+                                                <input type="text" placeholder="@if($vendor_detail->billing_businessname != '' ) {{$vendor_detail->billing_businessname}} @else Billing Businessname @endif" name="billing_businessname">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" placeholder="@if($vendor_detail->billing_home != '' ) {{$vendor_detail->billing_home}} @else Business Billing Home @endif" name="billing_home">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" placeholder="@if($vendor_detail->billing_city != '' ) {{$vendor_detail->billing_city}} @else Business Billing City @endif" name="billing_city">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" placeholder="@if($vendor_detail->billing_state != '' ) {{$vendor_detail->billing_state}} @else Business Billing State @endif" name="billing_state">
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-control" name="billing_country">
+                                                    <option>Country</option>
+                                                    @foreach($country_list as $key=>$value)
+                                                    @if($vendor_detail->billing_country == $value)
+                                                    <option value="{{ $key }}" selected="selected">{{ $value }}</option>
+                                                    @else
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <fieldset>
+                                                <input type="file" name="vendor_logo" id="file" accept="image/*" />
+                                            </fieldset>
+                                            <ul class="list-inline pad-top1 pull-right">
+                                                <li>
+                                                    <button type="submit" class="btn btn-create">Submit</button>
+                                                </li>
+                                            </ul>
                                         </form>
                                     </div>
                                 </div>
