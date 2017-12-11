@@ -7,6 +7,7 @@ use App\Mail\EmailVerify;
 use App\Mail\SendPasswordMail;
 use App\Mail\EmailVerifyVendor;
 use App\Mail\ContactUs;
+use App\Mail\ContactUsWeb;
 use App\Mail\PaymentSuccess;
 use App\Mail\EmailPaymentFailed;
 use App\Mail\PaymentCancel;
@@ -33,6 +34,8 @@ trait MailTrait {
             Mail::to($array_mail['to'])->send(new EmailPaymentFailed($array_mail['data']));
         } else if ($array_mail['type'] == 'contactuser') {
             Mail::to($array_mail['to'])->send(new ContactUs($array_mail['data']));
+        } else if ($array_mail['type'] == 'contactuserweb') {
+            Mail::to($array_mail['to'])->send(new ContactUsWeb($array_mail['data']));
         } else if ($array_mail['type'] == 'payment_success') {
             Mail::to($array_mail['to'])->send(new PaymentSuccess($array_mail['data'], $array_mail['invoice']));
         } else if ($array_mail['type'] == 'payment_cancel') {
@@ -56,9 +59,6 @@ trait MailTrait {
         }
     }
 
-    public
-            function confirmCode() {
-        
-    }
+   
 
 }

@@ -130,7 +130,7 @@
 
                 <div class="row">
 
-                    <div class="col-sm-10 col-sm-offset-1 form-group"> <div id="info">{!! !isset($coupon->coupon_notification_sqfeet) ? '': '<label> Area Sqft Covered:- </label>'.$coupon->coupon_notification_sqfeet.'ft²' !!} </div></div>
+                    <div class="col-sm-10 col-sm-offset-1 form-group"> <div id="info">{!! !isset($coupon->coupon_notification_sqfeet) ? '': '<label> Area Sqft Covered : </label>'.' '.number_format($coupon->coupon_notification_sqfeet,2).' ft²' !!} </div></div>
                     <div  class="col-sm-10 col-sm-offset-1" id="googlegeofencing" style="height: 400px;max-width: 980px;"></div> 
 
                 </div>

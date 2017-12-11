@@ -49,7 +49,7 @@ return [
     'EARTH_RADIUS' => 3959,
     'USER_DELETE' => 'sorry your account have been deleted by admin.please contact admin.',
     'USER_DEACTIVE' => 'sorry your account have been deactivated by admin.please contact admin.',
-    'CONTACT_SUCCESS' => 'Mail Send Successfully.',
+    'CONTACT_SUCCESS' => 'Message Sent Successfully.',
     //client mail
     'CLIENT_MAIL' => 'support@dealsenroute.com',
     //activity message

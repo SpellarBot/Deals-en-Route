@@ -192,26 +192,35 @@
                                         <div class="col-md-7">
                                             <h5 class="title">Send us a Message</h5>
                                             <div class="row">
-                                                <div class="col-md-12">
-                                                    <form>
+                                                <div class="col-md-12">       
+                                                {{ Form::open([ 'id' => 'sendcontact']) }}
+                                                  {{ csrf_field() }}
+                             
+                                                             
                                                         <div class="form-group">
-                                                            <label for="usr">Name:</label>
-                                                            <input type="text" class="form-control" id="usr">
+                                                            
+                                                           {{ Form::label('user_name', 'Name:') }}
+                                                           {{ Form::text('user_name', '', ['class'=>'form-control']) }}
+
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="email">Email:</label>
-                                                            <input type="email" class="form-control" id="email">
+                                                                                                                        
+                                                           {{ Form::label('email', 'Email:') }}
+                                                           {{ Form::text('email', '', ['class'=>'form-control']) }}
+                                                    
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="qry">Query:</label>
-                                                            <textarea class="form-control" id="qry" style="height:200px !important;"></textarea>
+                                                           
+                                                            {{ Form::label('query', 'Query:') }}
+                                                            {{ Form::textarea('query','',['class'=>'form-control','style'=>'height:200px !important']) }}
+                                                   
                                                         </div>
                                                         <ul class="list-inline pad-top">
                                                             <li>
                                                                 <button type="submit" class="btn btn-create">Submit</button>
                                                             </li>
                                                         </ul>
-                                                    </form>
+                                               {{ Form::close() }}
                                                 </div>
                                             </div>
                                         </div>

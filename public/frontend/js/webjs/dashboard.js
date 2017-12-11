@@ -324,3 +324,44 @@ $(document).ready(function () {
     });
 });
 
+// update contact submit
+$(document).on("submit", "#sendcontact", function (event) {
+    event.preventDefault();
+   formData=$(this).serialize();
+
+    $.ajax({
+        url: $('#hidAbsUrl').val() + "/vendor/contact",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+                $('#loadingDiv').hide();
+                setDashboardNotification(data);
+            
+            
+        },
+        beforeSend: function () {
+            $('#loadingDiv').show();
+        },
+        complete: function () {
+            $('#loadingDiv').hide();
+        },
+        error: function (data) {
+            $(".form-group").removeClass('has-error');
+            $(".checkbox").removeClass('has-error');
+            $(".help-block").html('');
+
+            if (data.responseJSON.errors != '') {
+                $.each(data.responseJSON.errors, function (key, value) {
+                   
+                        $("input[name=" + key + "],textarea[name=" + key + "]").parent().addClass('has-error');
+                        $("input[name=" + key + "],textarea[name=" + key + "]").parent().append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
+                    
+                });
+            }
+        }
+
+
+    });
+
+});
+

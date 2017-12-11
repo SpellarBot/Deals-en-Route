@@ -18,6 +18,7 @@ class Notifications extends Model {
         $data = $notification->toDatabase($notifiable);
         $notificationmessage = $data['notification_message'];
         unset($data['notification_message']);
+     
         $returnvalue = $notifiable->routeNotificationFor('database')->create([
             'message' => $notificationmessage,
             'from_id' => (empty(\Auth::user())) ? '' : \Auth::user()->id,
@@ -36,10 +37,10 @@ class Notifications extends Model {
         $optionBuiler = new OptionsBuilder();
         $optionBuiler->setTimeToLive(60 * 20);
         $notificationBuilder = new PayloadNotificationBuilder();
-        $notificationBuilder->setBody($returnvalue->message)->setSound('default');
+       
+        $notificationBuilder->setBody($returnvalue->data['message'])->setSound('default');
 
         $dataBuilder = new PayloadDataBuilder();
-
         $dataBuilder->addData($returnvalue->data);
         $option = $optionBuiler->build();
         $notification = $notificationBuilder->build();

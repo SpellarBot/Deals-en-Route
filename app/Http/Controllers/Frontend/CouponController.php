@@ -145,7 +145,7 @@ class CouponController extends Controller
             
         } catch (\Exception $e) {
             DB::rollback();
-             throw $e;
+           //  throw $e;
             return response()->json(['status'=>0,'message' => \Config::get('constants.APP_ERROR')], 400);   
         }
         // If we reach here, then// data is valid and working.//
