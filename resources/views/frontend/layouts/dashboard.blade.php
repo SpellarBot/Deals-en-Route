@@ -74,7 +74,7 @@
                     $('.selectinput').removeAttr('disabled');
                 }
             });
-            
+
 
             //Initialize tooltips
             jQuery('.nav-tabs-step > li a[title]').tooltip();
@@ -83,7 +83,7 @@
             //Wizard
             jQuery('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
                 var $target = jQuery(e.target);
-               
+
                 if ($target.parent().hasClass('disabled')) {
                     return false;
                 }
@@ -125,13 +125,9 @@
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/dashboard.js') }}"></script>
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/settings.js') }}"></script>
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/couponlist.js') }}"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing&callback=Maps"
+        <script type="text/javascript" src="{{ asset('frontend/js/custom.js') }}"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing&libraries=places&callback=Maps&callback=initAutocomplete"
         async defer></script>
-
-   
-
-
-
 
         @yield('scripts')
     </body>
