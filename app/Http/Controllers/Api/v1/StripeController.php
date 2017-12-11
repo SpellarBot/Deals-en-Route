@@ -165,10 +165,10 @@ class StripeController extends Controller {
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
-//        $cancelcurrentsub = $this->cancelSubscription($data['plan']);
-//        if ($cancelcurrentsub == 0) {
-//            return $this->responseJson('error', 'Please select Different Plan', 400);
-//        }
+        $cancelcurrentsub = $this->cancelSubscription($data['plan']);
+        if ($cancelcurrentsub == 0) {
+            return $this->responseJson('error', 'Please select Different Plan', 400);
+        }
         $data = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
         $change = \App\StripeUser::changeSubscription($data);
         return $this->responseJson('success', 'Subscription Updated SuccessFully!!!', 200);
