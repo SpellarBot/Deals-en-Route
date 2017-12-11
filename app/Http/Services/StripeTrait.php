@@ -54,7 +54,7 @@ trait StripeTrait {
     
     public function calcMonthlyRenewal($subscribedDate) {
     $now = Carbon::now('UTC');
-    $months = $subscribedDate->diffInMonths($now) + 1;
+    $months = $subscribedDate->diffInMonths($now);
     $renewsDate = $subscribedDate->copy()->addMonths($months);
     if($renewsDate->month > $now->month && $renewsDate->day != $subscribedDate->day) {
         $renewsDate = $renewsDate->subMonth()
