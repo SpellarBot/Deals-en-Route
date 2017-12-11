@@ -71,7 +71,7 @@ class VendorTransformer {
             'card_last_four' => $data['card_last_four'] ?? '',
             'subscription_plan' => $data['stripe_plan'] ?? '',
             'card_brand' => $data['card_brand'] ?? '',
-            'vendor_logo' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo) : "",
+            'vendor_logo' => (!empty($data['vendor_logo'])) ? URL::to($data['vendor_logo']) : "",
         ];
     }
 
