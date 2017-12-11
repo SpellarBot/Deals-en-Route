@@ -17,9 +17,11 @@ use App\Http\Controllers\Api\v1\Auth;
 use Mail;
 use App\Http\Services\PdfTrait;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Services\ResponseTrait;
 
 class StripeController extends Controller {
 
+    use ResponseTrait;
     use MailTrait;
     use PdfTrait;
 
@@ -166,7 +168,7 @@ class StripeController extends Controller {
         $this->cancelSubscription();
         $data = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
         $change = \App\StripeUser::changeSubscription($data);
-        return response()->json(['status' => 1, 'message' => 'Subscription Updated SuccessFully!!!'], 200);
+        return $this->responseJson('success', 'Subscription Updated SuccessFully!!!', 200);
     }
 
     public function updateSubscription() {
@@ -193,12 +195,12 @@ class StripeController extends Controller {
         if ($deletcard == 1 || $deletcard[0] == 'No such source') {
             $updatecard = $this->updateCard($data);
             if (is_array($updatecard) && $updatecard) {
-                return response()->json(['status' => 1, 'message' => 'Card Updated SuccessFully!!!'], 200);
+                return $this->responseJson('success', 'Card Updated SuccessFully!!!', 200);
             } else {
-                return response()->json(['status' => 0, 'message' => $updatecard], 400);
+                return $this->responseJson('error', $updatecard, 400);
             }
         } else {
-            return response()->json(['status' => 0, 'message' => $deletcard[0]], 400);
+            return $this->responseJson('error', $deletcard[0], 400);
         }
     }
 
