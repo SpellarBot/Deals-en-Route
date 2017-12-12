@@ -94,6 +94,7 @@ class HomeController extends Controller {
             if ($this->sendMail($array_mail)) {
                 return response()->json(['status' => 1, 'message' => \Config::get('constants.CONTACT_SUCCESS')], 200);
             }
+             return response()->json(['status' => 0, 'message' => \Config::get('constants.CONTACT_FAILURE')], 200);
         } catch (\Exception $e) {
             // throw $e;
             return response()->json(['status' => 0, 'message' => \Config::get('constants.APP_ERROR')], 200);

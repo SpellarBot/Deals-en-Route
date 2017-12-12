@@ -1,7 +1,7 @@
 var redeem_weekly = '';
 var redeem_monthly = '';
 var monthlabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-var weekslabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
+var weekslabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5','Week 6'];
 var bar1;
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -37,32 +37,7 @@ $(document).ready(function () {
     redeem_monthly = Chartist.Line('#chartMonthly', dataMonthly, optionsMonthly);
     
     
-      var data = {
-                labels: monthlabels,
-                series: []
-            };
-            var options = {
-                seriesBarDistance: 15,
-                axisX: {
-                    showGrid: false
-                },
-                axisY: {
-                    onlyInteger: true,
-                },
-                height: "250px",
-                low: 0,
-            };
-            var responsiveOptions = [
-                ['screen and (max-width: 767px)', {
-                        seriesBarDistance: 8,
-                        axisX: {
-                            labelInterpolationFnc: function (value) {
-                                return value[0];
-                            }
-                        }
-                    }]
-            ];
-            bar1 = Chartist.Bar('#chartCoupons', data, options, responsiveOptions);
+   
     var dataWeekly = {
         labels: '',
         series: []
@@ -193,6 +168,32 @@ $(document).ready(function () {
                 total_redeem_weekly.push(value);
             });
             var output = [total_redeem_monthly, total_coupon_monthly, total_active_coupon_monthly];
+               var data = {
+                labels: monthlabels,
+                series: output
+            };
+            var options = {
+                seriesBarDistance: 15,
+                axisX: {
+                    showGrid: false
+                },
+                axisY: {
+                    onlyInteger: true,
+                },
+                height: "250px",
+                low: 0,
+            };
+            var responsiveOptions = [
+                ['screen and (max-width: 767px)', {
+                        seriesBarDistance: 8,
+                        axisX: {
+                            labelInterpolationFnc: function (value) {
+                                return value[0];
+                            }
+                        }
+                    }]
+            ];
+            bar1 = Chartist.Bar('#chartCoupons', data, options, responsiveOptions);
           
             // <!--================Redeemption Pie Chart=============================-->
             //total coupon redeemed
@@ -220,7 +221,7 @@ $(document).ready(function () {
             $('.coupon-redemption4').text(redeem_by_above_50);
             redeem_monthly.update({labels: monthlabels, series: [total_redeem_monthly]})
             redeem_weekly.update({labels: weekslabels, series: [total_redeem_weekly]})
-            bar1.update({labels: monthlabels, series: output});  
+          
 
 
         },
@@ -287,6 +288,7 @@ $(document).ready(function () {
             redeem_monthly.update();
             redeem_weekly.update();
             bar1.update();
+         
         });
     $('#charty').change(function () {
         var value = $(this).val();
@@ -338,9 +340,8 @@ $(document).on("submit", "#sendcontact", function (event) {
         data: formData,
         success: function (data) {
                 $('#loadingDiv').hide();
-                setDashboardNotification(data);
-            
-            
+                setDashboardNotification(data); 
+                 $('#sendcontact')[0].reset();
         },
         beforeSend: function () {
             $('#loadingDiv').show();
