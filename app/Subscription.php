@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Auth;
 use App\Http\Services\StripeTrait;
+use Cartalyst\Stripe\Stripe;
 
 class Subscription extends Model {
 
@@ -34,8 +35,10 @@ class Subscription extends Model {
         'created_at', 'updated_at', 'ends_at', 'trial_ends_at'
     ];
 
-    public function __construct() {
-        
+   public function __construct() {
+
+
+        $this->stripe = new Stripe('sk_test_ZBNhTnKmE3hEkk26awNMDdcc', '2017-08-15');
     }
 
     public static function saveSubcriptionPlan($subcription, $userid) {
@@ -75,10 +78,9 @@ class Subscription extends Model {
 
     public function getRenewalCoupon($userAccess) {
 
-        $renewEndDate = $this->calcMonthlyRenewal($this->created_at);
-        $renewStartDate = Carbon::parse($renewEndDate)->subDays(30);
+   
         //echo  $renewstartdate.$renewenddate;   exit;
-        $totalCouponsUsed = $this->totalCouponForMonth($renewStartDate, $renewEndDate);
+        $totalCouponsUsed = $this->totalCouponForMonth();
 
         if ($totalCouponsUsed || $totalCouponsUsed==0 ) {
  
@@ -88,12 +90,22 @@ class Subscription extends Model {
         return 0;
     }
 
-    public function totalCouponForMonth($startdate, $enddate) {
+    public function totalCouponForMonth() {
+        
+      $stripe = new Stripe(\Config::get('constants.STRIPE_SECRET'), \Config::get('constants.STRIPE_VERSION'));
+      $subscriptionmodel=Subscription::where('stripe_id',$this->stripe_id)->first();
 
-        $count = Coupon:: whereBetween('created_at', [$startdate->format('Y-m-d')." 00:00:00", $enddate->format('Y-m-d')." 23:59:59"])
+      $subscription = $stripe->subscriptions()->find($this->stripe_id,$subscriptionmodel->sub_id);
+     if(!empty($subscription)){
+     $startdate=Carbon::createFromTimestamp($subscription['current_period_start'])->toDateString(); 
+     $enddate=Carbon::createFromTimestamp($subscription['current_period_end'])->toDateString(); 
+
+      $count = Coupon:: whereBetween('created_at', [$startdate, $enddate])
                 ->where('created_by', Auth::id())
                 ->count();
         return $count;
+   }
+
     }
 
 }
