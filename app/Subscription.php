@@ -37,8 +37,6 @@ class Subscription extends Model {
 
    public function __construct() {
 
-
-        $this->stripe = new Stripe('sk_test_ZBNhTnKmE3hEkk26awNMDdcc', '2017-08-15');
     }
 
     public static function saveSubcriptionPlan($subcription, $userid) {
