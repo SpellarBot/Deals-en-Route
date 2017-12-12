@@ -51,8 +51,10 @@
                             <br><br> *Commission is equal to 30% of the face value discount the coupon provides. If this is less than $1.00, DER will receive $1.00</p>
                         @if($subscription['stripe_plan'] == 'gold')
                         <button type="button" class="btn btn-want" value="gold">Current Package</button>
+                        @elseif($subscription['stripe_plan'] == 'silver')
+                        <button type="button" class="btn btn-want" value="gold" id="upgrade">Upgrade</button>
                         @else
-                        <button type="button" class="btn btn-want" value="gold">{{$name}}</button>
+                        <button type="button" class="btn btn-want" value="gold" id="{{$name}}">{{$name}}</button>
                         @endif
                     </div>
                     @if($subscription['stripe_plan'] == 'silver')
@@ -78,7 +80,7 @@
                             @if($subscription['stripe_plan'] == 'silver')
                             <button type="button" class="btn btn-want" value="silver">Current Package</button>
                             @else
-                            <button type="button" class="btn btn-want" value="silver">{{$name}}</button>
+                            <button type="button" class="btn btn-want" value="silver" id="{{$name}}">{{$name}}</button>
                             @endif
 
                         </div>
@@ -102,8 +104,10 @@
                                     <br><br> *Commission is equal to 30% of the face value discount the coupon provides. If this is less than $1.00, DER will receive $1.00</p>
                                 @if($subscription['stripe_plan'] == 'bronze')
                                 <button type="button" class="btn btn-want btn-want1" value="bronze">Current Package</button>
+                                @elseif($subscription['stripe_plan'] == 'silver')
+                                <button type="button" class="btn btn-want" value="bronze" id="downgrade">Downgrade</button>
                                 @else
-                                <button type="button" class="btn btn-want" value="bronze">{{$name}}</button>
+                                <button type="button" class="btn btn-want" value="bronze" id="{{$name}}">{{$name}}</button>
                                 @endif
                             </div>
                         </div>
@@ -115,12 +119,13 @@
                     <script type="text/javascript">
                         $('.btn-want').on('click', function (e) {
                             e.preventDefault();
-
                             $.ajax({
-                                url: $('#hidAbsUrl').val() + "/register/subcription",
+                                url: $('#hidAbsUrl').val() + "/vendor/updatesubscription",
                                 type: 'POST',
-                                data: {'plan_id': $(this).val(), 'user_id': "<?php echo $user_id ?>"},
+                                data: {'plan': $(this).val(), 'user_id': "<?php echo $user_id ?>", 'status': $(this).attr('id')},
                                 success: function (data) {
+                                    console.log(data);
+                                    return false;
                                     location.reload();
                                 },
                                 beforeSend: function () {
@@ -130,6 +135,8 @@
                                     $('#loadingDiv').hide();
                                 },
                                 error: function (data) {
+                                    console.log(data);
+                                    return false;
                                     window.location.href = 'http://dealsenroute.com/dealenroute';
                                 },
 
