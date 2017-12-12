@@ -124,16 +124,14 @@
                                 type: 'POST',
                                 data: {'plan': $(this).val(), 'user_id': "<?php echo $user_id ?>", 'status': $(this).attr('id')},
                                 success: function (data) {
-                                    console.log(data)
-//                                    return false;
+                                    console.log(data);
                                     window.location.href = $('#hidAbsUrl').val()+'/dashboard#settings';
                                 },
                                 beforeSend: function () {
                                     $('#loadingDiv').show();
                                 },
                                 error: function (data) {
-                                    console.log(data)
-//                                    return false;
+                                    console.log(data);
                                     $('#loadingDiv').hide();
                                     $('.alert-danger').show();
                                     setTimeout(function () {
