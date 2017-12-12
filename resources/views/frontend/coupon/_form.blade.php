@@ -102,7 +102,7 @@
                         </div>
                         @else
                         <div class="form-group couponlogo ">
-                            {{ Form::label('coupon_logo', 'Coupon Logo:') }}
+                            {{ Form::label('coupon_logo', 'Coupon Image:') }}
                             <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                                 <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename"></span></div>
                                 <span class="input-group-addon btn btn-default btn-file">
@@ -192,7 +192,7 @@
                                 </tr>
                                 <tr>
                                     <td>Area Covered(sq feet):</td>
-                                    <td class="couponsqft">{{ !isset($coupon->coupon_notification_sqfeet) ? '': $coupon->coupon_notification_sqfeet }} ft² </td>
+                                    <td class="couponsqft">{{ !isset($coupon->coupon_notification_sqfeet) ? '': number_format($coupon->coupon_notification_sqfeet,2) }} ft² </td>
                                 </tr>
                                 {{ Form::hidden('coupon_notification_sqfeet', old('coupon_notification_sqfeet'), ['id' => 'coupon_notification_sqfeet']) }}
 
