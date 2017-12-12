@@ -287,6 +287,7 @@ $(document).ready(function () {
 
             redeem_monthly.update();
             redeem_weekly.update();
+            bar1.update();
          
         });
     $('#charty').change(function () {
