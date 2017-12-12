@@ -49,12 +49,22 @@ class StripeController extends Controller {
         }
     }
 
-    public function changeSubscription() {
+    public function changeSubscription(Request $request) {
+        $data = $request->all();
+        $validator = $this->validatorplan($data);
+        if ($validator->fails()) {
+            return $this->responseJson('error', $validator->errors()->first(), 400);
+        }
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
-        $data = array('stripe_id' => $customerid, 'plan_id' => 'gold', 'user_id' => $stripedetails->user_id);
+        $cancelcurrentsub = $this->cancelSubscription($data['plan']);
+        if ($cancelcurrentsub == 0) {
+            return $this->responseJson('error', 'Please select Different Plan', 400);
+        }
+        $data = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
         $change = \App\StripeUser::changeSubscription($data);
+        return $this->responseJson('success', 'Subscription Updated SuccessFully!!!', 200);
     }
 
     public function updateSubscription() {
@@ -66,13 +76,20 @@ class StripeController extends Controller {
         $change = \App\StripeUser::updateSubscription($data);
     }
 
-    public function cancelSubscription() {
+    public function cancelSubscription($plan) {
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
         $subscription = \App\Subscription::getSubscription($customerid, $userid);
-        $data = array('subscription_id' => $subscription->sub_id, 'stripe_id' => $customerid);
-        $cancelsubscription = \App\StripeUser::cancelSubscription($data);
+        if ($subscription->stripe_plan == $plan) {
+            return 0;
+        } else if ($subscription->sub_id == '') {
+            return 1;
+        } else {
+            $data = array('subscription_id' => $subscription->sub_id, 'stripe_id' => $customerid, 'user_id' => $subscription->user_id);
+            $cancelsubscription = \App\StripeUser::cancelSubscription($data);
+            return 1;
+        }
     }
 
     public function editCreditCard(Request $request) {
