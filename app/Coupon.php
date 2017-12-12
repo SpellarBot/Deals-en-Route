@@ -288,11 +288,12 @@ COALESCE(SUM(case when month(created_at)=12 then coupon_redeem_limit-coupon_tota
     public static function getReedemCouponWeekly($year = '', $month = '') {
 
         $user_id = Auth::id();
-        $coupons = Coupon::select(DB::raw("COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01'),coupon_redeem.created_at)+1=1 then (coupon_redeem.is_redeem) else 0 end),0) week1,
-COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01'),coupon_redeem.created_at)+1=2 then (coupon_redeem.is_redeem) else 0 end),0) week2,
-COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01'),coupon_redeem.created_at)+1=3 then (coupon_redeem.is_redeem) else 0 end),0) week3,
-COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01'),coupon_redeem.created_at)+1=4 then (coupon_redeem.is_redeem) else 0 end),0) week4,
-COALESCE(SUM(case when  TIMESTAMPDIFF(WEEK, DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01'),coupon_redeem.created_at)+1=5 then (coupon_redeem.is_redeem) else 0 end),0) week5"))
+        $coupons = Coupon::select(DB::raw("COALESCE(SUM(case when  (week(coupon_redeem.created_at)-week(DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01')))+1=1 then (coupon_redeem.is_redeem) else 0 end),0) week1,
+COALESCE(SUM(case when   (week(coupon_redeem.created_at)-week(DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01')))+1=2 then (coupon_redeem.is_redeem) else 0 end),0) week2,
+COALESCE(SUM(case when   (week(coupon_redeem.created_at)-week(DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01')))+1=3 then (coupon_redeem.is_redeem) else 0 end),0) week3,
+COALESCE(SUM(case when   (week(coupon_redeem.created_at)-week(DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01')))+1=4 then (coupon_redeem.is_redeem) else 0 end),0) week4,
+COALESCE(SUM(case when   (week(coupon_redeem.created_at)-week(DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01')))+1=5 then (coupon_redeem.is_redeem) else 0 end),0) week5,
+COALESCE(SUM(case when   (week(coupon_redeem.created_at)-week(DATE_FORMAT(coupon_redeem.created_at ,'%Y-%m-01')))+1=6 then (coupon_redeem.is_redeem) else 0 end),0) week6"))
                 ->leftjoin('coupon_redeem', 'coupon.coupon_id', 'coupon_redeem.coupon_id')
                 ->where('created_by', $user_id)
                 ->where(DB::raw('YEAR(coupon_redeem.created_at)'), '=', $year)
