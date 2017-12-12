@@ -50,12 +50,15 @@ class HomeController extends Controller {
         $date = \Carbon\Carbon::now();
         $currenttime = $this->convertDateInUserTZ($date);
         $year = $this->getLastYear();
-
+        $sub_details = Subscription::select('*')->where('user_id', Auth::id())->first();
+        $subscription = $sub_details->getAttributes();
+//        print_r($subscription);
+//        die;
 
         return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
                     'vendor_detail' => $vendor_detail, 'country_list' => $country_list,
                     'currenttime' => $currenttime, 'year' => $year, 'user_access' => $user_access[0],
-                    'deals_left' => $deals_left]);
+                    'deals_left' => $deals_left, 'subscription' => $subscription]);
     }
 
     public function dashboard(Request $request) {

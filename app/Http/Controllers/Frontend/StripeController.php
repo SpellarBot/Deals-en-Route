@@ -51,20 +51,16 @@ class StripeController extends Controller {
 
     public function changeSubscription(Request $request) {
         $data = $request->all();
-        $validator = $this->validatorplan($data);
-        if ($validator->fails()) {
-            return $this->responseJson('error', $validator->errors()->first(), 400);
-        }
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
         $cancelcurrentsub = $this->cancelSubscription($data['plan']);
         if ($cancelcurrentsub == 0) {
-            return $this->responseJson('error', 'Please select Different Plan', 400);
+            return response()->json(['status' => 0, 'message' => 'Please select Different Plan'], 400);
         }
         $data = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
         $change = \App\StripeUser::changeSubscription($data);
-        return $this->responseJson('success', 'Subscription Updated SuccessFully!!!', 200);
+        return response()->json(['status' => 1, 'message' => 'Subscription Updated SuccessFully!!!'], 200);
     }
 
     public function updateSubscription() {
@@ -76,7 +72,7 @@ class StripeController extends Controller {
         $change = \App\StripeUser::updateSubscription($data);
     }
 
-    public function cancelSubscription($plan) {
+    public function cancelSubscription($plan = '') {
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
@@ -88,7 +84,12 @@ class StripeController extends Controller {
         } else {
             $data = array('subscription_id' => $subscription->sub_id, 'stripe_id' => $customerid, 'user_id' => $subscription->user_id);
             $cancelsubscription = \App\StripeUser::cancelSubscription($data);
-            return 1;
+            if ($plan) {
+                return 1;
+            } else {
+                return redirect('/dashboard#settings');
+//                return response()->json(['status' => 1, 'message' => 'Subscription Canceled SuccessFully!!!'], 200);
+            }
         }
     }
 
