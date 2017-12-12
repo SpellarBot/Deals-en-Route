@@ -48,7 +48,7 @@ $(document).ready(function () {
             info = JSON.stringify(row);
 
             swal('You click view icon, row: ', info);
-          
+
         },
         'click .edit': function (e, value, row, index) {
             $('#loadingDiv').hide();
@@ -159,8 +159,8 @@ $(document).ready(function () {
 
             var finalvalue = (orig) - (dval);
 
-        }else {
-            finalvalue=0;
+        } else {
+            finalvalue = 0;
         }
         if (finalvalue == 0 || finalvalue != '') {
             $('#final_value').val(parseInt(finalvalue).toFixed(2));
@@ -416,9 +416,9 @@ function nextTab(elem) {
 $(document).on("shown.bs.tab", "a[data-toggle='tab']", function (event) {
 
     var href = $(this).attr('href');
-    if (href == '#create2' || href == '#settings'  || href == '#contact') {  
-         clearFormData();
-         deletePolygon();
+    if (href == '#create2' || href == '#settings' || href == '#contact') {
+        clearFormData();
+        deletePolygon();
         $('#resetfence').text('Draw Fence');
         $('#info').html('');
     }
@@ -427,7 +427,7 @@ $(document).on("shown.bs.tab", "a[data-toggle='tab']", function (event) {
         $('.stepsincrement').val($.trim(value));
 
     }
-   
+
     // set center positionv of shape
     google.maps.Polygon.prototype.my_getBounds = function () {
         var bounds = new google.maps.LatLngBounds()
@@ -610,13 +610,13 @@ function deletePolygon() {
     if (showFirstMap != '') {
         showFirstMap.setMap(null);
     }
-    if(drawingManager){
-    drawingManager.setDrawingMode(null);
-    // To hide:
-    drawingManager.setOptions({
-        drawingControl: false
-    });
-    selectedShape.setMap(null);
+    if (drawingManager) {
+        drawingManager.setDrawingMode(null);
+        // To hide:
+        drawingManager.setOptions({
+            drawingControl: false
+        });
+        selectedShape.setMap(null);
     }
 
 }
@@ -659,22 +659,22 @@ function getSquareFeet(radius) {
 
 
     var sqnum = Number((sqfeet).toFixed(2)).toLocaleString('en');
-    var sqnumfixed= Number((sqfeet).toFixed(2));
+    var sqnumfixed = Number((sqfeet).toFixed(2));
     $('#info').html('<label> Area Sqft Covered : </label>  ' + sqnum + ' ft²');
-    
+
     $('.couponsqft').text(sqnum + ' ft²');
     $('#coupon_notification_sqfeet').val(JSON.stringify(sqnumfixed));
     $('#coupon_notification_point').val(JSON.stringify(showArray));
-    var geofencing=$('.geofencing').text();
+    var geofencing = $('.geofencing').text();
     if (showSecMap != '') {
         showSecMap.setMap(null);
     }
     b = parseInt(geofencing).toFixed(2);
 
     if ((sqfeet) < (b)) {
-        selectedShape.setOptions({'fillColor': '#008000',strokeColor:'#008000',strokeWeight: 0});
+        selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
     } else {
-        selectedShape.setOptions({'fillColor': '#ff0000',strokeColor:'#ff0000',strokeWeight: 0});
+        selectedShape.setOptions({'fillColor': '#ff0000', strokeColor: '#ff0000', strokeWeight: 0});
     }
     setPolygonSecMapShape();
 }
@@ -701,3 +701,51 @@ function setPolygonSecMapShape() {
 }
 
 
+//google map  search
+var placeSearch, autocomplete;
+var componentForm = {
+
+    country: 'long_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'long_name',
+    postal_code: 'short_name',
+};
+
+// auto complete of google search
+function initAutocomplete() {
+
+    // Create the autocomplete object, restricting the search to geographical
+    // location types.
+    autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('autocomplete1')),
+            {types: ['geocode']});
+
+    // When the user selects an address from the dropdown, populate the address
+    // fields in the form.
+    autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+
+    // Get each component of the address from the place details
+    // and fill the corresponding field on the form.
+
+
+    for (var i = 0; i < place.address_components.length; i++) {
+        var addressType = place.address_components[i].types[0];
+
+        if (componentForm[addressType]) {
+            var val = place.address_components[i][componentForm[addressType]];
+
+            document.getElementById(addressType).value = val;
+        }
+    }
+}
+
+function initCallback() {
+    initAutocomplete();
+    Maps();
+}
