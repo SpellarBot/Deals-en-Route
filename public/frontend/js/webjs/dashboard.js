@@ -35,6 +35,34 @@ $(document).ready(function () {
         height: "320px"
     };
     redeem_monthly = Chartist.Line('#chartMonthly', dataMonthly, optionsMonthly);
+    
+    
+      var data = {
+                labels: monthlabels,
+                series: []
+            };
+            var options = {
+                seriesBarDistance: 15,
+                axisX: {
+                    showGrid: false
+                },
+                axisY: {
+                    onlyInteger: true,
+                },
+                height: "250px",
+                low: 0,
+            };
+            var responsiveOptions = [
+                ['screen and (max-width: 767px)', {
+                        seriesBarDistance: 8,
+                        axisX: {
+                            labelInterpolationFnc: function (value) {
+                                return value[0];
+                            }
+                        }
+                    }]
+            ];
+            bar1 = Chartist.Bar('#chartCoupons', data, options, responsiveOptions);
     var dataWeekly = {
         labels: '',
         series: []
@@ -165,32 +193,7 @@ $(document).ready(function () {
                 total_redeem_weekly.push(value);
             });
             var output = [total_redeem_monthly, total_coupon_monthly, total_active_coupon_monthly];
-            var data = {
-                labels: monthlabels,
-                series: output
-            };
-            var options = {
-                seriesBarDistance: 15,
-                axisX: {
-                    showGrid: false
-                },
-                axisY: {
-                    onlyInteger: true,
-                },
-                height: "250px",
-                low: 0,
-            };
-            var responsiveOptions = [
-                ['screen and (max-width: 767px)', {
-                        seriesBarDistance: 8,
-                        axisX: {
-                            labelInterpolationFnc: function (value) {
-                                return value[0];
-                            }
-                        }
-                    }]
-            ];
-            bar1 = Chartist.Bar('#chartCoupons', data, options, responsiveOptions);
+          
             // <!--================Redeemption Pie Chart=============================-->
             //total coupon redeemed
             $('#charttotal').data('easyPieChart').update(total_coupon_reedemed);
@@ -217,7 +220,7 @@ $(document).ready(function () {
             $('.coupon-redemption4').text(redeem_by_above_50);
             redeem_monthly.update({labels: monthlabels, series: [total_redeem_monthly]})
             redeem_weekly.update({labels: weekslabels, series: [total_redeem_weekly]})
-
+            bar1.update({labels: monthlabels, series: output});  
 
 
         },

@@ -34,7 +34,7 @@ var hexDigits = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a",
 
 //clear form data
 function clearFormData() {
-    $('#sendcontact')[0].reset();
+   
     $('#create-coupon').find("input[type=text],input[type=number],input[type=hidden]").not('input[name=_token]').val("");
     $('#settings').find("input[type=text],input[type=number],input[type=password]").not('input[name=_token]').val("");
     $('.wizard-inner .nav-tabs a:first').tab('show');

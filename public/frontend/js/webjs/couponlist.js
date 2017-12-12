@@ -24,7 +24,7 @@ var polyOptions_valid = {
 var date = new Date();
 var markershow;
 var showArray = [];
-var s
+
 
 $(document).ready(function () {
 

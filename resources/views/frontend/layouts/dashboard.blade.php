@@ -126,7 +126,8 @@
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/settings.js') }}"></script>
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/couponlist.js') }}"></script>
         <script type="text/javascript" src="{{ asset('frontend/js/custom.js') }}"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing&libraries=places&callback=Maps&callback=initAutocomplete"
+        
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing,places&callback=Maps"
         async defer></script>
 
         @yield('scripts')
