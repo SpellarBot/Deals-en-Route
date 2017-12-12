@@ -8,6 +8,7 @@ use Session;
 use Auth;
 use App\Http\Services\CouponTrait;
 use App\Coupon;
+use App\Subscription;
 use App\Http\Services\ResponseTrait;
 use App\Http\Services\UserTrait;
 use App\Http\Services\MailTrait;
@@ -87,13 +88,20 @@ class HomeController extends Controller {
                     'query' => $data['query'],
                     'name' => $data['user_name']]
             ];
-            if($this->sendMail($array_mail)){
-            return response()->json(['status' => 1, 'message' => \Config::get('constants.CONTACT_SUCCESS')], 200);
+            if ($this->sendMail($array_mail)) {
+                return response()->json(['status' => 1, 'message' => \Config::get('constants.CONTACT_SUCCESS')], 200);
             }
         } catch (\Exception $e) {
-             // throw $e;
+            // throw $e;
             return response()->json(['status' => 0, 'message' => \Config::get('constants.APP_ERROR')], 200);
         }
+    }
+
+    public function changeSubscription() {
+        $user_id = Auth::id();
+        $sub_details = Subscription::select('*')->where('user_id', $user_id)->first();
+        $subscription = $sub_details->getAttributes();
+        return view('frontend.dashboard.changesub')->with(['subscription' => $subscription, 'user_id' => $user_id]);
     }
 
 }

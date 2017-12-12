@@ -156,6 +156,82 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="header">
+                                        <h5 class="title">Package Details</h5>
+                                    </div>
+                                    <div class="content">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h5 class="package-title">Current Package:</h5>
+                                                <p class="package-details">Silver -
+                                                    <small>$99 per month</small>
+                                                </p>
+                                                <a href="{{URL::route('changesubscription')}}" type="button" class="btn btn-pack">Change</a>
+                                            </div>
+                                            <div class="col-md-12 mar-top30">
+                                                <h5 class="package-title">Additional Items:</h5>
+                                                <div class="package-add">
+                                                    <p class="package-addon1">Additional-Miles</p>
+                                                    <p class="package-addon2">Additional-Miles - $4.99/mile</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <select class="form-control">
+                                                                    <option>Select Miles</option>
+                                                                    @for($i=1;$i<=10;$i++)
+                                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                                    @endfor
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn btn-pack btn-buy1">Buy</button>
+                                                    </div>
+                                                </div>
+                                                <div class="package-add">
+                                                    <p class="package-addon1">Geo-Fencing</p>
+                                                    <p class="package-addon2">Geo-Fencing - $4.99/20,000 sq.ft.</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <select class="form-control">
+                                                                    <option>Select Fencing</option>
+                                                                    <option value="20000">20000</option>
+                                                                    <option value="40000">40000</option>
+                                                                    <option value="60000">60000</option>
+                                                                    <option value="80000">80000</option>
+                                                                    <option value="100000">100000</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn btn-pack btn-buy1">Buy</button>
+                                                    </div>
+                                                </div>
+                                                <div class="package-add">
+                                                    <p class="package-addon1">Additional-Deals</p>
+                                                    <p class="package-addon2">Additional-Deals - $4.99/deal</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <select class="form-control">
+                                                                    <option>Select Deals</option>
+                                                                    @for($i=1;$i<=30;$i++)
+                                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                                    @endfor
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn btn-pack btn-buy1">Buy</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-12">
                         <div class="card">
@@ -187,6 +263,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
