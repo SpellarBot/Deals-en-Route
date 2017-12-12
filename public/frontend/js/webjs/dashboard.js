@@ -340,9 +340,8 @@ $(document).on("submit", "#sendcontact", function (event) {
         data: formData,
         success: function (data) {
                 $('#loadingDiv').hide();
-                setDashboardNotification(data);
-            
-            
+                setDashboardNotification(data); 
+                 $('#sendcontact')[0].reset();
         },
         beforeSend: function () {
             $('#loadingDiv').show();

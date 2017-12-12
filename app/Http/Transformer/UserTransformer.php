@@ -18,6 +18,7 @@ class UserTransformer {
     public function transformLogin($user) {
 
         return [
+            'user_id' => $user->id,
             'first_name' => $user->userDetail->first_name ?? '',
             'last_name' => $user->userDetail->last_name ?? '',
             'dob' => (!empty($user->userDetail->dob)) ? Carbon::parse($user->userDetail->dob)->format('Y-m-d') : '',
