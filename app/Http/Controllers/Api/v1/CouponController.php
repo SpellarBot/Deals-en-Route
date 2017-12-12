@@ -279,9 +279,9 @@ class CouponController extends Controller {
 
     public function CouponRedemption(Request $request) {
         $data = $request->all();
-        $coupondata = explode(',', $data['coupon']);
-        $data['coupon_code'] = $coupondata[0];
-        $data['user_id'] = $coupondata[1];
+        $coupondata = explode('-', $data['coupon']);
+        $data['coupon_code'] = $coupondata[1];
+        $data['user_id'] = $coupondata[2];
         $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
         if (count($getCoupondetails) > 0) {
             if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
