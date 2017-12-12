@@ -94,7 +94,7 @@ class HomeController extends Controller {
             if ($this->sendMail($array_mail)) {
                 return response()->json(['status' => 1, 'message' => \Config::get('constants.CONTACT_SUCCESS')], 200);
             }
-             return response()->json(['status' => 0, 'message' => \Config::get('constants.CONTACT_FAILURE')], 200);
+            return response()->json(['status' => 0, 'message' => \Config::get('constants.CONTACT_FAILURE')], 200);
         } catch (\Exception $e) {
             // throw $e;
             return response()->json(['status' => 0, 'message' => \Config::get('constants.APP_ERROR')], 200);
@@ -105,6 +105,9 @@ class HomeController extends Controller {
         $user_id = Auth::id();
         $sub_details = Subscription::select('*')->where('user_id', $user_id)->first();
         $subscription = $sub_details->getAttributes();
+        if ($subscription['sub_id'] == '') {
+            $subscription['subscriptioncanceled'] = 1;
+        }
         return view('frontend.dashboard.changesub')->with(['subscription' => $subscription, 'user_id' => $user_id]);
     }
 

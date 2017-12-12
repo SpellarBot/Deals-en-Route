@@ -173,9 +173,12 @@
                                                 <a href="{{URL::route('changesubscription')}}" type="button" class="btn btn-pack">Change</a>
                                                 <a href="{{URL::route('cancelsub')}}" type="button" class="btn btn-pack btn-danger">Cancel</a>
                                                 @else
+                                                <p class="package-details text-capitalize">Subscribe
+                                                    <small>Now</small>
+                                                </p>
                                                 <a href="{{URL::route('changesubscription')}}" type="button" class="btn btn-pack">Subscribe</a>
                                                 @endif
-                                                
+
                                             </div>
                                             <div class="col-md-12 mar-top30">
                                                 <h5 class="package-title">Additional Items:</h5>

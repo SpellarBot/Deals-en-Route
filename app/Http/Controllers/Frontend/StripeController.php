@@ -77,7 +77,7 @@ class StripeController extends Controller {
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
         $subscription = \App\Subscription::getSubscription($customerid, $userid);
-        if ($subscription->stripe_plan == $plan) {
+        if ($subscription->stripe_plan == $plan && $subscription->sub_id != '') {
             return 0;
         } else if ($subscription->sub_id == '') {
             return 1;
