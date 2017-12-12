@@ -41,7 +41,7 @@ class Notifications extends Model {
         $notificationBuilder->setBody($returnvalue->data['message'])->setSound('default');
 
         $dataBuilder = new PayloadDataBuilder();
-        print_r($returnvalue->data); exit;
+
         $dataBuilder->addData($returnvalue->data);
         $option = $optionBuiler->build();
         $notification = $notificationBuilder->build();
