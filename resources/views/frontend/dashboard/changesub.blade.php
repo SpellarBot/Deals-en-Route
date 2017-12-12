@@ -125,19 +125,19 @@
                                 data: {'plan': $(this).val(), 'user_id': "<?php echo $user_id ?>", 'status': $(this).attr('id')},
                                 success: function (data) {
                                     console.log(data);
-                                    return false;
-                                    location.reload();
+                                    window.location.href = $('#hidAbsUrl').val()+'/dashboard#settings';
                                 },
                                 beforeSend: function () {
                                     $('#loadingDiv').show();
                                 },
-                                complete: function () {
-                                    $('#loadingDiv').hide();
-                                },
                                 error: function (data) {
                                     console.log(data);
-                                    return false;
-                                    window.location.href = 'http://dealsenroute.com/dealenroute';
+                                    $('#loadingDiv').hide();
+                                    $('.alert-danger').show();
+                                    setTimeout(function () {
+                                        $('.alert-danger').fadeOut('slow');
+                                    }, 10000);
+                                    $('.errormessage').html(data.responseJSON.message);
                                 },
 
                             });

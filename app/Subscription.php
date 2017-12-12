@@ -32,11 +32,11 @@ class Subscription extends Model {
      */
     protected $fillable = [
         'id', 'stripe_id', 'user_id', 'name', 'quantity', 'stripe_plan',
-        'created_at', 'updated_at', 'ends_at', 'trial_ends_at'
+        'created_at', 'updated_at', 'ends_at', 'trial_ends_at', 'startdate', 'enddate'
     ];
 
-   public function __construct() {
-
+    public function __construct() {
+        
     }
 
     public static function saveSubcriptionPlan($subcription, $userid) {
@@ -48,6 +48,10 @@ class Subscription extends Model {
         $subcribe->name = $subcription['plan']['name'];
         $subcribe->quantity = $subcription['quantity'];
         $subcribe->trial_ends_at = Carbon::now()->addDays(30)->format('Y-m-d H:i:s');
+        $subcribe->save();
+        $subdate = Subscription::getSubscriptiondates($subcription['customer']);
+        $subcribe->startdate = $subdate['startdate'];
+        $subcribe->enddate = $subdate['enddate'];
         $subcribe->save();
         return true;
     }
@@ -71,39 +75,67 @@ class Subscription extends Model {
         $subcribe->quantity = $subcription['quantity'];
         $subcribe->trial_ends_at = Carbon::now()->addDays(30)->format('Y-m-d H:i:s');
         $subcribe->save();
+        $subdate = Subscription::getSubscriptiondates($subcription['customer']);
+        $subcribe->startdate = $subdate['startdate'];
+        $subcribe->enddate = $subdate['enddate'];
+        $subcribe->save();
         return true;
     }
 
     public function getRenewalCoupon($userAccess) {
 
-   
+
         //echo  $renewstartdate.$renewenddate;   exit;
         $totalCouponsUsed = $this->totalCouponForMonth();
 
-        if ($totalCouponsUsed || $totalCouponsUsed==0 ) {
- 
+        if ($totalCouponsUsed || $totalCouponsUsed == 0) {
+
             $totalCouponLeft = $userAccess->deals - $totalCouponsUsed;
             return $totalCouponLeft;
         }
         return 0;
     }
 
+//    public function totalCouponForMonth() {
+//
+//        $stripe = new Stripe(\Config::get('constants.STRIPE_SECRET'), \Config::get('constants.STRIPE_VERSION'));
+//        $subscriptionmodel = Subscription::where('stripe_id', $this->stripe_id)->first();
+//
+//        $subscription = $stripe->subscriptions()->find($this->stripe_id, $subscriptionmodel->sub_id);
+//        if (!empty($subscription)) {
+//            $startdate = Carbon::createFromTimestamp($subscription['current_period_start'])->toDateString();
+//            $enddate = Carbon::createFromTimestamp($subscription['current_period_end'])->toDateString();
+//
+//            $count = Coupon:: whereBetween('created_at', [$startdate, $enddate])
+//                    ->where('created_by', Auth::id())
+//                    ->count();
+//            return $count;
+//        }
+//    }
     public function totalCouponForMonth() {
-        
-      $stripe = new Stripe(\Config::get('constants.STRIPE_SECRET'), \Config::get('constants.STRIPE_VERSION'));
-      $subscriptionmodel=Subscription::where('stripe_id',$this->stripe_id)->first();
+        $subscriptionmodel = Subscription::where('stripe_id', $this->stripe_id)->first();
+        if (count($subscriptionmodel) > 0) {
+            $startdate = $subscriptionmodel->startdate;
+            $enddate = $subscriptionmodel->enddate;
+            $count = Coupon:: whereBetween('created_at', [$startdate, $enddate])
+                    ->where('created_by', Auth::id())
+                    ->count();
+            return $count;
+        }
+    }
 
-      $subscription = $stripe->subscriptions()->find($this->stripe_id,$subscriptionmodel->sub_id);
-     if(!empty($subscription)){
-     $startdate=Carbon::createFromTimestamp($subscription['current_period_start'])->toDateString(); 
-     $enddate=Carbon::createFromTimestamp($subscription['current_period_end'])->toDateString(); 
-
-      $count = Coupon:: whereBetween('created_at', [$startdate, $enddate])
-                ->where('created_by', Auth::id())
-                ->count();
-        return $count;
-   }
-
+    public static function getSubscriptiondates($stripe_id) {
+        $stripe = new Stripe(\Config::get('constants.STRIPE_SECRET'), \Config::get('constants.STRIPE_VERSION'));
+        $subscriptionmodel = Subscription::where('stripe_id', $stripe_id)->first();
+        $dates = array();
+        $subscription = $stripe->subscriptions()->find($stripe_id, $subscriptionmodel->sub_id);
+        if (!empty($subscription)) {
+            $startdate = Carbon::createFromTimestamp($subscription['current_period_start'])->toDateString();
+            $enddate = Carbon::createFromTimestamp($subscription['current_period_end'])->toDateString();
+            $dates['startdate'] = $startdate;
+            $dates['enddate'] = $enddate;
+            return $dates;
+        }
     }
 
 }
