@@ -88,6 +88,7 @@ class StripeController extends Controller {
 
     public function cancelSubscription($plan = '') {
         $userid = auth()->id();
+        $user_details = User::find($userid);
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
         $subscription = \App\Subscription::getSubscription($customerid, $userid);
@@ -101,6 +102,11 @@ class StripeController extends Controller {
             if ($plan) {
                 return 1;
             } else {
+                $array_mail = ['to' => $user_details->email,
+                    'type' => 'subscription_cancel_success',
+                    'data' => ['confirmation_code' => 'Test'],
+                ];
+                $this->sendMail($array_mail);
                 return redirect('/dashboard#settings');
 //                return response()->json(['status' => 1, 'message' => 'Subscription Canceled SuccessFully!!!'], 200);
             }

@@ -106,12 +106,12 @@ class StripeController extends Controller {
                 $array_mail['invoice'] = storage_path('app/pdf/' . $data['invoice']);
             }
             $this->sendMail($array_mail);
-        } elseif ($event->type == 'customer.subscription.deleted') {
-            $array_mail = ['to' => $user_details->email,
-                'type' => 'subscription_cancel_success',
-                'data' => ['confirmation_code' => 'Test'],
-            ];
-            $this->sendMail($array_mail);
+//        } elseif ($event->type == 'customer.subscription.deleted') {
+//            $array_mail = ['to' => $user_details->email,
+//                'type' => 'subscription_cancel_success',
+//                'data' => ['confirmation_code' => 'Test'],
+//            ];
+//            $this->sendMail($array_mail);
         }
 //        } elseif ($event->type == 'customer.subscription.updated') {
 //            $type = 'subscription_upgrade_success';
