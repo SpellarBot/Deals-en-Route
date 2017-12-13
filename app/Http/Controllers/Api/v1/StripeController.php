@@ -79,7 +79,7 @@ class StripeController extends Controller {
                 'data' => ['confirmation_code' => 'Test'],
             ];
             $this->sendMail($array_mail);
-            if ($description != 'CommisionPayment') {
+            if ($description != 'CommisionPayment' || $description != 'Ad-ons') {
                 $data = array();
                 $data['vendor_id'] = $user_details->user_id;
                 $data['totalamount'] = $amount / 100;
@@ -95,7 +95,7 @@ class StripeController extends Controller {
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
             ];
-            if ($description != 'CommisionPayment') {
+            if ($description != 'CommisionPayment' || $description != 'Ad-ons') {
                 $data = array();
                 $data['vendor_id'] = $user_details->user_id;
                 $data['totalamount'] = $amount / 100;
