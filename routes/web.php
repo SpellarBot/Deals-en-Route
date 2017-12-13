@@ -72,6 +72,8 @@ Route::group(['namespace' => 'Frontend'], function () {
     // coupon dashboard
     Route::get('/vendor/dashboard', 'HomeController@dashboard');
     Route::post('/vendor/contact', 'HomeController@sendContact')->name('vendor.submitcontact');
+    Route::post('/vendor/couponredeem', 'CouponController@CouponRedemption');
+    
 });
 // Admin routes
 Route::group(['namespace' => 'Admin'], function () {
