@@ -65,7 +65,7 @@ class StripeController extends Controller {
         if ($event->data->object->amount) {
             $amount = $event->data->object->amount;
         } else {
-            $amount = $event->data->object->items->data->plan->amount;
+            $amount = $event->data->object->plan->amount;
         }
         $description = $event->data->object->description;
         $transaction_id = $event->data->object->id;
