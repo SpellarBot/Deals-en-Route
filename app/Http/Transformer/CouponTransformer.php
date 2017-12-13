@@ -52,7 +52,7 @@ class CouponTransformer {
 
         return [
             'coupon_id' => $item->coupon_id ?? '',
-            'coupon_logo' => $item->coupon_logo ?? '',
+            'coupon_logo' => $item->vendorDetail->vendor_logo?? '',
             'vendor_name' => $item->vendorDetail->vendor_name ?? '',
             'vendor_address' => $item->vendorDetail->vendor_address ?? '',
             'coupon_name' => $item->coupon_name ?? '',
