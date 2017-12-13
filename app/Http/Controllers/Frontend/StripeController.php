@@ -62,12 +62,12 @@ class StripeController extends Controller {
         $details = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
         $change = \App\StripeUser::changeSubscription($details);
         $array_mail = array();
-        if (strtolower($data['status']) == 'upgrade') {
+        if (isset($data['status']) && strtolower($data['status']) == 'upgrade') {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'subscription_upgrade_success',
                 'data' => ['confirmation_code' => 'Test'],
             ];
-        } elseif (strtolower($data['status']) == 'downgrade') {
+        } elseif (isset($data['status']) && strtolower($data['status']) == 'downgrade') {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'subscription_downgrade_success',
                 'data' => ['confirmation_code' => 'Test'],
