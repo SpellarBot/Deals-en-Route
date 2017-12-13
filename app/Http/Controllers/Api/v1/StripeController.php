@@ -31,6 +31,14 @@ class StripeController extends Controller {
         ]);
     }
 
+    protected function validatorcard(array $data) {
+        return Validator::make($data, [
+                    'card_expiry' => 'required|date_format:m/y',
+                    'card_cvv' => 'required|max:3',
+                    'card_no' => 'required|max:12'
+        ]);
+    }
+
     public function handleStripeResponse(Request $request) {
 
         $endpoint_secret = "whsec_hu613xZdLxCA3gjkLaFmrDawl3V4DZsq";
@@ -247,6 +255,10 @@ class StripeController extends Controller {
 
     public function editCreditCard(Request $request) {
         $data = $request->all();
+        $validator = $this->validatorcard($data);
+        if ($validator->fails()) {
+            return $this->responseJson('error', $validator->errors()->first(), 400);
+        }
         $deletcard = $this->deleteCard();
         if ($deletcard == 1 || $deletcard[0] == 'No such source') {
             $updatecard = $this->updateCard($data);
@@ -283,7 +295,7 @@ class StripeController extends Controller {
     }
 
     public function checkPendingPayment() {
-        $user_id = Auth::id();
+        $user_id = auth()->id();
         $pendingPayment = PaymentInfo::getPendingPayments($user_id);
         if (count($pendingPayment) > 0) {
             foreach ($pendingPayment as $payment) {

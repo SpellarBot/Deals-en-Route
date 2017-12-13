@@ -67,10 +67,22 @@
                                                     <input type="text" placeholder="@if($vendor_detail->vendor_state != '' ) {{$vendor_detail->vendor_state}} @else State @endif" name="vendor_state">
                                                 </div>
                                                 <div class="form-group">
+                                                    <select class="form-control" name="vendor_country">
+                                                        <option>Country</option>
+                                                        @foreach($country_list as $key=>$value)
+                                                        @if($vendor_detail->billing_country == $value)
+                                                        <option value="{{ $key }}" selected="selected">{{ $value }}</option>
+                                                        @else
+                                                        <option value="{{ $key }}">{{ $value }}</option>
+                                                        @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
                                                     <input type="text" placeholder="@if($vendor_detail->vendor_zip != '' ) {{$vendor_detail->vendor_zip}} @else Zip Code @endif" name="vendor_zip">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="tel" name="vendor_phone" placeholder="@if($vendor_detail->vendor_phone != '' ) {{$vendor_detail->vendor_phone}} (x-xxx-xxx-xxxx) @endif (x-xxx-xxx-xxxx)" pattern="^\d{1}-\d{3}-\d{3}-\d{4}$" maxlength="11" required>
+                                                    <input type="tel" name="vendor_phone" placeholder="@if($vendor_detail->vendor_phone != '' ) {{$vendor_detail->vendor_phone}} (x-xxx-xxx-xxxx) @endif (x-xxx-xxx-xxxx)" pattern="^\d{1}-\d{3}-\d{3}-\d{4}$" maxlength="15" required>
                                                 </div>
                                                 <fieldset>
                                                     <input type="file" name="vendor_logo" id="file" accept="image/*" />
