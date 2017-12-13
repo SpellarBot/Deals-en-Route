@@ -76,12 +76,13 @@ class Activity extends Model {
         $activity = new Activity();
         $activity->activity_name_creator = '';
         $activity->activity_name_friends = \Config::get('constants.ACTVITY_FRIEND_REDEEM');
-        $activity->coupon_id = $data['coupon_id'];
+        $activity->coupon_id = $data->coupon_id;
         $activity->created_by = $userid;
         $activity->save();
-        $friendlist = ($activity->getCouponShareFriend($data['coupon_id']));
+        $friendlist = ($activity->getCouponShareFriend($data->coupon_id,$userid));
+       
         $array_unique = array_map("unserialize", array_unique(array_map("serialize", $friendlist)));
-        CouponShare::addRedeemCoupon($array_unique, $data['coupon_id'], $activity);
+        CouponShare::addRedeemCoupon($array_unique, $data->coupon_id, $activity);
         return $activity;
     }
 

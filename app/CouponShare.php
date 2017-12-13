@@ -130,8 +130,9 @@ class CouponShare extends Model {
 //                    }
             }
             CouponShare::insert($datafb);
+          
             Activity::where('activity_id', $activity->activity_id)
-                    ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid)]);
+                    ->update(['count_fb_friend' => $activity->getCouponActivityFriendCount($activity->activity_id, $couponid,$userid)]);
         }
     }
 

@@ -25,14 +25,35 @@ trait CouponTrait {
                         ->where(['activity_id' => $activityid])
                         ->count();
     }
-
-    public function getCouponShareFriend($couponid) {
-        $coupon_share = CouponShare::select('share_friend_id as user_id')->where('user_id', Auth::id())
+ //get count of friend list
+    public function getCouponShareWebCount($couponid, $userid) {
+       
+            return CouponShare::where(['coupon_id' => $couponid])
+                            ->where(function($q) use ($userid) {
+                                $q->where(['user_id' => $userid])
+                                ->orWhere('share_friend_id', $userid);
+                            })
+                            ->count();
+        
+      
+    }
+    //get count of friend list
+    public function getCouponActivityFriendCount($activityid,$couponid, $userid) {
+       
+               return CouponShare::where(['user_id' => $userid])
+                        ->where(['coupon_id' => $couponid])
+                        ->where(['activity_id' => $activityid])
+                        ->count();
+        
+      
+    }
+    public function getCouponShareFriend($couponid,$userid) {
+        $coupon_share = CouponShare::select('share_friend_id as user_id')->where('user_id', $userid)
                 ->where('coupon_id', $couponid)
                 ->get()
                 ->toArray();
 
-        $coupon_owner = CouponShare::select('user_id as user_id')->where('share_friend_id', Auth::id())
+        $coupon_owner = CouponShare::select('user_id as user_id')->where('share_friend_id', $userid)
                 ->where('coupon_id', $couponid)
                 ->get()
                 ->toArray();

@@ -306,6 +306,10 @@ class CouponController extends Controller {
                     'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
                     'coupon_id' => $getCoupondetails->coupon_id,
                 ]));
+                
+                if ($this->getCouponShareWebCount($getCoupondetails->coupon_id,$data['user_id']) > 0) {
+                    $activity = \App\Activity::redeemActivity($getCoupondetails,$data['user_id']);
+                }
                 $couponReedem = array();
                 $couponReedem['user_id'] = $data['user_id'];
                 $couponReedem['coupon_id'] = $getCoupondetails['coupon_id'];
