@@ -93,6 +93,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/vendor/getReedeemCouponByYear', 'HomeController@getReedeemCouponByYear');
         Route::post('/vendor/editCreditCard', 'StripeController@editCreditCard');
         Route::post('/vendor/changeSubscription', 'StripeController@changeSubscription');
+        Route::post('/vendor/cancelSubscription', 'StripeController@cancelSubscription');
         Route::get('/vendor/settings', 'HomeController@getSettings');
         Route::post('/vendor/purchaseMiles', 'StripeAddOnsController@purchaseMiles');
         Route::post('/vendor/purchaseGeoFence', 'StripeAddOnsController@purchaseGeoFence');

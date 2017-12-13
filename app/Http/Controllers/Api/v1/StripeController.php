@@ -172,10 +172,7 @@ class StripeController extends Controller {
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
-        $cancelcurrentsub = $this->cancelSubscription($data['plan']);
-        if ($cancelcurrentsub == 0) {
-            return $this->responseJson('error', 'Please select Different Plan', 400);
-        }
+        $cancelcurrentsub = $this->cancelSubscription();
         $data = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
         $change = \App\StripeUser::changeSubscription($data);
         return $this->responseJson('success', 'Subscription Updated SuccessFully!!!', 200);
@@ -190,7 +187,29 @@ class StripeController extends Controller {
         $change = \App\StripeUser::updateSubscription($data);
     }
 
-    public function cancelSubscription($plan) {
+    public function cancelSubscription(Request $request) {
+        $data = $request->all();
+        $userid = auth()->id();
+        $user_details = User::find($userid);
+        $stripedetails = \App\StripeUser::getCustomerDetails($userid);
+        $customerid = $stripedetails->stripe_id;
+        $subscription = \App\Subscription::getSubscription($customerid, $userid);
+        if ($subscription->sub_id == '') {
+            return 1;
+        } else {
+            $data = array('subscription_id' => $subscription->sub_id, 'stripe_id' => $customerid, 'user_id' => $subscription->user_id);
+            $cancelsubscription = \App\StripeUser::cancelSubscription($data);
+            if ($request) {
+                $array_mail = ['to' => $user_details->email,
+                    'type' => 'subscription_cancel_success',
+                    'data' => ['confirmation_code' => 'Test'],
+                ];
+                $this->sendMail($array_mail);
+                return $this->responseJson('success', 'Subscription Canceled Successfully!!!', 200);
+            } else {
+                return 1;
+            }
+        }
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
