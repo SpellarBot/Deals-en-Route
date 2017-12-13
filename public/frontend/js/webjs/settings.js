@@ -59,14 +59,14 @@ $(document).ready(function () {
         e.preventDefault();
         var file_data = $('#file').prop('files')[0];
         var formData = new FormData(this);
-        formData.append('vendor_logo',file_data);
+        formData.append('vendor_logo', file_data);
         console.log(formData);
         $.ajax({
             url: "register/update",
             type: 'POST',
             data: formData,
-            contentType: false, 
-            cache: false, 
+            contentType: false,
+            cache: false,
             processData: false,
             success: function (data) {
                 if (data.status == 0) {
@@ -104,9 +104,9 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     // update password
-     $('#updatePassword').on('submit', function (e) {
+    $('#updatePassword').on('submit', function (e) {
         e.preventDefault();
         var formData = $(this).serialize();
         $.ajax({
@@ -114,12 +114,12 @@ $(document).ready(function () {
             type: 'POST',
             data: formData,
             success: function (data) {
-                       $(".form-group").removeClass('has-error');
+                $(".form-group").removeClass('has-error');
                 $(".input-group").removeClass('has-error');
                 $(".help-block").html('');
-                
-                if (data.status =='success') {
-                    
+
+                if (data.status == 'success') {
+
                     setDashboardNotification(data);
                 }
             },
@@ -133,7 +133,7 @@ $(document).ready(function () {
                 $(".form-group").removeClass('has-error');
                 $(".input-group").removeClass('has-error');
                 $(".help-block").html('');
-                     if (data.responseJSON != '') {
+                if (data.responseJSON != '') {
                     var errors = data.responseJSON.message;
                     $.each(errors, function (key, value) {
                         var inputname = $("input[name=" + key + "]").parent();
@@ -144,6 +144,140 @@ $(document).ready(function () {
             }
         });
     });
-    
+
+    $('.additional_miles').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            url: "vendor/purchaseMiles",
+            type: 'POST',
+            data: formData,
+            success: function (data) {
+                console.log(data);
+//                return false;
+                if (data.status == 0) {
+                    $('.additional_miles').find("select").val("");
+                    $('.alert-danger').show();
+                    setTimeout(function () {
+                        $('.alert-danger').fadeOut('slow');
+                    }, 10000);
+                    $('.errormessage').html(data.message);
+                } else {
+                    $('.additional_miles').find("select").val("");
+                    $('.alert-success').show();
+                    setTimeout(function () {
+                        $('.alert-success').fadeOut('slow');
+                    }, 10000);
+                    $('.successmessage').html(data.message);
+                }
+
+            },
+            beforeSend: function () {
+                $('#loadingDiv').show();
+            },
+            complete: function () {
+                $('#loadingDiv').hide();
+            },
+            error: function (data) {
+                console.log(data);
+//                return false;
+                $('.additional_miles').find("select").val("");
+                $('#loadingDiv').hide();
+                $('.alert-danger').show();
+                setTimeout(function () {
+                    $('.alert-danger').fadeOut('slow');
+                }, 10000);
+                $('.errormessage').html(data.responseJSON.message);
+            }
+        });
+    });
+    $('.geo_fencing').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            url: "vendor/purchaseGeoFence",
+            type: 'POST',
+            data: formData,
+            success: function (data) {
+                console.log(data);
+                if (data.status == 0) {
+                    $('.geo_fencing').find("select").val("");
+                    $('.alert-danger').show();
+                    setTimeout(function () {
+                        $('.alert-danger').fadeOut('slow');
+                    }, 10000);
+                    $('.errormessage').html(data.message);
+                } else {
+                    $('.geo_fencing').find("select").val("");
+                    $('.alert-success').show();
+                    setTimeout(function () {
+                        $('.alert-success').fadeOut('slow');
+                    }, 10000);
+                    $('.successmessage').html(data.message);
+                }
+
+            },
+            beforeSend: function () {
+                $('#loadingDiv').show();
+            },
+            complete: function () {
+                $('#loadingDiv').hide();
+            },
+            error: function (data) {
+                console.log(data);
+                $('.geo_fencing').find("select").val("");
+                $('#loadingDiv').hide();
+                $('.alert-danger').show();
+                setTimeout(function () {
+                    $('.alert-danger').fadeOut('slow');
+                }, 10000);
+                $('.errormessage').html(data.responseJSON.message);
+            }
+        });
+    });
+    $('.additional_deals').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            url: "vendor/purchaseDeals",
+            type: 'POST',
+            data: formData,
+            success: function (data) {
+                console.log(data);
+                if (data.status == 0) {
+                    $('.additional_deals').find("select").val("");
+                    $('.alert-danger').show();
+                    setTimeout(function () {
+                        $('.alert-danger').fadeOut('slow');
+                    }, 10000);
+                    $('.errormessage').html(data.message);
+                } else {
+                    $('.additional_deals').find("select").val("");
+                    $('.alert-success').show();
+                    setTimeout(function () {
+                        $('.alert-success').fadeOut('slow');
+                    }, 10000);
+                    $('.successmessage').html(data.message);
+                }
+
+            },
+            beforeSend: function () {
+                $('#loadingDiv').show();
+            },
+            complete: function () {
+                $('#loadingDiv').hide();
+            },
+            error: function (data) {
+                console.log(data)
+                $('.additional_deals').find("select").val("");
+                $('#loadingDiv').hide();
+                $('.alert-danger').show();
+                setTimeout(function () {
+                    $('.alert-danger').fadeOut('slow');
+                }, 10000);
+                $('.errormessage').html(data.responseJSON.message);
+            }
+        });
+    });
 });
 

@@ -71,6 +71,9 @@ Route::group(['namespace' => 'Frontend'], function () {
 
     // coupon dashboard
     Route::get('/vendor/dashboard', 'HomeController@dashboard');
+    Route::post('/vendor/purchaseMiles', 'StripeAddOnsController@purchaseMiles');
+    Route::post('/vendor/purchaseGeoFence', 'StripeAddOnsController@purchaseGeoFence');
+    Route::post('/vendor/purchaseDeals', 'StripeAddOnsController@purchaseDeals');
     Route::post('/vendor/contact', 'HomeController@sendContact')->name('vendor.submitcontact');
 });
 // Admin routes
