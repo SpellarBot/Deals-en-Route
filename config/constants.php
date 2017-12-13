@@ -11,6 +11,7 @@ return [
     'USER_NOT_CONFIRMED' => 'You Have Not Confirmed Your Email Yet.Please Check Your Email.',
     'USER_UPDATE_PROFILE' => 'profile updated successfully',
     'USER_UPDATED_SUCCESSFULLY' => 'User Updated Successsfully.',
+    'PROFILE_UPDATED_SUCCESSFULLY' => 'Profile Updated Successsfully.',
     'USER_UNAUTHENTICATED' => 'unauthenticated',
     'USER_DETAIL' => 'user detail',
     'DASHBOARD_DETAIL' => 'Dashboard detail',
@@ -50,7 +51,7 @@ return [
     'USER_DELETE' => 'sorry your account have been deleted by admin.please contact admin.',
     'USER_DEACTIVE' => 'sorry your account have been deactivated by admin.please contact admin.',
     'CONTACT_SUCCESS' => 'Message Sent Successfully.',
-    'CONTACT_FAILURE'=>'It Seems Some Wrong With Your Email.Please Add Valid Email.',
+    'CONTACT_FAILURE' => 'It Seems Some Wrong With Your Email.Please Add Valid Email.',
     //client mail
     'CLIENT_MAIL' => 'support@dealsenroute.com',
     //activity message
