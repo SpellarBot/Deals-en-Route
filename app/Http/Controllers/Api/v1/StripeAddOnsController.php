@@ -15,11 +15,13 @@ use App\VendorDetail;
 use App\Http\Controllers\Frontend\Auth;
 use Mail;
 use App\Http\Services\PdfTrait;
+use App\Http\Services\ResponseTrait;
 
 class StripeAddOnsController extends Controller {
 
     use MailTrait;
     use PdfTrait;
+    use ResponseTrait;
 
     public function purchaseMiles(Request $request) {
         $data = $request->all();
