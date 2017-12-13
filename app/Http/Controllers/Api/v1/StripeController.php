@@ -86,7 +86,7 @@ class StripeController extends Controller {
                 $data['invoice'] = '';
                 PaymentInfo::create($data);
             }
-        } elseif ($event->type == 'charge.succeeded') {
+        } elseif ($event->type == 'charge.succeeded' || $event->type == 'customer.subscription.updated') {
             $array_mail = ['to' => $user_details->email,
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
