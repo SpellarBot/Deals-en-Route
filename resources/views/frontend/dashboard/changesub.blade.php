@@ -31,7 +31,7 @@
             @if($subscription['subscriptioncanceled'] && $subscription['subscriptioncanceled'] == 1)
             <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 cardm">
                 @else
-                @if($subscription['stripe_plan'] == 'gold')
+                @if($subscription['stripe_plan'] == 'gold' && $subscription['sub_id'] != '')
                 <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 cardm">
                     @elseif($subscription['stripe_plan'] == 'silver')
                     <div class="col-md-4 col-sm-6 cards cards2">
@@ -65,7 +65,7 @@
                             @endif
                             @endif
                         </div>
-                        @if($subscription['stripe_plan'] == 'silver')
+                        @if($subscription['stripe_plan'] == 'silver' && $subscription['sub_id'] != '')
                         <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 cardm">
                             @else
                             <div class="col-md-4 col-sm-6 cards cards2">
@@ -96,7 +96,7 @@
                                 @endif
 
                             </div>
-                            @if($subscription['stripe_plan'] == 'bronze')
+                            @if($subscription['stripe_plan'] == 'bronze' && $subscription['sub_id'] != '')
                             <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 cardm">
                                 @else
                                 <div class="col-md-4 col-sm-6 cards cards1">
