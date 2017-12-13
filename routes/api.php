@@ -101,6 +101,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/vendor/purchaseGeoFence', 'StripeAddOnsController@purchaseGeoFence');
         Route::post('/vendor/purchaseDeals', 'StripeAddOnsController@purchaseDeals');
         Route::post('/vendor/addcontact', 'CouponController@addContact');
+        Route::post('vendor/updatePassword', 'Auth\ResetPasswordController@updatePasssword');
     });
 });
 

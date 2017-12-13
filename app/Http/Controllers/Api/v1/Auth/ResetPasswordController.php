@@ -106,7 +106,7 @@ use ResetsPasswords;
         $this->validate($request, [
             'token' => 'required',
             'password' => 'required|confirmed',
-            'password_confirmation'=>'required'
+            'password_confirmation' => 'required'
         ]);
 
 
@@ -137,6 +137,27 @@ use ResetsPasswords;
                 Session::flash('message', trans($response));
                 return redirect()->back();
         }
+    }
+
+    public function updatePasssword(Request $request) {
+        $request = $request->all();
+
+        $validator = Validator::make($request, [
+                    'current_password' => 'required|currentpassword',
+                    'password' => 'required|string|min:6',
+                    'password_confirm' => 'required|string|min:6|same:password',
+        ]);
+
+        //validation fail
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => $validator->errors()], 400);
+        }
+        $user = Auth::User();
+        $user->password = bcrypt($request['password']);
+        if ($user->save()) {
+            return response()->json(['status' => 'success', 'message' => \Config::get('constants.USER_PASSWORD_SUCCESS')], 200);
+        }
+        return response()->json(['status' => 'error', 'message' => \Config::get('constants.APP_ERROR')], 200);
     }
 
 }
