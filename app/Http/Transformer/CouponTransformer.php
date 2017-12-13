@@ -58,7 +58,7 @@ class CouponTransformer {
             'coupon_name' => $item->coupon_name ?? '',
             'coupon_detail' => $item->coupon_detail ?? '',
             'coupon_qrcode_image' => $item->coupon_qrcode_image ?? '',
-            'coupon_redemption_code' => $item->coupon_redemption_code ?? '',
+            'coupon_redemption_code' => $item->coupon_code ?? '',
             'coupon_end_date' => $item->coupon_end_date ?? '',
         ];
 
