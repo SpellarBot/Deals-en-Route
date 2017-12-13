@@ -119,7 +119,7 @@ class StripeAddOnsController extends Controller {
                 'data' => ['confirmation_code' => 'Test'],
                 'invoice' => storage_path('app/pdf/' . $payment['invoice'])
             ];
-//            $this->sendMail($array_mail);
+            $this->sendMail($array_mail);
             \App\PaymentInfo::create($payment);
         } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
             $payment['description'] = $e->getMessage();
@@ -129,7 +129,7 @@ class StripeAddOnsController extends Controller {
                 'type' => 'paymentfailed',
                 'data' => ['confirmation_code' => 'Test']
             ];
-//            $this->sendMail($array_mail);
+            $this->sendMail($array_mail);
             \App\PaymentInfo::create($payment);
             return response()->json(['status' => 0, 'message' => 'Payment Failed Please Try again Later'], 400);
         } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
@@ -140,7 +140,7 @@ class StripeAddOnsController extends Controller {
                 'type' => 'paymentfailed',
                 'data' => ['confirmation_code' => 'Test']
             ];
-//            $this->sendMail($array_mail);
+            $this->sendMail($array_mail);
             \App\PaymentInfo::create($payment);
             return response()->json(['status' => 0, 'message' => 'Payment Failed Please Try again Later'], 400);
         }
