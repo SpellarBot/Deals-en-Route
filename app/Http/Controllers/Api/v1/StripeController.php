@@ -62,7 +62,11 @@ class StripeController extends Controller {
             exit();
         }
         $user_id = $event->data->object->customer;
-        $amount = $event->data->object->amount;
+        if ($event->data->object->amount) {
+            $amount = $event->data->object->amount;
+        } else {
+            $amount = $event->data->object->items->data->plan->amount;
+        }
         $description = $event->data->object->description;
         $transaction_id = $event->data->object->id;
         $user_details = Stripewebhook::getUserDetails($user_id);
