@@ -67,7 +67,7 @@ use ResponseTrait;
                     'vendor_name' => 'required|string|max:255',
                     'email' => 'required|string|email|max:255',
                     'password' => 'required|string|min:6',
-                    'vendor_phone' => 'required|max:15|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
+                    'vendor_phone' => 'required|max:15|regex:/^\d{1}-\d{3}-\d{3}-\d{4}/',
                     'vendor_logo' => 'sometimes|required|image|mimes:jpg,png,jpeg',
         ]);
     }
@@ -75,7 +75,6 @@ use ResponseTrait;
     protected function validatorupdate(array $data) {
         return Validator::make($data, [
                     'vendor_name' => 'sometimes|required|string|max:255',
-                    'vendor_phone' => 'required|max:15|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
                     'vendor_logo' => 'sometimes|required|image|mimes:jpg,png,jpeg',
         ]);
     }
@@ -188,26 +187,28 @@ use ResponseTrait;
     protected function update(Request $request) {
         DB::beginTransaction();
         try {
+            $user_id = auth()->id();
             $data = $request->all();
+//            print_r($data);die;
             $validator = $this->validatorupdate($data);
             if ($validator->fails()) {
                 return $this->responseJson('error', $validator->errors()->first(), 400);
             }
-            $user = VendorDetail::updateVendor($data);
-            $user_detail = \App\VendorDetail::saveVendorDetail($data, $user->id);
+            $user = VendorDetail::updateVendorDetails($data, $user_id);
+//        $user_detail = \App\VendorDetail::saveVendorDetail($data, $user->id);
 
             if ($request->file('vendor_logo')) {
-                $this->updateImage($request, $user_detail, 'vendor_logo');
+                $this->updateImage($request, $user, 'vendor_logo');
             }
-            \App\DeviceDetail::saveDeviceToken($data, $user->id);
-
-// save the user
+            \App\DeviceDetail::saveDeviceToken($data, $user->user_id);
+//        save the user
         } catch (\Exception $e) {
             DB::rollback();
 //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-// If we reach here, then// data is valid and working.//
+//        If we reach here, then// data is valid and working.//
+        $user->vendor = \App\VendorDetail::where('user_id', $user->user_id)->first();
         DB::commit();
         $data = (new VendorTransformer)->transformLogin($user);
         return $this->responseJson('success', \Config::get('constants.USER_UPDATED_SUCCESSFULLY'), 200, $data);
