@@ -107,6 +107,8 @@ class HomeController extends Controller {
         $subscription = $sub_details->getAttributes();
         if ($subscription['sub_id'] == '') {
             $subscription['subscriptioncanceled'] = 1;
+        } else {
+            $subscription['subscriptioncanceled'] = 0;
         }
         return view('frontend.dashboard.changesub')->with(['subscription' => $subscription, 'user_id' => $user_id]);
     }
