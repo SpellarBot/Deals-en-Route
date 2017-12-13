@@ -108,13 +108,13 @@ class VendorDetail extends Model {
 
     //update vendor
     public static function updateVendorDetails($data = [], $id) {
-//        print_r($data);die;
         $vendor = VendorDetail::where('user_id', $id)
                 ->first();
         $vendor->vendor_name = $data['vendor_name'];
         $vendor->vendor_address = $data['vendor_address'];
         $vendor->vendor_city = $data['vendor_city'];
         $vendor->vendor_state = $data['vendor_state'];
+        $vendor->vendor_country = $data['vendor_country'];
         $vendor->vendor_zip = $data['vendor_zip'];
         $vendor->vendor_phone = $data['vendor_phone'];
         $vendor->billing_businessname = $data['billing_businessname'];

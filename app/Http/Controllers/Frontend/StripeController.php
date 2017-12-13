@@ -5,18 +5,23 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Services\MailTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Stripe\Stripe;
 use App\Subscription;
 use App\Stripewebhook;
 use App\User;
 use App\StripeUser;
 use App\VendorDetail;
-use App\Http\Controllers\Frontend\Auth;
+use App\PaymentInfo;
+use App\Http\Controllers\Api\v1\Auth;
 use Mail;
+use App\Http\Services\PdfTrait;
+use Illuminate\Support\Facades\Storage;
 
 class StripeController extends Controller {
 
     use MailTrait;
+    use PdfTrait;
 
     public function deleteCard() {
         $userid = auth()->id();
@@ -120,12 +125,85 @@ class StripeController extends Controller {
         if ($deletcard == 1 || $deletcard[0] == 'No such source') {
             $updatecard = $this->updateCard($data);
             if (is_array($updatecard) && $updatecard) {
+                $this->checkPendingPayment();
                 return response()->json(['status' => 1, 'message' => 'Card Updated SuccessFully!!!'], 200);
             } else {
                 return response()->json(['status' => 0, 'message' => $updatecard], 400);
             }
         } else {
             return response()->json(['status' => 0, 'message' => $deletcard[0]], 400);
+        }
+    }
+
+    public function invoice($payment) {
+        $details = array();
+        $vendor_email = User::select('email')->find($payment['vendor_id']);
+        $vendor_details = VendorDetail::select('country.country_name', 'billing_businessname', 'billing_home', 'billing_city', 'billing_country', 'billing_state', 'billing_zip')
+                ->leftjoin('country', 'id', 'billing_country')
+                ->where('user_id', $payment['vendor_id'])
+                ->first();
+        $details['items'] = array();
+        $item = array('item_name' => $payment['item_name'], 'item_type' => $payment['item_type'], 'amount' => $payment['totalamount']);
+        array_push($details['items'], $item);
+        $vendor_mail = $vendor_email->getAttributes();
+        $vendor = $vendor_details->getAttributes();
+        $vendor['email'] = $vendor_mail['email'];
+        $details['total_amount'] = $payment['totalamount'];
+        $details['transaction_id'] = $payment['transaction_id'];
+        $details['vendor'] = $vendor;
+        $details['commision'] = TRUE;
+        $invoice = $this->generateInvoice($details);
+        return $invoice;
+    }
+
+    public function checkPendingPayment() {
+        $user_id = Auth::id();
+        $pendingPayment = PaymentInfo::getPendingPayments($user_id);
+        if (count($pendingPayment) > 0) {
+            foreach ($pendingPayment as $payment) {
+                $pay = $payment->getAttributes();
+                $vendor = StripeUser::getCustomerDetails($pay['vendor_id']);
+                $user_details = \App\User::select('email')->find($pay['vendor_id']);
+                $vendor_mail = $user_details->getAttributes();
+                try {
+                    $paym = StripeUser::chargeVendor($vendor, $pay['payment_amount'], 'PendingPayment');
+                    $payment['transaction_id'] = $paym['id'];
+                    $payment['vendor_id'] = $paym['vendor_id'];
+                    $payment['totalamount'] = $paym['payment_amount'];
+                    $payment['item_name'] = $paym['payment_type'];
+                    $payment['item_type'] = $paym['payment_type'];
+                    $invoice = $this->invoice($payment);
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'payment_success',
+                        'data' => ['confirmation_code' => 'Test'],
+                        'invoice' => storage_path('app/pdf/' . $invoice)
+                    ];
+                    $this->sendMail($array_mail);
+                    $payment->transaction_id = $pay['id'];
+                    $payment->description = 'PaymentSuccessfull';
+                    $payment->invoice = $invoice;
+                    $payment->payment_status = 'success';
+                    $payment->save();
+                } catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'paymentfailed',
+                        'data' => ['confirmation_code' => 'Test']
+                    ];
+                    $this->sendMail($array_mail);
+                    $payment->description = $e->getMessage();
+                    $payment->payment_status = 'failed';
+                    $payment->save();
+                } catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
+                    $array_mail = ['to' => $vendor_mail['email'],
+                        'type' => 'paymentfailed',
+                        'data' => ['confirmation_code' => 'Test']
+                    ];
+                    $this->sendMail($array_mail);
+                    $payment->description = $e->getMessage();
+                    $payment->payment_status = 'failed';
+                    $payment->save();
+                }
+            }
         }
     }
 
