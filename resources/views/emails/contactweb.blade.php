@@ -14,15 +14,20 @@
                 <td align="center" valign="top" style="padding:0 0 20px;"><table width="135" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#3b5997" style="background-color:#3b5997;">
                         <tr>
                             email :- {{$email}}
-                        </tr>
+                        </tr> 
+                    
 
-                    </table></td>
-                <td align="center" valign="top" style="padding:0 0 20px;"><table width="135" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#3b5997" style="background-color:#3b5997;">
+                    </table></td>     
+            </tr>
+             <tr>
+               <td align="center" valign="top" style="padding:0 0 20px;"><table width="135" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#3b5997" style="background-color:#3b5997;">
+                     
                         <tr>
                             query :- {{$query}}
                         </tr>
+
                     </table></td>
-            </tr>
+                       </tr>
 
         </table></td>
 </tr>
