@@ -52,14 +52,28 @@ class StripeController extends Controller {
     public function changeSubscription(Request $request) {
         $data = $request->all();
         $userid = auth()->id();
+        $user_details = User::find($userid);
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
         $cancelcurrentsub = $this->cancelSubscription($data['plan']);
         if ($cancelcurrentsub == 0) {
             return response()->json(['status' => 0, 'message' => 'Please select Different Plan'], 400);
         }
-        $data = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
-        $change = \App\StripeUser::changeSubscription($data);
+        $details = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
+        $change = \App\StripeUser::changeSubscription($details);
+        $array_mail = array();
+        if (strtolower($data['status']) == 'upgrade') {
+            $array_mail = ['to' => $user_details->email,
+                'type' => 'subscription_upgrade_success',
+                'data' => ['confirmation_code' => 'Test'],
+            ];
+        } elseif (strtolower($data['status']) == 'downgrade') {
+            $array_mail = ['to' => $user_details->email,
+                'type' => 'subscription_downgrade_success',
+                'data' => ['confirmation_code' => 'Test'],
+            ];
+        }
+        $this->sendMail($array_mail);
         return response()->json(['status' => 1, 'message' => 'Subscription Updated SuccessFully!!!'], 200);
     }
 
