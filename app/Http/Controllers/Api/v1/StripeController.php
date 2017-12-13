@@ -81,7 +81,7 @@ class StripeController extends Controller {
                 $data['totalamount'] = $amount / 100;
                 $data['status'] = 'failed';
                 $data['description'] = 'PaymentFailed';
-                $details['payment_type'] = 'subscription';
+                $data['payment_type'] = 'subscription';
                 $data['transaction_id'] = $transaction_id;
                 $data['invoice'] = '';
                 PaymentInfo::create($data);
@@ -99,7 +99,7 @@ class StripeController extends Controller {
                 $data['description'] = 'PaymentSuccessfull';
                 $data['item_name'] = $plan;
                 $data['item_type'] = 'subscription';
-                $details['payment_type'] = 'subscription';
+                $data['payment_type'] = 'subscription';
                 $data['transaction_id'] = $transaction_id;
                 $data['invoice'] = $this->invoice($data);
                 \App\PaymentInfo::create($data);
