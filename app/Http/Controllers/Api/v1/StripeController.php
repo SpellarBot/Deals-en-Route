@@ -79,7 +79,7 @@ class StripeController extends Controller {
                 'data' => ['confirmation_code' => 'Test'],
             ];
             $this->sendMail($array_mail);
-            if ($description != 'CommisionPayment') {
+            if ($description != 'CommisionPayment' || $description != 'Ad-ons') {
                 $data = array();
                 $data['vendor_id'] = $user_details->user_id;
                 $data['totalamount'] = $amount / 100;
@@ -95,7 +95,7 @@ class StripeController extends Controller {
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
             ];
-            if ($description != 'CommisionPayment') {
+            if ($description != 'CommisionPayment' || $description != 'Ad-ons') {
                 $data = array();
                 $data['vendor_id'] = $user_details->user_id;
                 $data['totalamount'] = $amount / 100;
@@ -253,12 +253,12 @@ class StripeController extends Controller {
                 $user_details = \App\User::select('email')->find($pay['vendor_id']);
                 $vendor_mail = $user_details->getAttributes();
                 try {
-                    $pay = StripeUser::chargeVendor($vendor, $pay['payment_amount'], 'PendingPayment');
-                    $payment['transaction_id'] = $pay['id'];
-                    $payment['vendor_id'] = $pay['vendor_id'];
-                    $payment['totalamount'] = $pay['payment_amount'];
-                    $payment['item_name'] = $pay['payment_type'];
-                    $payment['item_type'] = $pay['payment_type'];
+                    $paym = StripeUser::chargeVendor($vendor, $pay['payment_amount'], 'PendingPayment');
+                    $payment['transaction_id'] = $paym['id'];
+                    $payment['vendor_id'] = $paym['vendor_id'];
+                    $payment['totalamount'] = $paym['payment_amount'];
+                    $payment['item_name'] = $paym['payment_type'];
+                    $payment['item_type'] = $paym['payment_type'];
                     $invoice = $this->invoice($payment);
                     $array_mail = ['to' => $vendor_mail['email'],
                         'type' => 'payment_success',
