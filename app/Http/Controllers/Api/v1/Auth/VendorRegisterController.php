@@ -207,11 +207,19 @@ use ResponseTrait;
 //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-//        If we reach here, then// data is valid and working.//
-        $user->vendor = \App\VendorDetail::where('user_id', $user->user_id)->first();
         DB::commit();
-        $data = (new VendorTransformer)->transformLogin($user);
-        return $this->responseJson('success', \Config::get('constants.USER_UPDATED_SUCCESSFULLY'), 200, $data);
+//        If we reach here, then// data is valid and working.//
+        $userdata = VendorDetail::getVendorDetails($user_id);
+        $settings = $userdata->getAttributes();
+        $countries = \App\Country::select('country_name')->find($settings['billing_country']);
+        if ($countries && !empty($countries)) {
+            $country = $countries->getAttributes();
+            $settings['billing_country_name'] = $country['country_name'];
+        } else {
+            $settings['billing_country_name'] = '';
+        }
+        $data = (new VendorTransformer)->settingsData($settings);
+        return $this->responseJson('success', \Config::get('constants.VENDOR_UPDATED_SUCCESSFULLY'), 200, $data);
     }
 
 //create subscription for customer 
