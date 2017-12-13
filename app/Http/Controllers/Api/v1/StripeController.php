@@ -31,6 +31,14 @@ class StripeController extends Controller {
         ]);
     }
 
+    protected function validatorcard(array $data) {
+        return Validator::make($data, [
+                    'card_expiry' => 'required|date_format:m/y',
+                    'card_cvv' => 'required|max:3',
+                    'card_no' => 'required|max:12'
+        ]);
+    }
+
     public function handleStripeResponse(Request $request) {
 
         $endpoint_secret = "whsec_hu613xZdLxCA3gjkLaFmrDawl3V4DZsq";
@@ -165,19 +173,29 @@ class StripeController extends Controller {
 
     public function changeSubscription(Request $request) {
         $data = $request->all();
-        $validator = $this->validatorplan($data);
-        if ($validator->fails()) {
-            return $this->responseJson('error', $validator->errors()->first(), 400);
-        }
         $userid = auth()->id();
+        $user_details = User::find($userid);
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
-        $cancelcurrentsub = $this->cancelSubscription($data['plan']);
+        $cancelcurrentsub = $this->cancelSubscription();
         if ($cancelcurrentsub == 0) {
-            return $this->responseJson('error', 'Please select Different Plan', 400);
+            return response()->json(['status' => 0, 'message' => 'Please select Different Plan'], 400);
         }
-        $data = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
-        $change = \App\StripeUser::changeSubscription($data);
+        $details = array('stripe_id' => $customerid, 'plan_id' => $data['plan'], 'user_id' => $stripedetails->user_id);
+        $change = \App\StripeUser::changeSubscription($details);
+        if (isset($data['status']) && strtolower($data['status']) == 'upgrade') {
+            $array_mail = ['to' => $user_details->email,
+                'type' => 'subscription_upgrade_success',
+                'data' => ['confirmation_code' => 'Test'],
+            ];
+            $this->sendMail($array_mail);
+        } elseif (isset($data['status']) && strtolower($data['status']) == 'downgrade') {
+            $array_mail = ['to' => $user_details->email,
+                'type' => 'subscription_downgrade_success',
+                'data' => ['confirmation_code' => 'Test'],
+            ];
+            $this->sendMail($array_mail);
+        }
         return $this->responseJson('success', 'Subscription Updated SuccessFully!!!', 200);
     }
 
@@ -190,7 +208,36 @@ class StripeController extends Controller {
         $change = \App\StripeUser::updateSubscription($data);
     }
 
-    public function cancelSubscription($plan) {
+    public function cancelSubscription(Request $request = NULL) {
+        if ($request) {
+            $data = $request->all();
+        } else {
+            $data = '';
+        }
+        $userid = auth()->id();
+        $user_details = User::find($userid);
+        $stripedetails = \App\StripeUser::getCustomerDetails($userid);
+        $customerid = $stripedetails->stripe_id;
+        $subscription = \App\Subscription::getSubscription($customerid, $userid);
+        if ($subscription->sub_id == '' && !$request) {
+            return 1;
+        } else
+        if ($subscription->sub_id == '' && $request) {
+            return $this->responseJson('success', 'Subscription Already Canceled!!!', 200);
+        } else {
+            $data = array('subscription_id' => $subscription->sub_id, 'stripe_id' => $customerid, 'user_id' => $subscription->user_id);
+            $cancelsubscription = \App\StripeUser::cancelSubscription($data);
+            if ($request) {
+                $array_mail = ['to' => $user_details->email,
+                    'type' => 'subscription_cancel_success',
+                    'data' => ['confirmation_code' => 'Test'],
+                ];
+                $this->sendMail($array_mail);
+                return $this->responseJson('success', 'Subscription Canceled Successfully!!!', 200);
+            } else {
+                return 1;
+            }
+        }
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);
         $customerid = $stripedetails->stripe_id;
@@ -208,6 +255,10 @@ class StripeController extends Controller {
 
     public function editCreditCard(Request $request) {
         $data = $request->all();
+        $validator = $this->validatorcard($data);
+        if ($validator->fails()) {
+            return $this->responseJson('error', $validator->errors()->first(), 400);
+        }
         $deletcard = $this->deleteCard();
         if ($deletcard == 1 || $deletcard[0] == 'No such source') {
             $updatecard = $this->updateCard($data);
@@ -244,7 +295,7 @@ class StripeController extends Controller {
     }
 
     public function checkPendingPayment() {
-        $user_id = Auth::id();
+        $user_id = auth()->id();
         $pendingPayment = PaymentInfo::getPendingPayments($user_id);
         if (count($pendingPayment) > 0) {
             foreach ($pendingPayment as $payment) {
