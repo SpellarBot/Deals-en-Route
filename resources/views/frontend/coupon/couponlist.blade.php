@@ -16,7 +16,7 @@
                                                                 <table id="bootstrap-table2" class="table">
                                                                         <thead>
                                                                                 <tr>
-                                                                                        <th data-field="logo">Logo</th>
+                                                                                        <th data-field="logo">Image</th>
                                                                                         <th data-field="name" data-sortable="true">Coupon Name</th>
                                                                                         <th data-field="total" data-sortable="true">Created</th>
                                                                                         <th data-field="coup-redeemed" data-sortable="true">Redeemed</th>

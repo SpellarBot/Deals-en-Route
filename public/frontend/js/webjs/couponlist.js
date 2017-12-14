@@ -106,7 +106,9 @@ $(document).ready(function () {
         pageSize: 8,
         clickToSelect: false,
         pageList: [8, 10, 25, 50, 100],
-
+        formatNoMatches: function () {
+          return 'Please add some deals to start seeing the data.';
+        },
         formatShowingRows: function (pageFrom, pageTo, totalRows) {
             //do nothing here, we don't want to show the text "showing x of y from..."
         },
