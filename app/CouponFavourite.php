@@ -65,7 +65,7 @@ class CouponFavourite extends Model {
         $circle_radius = \Config::get('constants.EARTH_RADIUS');
 
         $result = CouponFavourite::
-                select(DB::raw('coupon.coupon_id,coupon_favourite.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
+                select(DB::raw('coupon.coupon_id,coupon_favourite.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,coupon_original_price,coupon_total_discount,'
                                 . 'coupon_name,coupon_logo,coupon_lat,coupon_long,created_by,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat))))) as distance'))
                 ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
                 ->where('is_active', self::IS_TRUE)

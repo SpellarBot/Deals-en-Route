@@ -12,6 +12,8 @@ class CouponTransformer {
             return [
                 'coupon_id' => $item->coupon_id ?? '',
                 'coupon_category_name' => $item->categoryDetail->category_name ?? '',
+                'coupon_original_price' => $item->coupon_original_price ?? '',
+                'coupon_total_discount' => $item->coupon_total_discount ?? '',
                 'coupon_name' => $item->coupon_name ?? '',
                 'vendor_name' => $item->vendorDetail->vendor_name ?? '',
                 'coupon_detail' => $item->coupon_detail ?? '',
@@ -34,6 +36,8 @@ class CouponTransformer {
                 'coupon_id' => $item->coupon_id ?? '',
                 'coupon_name' => $item->coupon_name ?? '',
                 'coupon_detail' => $item->coupon_detail ?? '',
+                'coupon_original_price' => $item->coupon_original_price ?? '',
+                'coupon_total_discount' => $item->coupon_total_discount ?? '',
                 'vendor_address' => $item->vendorDetail->vendor_address ?? '',
                 'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
                 'coupon_logo' => $item->coupon_logo ?? "",
@@ -53,7 +57,9 @@ class CouponTransformer {
         return [
             'coupon_id' => $item->coupon_id ?? '',
             'coupon_logo' => $item->coupon_logo ?? '',
-            'vendor_logo' => $item->vendorDetail->vendor_logo?? '',
+            'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
+            'coupon_original_price' => $item->coupon_original_price ?? '',
+            'coupon_total_discount' => $item->coupon_total_discount ?? '',
             'vendor_name' => $item->vendorDetail->vendor_name ?? '',
             'vendor_address' => $item->vendorDetail->vendor_address ?? '',
             'coupon_name' => $item->coupon_name ?? '',
