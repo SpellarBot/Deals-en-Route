@@ -17,6 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/vendor/password/reset', ['uses' => 'Api\v1\Auth\ResetPasswordController@postReset', 'as' => 'password.request']);
+
 Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     Route::post('/user/register', 'Auth\RegisterController@create');
     Route::post('/user/login', 'Auth\LoginController@login');
@@ -99,6 +101,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/vendor/purchaseGeoFence', 'StripeAddOnsController@purchaseGeoFence');
         Route::post('/vendor/purchaseDeals', 'StripeAddOnsController@purchaseDeals');
         Route::post('/vendor/addcontact', 'CouponController@addContact');
+        Route::post('vendor/updatePassword', 'Auth\ResetPasswordController@updatePasssword');
     });
 });
 

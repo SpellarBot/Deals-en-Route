@@ -111,7 +111,7 @@ return [
         'billing_zip.required_without' => 'The billing zip field is required.',
         'billing_businessname.required_without' => 'The billing business name field is required.',
         'billing_country.required_without' => 'The billing country field is required.',
-        'coupon_notification_sqfeet.max' => 'Please make your area smaller to fit the 20,000 feet requirement',
+        'coupon_notification_sqfeet.max' => 'Please make your area smaller to fit the :max feet requirement',
         'coupon_notification_point.required' => 'Please select geo fencing area.',
         'coupon_logo.required' => 'The coupon image field is required.'
     ],

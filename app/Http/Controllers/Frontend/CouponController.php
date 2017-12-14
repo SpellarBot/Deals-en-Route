@@ -207,7 +207,7 @@ class CouponController extends Controller {
                 return response()->json(['errors' => $validator->errors()], 400);
             }
             $coupondata = explode('-', $data['coupon']);
-
+            if(!empty($coupondata[1]) && !empty($coupondata[2])) {
             $data['coupon_code'] = $coupondata[1];
             $data['user_id'] = $coupondata[2];
             $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
@@ -246,9 +246,10 @@ class CouponController extends Controller {
                     $getCoupondetails->save();
                     return response()->json(['status' => 1, 'message' => 'Coupon Redeemed Successfully.'], 200);
                 }
-            } else {
-                return response()->json(['status' => 0, 'message' => 'No Coupon Found.'], 200);
             }
+            return response()->json(['status' => 0, 'message' => 'No Coupon Found.'], 200);
+            }
+            return response()->json(['status' => 0, 'message' => 'Please Add Proper Format.'], 200);
         } catch (\Exception $e) {
             //  throw $e;
             return response()->json(['status' => 0, 'message' => \Config::get('constants.APP_ERROR')], 200);

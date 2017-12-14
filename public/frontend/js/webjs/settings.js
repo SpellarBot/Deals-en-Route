@@ -4,6 +4,15 @@
  * and open the template in the editor.
  */
 $(document).ready(function () {
+    
+    if(localStorage.getItem("Status"))
+    {   $('.alert-success').show();
+          $('.successmessage').html(localStorage.getItem("Status"));
+         setTimeout(function () {
+                    $('.alert-success').fadeOut('slow');
+                }, 10000);
+        localStorage.clear();
+    }
     $('.editCreditCard').submit(function (e) {
         e.preventDefault();
         var formData = $(this).serialize();
@@ -164,14 +173,9 @@ $(document).ready(function () {
                     $('.errormessage').html(data.message);
                 } else {
                     $('.additional_miles').find("select").val("");
-                    $('.alert-success').show();
+                    localStorage.setItem("Status",data.message)
+                    location.reload(true); 
              
-                    setTimeout(function () {
-                        $('.alert-success').fadeOut('slow');
-                    }, 10000);
-                    $('.successmessage').html(data.message);
-                   $('#couponslider').slider({max: 19,step: 1,value:0});
-                   
                 }
 
             },
@@ -212,11 +216,9 @@ $(document).ready(function () {
                     $('.errormessage').html(data.message);
                 } else {
                     $('.geo_fencing').find("select").val("");
-                    $('.alert-success').show();
-                    setTimeout(function () {
-                        $('.alert-success').fadeOut('slow');
-                    }, 10000);
-                    $('.successmessage').html(data.message);
+                    localStorage.setItem("Status",data.message)
+                    location.reload(true); 
+                   
                 }
 
             },
@@ -246,7 +248,7 @@ $(document).ready(function () {
             type: 'POST',
             data: formData,
             success: function (data) {
-                console.log(data);
+            
                 if (data.status == 0) {
                     $('.additional_deals').find("select").val("");
                     $('.alert-danger').show();
@@ -256,11 +258,8 @@ $(document).ready(function () {
                     $('.errormessage').html(data.message);
                 } else {
                     $('.additional_deals').find("select").val("");
-                    $('.alert-success').show();
-                    setTimeout(function () {
-                        $('.alert-success').fadeOut('slow');
-                    }, 10000);
-                    $('.successmessage').html(data.message);
+                   localStorage.setItem("Status",data.message)
+                  location.reload(true); 
                 }
 
             },

@@ -91,9 +91,10 @@ class Subscription extends Model {
         if ($totalCouponsUsed || $totalCouponsUsed == 0) {
 
             $totalCouponLeft = $userAccess['dealstotal'] - $totalCouponsUsed;
-    
+            $vendordetail= \App\VendorDetail::where('user_id', Auth::id())->update(['deal_used' => $totalCouponsUsed]);
             return $totalCouponLeft;
         }
+     
         return 0;
     }
 
@@ -114,7 +115,9 @@ class Subscription extends Model {
 //        }
 //    }
     public function totalCouponForMonth() {
-        $subscriptionmodel = Subscription::where('stripe_id', $this->stripe_id)->first();
+        $subscriptionmodel = Subscription::where('stripe_id', $this->stripe_id)
+                ->where('sub_id','!=','')->first();
+       
         if (count($subscriptionmodel) > 0) {
             $startdate = $subscriptionmodel->startdate;
             $enddate = $subscriptionmodel->enddate;
@@ -123,6 +126,7 @@ class Subscription extends Model {
                     ->count();
             return $count;
         }
+        return 0;
     }
 
     public static function getSubscriptiondates($stripe_id) {

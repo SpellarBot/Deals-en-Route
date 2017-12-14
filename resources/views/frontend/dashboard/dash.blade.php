@@ -66,7 +66,7 @@
                         <h5>Remaining deals in package</h5>
                     </div>
                     <div class="card-content" align="center">
-                        <div id="dealtotal" class="chart-circle" data-percent="0"> <span>0%</span></div>
+                        <div id="dealtotal" class="chart-circle" data-percent="0"> <span>0</span></div>
                     </div>
                 </div>
             </div>

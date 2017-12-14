@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Services\MailTrait;
+use App\Http\Services\CouponTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Stripe\Stripe;
@@ -15,11 +16,13 @@ use App\VendorDetail;
 use App\Http\Controllers\Frontend\Auth;
 use Mail;
 use App\Http\Services\PdfTrait;
+use Session;
 
 class StripeAddOnsController extends Controller {
 
     use MailTrait;
     use PdfTrait;
+    use CouponTrait;
 
     public function purchaseMiles(Request $request) {
         $data = $request->all();
@@ -40,8 +43,9 @@ class StripeAddOnsController extends Controller {
             'startdate' => $user_details['startdate'],
             'enddate' => $user_details['enddate']);
         $add_ons = PlanAddOns::addOnsInsert($adoninsert);
-        if ($add_ons) {
-            return response()->json(['status' => 1, 'message' => 'Extra Geo-Location(Miles) Added to your Plan.Thank You'], 200);
+        $user_access =$this->userAccess(); 
+        if ($add_ons) {  
+           return response()->json(['status' => 1, 'message' => 'Extra Geo-Location(Miles) Added to your Plan.Thank You'], 200);
         } else {
             return response()->json(['status' => 0, 'message' => 'Please Try again Later'], 400);
         }

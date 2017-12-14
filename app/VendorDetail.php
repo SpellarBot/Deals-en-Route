@@ -20,7 +20,8 @@ class VendorDetail extends Model {
         'vendor_logo', 'vendor_category', 'vendor_phone', 'vendor_state',
         'billing_home', 'billing_state', 'billing_zip', 'billing_city',
         'billing_country', 'vendor_country', 'vendor_state', 'vendor_city', 'vendor_lat',
-        'vendor_long', 'billing_businessname', 'check-address', 'vendor_time_zone'
+        'vendor_long', 'billing_businessname', 'check-address', 'vendor_time_zone',
+        'deal_used'
     ];
 
     public function userSubscription() {
@@ -109,20 +110,8 @@ class VendorDetail extends Model {
 
     //update vendor
     public static function updateVendorDetails($data = [], $id) {
-        $vendor = VendorDetail::where('user_id', $id)
-                ->first();
-        $vendor->vendor_name = $data['vendor_name'];
-        $vendor->vendor_address = $data['vendor_address'];
-        $vendor->vendor_city = $data['vendor_city'];
-        $vendor->vendor_state = $data['vendor_state'];
-        $vendor->vendor_country = $data['vendor_country'];
-        $vendor->vendor_zip = $data['vendor_zip'];
-        $vendor->vendor_phone = $data['vendor_phone'];
-        $vendor->billing_businessname = $data['billing_businessname'];
-        $vendor->billing_home = $data['billing_home'];
-        $vendor->billing_city = $data['billing_city'];
-        $vendor->billing_state = $data['billing_state'];
-        $vendor->billing_country = $data['billing_country'];
+        $vendor = VendorDetail::where('user_id', $id)->first();
+        $vendor->fill($data);
         $vendor->save();
         return $vendor;
     }

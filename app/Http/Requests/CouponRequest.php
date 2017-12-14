@@ -19,7 +19,7 @@ class CouponRequest extends FormRequest {
     public function __construct()
     {
           $user = \App\VendorDetail::where('user_id',Auth::id())->first();
-          $this->stripe  = $user->userSubscription;
+          $this->stripe  = $user->userAccess(); 
     }
     /**
      * Get the validation rules that apply to the request.
@@ -33,7 +33,7 @@ class CouponRequest extends FormRequest {
             'coupon_redeem_limit' => 'required|numeric',
             'coupon_end_date' => 'required',
             'coupon_logo' => 'sometimes|required|image|mimes:jpg,png,jpeg',
-            'coupon_radius' => 'required|integer|max:10',
+            'coupon_radius' => 'required|integer',
             'coupon_original_price' => 'numeric|required|min:0|greater_than:coupon_discounted_price',
             'coupon_discounted_percent' => 'required_without:coupon_discounted_price',
         ];
@@ -82,7 +82,7 @@ class CouponRequest extends FormRequest {
                 // step 1
                 'coupon_code' => 'required|unique:coupon',
                 //step 2
-                'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe[0]->geofencing,
+                'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe['geofencingtotal'],
                 'coupon_notification_point' => 'required',
                      
             ];
@@ -93,7 +93,7 @@ class CouponRequest extends FormRequest {
                 // step 1
                 'coupon_code' => 'required|unique:coupon',
                 //step 2
-               'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe[0]->geofencing,
+               'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe['geofencingtotal'],
                 'coupon_notification_point' => 'required',
                 // step 3
                 'agree' => 'required'
