@@ -75,13 +75,13 @@ class NotificationController extends Controller {
                                 'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
                                 'coupon_id' => $coupon->coupon_id,
                             ]));
-                            return $this->responseJson('success', 'notification sent', 200);
+                            
                         }
                     }
                 }
             }
         } catch (\Exception $e) {
-            throw $e;
+           // throw $e;
         }
     }
 
