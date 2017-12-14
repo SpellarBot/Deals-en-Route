@@ -153,7 +153,7 @@ $(document).ready(function () {
             type: 'POST',
             data: formData,
             success: function (data) {
-                console.log(data);
+            
 //                return false;
                 if (data.status == 0) {
                     $('.additional_miles').find("select").val("");
@@ -165,10 +165,13 @@ $(document).ready(function () {
                 } else {
                     $('.additional_miles').find("select").val("");
                     $('.alert-success').show();
+             
                     setTimeout(function () {
                         $('.alert-success').fadeOut('slow');
                     }, 10000);
                     $('.successmessage').html(data.message);
+                   $('#couponslider').slider({max: 19,step: 1,value:0});
+                   
                 }
 
             },

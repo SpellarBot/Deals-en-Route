@@ -110,7 +110,7 @@ $(document).ready(function () {
     });
     $('#charttotal').easyPieChart({
         lineWidth: 12,
-        size: 100,
+        size: 200,
         scaleColor: false,
         trackColor: 'rgba(70,85,109,.25)',
         barColor: '#46b96d',
@@ -123,7 +123,7 @@ $(document).ready(function () {
     
     $('#dealtotal').easyPieChart({
          lineWidth: 12,
-        size: 100,
+        size: 200,
         scaleColor: false,
         trackColor: 'rgba(70,85,109,.25)',
         barColor: '#46b96d',
@@ -368,4 +368,44 @@ $(document).on("submit", "#sendcontact", function (event) {
     });
 
 });
+
+// update contact submit
+$(document).on("click", ".redeemnow", function (event) {
+    event.preventDefault();
+   formData=$('#redeemcoupon').serialize();
+
+    $.ajax({
+        url: $('#hidAbsUrl').val() + "/vendor/couponredeem",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+                $('#loadingDiv').hide();
+                setDashboardNotification(data); 
+                 $('#redeemcoupon')[0].reset();
+        },
+        beforeSend: function () {
+            $('#loadingDiv').show();
+        },
+        complete: function () {
+            $('#loadingDiv').hide();
+        },
+        error: function (data) {
+            $(".form-group").removeClass('has-error');
+            $(".help-block").html('');
+
+            if (data.responseJSON.errors != '') {
+                $.each(data.responseJSON.errors, function (key, value) {
+                   
+                        $("input[name=" + key + "],textarea[name=" + key + "]").parent().addClass('has-error');
+                        $("input[name=" + key + "],textarea[name=" + key + "]").parent().append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
+                    
+                });
+            }
+        }
+
+
+    });
+
+});
+
 

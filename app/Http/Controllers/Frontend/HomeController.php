@@ -41,10 +41,11 @@ class HomeController extends Controller {
         $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
-        $user_access = $vendor_detail->userSubscription;
+        $user_access =$this->userAccess(); 
+
         $user = \App\Subscription::where('user_id', Auth::id())->first();
         if ($user) {
-            $deals_left = $user->getRenewalCoupon($user_access[0]);
+            $deals_left = $user->getRenewalCoupon($user_access);
         }
         $country_list = \App\Country::countryList();
         $date = \Carbon\Carbon::now();
@@ -57,7 +58,7 @@ class HomeController extends Controller {
 
         return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
                     'vendor_detail' => $vendor_detail, 'country_list' => $country_list,
-                    'currenttime' => $currenttime, 'year' => $year, 'user_access' => $user_access[0],
+                    'currenttime' => $currenttime, 'year' => $year, 'user_access' => $user_access,
                     'deals_left' => $deals_left, 'subscription' => $subscription]);
     }
 

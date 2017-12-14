@@ -90,7 +90,8 @@ class Subscription extends Model {
 
         if ($totalCouponsUsed || $totalCouponsUsed == 0) {
 
-            $totalCouponLeft = $userAccess->deals - $totalCouponsUsed;
+            $totalCouponLeft = $userAccess['dealstotal'] - $totalCouponsUsed;
+    
             return $totalCouponLeft;
         }
         return 0;

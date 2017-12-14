@@ -1,6 +1,47 @@
 <div id="dashboard" class="tab-pane fade in active">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <div class="card card-dash1">
+                    <div class="header head-coupons">
+                        <h5>Coupon Redemption</h5>
+                    </div>
+                    <div class="card-content">
+                        <div class="row coupons-redeem-flex">
+                            <div class="col-sm-6 coupons-redeem-left">
+                                <div class="logo-redeem">
+                                    <img src="{{ $vendor_detail->vendor_logo}}"  alt="" class="img-circle" >
+                                </div>
+                                <h4>{{ $vendor_detail->vendor_name}}</h4>
+                                <p class="grey-redeem">{{ $vendor_detail->vendor_address}}</p>
+                            </div>
+                            <div class="col-sm-6 coupons-redeem-right">
+                                <h4>Redemption Code</h4>
+                                 {{ Form::open([ 'id' => 'redeemcoupon']) }}
+                                                {{ csrf_field() }}
+                                <div class="form-group coupon-code-val">
+                                     {{ Form::text('coupon','') }}
+                                </div>
+                                <a href="" class="btn btn-info btn-fill btn-wd btn-create redeemnow">Redeem Now</a>
+                                  {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-8 col-lg-offset-0 col-md-offset-0 col-sm-offset-2">
+                <div class="card card-dash1">
+                    <div class="header head-coupons">
+                        <h5>Total Coupons Redemption Rate</h5>
+                    </div>
+                    <div class="card-content" align="center">
+                        <div id="charttotal" class="chart-circle" data-percent="0"> <span>0%</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-12 ">
                 <div class="card card-dash0 row-md-5">
                     <div class="header head-coupons">
@@ -18,18 +59,9 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-4 col-md-4 col-sm-8 col-lg-offset-0 col-md-offset-0 col-sm-offset-2">
-                <div class="card card-dash1">
-                    <div class="header head-coupons">
-                        <h5>Total Coupons Redemption Rate</h5>
-                    </div>
-                    <div class="card-content" align="center">
-                        <div id="charttotal" class="chart-circle" data-percent="0"> <span>0%</span></div>
-                    </div>
-                </div>
-            </div>
-              <div class="col-lg-4 col-md-4 col-sm-8 col-lg-offset-0 col-md-offset-0 col-sm-offset-2">
-                <div class="card card-dash2">
+                <div class="card card-dash0">
                     <div class="header head-coupons">
                         <h5>Remaining deals in package</h5>
                     </div>
@@ -142,7 +174,7 @@
                                     <div class="form-group">
                                         <label for="chartm1">Month:</label>
                                         {{ Form::selectMonth('month','',['id'=>'chartm1','class'=>'form-control']) }}
-                                       
+
                                     </div>
                                 </form>
                                 <div id="chartWeekly"></div>

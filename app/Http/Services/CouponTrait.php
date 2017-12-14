@@ -7,6 +7,7 @@ use App\CouponShare;
 use Auth;
 use Carbon\Carbon;
 use App\User;
+use DB;
 
 trait CouponTrait {
 
@@ -130,7 +131,26 @@ trait CouponTrait {
     
     
    
-    
+    public function userAccess() {
+        $array=[];
+         $vendor_detail =  \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+                ->where('vendor_detail.user_id', Auth::id())
+                ->first();
+         
+         $add_ons = \App\PlanAddOns::select(DB::raw('SUM(case when addon_type="geolocation" then quantity else 0 end) as geolocationtotal,
+                 SUM(case when addon_type="geofencing" then quantity else 0 end) as geofencingtotal,
+                 SUM(case when addon_type="deals" then quantity else 0 end) as dealstotal'))
+                 ->where('user_id', Auth::id())
+                 ->whereBetween(DB::raw('CURDATE()'), ['startdate', 'enddate'])
+                 ->get();
+ 
+         $array['geolocationtotal']=$add_ons[0]->geolocationtotal+$vendor_detail->userSubscription[0]->geolocation;
+         $array['geofencingtotal']=$add_ons[0]->geolocationtotal+$vendor_detail->userSubscription[0]->geofencing;
+         $array['dealstotal']=$add_ons[0]->dealstotal+$vendor_detail->userSubscription[0]->deals;
+         print_R($array); exit;
+         return $array;
+        
+    }
     
 
    

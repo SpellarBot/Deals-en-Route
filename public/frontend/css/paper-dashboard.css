@@ -12840,21 +12840,18 @@ star {
 
 .chart-circle {
     display: inline-block;
-    font-size: 1em;
-    height: 100px;
-    line-height: 100px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    font-size: 2em;
+    height: 200px;
+    line-height: 200px;
+    margin: 25px;
     position: relative;
     text-align: center;
-    width: 100px;
-    margin-left: 25px;
-    margin-right: 25px;
+    width: 200px;
 }
 
 .chart-circle1 {
 	display: inline-block;
-	font-size: 1.25em;
+	font-size: 1em;
 	height: 70px;
 	line-height: 70px;
 	position: relative;

@@ -11,7 +11,7 @@
             {{ Form::hidden('vendor_long', $vendor_detail->vendor_long, ['class' => 'vendor_long']) }}
             {{ Form::hidden('coupon_start_date', old('coupon_start_date'), ['id' => 'couponstartdate']) }}
             {{ Form::hidden('couponenddate', isset($end_date_converted)?$end_date_converted:'', ['id' => 'couponenddate']) }}
-            <div class="geofencing" style="display:none">{{ $user_access->geofencing }}</div>
+            <div class="geofencing" style="display:none">{{ $user_access['geofencingtotal'] }}</div>
 
             <div class="tab-pane active" role="tabpanel" id="step1">
                 <h3>Coupon Details</h3>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
-                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$user_access->geolocation,'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider']) }}
+                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$user_access['geolocationtotal'],'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider']) }}
                             <p> (in miles) </p>
                         </div>
 
