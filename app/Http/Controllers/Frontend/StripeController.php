@@ -55,6 +55,7 @@ class StripeController extends Controller {
     }
 
     public function changeSubscription(Request $request) {
+        
         $data = $request->all();
         $userid = auth()->id();
         $user_details = User::find($userid);
