@@ -57,6 +57,18 @@ class HomeController extends Controller {
                 $redeem_by_above_50 = $redeem_by_above_50 + 1;
             }
         }
+        $dealsbyplan = \App\Subscription::select('plan_access.deals', 'plan_add_ons.addon_type', 'plan_add_ons.quantity')
+                ->leftjoin('plan_access', 'plan_access.plan_id', 'subscriptions.stripe_plan')
+                ->leftjoin('plan_add_ons', 'plan_add_ons.user_id', 'subscriptions.user_id')
+                ->where('subscriptions.user_id', $user_id)
+                ->where('plan_add_ons.addon_type', 'deals')
+                ->get();
+        $totaladdon = 0;
+        $totaldeals = 0;
+        foreach ($dealsbyplan as $addon) {
+            $totaldeals = $addon->deals;
+            $totaladdon = $addon->quantity + $totaladdon;
+        }
 //        $data['redeem_by_18_below_per'] = number_format(($redeem_by_18_below / $total_coupon) * 100, 2);
 //        $data['redeem_by_18_34_per'] = number_format(($redeem_by_18_34 / $total_coupon) * 100, 2);
 //        $data['redeem_by_35_50_per'] = number_format(($redeem_by_35_50 / $total_coupon) * 100, 2);
@@ -72,6 +84,9 @@ class HomeController extends Controller {
         $data['reemaining_deal'] = strval($vendor_detail['deals_left']);
         $data['total_coupons'] = strval($total_coupon);
         $data['total_coupons_remaining'] = strval(($total_coupon - $total_coupon_reedem));
+        $data['total_deals_created_count'] = strval(count($coupons));
+        $data['total_deals_can_create_count'] = strval(($totaladdon + $totaldeals));
+        $data['total_deals_remaining_count'] = strval(($data['total_deals_can_create_count'] - $data['total_deals_created_count']));
 //        var_dump($data);
 //        die;
         return $this->responseJson('success', \Config::get('constants.DASHBOARD_DETAIL'), 200, $data);
