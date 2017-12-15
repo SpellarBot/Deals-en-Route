@@ -66,8 +66,13 @@ trait CouponTrait {
         $count = $item->count_fb_friend - 1;
         $share_friend = $this->getUserDetail($item->share_friend_id);
         $find = ['{{coupon_name}}', '{{count}}', '{{created_by}}', '{{shared_name}}'];
+        if(empty($share_friend)){
+             $replace = [$item->coupon->coupon_name, $count, $item->user->first_name . " " . $item->user->last_name
+            ];
+        }else{
         $replace = [$item->coupon->coupon_name, $count, $item->user->first_name . " " . $item->user->last_name,
             $share_friend->first_name . " " . $share_friend->last_name];
+        }
         $message = str_replace($find, $replace, $message);
         return $message;
     }
