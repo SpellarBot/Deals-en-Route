@@ -70,7 +70,8 @@ class HomeController extends Controller {
         $data['redeem_by_35_50'] = strval($redeem_by_35_50);
         $data['redeem_by_above_50'] = strval($redeem_by_above_50);
         $data['reemaining_deal'] = strval($vendor_detail['deals_left']);
-        $data['total_coupons'] = strval(count($coupons));
+        $data['total_coupons'] = strval($total_coupon);
+        $data['total_coupons_remaining'] = strval(($total_coupon - $total_coupon_reedem));
 //        var_dump($data);
 //        die;
         return $this->responseJson('success', \Config::get('constants.DASHBOARD_DETAIL'), 200, $data);
