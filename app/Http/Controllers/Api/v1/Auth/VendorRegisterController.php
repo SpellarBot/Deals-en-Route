@@ -194,6 +194,11 @@ use ResponseTrait;
             if ($validator->fails()) {
                 return $this->responseJson('error', $validator->errors()->first(), 400);
             }
+            foreach ($data as $key => $val) {
+                if (!$val || $val == '') {
+                    unset($data[$key]);
+                }
+            }
             $user = VendorDetail::updateVendorDetails($data, $user_id);
 //        $user_detail = \App\VendorDetail::saveVendorDetail($data, $user->id);
 
