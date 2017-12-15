@@ -1,13 +1,14 @@
 @extends('frontend.layouts.price')
 @section('title', 'Deals en Route|Subscription')
 @section('content')
-{{ $name = '' }}
+
+<?php $name = ""; ?>
 @if($subscription['stripe_plan'] == 'gold')
-{{ $name = 'Downgrade' }}
+<?php $name = "Downgrade"; ?>
 @elseif($subscription['stripe_plan'] == 'bronze')
-{{ $name = 'Upgrade' }}
+<?php $name = "Upgrade"; ?>
 @else
-{{ $name = '' }}
+<?php $name = ""; ?>
 @endif
 <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
 
