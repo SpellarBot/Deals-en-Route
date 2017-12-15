@@ -63,7 +63,7 @@
             <div class="col-lg-4 col-md-4 col-sm-8 col-lg-offset-0 col-md-offset-0 col-sm-offset-2">
                 <div class="card card-dash0">
                     <div class="header head-coupons">
-                        <h5>Remaining Deals in Package</h5>
+                        <h5 class="text-capitalize">Remaining Deals in Package</h5> 
                     </div>
                     <div class="card-content" align="center">
                         <div id="dealtotal" class="chart-circle" data-percent="0"> <span>0</span></div>
