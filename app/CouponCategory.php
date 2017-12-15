@@ -40,6 +40,12 @@ class CouponCategory extends Model {
 
         return (!empty($value)) ? URL::to('/storage/app/public/category_image') . '/' . $value : "";
     }
+    
+    //category logo image
+      public function getCategoryLogoImageAttribute($value) {
+
+        return (!empty($value)) ? URL::to('/storage/app/public/category_logo_image') . '/' . $value : "";
+    }
 
     //get category list
     public static function categoryList() {

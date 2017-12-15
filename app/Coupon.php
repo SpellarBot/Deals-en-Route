@@ -54,6 +54,7 @@ class Coupon extends Model {
     public function getCouponLogoAttribute($value) {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";
     }
+    
 
 //     public function getCouponEndDateAttribute($value) {
 //        return (!empty($value)? Carbon::parse($value)->format(\Config::get('constants.DATE_FORMAT')):'');

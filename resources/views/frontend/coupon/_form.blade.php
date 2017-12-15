@@ -26,7 +26,7 @@
                             <div class="logo" ><img src="{{ $vendor_detail->vendor_logo}}" width="70" alt=""></div>
 
                             <div class="b-name">{{ $vendor_detail->vendor_name}}</div>
-                            <div class="b-sub">{{ $vendor_detail->vendor_address}}</div>
+                            <div class="b-sub"> {{ str_limit($vendor_detail->vendor_address,40)}}</div>
                             <div class="coupon-name coupon_name"  >{{ !isset($coupon->coupon_name) ? 'COUPON NAME': $coupon->coupon_name }}</div>
                             <div class="coupon-desc coupon_detail" >{{ !isset($coupon->coupon_detail) ? 'Coupon description': $coupon->coupon_detail }} </div>
                             <div class="barcode"><img src="{{ \Config::get('app.url') . '/public/frontend/img/sample2.png' }}" width="47" alt=""></div>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_detail', 'Description:') }}
-                            {{ Form::text('coupon_detail', old('coupon_detail'), ['placeholder'=>'Enter Your Description','class'=>'form-control']) }}
+                            {{ Form::text('coupon_detail', old('coupon_detail'), ['placeholder'=>'Enter Your Description','class'=>'form-control','maxlength'=>'30']) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_redeem_limit', 'Total Coupons:') }}
@@ -85,7 +85,7 @@
                         </div>
 
 
-                        @if(isset($coupon)) 
+<!--                        @if(isset($coupon)) 
 
                         <div class="fileinput input-group fileinput-exists " data-provides="fileinput">
                             <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
@@ -115,7 +115,7 @@
                             </div>
                         </div>
 
-                        @endif
+                        @endif-->
                         <ul class="list-inline pull-right pad-top">
                             <li>
 
@@ -162,7 +162,7 @@
                         <div id="preview-in1">
                             <div class="logo" ><img src="{{ $vendor_detail->vendor_logo}}" width="70" alt=""></div>
                             <div class="b-name">{{ $vendor_detail->vendor_name}}</div>
-                            <div class="b-sub">{{ $vendor_detail->vendor_address}}</div>
+                            <div class="b-sub">{{ str_limit($vendor_detail->vendor_address,40)}}</div>
                             <div class="coupon-name coupon_name"  >{{ !isset($coupon->coupon_name) ? 'COUPON NAME': $coupon->coupon_name }}</div>
                             <div class="coupon-desc coupon_detail" >{{ !isset($coupon->coupon_detail) ? 'Coupon description': $coupon->coupon_detail }} </div>
                             <div class="barcode"><img src="{{ \Config::get('app.url') . '/public/frontend/img/sample2.png' }}" width="47" alt=""></div>

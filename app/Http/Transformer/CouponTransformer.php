@@ -18,6 +18,7 @@ class CouponTransformer {
                 'vendor_name' => $item->vendorDetail->vendor_name ?? '',
                 'coupon_detail' => $item->coupon_detail ?? '',
                 'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
+                'category_logo_image' => $item->categoryDetail->category_logo_image ?? "",
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
                 'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
@@ -40,7 +41,7 @@ class CouponTransformer {
                 'coupon_total_discount' => $item->coupon_total_discount ?? '',
                 'vendor_address' => $item->vendorDetail->vendor_address ?? '',
                 'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
-                'coupon_logo' => $item->coupon_logo ?? "",
+                'category_logo_image' => $item->categoryDetail->category_logo_image ?? '',
                 'distance' => $item->distance ?? '',
                 'coupon_latitude' => $item->coupon_lat ?? '',
                 'coupon_longitude' => $item->coupon_long ?? '',
@@ -56,7 +57,7 @@ class CouponTransformer {
 
         return [
             'coupon_id' => $item->coupon_id ?? '',
-            'coupon_logo' => $item->coupon_logo ?? '',
+            'category_logo_image' => $item->categoryDetail->category_logo_image ?? "",
             'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
             'coupon_original_price' => $item->coupon_original_price ?? '',
             'coupon_total_discount' => $item->coupon_total_discount ?? '',
@@ -81,7 +82,7 @@ class CouponTransformer {
                 'coupon_detail' => $item->coupon_detail ?? '',
                 'vendor_address' => $item->vendorDetail->vendor_address ?? '',
                 'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
-                'coupon_logo' => $item->coupon_logo ?? "",
+                 'category_logo_image' => $item->categoryDetail->category_logo_image ?? "",
             ];
         });
         return ['has_page' => $coupon->hasMorePages(), 'current_page' => $coupon->currentPage(), 'listing' => $var];

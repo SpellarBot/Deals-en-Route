@@ -35,6 +35,13 @@ class CouponShare extends Model {
     public function vendorDetail() {
         return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
     }
+    
+    /**
+     * Get the vendor detail record associated with the user.
+     */
+    public function categoryDetail() {
+        return $this->hasOne('App\CouponCategory', 'category_id', 'coupon_category_id');
+    }
 
     public function getCouponLogoAttribute($value) {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";

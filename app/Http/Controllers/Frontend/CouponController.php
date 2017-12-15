@@ -249,10 +249,10 @@ class CouponController extends Controller {
             }
             return response()->json(['status' => 0, 'message' => 'No Coupon Found.'], 200);
             }
-            return response()->json(['status' => 0, 'message' => 'Please Add Proper Format.'], 200);
+            return response()->json(['status' => 0, 'message' => 'Invalid redemption code.'], 200);
         } catch (\Exception $e) {
             //  throw $e;
-            return response()->json(['status' => 0, 'message' => \Config::get('constants.APP_ERROR')], 200);
+            return response()->json(['status' => 0, 'message' => 'Invalid redemption code'], 200);
         }
     }
 

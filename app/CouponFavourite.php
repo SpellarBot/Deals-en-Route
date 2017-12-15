@@ -31,7 +31,18 @@ class CouponFavourite extends Model {
     public static function Coupon() {
         return $this->belongsToMany('App\Coupon', 'coupon_id', 'coupon_id');
     }
+/**
+     * Get the vendor detail record associated with the user.
+     */
+    public function categoryDetail() {
+        return $this->hasOne('App\CouponCategory', 'category_id', 'coupon_category_id');
+    }
+    
+     //category logo image
+      public function getCategoryLogoImageAttribute($value) {
 
+        return (!empty($value)) ? URL::to('/storage/app/public/category_logo_image') . '/' . $value : "";
+    }
     /**
      * Get the vendor detail record associated with the user.
      */
@@ -39,9 +50,7 @@ class CouponFavourite extends Model {
         return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
     }
 
-    public function getCouponLogoAttribute($value) {
-        return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";
-    }
+    
 
     //update or create favourtie coupon data ssss
     public static function addFavCoupon($data) {

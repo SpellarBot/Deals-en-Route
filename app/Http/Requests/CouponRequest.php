@@ -32,7 +32,6 @@ class CouponRequest extends FormRequest {
             'coupon_detail' => 'required',
             'coupon_redeem_limit' => 'required|numeric',
             'coupon_end_date' => 'required',
-            'coupon_logo' => 'sometimes|required|image|mimes:jpg,png,jpeg',
             'coupon_radius' => 'required|integer',
             'coupon_original_price' => 'numeric|required|min:0|greater_than:coupon_discounted_price',
             'coupon_discounted_percent' => 'required_without:coupon_discounted_price',
