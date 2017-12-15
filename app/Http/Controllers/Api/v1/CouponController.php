@@ -320,7 +320,7 @@ class CouponController extends Controller {
                 return $this->responseJson('success', 'Coupon Redeemed Successfully. ', 200);
             }
         } else {
-            return $this->responseJson('failed', 'No Coupon Found. ', 200);
+            return $this->responseJson('failed', 'Invalid redemption code. ', 200);
         }
     }
 
