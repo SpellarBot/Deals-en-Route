@@ -61,15 +61,18 @@ class HomeController extends Controller {
 //        $data['redeem_by_18_34_per'] = number_format(($redeem_by_18_34 / $total_coupon) * 100, 2);
 //        $data['redeem_by_35_50_per'] = number_format(($redeem_by_35_50 / $total_coupon) * 100, 2);
 //        $data['redeem_by_above_50_per'] = number_format(($redeem_by_above_50 / $total_coupon) * 100, 2);
-        $data['redeem_by_18_below_per'] = ($redeem_by_18_below != 0) ? number_format(($redeem_by_18_below / $total_coupon) * 100, 2) : 0;
-        $data['redeem_by_18_34_per'] = ($redeem_by_18_34 != 0) ? number_format(($redeem_by_18_34 / $total_coupon) * 100, 2) : 0;
-        $data['redeem_by_35_50_per'] = ($redeem_by_35_50 != 0) ? number_format(($redeem_by_35_50 / $total_coupon) * 100, 2) : 0;
-        $data['redeem_by_above_50_per'] = ($redeem_by_above_50 != 0) ? number_format(($redeem_by_above_50 / $total_coupon) * 100, 2) : 0;
-        $data['redeem_by_18_below'] = $redeem_by_18_below;
-        $data['redeem_by_18_34'] = $redeem_by_18_34;
-        $data['redeem_by_35_50'] = $redeem_by_35_50;
-        $data['redeem_by_above_50'] = $redeem_by_above_50;
-        $data['reemaining_deal'] = $vendor_detail['deals_left'];
+        $data['redeem_by_18_below_per'] = strval(($redeem_by_18_below != 0) ? number_format(($redeem_by_18_below / $total_coupon) * 100, 2) : 0);
+        $data['redeem_by_18_34_per'] = strval(($redeem_by_18_34 != 0) ? number_format(($redeem_by_18_34 / $total_coupon) * 100, 2) : 0);
+        $data['redeem_by_35_50_per'] = strval(($redeem_by_35_50 != 0) ? number_format(($redeem_by_35_50 / $total_coupon) * 100, 2) : 0);
+        $data['redeem_by_above_50_per'] = strval(($redeem_by_above_50 != 0) ? number_format(($redeem_by_above_50 / $total_coupon) * 100, 2) : 0);
+        $data['redeem_by_18_below'] = strval($redeem_by_18_below);
+        $data['redeem_by_18_34'] = strval($redeem_by_18_34);
+        $data['redeem_by_35_50'] = strval($redeem_by_35_50);
+        $data['redeem_by_above_50'] = strval($redeem_by_above_50);
+        $data['reemaining_deal'] = strval($vendor_detail['deals_left']);
+        $data['total_coupons'] = strval(count($coupons));
+//        var_dump($data);
+//        die;
         return $this->responseJson('success', \Config::get('constants.DASHBOARD_DETAIL'), 200, $data);
     }
 
