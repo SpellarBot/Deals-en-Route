@@ -63,7 +63,12 @@ trait CouponTrait {
     }
 
     public function finalMessage($message, $item) {
-        $count = $item->count_fb_friend - 1;
+      
+        if($item->count_fb_friend=='' || $item->count_fb_friend==0){
+            $count=0;
+        }else{
+              $count = $item->count_fb_friend - 1;
+        }
         $share_friend = $this->getUserDetail($item->share_friend_id);
         $find = ['{{coupon_name}}', '{{count}}', '{{created_by}}', '{{shared_name}}'];
         if(empty($share_friend)){
