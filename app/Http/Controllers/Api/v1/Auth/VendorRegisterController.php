@@ -219,7 +219,7 @@ use ResponseTrait;
             $settings['billing_country_name'] = '';
         }
         $data = (new VendorTransformer)->settingsData($settings);
-        return $this->responseJson('success', \Config::get('constants.VENDOR_UPDATED_SUCCESSFULLY'), 200, $data);
+        return $this->responseJson('success', \Config::get('constants.PROFILE_UPDATED_SUCCESSFULLY'), 200, $data);
     }
 
 //create subscription for customer 
