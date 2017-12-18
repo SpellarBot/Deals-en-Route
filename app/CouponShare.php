@@ -81,8 +81,8 @@ class CouponShare extends Model {
                // send notification to your friends
                 Notification::send($user, new FcmNotification([
                 'type' => 'sharecoupon',
-                'notification_message' =>\Config::get('constants.NOTIFY_SHARED_COUPON'),
-                'message' => $fMessage ,
+                'notification_message' =>$fMessage,
+                'message' => \Config::get('constants.NOTIFY_SHARED_COUPON'),
                 'name' => $creator_id->userDetail->first_name . ' ' . $creator_id->userDetail->last_name,
                 'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
                 'coupon_id' => $coupon->coupon_id
