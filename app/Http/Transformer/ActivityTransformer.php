@@ -36,7 +36,7 @@ class ActivityTransformer {
           if($item->count_fb_friend=='' || $item->count_fb_friend==0 ||  $item->count_fb_friend==1){
             $count=0;
         }else{
-            $count = $item->count_fb_friend;
+            $count = $item->count_fb_friend-1;
               $count = $count." others";
         }
             $var[] = [
