@@ -70,7 +70,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-            //  throw $e;
+              throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -86,8 +86,13 @@ class ActivityController extends Controller {
             $comment->fill($data);
 
             if ($comment->save()) {
-                \App\Activity::where('activity_id', $data['activity_id'])
-                        ->update(['total_comment' => $this->getCommentCount($data['activity_id'])]);
+    
+                $activity= \App\Activity::where('activity_id', $data['activity_id'])->first();
+                $activity->total_comment=$this->getCommentCount($data['activity_id']);
+                $activity->save();      
+               if($activity->save() && $activity->created_by!=Auth::id()){
+                \App\ActivityShare::sendActivityNotification($activity,'activitycomment',\Config::get('constants.ACTIVITY_COMMENT'));
+               }
                 return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);

@@ -48,8 +48,8 @@ class FcmNotification extends Notification {
             'name' => empty($this->data['name'])?'':$this->data['name'],
             'image' =>empty($this->data['image'])?'':$this->data['image'],
             'notification_message' => $this->data['notification_message'],
-            'coupon_id' => $this->data['coupon_id'],
-           
+            'coupon_id' => (empty($this->data['coupon_id'])?'':$this->data['coupon_id']),
+            'activity_id' => (empty( $this->data['activity_id'])?'': $this->data['activity_id']),
         ]; 
          
     }

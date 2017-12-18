@@ -5,9 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Services\CouponTrait;
 use Auth;
+ use App\Http\Services\ActivityTrait;
 
 class Activity extends Model {
-
+   
+    use ActivityTrait;
     /**
      * The attributes that are mass assignable.
      *

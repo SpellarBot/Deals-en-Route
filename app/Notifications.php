@@ -55,7 +55,7 @@ class Notifications extends Model {
 
 // You must change it to get your tokens
         $tokens = DeviceDetail::where('user_id', $returnvalue->notifiable_id)->first();
-
+    print_r($data);
         if (!empty($tokens)) {
             $downstreamResponse = FCM::sendTo([$tokens->device_token], $option, $notification, $data);
             return $downstreamResponse->numberSuccess();
