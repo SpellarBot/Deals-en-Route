@@ -42,7 +42,7 @@ class UserTransformer {
              if (!empty($fromuser) && !empty($fromuser->userDetail)) {
                 $profile = URL::to('/storage/app/public/profile_pic') . '/' . $fromuser->userDetail->profile_pic;
             } else {
-               $profile = URL::to('/storage/app/public/vendor_logo') . '/' . $coupon->vendorDetail->vendor_logo;
+               $profile = $coupon->vendorDetail->vendor_logo;
             }
             
             $touser = \App\User::find($item->notifiable_id);
