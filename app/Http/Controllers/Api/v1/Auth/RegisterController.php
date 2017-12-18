@@ -205,11 +205,14 @@ use ResponseTrait;
         // If we reach here, then// data is valid and working.//
         DB::commit();
 
-        $data = (new UserTransformer)->transformLogin($user);
+       
         if (empty($user)) {
             return $this->responseJson('error', \Config::get('constants.USER_UNAUTHENTICATED'), 422);
-        }
+        }else{
+             $data = (new UserTransformer)->transformLogin($user);
+        
         return $this->responseJson('success', \Config::get('constants.USER_LOGIN'), 200, $data);
+        }
     }
 
     protected function addemail(Request $request) {
