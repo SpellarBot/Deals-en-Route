@@ -38,11 +38,13 @@ class UserTransformer {
         $var = [];
         foreach ($data as $item) {
             $fromuser = \App\User::find($item->from_id);
-            if (!empty($fromuser) && !empty($fromuser->userDetail)) {
+            $coupon= \App\Coupon::find( $item->coupon_id);
+             if (!empty($fromuser) && !empty($fromuser->userDetail)) {
                 $profile = URL::to('/storage/app/public/profile_pic') . '/' . $fromuser->userDetail->profile_pic;
             } else {
-                $profile = '';
+               $profile = URL::to('/storage/app/public/vendor_logo') . '/' . $coupon->vendorDetail->vendor_logo;
             }
+            
             $touser = \App\User::find($item->notifiable_id);
 
             $fmessage = $this->finalNotificationMessage($item);
