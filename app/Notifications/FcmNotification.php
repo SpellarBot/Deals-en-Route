@@ -40,7 +40,7 @@ class FcmNotification extends Notification {
      * @return array
      */
     public function toDatabase($notifiable) {
-        
+  
         $DatabaseNotification = $notifiable->notifications->first();
             return [
             'type' => $this->data['type'],
@@ -49,6 +49,7 @@ class FcmNotification extends Notification {
             'image' =>empty($this->data['image'])?'':$this->data['image'],
             'notification_message' => $this->data['notification_message'],
             'coupon_id' => $this->data['coupon_id'],
+           
         ]; 
          
     }

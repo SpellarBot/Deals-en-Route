@@ -11,6 +11,8 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use App\Http\Services\CouponTrait;
 use App\Http\Services\NotificationTrait;
+use Notification;
+use App\Notifications\FcmNotification;
 
 class Coupon extends Model {
 
@@ -176,12 +178,60 @@ class Coupon extends Model {
         $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
         // $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
         if ($coupon->save()) {
-
+            self::getNotificationUsers($coupon);
+        
             return $coupon;
         }
         return false;
     }
 
+    public static function getNotificationUsers($coupon){
+        $device=[];
+        $user=User::active()->deleted()
+                  ->join('device_detail','device_detail.user_id','users.id')
+                  ->join('user_detail','user_detail.user_id','users.id')
+                  ->where('role', 'user')
+                  ->where('user_detail.latitude', '!=','')
+                  ->where('user_detail.longitude', '!=','')
+                  ->where('device_token','!=','')
+                  ->get();
+       
+        $circle_radius = \Config::get('constants.EARTH_RADIUS');
+       
+        foreach($user as $users){
+
+        $lat = $users->latitude;
+        $lng = $users->longitude;
+        $id = $users->category_id;
+          $idsArr = explode(',', $id);
+         $query = Coupon::active()->deleted()
+                ->select(DB::raw('coupon.coupon_id,coupon_radius,coupon_detail,'
+                                . 'created_by,coupon_lat,'
+                                . 'coupon_long,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) ) as distance'))
+                ->where('coupon_id', '=',$coupon->coupon_id)
+                ->whereIn('coupon_category_id', $idsArr)
+                ->havingRaw('coupon_radius >= distance')
+                ->get();
+         if($query) {
+            $device[]= $users;
+         }
+        }
+        
+        self::sendNotification($device,$coupon);
+    }
+
+
+    
+    
+    public static function sendNotification($device,$coupon){
+        
+            Notification::send($device, new FcmNotification([
+                'type' => 'newcoupon',
+                'notification_message' => 'You have new coupon in your area.',
+                'message' => 'You have new coupon in your area.',
+                'coupon_id' => $coupon->coupon_id
+            ]));
+    }
     public static function updateCoupon($data, $id) {
 
         $coupon = Coupon::where('coupon_id', $id)->first();

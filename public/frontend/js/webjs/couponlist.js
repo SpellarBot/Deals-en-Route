@@ -27,7 +27,16 @@ var showArray = [];
 
 
 $(document).ready(function () {
-
+  if(localStorage.getItem("NewCoupon"))
+    {   
+        $('.alert-success').show();
+          $('.successmessage').html(localStorage.getItem("NewCoupon"));
+         setTimeout(function () {
+                    $('.alert-success').fadeOut('slow');
+                }, 10000);     
+        localStorage.clear();
+    }
+    
     $('.fileinput').fileinput();
     jQuery(".prev-step").click(function (e) {
 
@@ -100,7 +109,7 @@ $(document).ready(function () {
         showRefresh: true,
         search: true,
         showToggle: true,
-        showColumns: true,
+        showColumns: false,
         pagination: true,
         searchAlign: 'left',
         pageSize: 8,
@@ -346,9 +355,8 @@ $(document).on("submit", "#create-coupon", function (event) {
         success: function (data) {
             if (data.status == 1) {
                 $('#loadingDiv').hide();
-                setDashboardNotification(data);
-
-                location.reload(true);
+               localStorage.setItem("NewCoupon",data.message)
+               location.reload(true); 
 
             } else {
 

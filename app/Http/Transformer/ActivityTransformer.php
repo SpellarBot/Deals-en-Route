@@ -32,6 +32,13 @@ class ActivityTransformer {
             $image = (!empty($user->profile_pic)) ? URL::to('/storage/app/public/profile_pic/tmp') . '/' . $user->profile_pic : "";
 
             $fmessage = $this->finalMessage($item->activity_message, $item);
+            
+          if($item->count_fb_friend=='' || $item->count_fb_friend==0 ||  $item->count_fb_friend==1){
+            $count=0;
+        }else{
+            $count = $item->count_fb_friend;
+              $count = $count." others";
+        }
             $var[] = [
                 'activity_id' => $item->activity_id ?? '',
                 'activity_name' => $fmessage,
@@ -42,6 +49,7 @@ class ActivityTransformer {
                 'creator_name' => $name,
                 'share_name' => $sharename??'',
                 'image' => $image,
+                'count' => $count
             ];
         }
 

@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Notifications\Notifiable;
 use Session;
+use App\Jobs\ProcessNotification;
+use Carbon\Carbon;
 
 class CouponController extends Controller {
 
@@ -83,6 +85,7 @@ class CouponController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(\App\Http\Requests\CouponRequest $request) {
+
         DB::beginTransaction();
         try {
             $request = $request->all();
@@ -90,6 +93,7 @@ class CouponController extends Controller {
             if (!empty($request['validationcheck']) && $request['validationcheck'] == 1) {
 
                 $coupon = Coupon::addCoupon($request);
+                      
                 $file = Input::file('coupon_logo');
                 //store image
                 if (!empty($file)) {
@@ -99,7 +103,7 @@ class CouponController extends Controller {
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-            // throw $e;
+             throw $e;
             return response()->json(['status' => 0, 'message' => \Config::get('constants.APP_ERROR')], 400);
         }
         // If we reach here, then// data is valid and working.//

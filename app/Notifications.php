@@ -9,6 +9,7 @@ use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 use FCM;
+use Auth;
 
 class Notifications extends Model {
 
@@ -18,7 +19,8 @@ class Notifications extends Model {
         $data = $notification->toDatabase($notifiable);
         $notificationmessage = $data['notification_message'];
         unset($data['notification_message']);
-     
+       
+    
         $returnvalue = $notifiable->routeNotificationFor('database')->create([
             'message' => $notificationmessage,
             'from_id' => (empty(\Auth::user())) ? '' : \Auth::user()->id,
@@ -41,14 +43,19 @@ class Notifications extends Model {
         $notificationBuilder->setBody($returnvalue->data['message'])->setSound('default');
 
         $dataBuilder = new PayloadDataBuilder();
-
-        $dataBuilder->addData($returnvalue->data);
+        $user=User::find($returnvalue->notifiable_id);
+        $unread= $user->unreadNotifications->count();
+      
+        $finaldata=array_merge($returnvalue->data,['badge'=>$unread]); 
+      
+        $dataBuilder->addData($finaldata);
         $option = $optionBuiler->build();
         $notification = $notificationBuilder->build();
         $data = $dataBuilder->build();
 
 // You must change it to get your tokens
         $tokens = DeviceDetail::where('user_id', $returnvalue->notifiable_id)->first();
+
         if (!empty($tokens)) {
             $downstreamResponse = FCM::sendTo([$tokens->device_token], $option, $notification, $data);
             return $downstreamResponse->numberSuccess();

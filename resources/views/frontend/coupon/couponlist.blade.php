@@ -28,7 +28,7 @@
                                                                      
                                                                        @foreach ($coupon_lists as $coupon_list)
                                                                        <tr id="{{$coupon_list->coupon_id }}">
-                                                                                    <td><img src="{{$coupon_list->coupon_logo }}" ></td>
+                                                                                    <td><img src="{{$coupon_list->categoryDetail->category_logo_image  }}" ></td>
                                                                                         <td> {{ $coupon_list->coupon_name }}</td>
                                                                                         <td>{{ $coupon_list->coupon_redeem_limit }}</td>
                                                                                         <td>{{ $coupon_list->coupon_total_redeem }}</td>
