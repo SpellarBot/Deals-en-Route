@@ -40,8 +40,8 @@ trait UserTrait {
 
         $userfrom = User::find($item->from_id);
         $tofrom = User::find($item->notifiable_id);
-        $fromid = (!empty($userfrom) ? $userfrom->userDetail->first_name . " " . $userfrom->userDetail->last_name : '');
-        $toid = (!empty($tofrom) ? $tofrom->userDetail->first_name . " " . $tofrom->userDetail->last_name : '');
+        $fromid = ((!empty($userfrom) &&  $userfrom->userDetail)  ? $userfrom->userDetail->first_name . " " . $userfrom->userDetail->last_name : '');
+        $toid = ((!empty($tofrom) &&   $userfrom->userDetail) ? $tofrom->userDetail->first_name . " " . $tofrom->userDetail->last_name : '');
         $coupon_name = \App\Coupon::getCouponDetail(['coupon_id' => $item->coupon_id]);
         $find = ['{{to_name}}', '{{from_name}}', '{{coupon_name}}', '{{vendor_name}}'];
         $replace = [$toid, $fromid, empty($coupon_name) ? "" : $coupon_name->coupon_name, empty($coupon_name) ? "" : $coupon_name->vendorDetail->vendor_name];
