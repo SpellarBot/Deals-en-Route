@@ -15,6 +15,7 @@ trait CouponTrait {
     public function getCouponShareCount($activityid = "", $couponid) {
         if (empty($activityid)) {
             return CouponShare::where(['coupon_id' => $couponid])
+                          ->where('share_friend_id','!=',0)
                             ->where(function($q) {
                                 $q->where(['user_id' => Auth::id()])
                                 ->orWhere('share_friend_id', Auth::id());
