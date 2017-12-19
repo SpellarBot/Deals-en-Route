@@ -92,6 +92,14 @@ return [
     //local path
     'IMAGE_PATH' => 'storage/app/public/',
     'PAGINATE' => 10,
+    
+    
+    //SOCAIL SITE LINK 
+    'FACEBOOK_LINK'=>'https://www.facebook.com/dealsenroute',
+    'LINKDIN_LINK'=>'https://www.linkedin.com/company/11119147',
+    'TWITTER_LINK'=>'https://twitter.com/dealsenroute',
+    'INSTAGRAM_LINK'=>'https://www.instagram.com/dealsenroute',
+    
     //notification
     //stripe keys
     'STRIPE_KEY' => 'pk_test_dvnwoMABEgschsRqPZRuGJrp',
