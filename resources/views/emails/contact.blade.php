@@ -38,25 +38,21 @@
                     </table>
                     <table width="230" border="0" cellspacing="0" cellpadding="0" align="right" class="wrap">
                         <tr>
-                            <td align="center" valign="top"><table width="230" border="0" cellspacing="0" cellpadding="0" align="center">
-                                    <?php $insta = \Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/instagram.png' ?>
-                                    <?php $fb = \Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/facebook.png' ?>
-                                    <?php $twitter = \Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/twitter.png' ?>
-                                    <?php $you = \Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/youtube.png' ?>
-                                    <?php $gplus = \Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/gplus.png' ?>
-
-                                    <tr>
-                                        <td width="18" align="center" valign="middle" style="font-size:0px; line-height:0px;"><a href="#" target="_blank" style="text-decoration:none;"><img src="<?php echo $insta; ?>" width="18" alt="insta" border="0" style="display:block; max-width:18px;" /></a></td>
+                                  <td align="center" valign="top"><table width="230" border="0" cellspacing="0" cellpadding="0" align="center">
+                                      <?php $insta=\Config::get('app.url') . \Config::get('constants.IMAGE_PATH') . '/images/instagram.png' ?>
+                                      <?php $fb=\Config::get('app.url'). \Config::get('constants.IMAGE_PATH') . '/images/facebook.png' ?>
+                                      <?php $twitter=\Config::get('app.url'). \Config::get('constants.IMAGE_PATH') . '/images/twitter.png' ?>
+                                      <?php $link=\Config::get('app.url').\Config::get('constants.IMAGE_PATH') . '/images/linkedin.png' ?>
+                                          <tr>
+                                        <td width="18" align="center" valign="middle" style="font-size:0px; line-height:0px;"><a href="{{ \Config::get('constants.FACEBOOK_LINK') }}" target="_blank" style="text-decoration:none;"><img src="<?php echo $fb; ?>" width="18" alt="insta" border="0" style="display:block; max-width:18px;" /></a></td>
                                         <td height="18" style="font-size:0px; line-height:0px;">&nbsp;</td>
-                                        <td width="18" align="center" valign="middle" style="font-size:0px; line-height:0px;"><a href="#" target="_blank" style="text-decoration:none;"><img src="<?php echo $fb; ?>" width="18" alt="fb" border="0" style="display:block; max-width:18px;" /></a></td>
+                                        <td width="18" align="center" valign="middle" style="font-size:0px; line-height:0px;"><a href="{{ \Config::get('constants.LINKDIN_LINK') }}" target="_blank" style="text-decoration:none;"><img src="<?php echo $link; ?>" width="18" alt="fb" border="0" style="display:block; max-width:18px;" /></a></td>
                                         <td height="18" style="font-size:0px; line-height:0px;">&nbsp;</td>
-                                        <td width="18" align="center" valign="middle" style="font-size:0px; line-height:0px;"><a href="#" target="_blank" style="text-decoration:none;"><img src="<?php echo $twitter; ?>" width="18" alt="tw" border="0" style="display:block; max-width:18px;" /></a></td>
+                                        <td width="18" align="center" valign="middle" style="font-size:0px; line-height:0px;"><a href="{{ \Config::get('constants.TWITTER_LINK') }}" target="_blank" style="text-decoration:none;"><img src="<?php echo  $twitter; ?>" width="18" alt="tw" border="0" style="display:block; max-width:18px;" /></a></td>
                                         <td height="18" style="font-size:0px; line-height:0px;">&nbsp;</td>
-                                        <td width="18" align="center" valign="middle" style="font-size:0px; line-height:0px;"><a href="#" target="_blank" style="text-decoration:none;"><img src="<?php echo $you; ?>" width="18" alt="yt" border="0" style="display:block; max-width:18px;" /></a></td>
-                                        <td height="18" style="font-size:0px; line-height:0px;">&nbsp;</td>
-                                        <td width="18" align="center" valign="middle" style="font-size:0px; line-height:0px;"><a href="#" target="_blank" style="text-decoration:none;"><img src="<?php echo $gplus; ?>" width="18" alt="g+" border="0" style="display:block; max-width:18px;" /></a></td>
-                                    </tr>
-                                </table></td>
+                                        <td width="18" align="center" valign="middle" style="font-size:0px; line-height:0px;"><a href="{{ \Config::get('constants.INSTAGRAM_LINK') }}" target="_blank" style="text-decoration:none;"><img src="<?php echo  $insta; ?>" width="18" alt="yt" border="0" style="display:block; max-width:18px;" /></a></td>
+                                      </tr>
+                                    </table></td>
                         </tr>
                     </table></td>
             </tr>

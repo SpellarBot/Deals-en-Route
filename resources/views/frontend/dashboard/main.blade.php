@@ -347,18 +347,18 @@
                                                     </li>
                                                     <li>
                                                             <!-- <i class="fa fa-envelope"></i> -->
-                                                        <span><a href="mailto:abc@xyz.com" style="color: #252422;">abc@xyz.com</a></span>
+                                                        <span><a href="mailto:{{ \Config::get('constants.CLIENT_MAIL') }}" style="color: #252422;">{{ \Config::get('constants.CLIENT_MAIL') }}</a></span>
                                                     </li>
                                                     <li>
                                                             <!-- <i class="fa fa-mobile"></i> -->
-                                                        <span>+1 231 564 879</span>
+                                                        <span><a href="tel:1231564879"> +1 231 564 879</a></span>
                                                     </li>
                                                     <li>
                                                         <div class="social-cont">
-                                                            <div> <a target="_blank" href="#s"><i class="fa fa-facebook"></i> </a> </div>
-                                                            <div> <a target="_blank" href="#"><i class="fa fa-linkedin"></i> </a> </div>
-                                                            <div> <a target="_blank" href="#s"><i class="fa fa-twitter"></i> </a> </div>
-                                                            <div> <a target="_blank" href="#"><i class="fa fa-instagram"></i> </a> </div>
+                                                            <div> <a target="_blank" href="{{ \Config::get('constants.FACEBOOK_LINK') }}"><i class="fa fa-facebook"></i> </a> </div>
+                                                            <div> <a target="_blank" href="{{ \Config::get('constants.LINKDIN_LINK') }}"><i class="fa fa-linkedin"></i> </a> </div>
+                                                            <div> <a target="_blank" href="{{ \Config::get('constants.TWITTER_LINK') }}"><i class="fa fa-twitter"></i> </a> </div>
+                                                            <div> <a target="_blank" href="{{ \Config::get('constants.INSTAGRAM_LINK') }}"><i class="fa fa-instagram"></i> </a> </div>
                                                         </div>
                                                     </li>
                                                 </ul>

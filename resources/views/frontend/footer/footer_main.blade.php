@@ -8,10 +8,10 @@
 
             <footer>
                 <ul class="social">
-                    <li class="facebook"> <a target="_blank" href="#s"><i class="fa fa-facebook"></i> <span>Facebook</span> </a> </li>
-                    <li class="linkedin"> <a target="_blank" href="#"><i class="fa fa-linkedin"></i> <span>LinkedIn</span> </a> </li>
-                    <li class="twitter"> <a target="_blank" href="#s"><i class="fa fa-twitter"></i> <span>Twitter</span> </a> </li>
-                    <li class="instagram"> <a target="_blank" href="#"><i class="fa fa-instagram"></i> <span>Instagram</span> </a> </li>
+                    <li class="facebook"> <a target="_blank" href="{{ \Config::get('constants.FACEBOOK_LINK') }}"><i class="fa fa-facebook"></i> <span>Facebook</span> </a> </li>
+                    <li class="linkedin"> <a target="_blank" href="{{ \Config::get('constants.LINKDIN_LINK') }}"><i class="fa fa-linkedin"></i> <span>LinkedIn</span> </a> </li>
+                    <li class="twitter"> <a target="_blank" href="{{ \Config::get('constants.TWITTER_LINK') }}"><i class="fa fa-twitter"></i> <span>Twitter</span> </a> </li>
+                    <li class="instagram"> <a target="_blank" href="{{ \Config::get('constants.INSTAGRAM_LINK') }}"><i class="fa fa-instagram"></i> <span>Instagram</span> </a> </li>
                 </ul>
                 <div class="links">
                     <ul>
@@ -22,7 +22,9 @@
                         <li class="help"> <a href="#">Help</a> </li>
                     </ul>
                 </div>
-                <p class="copyright"> Copyright &copy; 2016-2017 <a href="#">Deals en Route</a>. All Rights Reserved. </p>
+                <p class="copyright"> Copyright &copy;  <script>
+                                    document.write(new Date().getFullYear())
+                                </script> <a href="#">Deals en Route</a>. All Rights Reserved. </p>
             </footer>
         </div>
         <!-- end of footer-container -->
