@@ -43,8 +43,9 @@ trait UserTrait {
         $fromid = ((!empty($userfrom) &&  $userfrom->userDetail)  ? $userfrom->userDetail->first_name . " " . $userfrom->userDetail->last_name : '');
         $toid = ((!empty($tofrom) &&   $userfrom->userDetail) ? $tofrom->userDetail->first_name . " " . $tofrom->userDetail->last_name : '');
         $coupon_name = \App\Coupon::getCouponDetail(['coupon_id' => $item->coupon_id]);
-        $find = ['{{to_name}}', '{{from_name}}', '{{coupon_name}}', '{{vendor_name}}'];
-        $replace = [$toid, $fromid, empty($coupon_name) ? "" : $coupon_name->coupon_name, empty($coupon_name) ? "" : $coupon_name->vendorDetail->vendor_name];
+        $find = ['{{to_name}}', '{{from_name}}', '{{coupon_name}}', '{{vendor_name}}','{{like_friend}}','{{comment_friend}}','{{coupon_name}}','{{from_id}}'];
+        $replace = [$toid, $fromid, empty($coupon_name) ? "" : $coupon_name->coupon_name, empty($coupon_name) ? "" : $coupon_name->vendorDetail->vendor_name,
+            $fromid,$fromid,$coupon_name,$fromid];
         $message = str_replace($find, $replace, $item->message);
         return $message;
     }
