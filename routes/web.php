@@ -39,8 +39,15 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/register', 'Auth\RegisterController@showCategoryForm')->name('frontend.register');
     Route::post('/register/create', 'Auth\RegisterController@create');
     Route::post('register/update', 'VendorController@update');
-
     Route::post('/register/subcription', 'Auth\RegisterController@subscribe');
+    
+    //vendor help pages
+    
+    Route::get('/terms_condition', 'Auth\LoginController@terms')->name('termscondition');
+    Route::get('/privacy_policy', 'Auth\LoginController@privacy')->name('privacy');
+    Route::get('/refund_policy', 'Auth\LoginController@refund')->name('refund');
+    Route::get('/report', 'Auth\LoginController@report')->name('report');
+    Route::get('/help', 'Auth\LoginController@help')->name('help');
 
     //vendor login
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('user.loginform');

@@ -15,11 +15,11 @@
                 </ul>
                 <div class="links">
                     <ul>
-                        <li class="tos"> <a href="termsandconditions.html">Terms and Conditions</a> </li>
-                        <li class="privacy"> <a href="privacypolicy.html">Privacy Policy</a> </li>
-                        <li class="refund"> <a href="#">Refund Policy</a> </li>
-                        <li class="feedback"> <a href="#">Report a Problem</a> </li>
-                        <li class="help"> <a href="#">Help</a> </li>
+                        <li class="tos"> <a target="_blank" href="{{ route('termscondition')}}">Terms and Conditions</a> </li>
+                        <li class="privacy"> <a target="_blank" href="{{ route('privacy')}}">Privacy Policy</a> </li>
+                        <li class="refund"> <a target="_blank" href="{{ route('refund')}}">Refund Policy</a> </li>
+                        <li class="feedback"> <a target="_blank" href="{{ route('report')}}">Report a Problem</a> </li>
+                        <li class="help"> <a target="_blank" href="{{ route('help')}}">Help</a> </li>
                     </ul>
                 </div>
                 <p class="copyright"> Copyright &copy;  <script>

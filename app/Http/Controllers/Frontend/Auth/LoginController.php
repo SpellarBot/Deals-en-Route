@@ -66,7 +66,7 @@ use AuthenticatesUsers;
     }
 
     public function login(LoginFormRequest $request) {
-        
+
         $data = $request->all();
         $email = $data['email'];
         $password = $data['password'];
@@ -86,8 +86,8 @@ use AuthenticatesUsers;
             } else if (empty($subcription)) {
                 Auth::guard('web')->logout();
                 Session::flash('success', \Config::get('constants.USER_SELECT_PLAN'));
-                $view= base64_encode(view('frontend.signup.pricetable')->with(['user_id' => $auth->id]));
-                return ['status'=>3,'view'=>$view];
+                $view = base64_encode(view('frontend.signup.pricetable')->with(['user_id' => $auth->id]));
+                return ['status' => 3, 'view' => $view];
             } else {
                 Auth::guard('web')->attempt($credentials);
                 Session::flash('success', \Config::get('constants.USER_LOGIN_SUCCESS'));
@@ -96,7 +96,6 @@ use AuthenticatesUsers;
         } else {
             return response()->json(['status' => 0, 'message' => ucwords(trans('auth.failed'))], 422);
         }
-        
     }
 
     public function dashboard() {
@@ -122,13 +121,12 @@ use AuthenticatesUsers;
                 if (empty($subcription)) {
                     Session::flash('success', \Config::get('constants.USER_SELECT_PLAN'));
                     return view('frontend.signup.pricetablehtml')->with(['user_id' => $user->id], 200);
-                }
-                else if (Auth::guard('web')->loginUsingId($user->id)) {
+                } else if (Auth::guard('web')->loginUsingId($user->id)) {
                     Session::flash('success', \Config::get('constants.LOGIN_SUCCESS'));
                     return Redirect::to('/dashboard');
-                }else{
-                Session::flash('error', \Config::get('constants.APP_ERROR'));
-                return Redirect::to('/confirm');
+                } else {
+                    Session::flash('error', \Config::get('constants.APP_ERROR'));
+                    return Redirect::to('/confirm');
                 }
             }
             Session::flash('error', \Config::get('constants.EMAIL_CODE_EXPIRED'));
@@ -138,6 +136,26 @@ use AuthenticatesUsers;
             Session::flash('error', \Config::get('constants.APP_ERROR'));
             return Redirect::to('/confirm');
         }
+    }
+
+    public function terms() {
+        return view('frontend.terms');
+    }
+
+    public function privacy() {
+        return view('frontend.privacy');
+    }
+
+    public function refund() {
+        return view('frontend.refund');
+    }
+
+    public function report() {
+        return view('frontend.report');
+    }
+
+    public function help() {
+        return view('frontend.help');
     }
 
 }
