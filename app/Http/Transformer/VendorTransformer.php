@@ -22,8 +22,8 @@ class VendorTransformer {
             'vendor_address' => $user->vendor->vendor_address ?? '',
             'email' => $user->email ?? '',
             'vendor_phone' => $user->vendor->vendor_phone ?? '',
-            'vendor_logo' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo) : "",
-            'profile_pic_thumbnail' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo) : "",
+            'vendor_logo' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo) : URL::to('storage/app/public/vendor_logo/'),
+            'profile_pic_thumbnail' => (!empty($user->vendor->vendor_logo)) ? URL::to($user->vendor->vendor_logo) : URL::to('storage/app/public/vendor_logo/'),
             'api_token' => $user->api_token ?? ''
         ];
     }
@@ -71,7 +71,7 @@ class VendorTransformer {
             'card_last_four' => $data['card_last_four'] ?? '',
             'subscription_plan' => $data['stripe_plan'] ?? '',
             'card_brand' => $data['card_brand'] ?? '',
-            'vendor_logo' => (!empty($data['vendor_logo'])) ? URL::to('storage/app/public/vendor_logo/'.$data['vendor_logo']) : "",
+            'vendor_logo' => (!empty($data['vendor_logo'])) ? URL::to('storage/app/public/vendor_logo/'.$data['vendor_logo']) : URL::to('storage/app/public/vendor_logo/'),
         ];
     }
 
