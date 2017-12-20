@@ -43,6 +43,12 @@ use AuthenticatesUsers;
 
     public function index() {
         // show logo image
+     
+        return view('frontend.main');
+    }
+    
+      public function vendorindex() {
+        // show logo image
         $company_logo = $this->showLogoImage();
         return view('frontend.home')->with(['company_logo' => $company_logo]);
     }
@@ -53,7 +59,7 @@ use AuthenticatesUsers;
 
     public function logout() {
         Auth::guard('web')->logout();
-        return redirect('/');
+        return redirect('/index');
     }
 
     /**

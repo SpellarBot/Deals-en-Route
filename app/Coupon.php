@@ -123,7 +123,7 @@ class Coupon extends Model {
             $query->whereIn('coupon_category_id', $idsArr);
         }
 
-        $result = $query->groupBy('coupon_id')->orderBy('distance')->simplePaginate(\Config::get('constants.PAGINATE'));
+        $result = $query->groupBy('coupon_id')->orderBy('distance','asc')->orderBy('coupon_id','desc')->simplePaginate(\Config::get('constants.PAGINATE'));
 
         return $result;
     }
