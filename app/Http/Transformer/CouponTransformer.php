@@ -17,8 +17,8 @@ class CouponTransformer {
                 'coupon_name' => $item->coupon_name ?? '',
                 'vendor_name' => $item->vendorDetail->vendor_name ?? '',
                 'coupon_detail' => $item->coupon_detail ?? '',
-                'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
-                'category_logo_image' => $item->categoryDetail->category_logo_image ?? "",
+                'vendor_logo' => $item->vendorDetail->vendor_logo ?? URL::to('storage/app/public/vendor_logo/'),
+                'category_logo_image' => $item->categoryDetail->category_logo_image ?? URL::to('public/frontend/img'),
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
                 'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
@@ -40,8 +40,8 @@ class CouponTransformer {
                 'coupon_original_price' => $item->coupon_original_price ?? '',
                 'coupon_total_discount' => $item->coupon_total_discount ?? '',
                 'vendor_address' => $item->vendorDetail->vendor_address ?? '',
-                'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
-                'category_logo_image' => $item->categoryDetail->category_logo_image ?? '',
+                'vendor_logo' => $item->vendorDetail->vendor_logo ?? URL::to('storage/app/public/vendor_logo/'),
+                'category_logo_image' => $item->categoryDetail->category_logo_image ?? URL::to('public/frontend/img'),
                 'distance' => $item->distance ?? '',
                 'coupon_latitude' => $item->coupon_lat ?? '',
                 'coupon_longitude' => $item->coupon_long ?? '',
@@ -58,7 +58,7 @@ class CouponTransformer {
         return [
             'coupon_id' => $item->coupon_id ?? '',
             'category_logo_image' => $item->categoryDetail->category_logo_image ?? "",
-            'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
+            'vendor_logo' => (!empty($item->vendorDetail->vendor_logo)) ? $item->vendorDetail->vendor_logo : URL::to('storage/app/public/vendor_logo/'),
             'coupon_original_price' => $item->coupon_original_price ?? '',
             'coupon_total_discount' => $item->coupon_total_discount ?? '',
             'vendor_name' => $item->vendorDetail->vendor_name ?? '',
@@ -81,8 +81,8 @@ class CouponTransformer {
                 'coupon_name' => $item->coupon_name ?? '',
                 'coupon_detail' => $item->coupon_detail ?? '',
                 'vendor_address' => $item->vendorDetail->vendor_address ?? '',
-                'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
-                 'category_logo_image' => $item->categoryDetail->category_logo_image ?? "",
+                'vendor_logo' => (!empty($item->vendorDetail->vendor_logo)) ? $item->vendorDetail->vendor_logo : URL::to('storage/app/public/vendor_logo/'),
+                'category_logo_image' => (!empty($item->categoryDetail->category_logo_image)) ? $item->categoryDetail->category_logo_image : URL::to('public/frontend/img'),
             ];
         });
         return ['has_page' => $coupon->hasMorePages(), 'current_page' => $coupon->currentPage(), 'listing' => $var];
@@ -101,7 +101,7 @@ class CouponTransformer {
                 'coupon_active' => $item->coupon_redeem_limit - $item->coupon_total_redeem,
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
-                'coupon_logo' => $item->coupon_logo ?? "",
+                'coupon_logo' => (!empty($item->coupon_logo)) ? $item->coupon_logo : URL::to('public/frontend/img')
             ];
         });
         return ['listing' => $var];
