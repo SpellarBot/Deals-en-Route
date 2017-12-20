@@ -253,7 +253,17 @@ class CouponController extends Controller {
     public function getCoupons() {
         $coupon = \App\Coupon::couponList();
         if (count($coupon) > 0) {
-            $data = (new CouponTransformer)->transformListVendor($coupon);
+            $coupon_data = array();
+            foreach ($coupon as $c) {
+                $coupons = $c->getAttributes();
+                if ($coupons['coupon_logo'] && !empty($coupons['coupon_logo'])) {
+                    $coupons['coupon_logo'] = URL::to('storage/app/public/coupon_logo/' . $coupons['coupon_logo']);
+                } else {
+                    $coupons['coupon_logo'] = URL::to('storage/app/public/coupon_logo/');
+                }
+                array_push($coupon_data, $coupons);
+            }
+            $data = (new CouponTransformer)->transformListVendor((object) $coupon_data);
             return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
         } else {
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
@@ -306,9 +316,9 @@ class CouponController extends Controller {
                     'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
                     'coupon_id' => $getCoupondetails->coupon_id,
                 ]));
-                
-                if ($this->getCouponShareWebCount($getCoupondetails->coupon_id,$data['user_id']) > 0) {
-                    $activity = \App\Activity::redeemActivity($getCoupondetails,$data['user_id']);
+
+                if ($this->getCouponShareWebCount($getCoupondetails->coupon_id, $data['user_id']) > 0) {
+                    $activity = \App\Activity::redeemActivity($getCoupondetails, $data['user_id']);
                 }
                 $couponReedem = array();
                 $couponReedem['user_id'] = $data['user_id'];
