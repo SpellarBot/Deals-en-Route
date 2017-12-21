@@ -51,7 +51,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/help', 'Auth\LoginController@help')->name('help');
 
     //vendor login
-    Route::get('login', 'Auth\LoginController@showLoginForm')->name('user.loginform');
+    Route::get('login', 'Auth\LoginController@vendorindex')->name('user.loginform');
     Route::post('vendor/login', 'Auth\LoginController@login')->name('vendor.login');
     Route::post('vendor/logout', 'Auth\LoginController@logout')->name('vendor.logout');
 

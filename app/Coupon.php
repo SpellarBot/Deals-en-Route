@@ -211,8 +211,10 @@ class Coupon extends Model {
                 ->where('coupon_id', '=',$coupon->coupon_id)
                 ->whereIn('coupon_category_id', $idsArr)
                 ->havingRaw('coupon_radius >= distance')
-                ->get();
-         if($query) {
+                ->get()
+                 ->toArray();
+       
+         if(!empty($query)) {
             $device[]= $users;
          }
         }

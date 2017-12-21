@@ -2407,3 +2407,24 @@ a.btn.btn-pack.btn-danger {
     font-weight: 600;
     margin-right: 10px;
 }
+
+.prnco .date{
+ font-size: 12px; text-align: right;
+ color: #999;
+ margin-bottom: 10px;
+}
+
+.prnco p{
+ font-size: 14px;
+ line-height: 18px;
+ margin-bottom: 30px;
+}
+
+.prnco h4{
+ font-size: 18px;
+ line-height: 20px;
+ font-weight: bold;
+ color: #3a5898; 
+ margin-bottom: 10px;
+ margin-top: 10px;
+}
