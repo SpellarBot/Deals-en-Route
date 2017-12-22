@@ -53,7 +53,11 @@ class UserTransformer {
                 'notification_message' => $fmessage ?? '',
                 'notification_image' => $profile,
                 'is_read' => $item->is_read ?? '',
-                'to_name' => (!empty($touser) ? $touser->userDetail->first_name . ' ' . $touser->userDetail->last_name : '')
+                'to_name' => (!empty($touser) ? $touser->userDetail->first_name . ' ' . $touser->userDetail->last_name : ''),
+                'coupon_id'=>$item->coupon_id??'',
+                'type'=>$item->type,
+                'activity_id'=>$item->data['activity_id']??'',
+                'comment_id'=>$item->data['comment_id']??'',
             ];
         }
         return ['has_page' => $data->hasMorePages(), 'current_page' => $data->currentPage(), 'listing' => $var];
