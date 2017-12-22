@@ -87,7 +87,7 @@ class StripeController extends Controller {
                 'data' => ['confirmation_code' => 'Test'],
             ];
             $this->sendMail($array_mail);
-            if ($description != 'CommisionPayment' || $description != 'Ad-ons') {
+            if ($description != "CommisionPayment" || $description != 'Ad-ons') {
                 $data = array();
                 $data['vendor_id'] = $user_details->user_id;
                 $data['totalamount'] = $amount / 100;
@@ -106,7 +106,7 @@ class StripeController extends Controller {
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
             ];
-            if ($description != 'CommisionPayment' || $description != 'Ad-ons') {
+            if ($description != "CommisionPayment" || $description != 'Ad-ons') {
                 $data = array();
                 $data['vendor_id'] = $user_details->user_id;
                 $data['totalamount'] = $amount / 100;
@@ -119,8 +119,8 @@ class StripeController extends Controller {
                 $data['invoice'] = $this->invoice($data);
                 \App\PaymentInfo::create($data);
                 $array_mail['invoice'] = storage_path('app/pdf/' . $data['invoice']);
+                $this->sendMail($array_mail);
             }
-            $this->sendMail($array_mail);
 //        } elseif ($event->type == 'customer.subscription.deleted') {
 //            $array_mail = ['to' => $user_details->email,
 //                'type' => 'subscription_cancel_success',
