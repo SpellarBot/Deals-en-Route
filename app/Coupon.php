@@ -173,12 +173,13 @@ class Coupon extends Model {
     }
 
     public static function couponList() {
-        $coupon_list = Coupon::where('created_by', Auth::id())
+        $coupon_list = Coupon::where('coupon.created_by', Auth::id())
+                ->leftjoin('coupon_category', 'coupon_category.category_id', 'coupon.coupon_category_id')
                 ->where(\DB::raw('coupon_redeem_limit'), '>', \DB::raw('coupon_total_redeem'))
                 ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
-                ->active()
-                ->deleted()
-                ->orderBy('coupon_id', 'desc')
+                ->where('coupon.is_active', 1)
+                ->where('coupon.is_delete', 0)
+                ->orderBy('coupon.coupon_id', 'desc')
                 ->get();
         return $coupon_list;
     }

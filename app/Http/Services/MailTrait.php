@@ -45,9 +45,9 @@ trait MailTrait {
         } else if ($array_mail['type'] == 'subscription_cancel_failed') {
             Mail::to($array_mail['to'])->send(new SubscriptionCancelFailed($array_mail['data']));
         } else if ($array_mail['type'] == 'subscription_upgrade_failed') {
-            Mail::to($array_mail['to'])->send(new SubscriptionUpgradeSuccess($array_mail['data']));
-        } else if ($array_mail['type'] == 'subscription_upgrade_success') {
             Mail::to($array_mail['to'])->send(new SubscriptionUpgradeFailed($array_mail['data']));
+        } else if ($array_mail['type'] == 'subscription_upgrade_success') {
+            Mail::to($array_mail['to'])->send(new SubscriptionUpgradeSuccess($array_mail['data']));
         } else if ($array_mail['type'] == 'subscription_downgrade_failed') {
             Mail::to($array_mail['to'])->send(new SubscriptionDowngradeFailed($array_mail['data']));
         } else if ($array_mail['type'] == 'subscription_downgrade_success') {

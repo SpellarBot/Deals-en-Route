@@ -99,6 +99,9 @@ class StripeController extends Controller {
                 PaymentInfo::create($data);
             }
         } elseif ($event->type == 'charge.succeeded' || $event->type == 'customer.subscription.updated') {
+            if ($event->type == 'customer.subscription.updated') {
+                $this->updateSubscriptionDate($user_id);
+            }
             $array_mail = ['to' => $user_details->email,
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
@@ -126,18 +129,19 @@ class StripeController extends Controller {
 //            $this->sendMail($array_mail);
         }
 //        } elseif ($event->type == 'customer.subscription.updated') {
-//            $type = 'subscription_upgrade_success';
-//            $type = 'subscription_downgrade_success';
-//            $array_mail = ['to' => $user_details->email,
-//                'type' => $type,
-//                'data' => ['confirmation_code' => 'Test'],
-//            ];
-//            $this->sendMail($array_mail);
 //        }
         $data = array('user_id' => $user_details->user_id, 'stripe_id' => $user_details->stripe_id, 'type' => $event->type, 'status' => 0);
 //        print_r($data);die;
         $test = Stripewebhook::createStripe($data);
         http_response_code(200);
+    }
+
+    public function updateSubscriptionDate($user_id) {
+        $subdates = Subscription::getSubscriptiondates($user_id);
+        $updateSubdate = Subscription::where('stripe_id', $user_id)->first();
+        $updateSubdate->startdate = $subdates['startdate'];
+        $updateSubdate->enddate = $subdates['enddate'];
+        $updateSubdate->save();
     }
 
     public function deleteCard() {
