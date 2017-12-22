@@ -106,7 +106,7 @@ class StripeController extends Controller {
                 'type' => 'payment_success',
                 'data' => ['confirmation_code' => 'Test'],
             ];
-            if ($description != "CommisionPayment" || $description != 'Ad-ons') {
+            if ($description === null) {
                 $data = array();
                 $data['vendor_id'] = $user_details->user_id;
                 $data['totalamount'] = $amount / 100;
