@@ -174,7 +174,7 @@ $(document).ready(function () {
             finalvalue = 0;
         }
         if (finalvalue == 0 || finalvalue != '') {
-            $('#final_value').val(parseInt(finalvalue).toFixed(2));
+            $('#final_value').val((finalvalue).toFixed(2));
         }
     });
 
