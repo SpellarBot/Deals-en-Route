@@ -68,6 +68,7 @@ class CouponTransformer {
             'coupon_qrcode_image' => $item->coupon_qrcode_image ?? '',
             'coupon_redemption_code' => $item->coupon_code ?? '',
             'coupon_end_date' => $item->coupon_end_date ?? '',
+            'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
         ];
 
         return ['has_page' => $coupon->hasMorePages(), 'current_page' => $coupon->currentPage(), 'listing' => $var];
