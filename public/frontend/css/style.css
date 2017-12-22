@@ -1762,9 +1762,8 @@ header.staticpage h2 {
     font-size: 11px;
     font-weight: 400;
     color: #999;
-    float: left;
-    line-height: 16px;
-    padding-top: 6px;
+
+
 }
 .package-drop {
     padding-left: 0;
