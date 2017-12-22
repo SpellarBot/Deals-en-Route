@@ -152,8 +152,8 @@ class Coupon extends Model {
                 ->leftjoin('coupon_category', 'coupon_category.category_id', 'coupon.coupon_category_id')
                 ->where(\DB::raw('coupon_redeem_limit'), '>', \DB::raw('coupon_total_redeem'))
                 ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
-                ->where('coupon.is_active',1)
-                ->where('coupon.is_delete',0)
+                ->where('coupon.is_active', 1)
+                ->where('coupon.is_delete', 0)
                 ->orderBy('coupon.coupon_id', 'desc')
                 ->get();
         return $coupon_list;
@@ -211,8 +211,10 @@ class Coupon extends Model {
                     ->where('coupon_id', '=', $coupon->coupon_id)
                     ->whereIn('coupon_category_id', $idsArr)
                     ->havingRaw('coupon_radius >= distance')
-                    ->get();
-            if ($query) {
+                    ->get()
+                    ->toArray();
+
+            if (!empty($query)) {
                 $device[] = $users;
             }
         }
