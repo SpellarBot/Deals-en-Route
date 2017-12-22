@@ -76,6 +76,7 @@ class StripeController extends Controller {
             $amount = $event->data->object->plan->amount;
         }
         $description = $event->data->object->description;
+        print_r($description);die;
         $transaction_id = $event->data->object->id;
         $user_details = Stripewebhook::getUserDetails($user_id);
         $plan_details = Subscription::select('stripe_plan')->where('user_id', $user_details->user_id)->first();
