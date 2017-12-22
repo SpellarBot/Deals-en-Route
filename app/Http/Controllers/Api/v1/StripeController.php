@@ -119,8 +119,8 @@ class StripeController extends Controller {
                 $data['invoice'] = $this->invoice($data);
                 \App\PaymentInfo::create($data);
                 $array_mail['invoice'] = storage_path('app/pdf/' . $data['invoice']);
+                $this->sendMail($array_mail);
             }
-            $this->sendMail($array_mail);
 //        } elseif ($event->type == 'customer.subscription.deleted') {
 //            $array_mail = ['to' => $user_details->email,
 //                'type' => 'subscription_cancel_success',
