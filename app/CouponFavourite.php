@@ -81,7 +81,6 @@ class CouponFavourite extends Model {
                 ->where('is_delete', self::IS_FALSE)
                 ->where('user_id', Auth::id())
                 ->where('is_favorite', self::IS_TRUE)
-                ->havingRaw('coupon_radius >= distance')
                 ->orderBy('distance')
                 ->simplePaginate(\Config::get('constants.PAGINATE'));
 
@@ -103,7 +102,6 @@ class CouponFavourite extends Model {
                 ->where('is_delete', self::IS_FALSE)
                 ->where('is_favorite', self::IS_TRUE)
                 ->havingRaw('new_bal = 5')
-                ->havingRaw('coupon_radius >= distance')
                 ->orderBy('distance')
                 ->get();
 
@@ -125,7 +123,6 @@ class CouponFavourite extends Model {
                 ->where('is_delete', self::IS_FALSE)
                 ->where('is_favorite', self::IS_TRUE)
                 ->having(\DB::raw('date_format(datesub,"%Y-%m-%d")'), "$date")
-                ->havingRaw('coupon_radius >= distance')
                 ->orderBy('distance')
                 ->get();
 

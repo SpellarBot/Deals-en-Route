@@ -76,7 +76,16 @@ $(window).load(function () {
     $("#loadingDiv").fadeOut("slow");
 });
 
-
+// for jquery response json notification
+function setErrorNoti(message) {
+   
+        $('.alert-danger').show();
+        setTimeout(function () {
+            $('.alert-danger').fadeOut('slow');
+        }, 10000);
+        $('.errormessage').html(message);
+    
+}
 
 // for jquery response json notification
 function setErrorNotification(data) {

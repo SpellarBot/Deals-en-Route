@@ -56,7 +56,6 @@ class Coupon extends Model {
     public function getCouponLogoAttribute($value) {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";
     }
-    
 
 //     public function getCouponEndDateAttribute($value) {
 //        return (!empty($value)? Carbon::parse($value)->format(\Config::get('constants.DATE_FORMAT')):'');
@@ -83,7 +82,8 @@ class Coupon extends Model {
     public function categoryDetail() {
         return $this->hasOne('App\CouponCategory', 'category_id', 'coupon_category_id');
     }
-
+//latitude:23.019154525372173
+//longitude:72.51920767128468
     /**
      * Get the vendor detail record associated with the user.
      */
@@ -95,19 +95,43 @@ class Coupon extends Model {
 
         $user = Auth()->user()->userDetail;
         $circle_radius = \Config::get('constants.EARTH_RADIUS');
-
+        $coupontotal = [];
         $lat = $user->latitude;
         $lng = $user->longitude;
         $id = $user->category_id;
         $idsArr = explode(',', $id);
-        $query = Coupon::active()->deleted()
-                ->select(DB::raw('coupon.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
+        $couponlist = Coupon::active()->deleted()
+                        ->select('coupon_notification_point', 'coupon_start_date', 'coupon_id', 'coupon_end_date')
+                        ->where(\DB::raw('TIMESTAMP(`coupon_start_date`)'), '<=', date('Y-m-d H:i:s'))
+                        ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
+                        ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
+                        //->havingRaw('coupon_radius >= distance')
+                        ->groupBy('coupon_id')->get()->toArray();
+        foreach ($couponlist as $couponlists) {
+            $jsonDecode = json_decode($couponlists['coupon_notification_point']);
+
+            foreach ($jsonDecode as $keyJson => $valueJson) {
+                $xAxis[] = $valueJson->lat;
+                $yAxis[] = $valueJson->lng;
+            }
+
+            $verticesX = $xAxis;    // x-coordinates of the vertices of the polygon
+            $verticesY = $yAxis;
+            $pointsPolygon = count($verticesX);  // number vertices - zero-based array
+            $longitudeX = $lat;  // x-coordinate of the point to test
+            $latitudeY = $lng;    // y-coordinate of the point to test
+            $isPolygon = self::is_in_polygon($pointsPolygon, $verticesX, $verticesY, $longitudeX, $latitudeY);
+
+            if ($isPolygon) {
+
+                $coupontotal[] = $couponlists['coupon_id'];
+            }
+        }
+        $ex = (!empty($coupontotal)?implode(',', $coupontotal):0);
+        $query = Coupon::select(DB::raw('coupon.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
                                 . 'coupon_name,coupon_logo,created_by,coupon_lat,coupon_original_price,coupon_total_discount,'
                                 . 'coupon_long,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) ) as distance'))
-                ->where(\DB::raw('TIMESTAMP(`coupon_start_date`)'), '<=', date('Y-m-d H:i:s'))
-                ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
-                ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
-                ->havingRaw('coupon_radius >= distance');
+                ->havingRaw('( coupon_radius >= distance or coupon_id in ( ' . $ex . ' ) )');
         if (isset($data['category_id'])) {
             $query->where('coupon_category_id', $data['category_id']);
         } else if (isset($data['search'])) {
@@ -123,7 +147,7 @@ class Coupon extends Model {
             $query->whereIn('coupon_category_id', $idsArr);
         }
 
-        $result = $query->groupBy('coupon_id')->orderBy('distance','asc')->orderBy('coupon_id','desc')->simplePaginate(\Config::get('constants.PAGINATE'));
+        $result = $query->groupBy('coupon_id')->orderBy('distance', 'asc')->orderBy('coupon_id', 'desc')->simplePaginate(\Config::get('constants.PAGINATE'));
 
         return $result;
     }
@@ -179,61 +203,59 @@ class Coupon extends Model {
         // $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
         if ($coupon->save()) {
             self::getNotificationUsers($coupon);
-        
+
             return $coupon;
         }
         return false;
     }
 
-    public static function getNotificationUsers($coupon){
-        $device=[];
-        $user=User::active()->deleted()
-                  ->join('device_detail','device_detail.user_id','users.id')
-                  ->join('user_detail','user_detail.user_id','users.id')
-                  ->where('role', 'user')
-                  ->where('user_detail.latitude', '!=','')
-                  ->where('user_detail.longitude', '!=','')
-                  ->where('device_token','!=','')
-                  ->get();
-       
+    public static function getNotificationUsers($coupon) {
+        $device = [];
+        $user = User::active()->deleted()
+                ->join('device_detail', 'device_detail.user_id', 'users.id')
+                ->join('user_detail', 'user_detail.user_id', 'users.id')
+                ->where('role', 'user')
+                ->where('user_detail.latitude', '!=', '')
+                ->where('user_detail.longitude', '!=', '')
+                ->where('device_token', '!=', '')
+                ->get();
+
         $circle_radius = \Config::get('constants.EARTH_RADIUS');
-       
-        foreach($user as $users){
 
-        $lat = $users->latitude;
-        $lng = $users->longitude;
-        $id = $users->category_id;
-          $idsArr = explode(',', $id);
-         $query = Coupon::active()->deleted()
-                ->select(DB::raw('coupon.coupon_id,coupon_radius,coupon_detail,'
-                                . 'created_by,coupon_lat,'
-                                . 'coupon_long,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) ) as distance'))
-                ->where('coupon_id', '=',$coupon->coupon_id)
-                ->whereIn('coupon_category_id', $idsArr)
-                ->havingRaw('coupon_radius >= distance')
-                ->get()
-                 ->toArray();
-       
-         if(!empty($query)) {
-            $device[]= $users;
-         }
+        foreach ($user as $users) {
+
+            $lat = $users->latitude;
+            $lng = $users->longitude;
+            $id = $users->category_id;
+            $idsArr = explode(',', $id);
+            $query = Coupon::active()->deleted()
+                    ->select(DB::raw('coupon.coupon_id,coupon_radius,coupon_detail,'
+                                    . 'created_by,coupon_lat,'
+                                    . 'coupon_long,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) ) as distance'))
+                    ->where('coupon_id', '=', $coupon->coupon_id)
+                    ->whereIn('coupon_category_id', $idsArr)
+                    ->havingRaw('coupon_radius >= distance')
+                    ->get()
+                    ->toArray();
+
+            if (!empty($query)) {
+                $device[] = $users;
+            }
         }
-        
-        self::sendNotification($device,$coupon);
+
+        self::sendNotification($device, $coupon);
     }
 
+    public static function sendNotification($device, $coupon) {
 
-    
-    
-    public static function sendNotification($device,$coupon){
-        
-            Notification::send($device, new FcmNotification([
-                'type' => 'newcoupon',
-                'notification_message' => 'You have new coupon in your area.',
-                'message' => 'You have new coupon in your area.',
-                'coupon_id' => $coupon->coupon_id
-            ]));
+        Notification::send($device, new FcmNotification([
+            'type' => 'newcoupon',
+            'notification_message' => 'You have new coupon in your area.',
+            'message' => 'You have new coupon in your area.',
+            'coupon_id' => $coupon->coupon_id
+        ]));
     }
+
     public static function updateCoupon($data, $id) {
 
         $coupon = Coupon::where('coupon_id', $id)->first();
@@ -353,6 +375,17 @@ COALESCE(SUM(case when   (week(coupon_redeem.created_at)-week(DATE_FORMAT(coupon
                 ->where(DB::raw('MONTH(coupon_redeem.created_at)'), '=', $month)
                 ->first();
         return $coupons;
+    }
+
+    public static function is_in_polygon($pointsPolygon, $verticesX, $verticesY, $longitudeX, $latitudeY) {
+
+        $i = $j = $c = 0;
+        for ($i = 0, $j = $pointsPolygon - 1; $i < $pointsPolygon; $j = $i++) {
+            if ((($verticesY[$i] > $latitudeY != ($verticesY[$j] > $latitudeY)) &&
+                    ($longitudeX < ($verticesX[$j] - $verticesX[$i]) * ($latitudeY - $verticesY[$i]) / ($verticesY[$j] - $verticesY[$i]) + $verticesX[$i])))
+                $c = !$c;
+        }
+        return $c;
     }
 
 }

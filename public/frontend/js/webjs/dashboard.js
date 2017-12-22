@@ -1,7 +1,7 @@
 var redeem_weekly = '';
 var redeem_monthly = '';
 var monthlabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-var weekslabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5','Week 6'];
+var weekslabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'];
 var bar1;
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -9,6 +9,13 @@ var bar1;
  * and open the template in the editor.
  */
 $(document).ready(function () {
+    if (localStorage.getItem("Redeemstatus"))
+    {
+
+        setDashboardNotification(JSON.parse(localStorage.getItem("Redeemstatus")));
+        localStorage.clear();
+    }
+
     var TodayDate = new Date();
     $('#chartm1').val(TodayDate.getMonth() + 1);
     $('#charty1,#charty').val(TodayDate.getFullYear());
@@ -35,9 +42,9 @@ $(document).ready(function () {
         height: "320px"
     };
     redeem_monthly = Chartist.Line('#chartMonthly', dataMonthly, optionsMonthly);
-    
-    
-   
+
+
+
     var dataWeekly = {
         labels: '',
         series: []
@@ -120,9 +127,9 @@ $(document).ready(function () {
         })
 
     });
-    
+
     $('#dealtotal').easyPieChart({
-         lineWidth: 12,
+        lineWidth: 12,
         size: 200,
         scaleColor: false,
         trackColor: 'rgba(70,85,109,.25)',
@@ -150,9 +157,9 @@ $(document).ready(function () {
             var redeem_by_35_50 = data.data.redeem_by_35_50;
             var redeem_by_above_50_per = data.data.redeem_by_above_50_per;
             var redeem_by_above_50 = data.data.redeem_by_above_50;
-            var deals_left=data.data.deals_left;
-            var deals_percent=data.data.deals_percent;
-          
+            var deals_left = data.data.deals_left;
+            var deals_percent = data.data.deals_percent;
+
             // <!--=============================Bar Chart=============================-->
             // total redeeem monthly 
             $.each(data.data.total_redeem_monthly, function (index, value) {
@@ -168,7 +175,7 @@ $(document).ready(function () {
                 total_redeem_weekly.push(value);
             });
             var output = [total_redeem_monthly, total_coupon_monthly, total_active_coupon_monthly];
-               var data = {
+            var data = {
                 labels: monthlabels,
                 series: output
             };
@@ -194,12 +201,12 @@ $(document).ready(function () {
                     }]
             ];
             bar1 = Chartist.Bar('#chartCoupons', data, options, responsiveOptions);
-          
+
             // <!--================Redeemption Pie Chart=============================-->
             //total coupon redeemed
             $('#charttotal').data('easyPieChart').update(total_coupon_reedemed);
             $('span', $('#charttotal')).text(total_coupon_reedemed + "%");
-              //remaining deals in package
+            //remaining deals in package
             $('#dealtotal').data('easyPieChart').update(deals_percent);
             $('span', $('#dealtotal')).text(deals_left);
             // <!--================Other Pie Chart=============================-->
@@ -221,7 +228,7 @@ $(document).ready(function () {
             $('.coupon-redemption4').text(redeem_by_above_50);
             redeem_monthly.update({labels: monthlabels, series: [total_redeem_monthly]})
             redeem_weekly.update({labels: weekslabels, series: [total_redeem_weekly]})
-          
+
 
 
         },
@@ -280,16 +287,16 @@ $(document).ready(function () {
                 $('.errormessage').html(data.responseJSON.message);
             }
         });
-       
-    });
-    
-     $('a[data-toggle="tab"]').on('shown.bs.tab', function (event) {
 
-            redeem_monthly.update();
-            redeem_weekly.update();
-            bar1.update();
-         
-        });
+    });
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (event) {
+
+        redeem_monthly.update();
+        redeem_weekly.update();
+        bar1.update();
+
+    });
     $('#charty').change(function () {
         var value = $(this).val();
         $.ajax({
@@ -332,16 +339,16 @@ $(document).ready(function () {
 // update contact submit
 $(document).on("submit", "#sendcontact", function (event) {
     event.preventDefault();
-   formData=$(this).serialize();
+    formData = $(this).serialize();
 
     $.ajax({
         url: $('#hidAbsUrl').val() + "/vendor/contact",
         type: 'POST',
         data: formData,
         success: function (data) {
-                $('#loadingDiv').hide();
-                setDashboardNotification(data); 
-                 $('#sendcontact')[0].reset();
+            $('#loadingDiv').hide();
+            setDashboardNotification(data);
+            $('#sendcontact')[0].reset();
         },
         beforeSend: function () {
             $('#loadingDiv').show();
@@ -356,10 +363,10 @@ $(document).on("submit", "#sendcontact", function (event) {
 
             if (data.responseJSON.errors != '') {
                 $.each(data.responseJSON.errors, function (key, value) {
-                   
-                        $("input[name=" + key + "],textarea[name=" + key + "]").parent().addClass('has-error');
-                        $("input[name=" + key + "],textarea[name=" + key + "]").parent().append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
-                    
+
+                    $("input[name=" + key + "],textarea[name=" + key + "]").parent().addClass('has-error');
+                    $("input[name=" + key + "],textarea[name=" + key + "]").parent().append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
+
                 });
             }
         }
@@ -372,16 +379,25 @@ $(document).on("submit", "#sendcontact", function (event) {
 // update contact submit
 $(document).on("click", ".redeemnow", function (event) {
     event.preventDefault();
-   formData=$('#redeemcoupon').serialize();
+    formData = $('#redeemcoupon').serialize();
 
     $.ajax({
         url: $('#hidAbsUrl').val() + "/vendor/couponredeem",
         type: 'POST',
         data: formData,
         success: function (data) {
-                $('#loadingDiv').hide();
-                setDashboardNotification(data); 
-                 $('#redeemcoupon')[0].reset();
+            $(".form-group").removeClass('has-error');
+            $(".help-block").html('');
+            $('#loadingDiv').hide();
+            $('#redeemcoupon')[0].reset();
+
+            if (data.status == 0) {
+                setDashboardNotification(data);
+            } else {
+                localStorage.setItem("Redeemstatus", JSON.stringify(data))
+                location.reload(true);
+            }
+
         },
         beforeSend: function () {
             $('#loadingDiv').show();
@@ -390,15 +406,16 @@ $(document).on("click", ".redeemnow", function (event) {
             $('#loadingDiv').hide();
         },
         error: function (data) {
+
             $(".form-group").removeClass('has-error');
             $(".help-block").html('');
 
             if (data.responseJSON.errors != '') {
                 $.each(data.responseJSON.errors, function (key, value) {
-                   
-                        $("input[name=" + key + "],textarea[name=" + key + "]").parent().addClass('has-error');
-                        $("input[name=" + key + "],textarea[name=" + key + "]").parent().append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
-                    
+
+                    $("input[name=" + key + "],textarea[name=" + key + "]").parent().addClass('has-error');
+                    $("input[name=" + key + "],textarea[name=" + key + "]").parent().append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
+
                 });
             }
         }

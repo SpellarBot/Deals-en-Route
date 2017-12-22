@@ -171,4 +171,5 @@ if(empty($vendor_detail)){
         return $array;
     }
 
+    
 }

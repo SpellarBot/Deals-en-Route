@@ -67,9 +67,8 @@ return [
     'NOTIFY_GEO' => [0 => "We have a, {{coupon_name}} at {{vendor_name}} just for you!",
         1 => 'You have to check out this deal from {{vendor_name}}.',
         2 => 'We think you’d like this deal from {{vendor_name}}.',
-        3 => 'Looks like there is a popular deal at {{vendor_name}} and it is in one of your  favorite categories.',
-        4 => ' Your friends have been redeeming this deal. Check to see what’s inside.',
-        5 => 'This was the most popular deal in your area today, check it out.',
+        3 => ' Your friends have been redeeming this deal. Check to see what’s inside.',
+        4 => 'This was the most popular deal in your area today, check it out.',
     ],
     //-- coupon expire in fav(favorites only, do not notify about coupons expiring that are not favorited)
     'NOTIFY_FAV_EXPIRE' => '{{coupon_name}} is about to expire at {{vendor_name}}! Don’t miss the chance to save.',

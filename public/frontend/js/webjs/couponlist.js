@@ -272,7 +272,7 @@ $(document).on("submit", "#update-coupon", function (event) {
 
     if (value == 4) {
 
-        if ($("#create-coupon").hasClass("has-error") == false) {
+        if ($("#update-coupon").hasClass("has-error") == false) {
             formData.append('validationcheck', '1');
         }
     }
@@ -310,7 +310,7 @@ $(document).on("submit", "#update-coupon", function (event) {
             $(".form-group").removeClass('has-error');
             $(".checkbox").removeClass('has-error');
             $(".help-block").html('');
-
+ // setErrorNoti('Please resolve the error');
             if (data.responseJSON.errors != '') {
                 $.each(data.responseJSON.errors, function (key, value) {
                     if (key == 'coupon_logo') {
@@ -650,7 +650,7 @@ function changeShape(newShape) {
 
     });
 }
-
+//SELECT * FROM user_detail WHERE MBRContains(ST_GeomFromText('Polygon(( -98.07697478272888 30.123832577126326, -98.07697478272888 30.535734310413392, -97.48302581787107 30.535734310413392, -97.48302581787107 30.123832577126326, -98.07697478272888 30.123832577126326))'), POINT(latitude,longitude))
 //display sq feet
 function getSquareFeet(radius) {
 
@@ -663,6 +663,8 @@ function getSquareFeet(radius) {
     {
         showArray.push({"lat": polygonBounds.getAt(a).lat(), "lng": polygonBounds.getAt(a).lng()});
     }
+    
+     showArray.push({"lat": polygonBounds.getAt(0).lat(), "lng": polygonBounds.getAt(0).lng()});
     // set polygon shape for second map
 
     var sqfeet = google.maps.geometry.spherical.computeArea(radius.getPath()) * 10.76;

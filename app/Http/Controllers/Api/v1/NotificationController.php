@@ -59,12 +59,12 @@ class NotificationController extends Controller {
                         $pointsPolygon = count($verticesX);  // number vertices - zero-based array
                         $longitudeX = $request['latitude'];  // x-coordinate of the point to test
                         $latitudeY = $request['longitude'];    // y-coordinate of the point to test
-                        $isPolygon = self::is_in_polygon($pointsPolygon, $verticesX, $verticesY, $longitudeX, $latitudeY);
+                        $isPolygon = Coupon::is_in_polygon($pointsPolygon, $verticesX, $verticesY, $longitudeX, $latitudeY);
 
                         if ($isPolygon) {
                                 
                             $coupon = Coupon::where('coupon_id', $value['coupon_id'])->first();
-                            $rand = rand(0, 5);
+                            $rand = rand(0, 4);
                             $nMessage = \Config::get('constants.NOTIFY_GEO')[$rand];
                             $fMessage = $coupon->finalNotifyMessage(Auth::id(), Auth::id(), $coupon, $nMessage);
                             // send notification
@@ -139,14 +139,6 @@ class NotificationController extends Controller {
     }
     
     
-    public static function is_in_polygon($pointsPolygon, $verticesX, $verticesY, $longitudeX, $latitudeY) {
-        $i = $j = $c = 0;
-        for ($i = 0, $j = $pointsPolygon - 1; $i < $pointsPolygon; $j = $i++) {
-            if ((($verticesY[$i] > $latitudeY != ($verticesY[$j] > $latitudeY)) &&
-                    ($longitudeX < ($verticesX[$j] - $verticesX[$i]) * ($latitudeY - $verticesY[$i]) / ($verticesY[$j] - $verticesY[$i]) + $verticesX[$i])))
-                $c = !$c;
-        }
-        return $c;
-    }
+    
 
 }

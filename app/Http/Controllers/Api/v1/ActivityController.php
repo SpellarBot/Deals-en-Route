@@ -91,7 +91,7 @@ class ActivityController extends Controller {
                 $activity->total_comment=$this->getCommentCount($data['activity_id']);
                 $activity->save();      
                if($activity->save() && $activity->created_by!=Auth::id()){
-                \App\ActivityShare::sendActivityNotification($activity,'activitycomment',\Config::get('constants.ACTIVITY_COMMENT'));
+                \App\ActivityShare::sendActivityNotification($activity,'activitycomment',\Config::get('constants.ACTIVITY_COMMENT'),$comment);
                }
                 return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
             }

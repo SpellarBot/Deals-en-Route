@@ -50,7 +50,7 @@ class ActivityShare extends Model {
          }
     }
     
-    public static function sendActivityNotification($activity,$type,$message){
+    public static function sendActivityNotification($activity,$type,$message,$comment=''){
             
              $creatoruser=User::find($activity->created_by);
              $fMessage = $activity->finalActivityMessage(Auth::id(),$message,$activity->coupon->coupon_name);
@@ -62,6 +62,7 @@ class ActivityShare extends Model {
                 'message' => $fMessage,
                 'activity_id' => $activity->activity_id,
                 'coupon_id' => $activity->coupon_id,
+                'comment_id'=>$comment->comment_id??''
             ]));
     }
 
