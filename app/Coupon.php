@@ -291,12 +291,16 @@ class Coupon extends Model {
     }
 
     public static function getCouponAllList() {
+          $id = User::find(Auth::id())->userDetail->category_id;
+            $idsArr = explode(',', $id);
         $coupon_list = Coupon::where(\DB::raw('coupon_redeem_limit'), '>', \DB::raw('coupon_total_redeem'))
                 ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
                 ->active()
                 ->deleted()
+                 ->whereIn('coupon_category_id', $idsArr)
                 ->orderBy('coupon_id', 'desc')
                 ->get();
+      
         return $coupon_list;
     }
 
