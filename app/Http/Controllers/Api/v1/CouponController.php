@@ -256,8 +256,9 @@ class CouponController extends Controller {
             $coupon_data = array();
             foreach ($coupon as $c) {
                 $coupons = $c->getAttributes();
-                if ($coupons['coupon_logo'] && !empty($coupons['coupon_logo'])) {
-                    $coupons['coupon_logo'] = URL::to('storage/app/public/coupon_logo/' . $coupons['coupon_logo']);
+                
+                if ($coupons['category_image'] && !empty($coupons['category_image'])) {
+                    $coupons['coupon_logo'] = URL::to('storage/app/public/coupon_logo/' . $coupons['category_image']);
                 } else {
                     $coupons['coupon_logo'] = URL::to('storage/app/public/coupon_logo/');
                 }

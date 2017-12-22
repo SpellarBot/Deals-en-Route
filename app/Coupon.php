@@ -56,7 +56,6 @@ class Coupon extends Model {
     public function getCouponLogoAttribute($value) {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";
     }
-    
 
 //     public function getCouponEndDateAttribute($value) {
 //        return (!empty($value)? Carbon::parse($value)->format(\Config::get('constants.DATE_FORMAT')):'');
@@ -123,7 +122,7 @@ class Coupon extends Model {
             $query->whereIn('coupon_category_id', $idsArr);
         }
 
-        $result = $query->groupBy('coupon_id')->orderBy('distance','asc')->orderBy('coupon_id','desc')->simplePaginate(\Config::get('constants.PAGINATE'));
+        $result = $query->groupBy('coupon_id')->orderBy('distance', 'asc')->orderBy('coupon_id', 'desc')->simplePaginate(\Config::get('constants.PAGINATE'));
 
         return $result;
     }
@@ -149,12 +148,13 @@ class Coupon extends Model {
     }
 
     public static function couponList() {
-        $coupon_list = Coupon::where('created_by', Auth::id())
+        $coupon_list = Coupon::where('coupon.created_by', Auth::id())
+                ->leftjoin('coupon_category', 'coupon_category.category_id', 'coupon.coupon_category_id')
                 ->where(\DB::raw('coupon_redeem_limit'), '>', \DB::raw('coupon_total_redeem'))
                 ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
-                ->active()
-                ->deleted()
-                ->orderBy('coupon_id', 'desc')
+                ->where('coupon.is_active',1)
+                ->where('coupon.is_delete',0)
+                ->orderBy('coupon.coupon_id', 'desc')
                 ->get();
         return $coupon_list;
     }
@@ -179,59 +179,57 @@ class Coupon extends Model {
         // $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
         if ($coupon->save()) {
             self::getNotificationUsers($coupon);
-        
+
             return $coupon;
         }
         return false;
     }
 
-    public static function getNotificationUsers($coupon){
-        $device=[];
-        $user=User::active()->deleted()
-                  ->join('device_detail','device_detail.user_id','users.id')
-                  ->join('user_detail','user_detail.user_id','users.id')
-                  ->where('role', 'user')
-                  ->where('user_detail.latitude', '!=','')
-                  ->where('user_detail.longitude', '!=','')
-                  ->where('device_token','!=','')
-                  ->get();
-       
-        $circle_radius = \Config::get('constants.EARTH_RADIUS');
-       
-        foreach($user as $users){
-
-        $lat = $users->latitude;
-        $lng = $users->longitude;
-        $id = $users->category_id;
-          $idsArr = explode(',', $id);
-         $query = Coupon::active()->deleted()
-                ->select(DB::raw('coupon.coupon_id,coupon_radius,coupon_detail,'
-                                . 'created_by,coupon_lat,'
-                                . 'coupon_long,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) ) as distance'))
-                ->where('coupon_id', '=',$coupon->coupon_id)
-                ->whereIn('coupon_category_id', $idsArr)
-                ->havingRaw('coupon_radius >= distance')
+    public static function getNotificationUsers($coupon) {
+        $device = [];
+        $user = User::active()->deleted()
+                ->join('device_detail', 'device_detail.user_id', 'users.id')
+                ->join('user_detail', 'user_detail.user_id', 'users.id')
+                ->where('role', 'user')
+                ->where('user_detail.latitude', '!=', '')
+                ->where('user_detail.longitude', '!=', '')
+                ->where('device_token', '!=', '')
                 ->get();
-         if($query) {
-            $device[]= $users;
-         }
+
+        $circle_radius = \Config::get('constants.EARTH_RADIUS');
+
+        foreach ($user as $users) {
+
+            $lat = $users->latitude;
+            $lng = $users->longitude;
+            $id = $users->category_id;
+            $idsArr = explode(',', $id);
+            $query = Coupon::active()->deleted()
+                    ->select(DB::raw('coupon.coupon_id,coupon_radius,coupon_detail,'
+                                    . 'created_by,coupon_lat,'
+                                    . 'coupon_long,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) ) as distance'))
+                    ->where('coupon_id', '=', $coupon->coupon_id)
+                    ->whereIn('coupon_category_id', $idsArr)
+                    ->havingRaw('coupon_radius >= distance')
+                    ->get();
+            if ($query) {
+                $device[] = $users;
+            }
         }
-        
-        self::sendNotification($device,$coupon);
+
+        self::sendNotification($device, $coupon);
     }
 
+    public static function sendNotification($device, $coupon) {
 
-    
-    
-    public static function sendNotification($device,$coupon){
-        
-            Notification::send($device, new FcmNotification([
-                'type' => 'newcoupon',
-                'notification_message' => 'You have new coupon in your area.',
-                'message' => 'You have new coupon in your area.',
-                'coupon_id' => $coupon->coupon_id
-            ]));
+        Notification::send($device, new FcmNotification([
+            'type' => 'newcoupon',
+            'notification_message' => 'You have new coupon in your area.',
+            'message' => 'You have new coupon in your area.',
+            'coupon_id' => $coupon->coupon_id
+        ]));
     }
+
     public static function updateCoupon($data, $id) {
 
         $coupon = Coupon::where('coupon_id', $id)->first();
