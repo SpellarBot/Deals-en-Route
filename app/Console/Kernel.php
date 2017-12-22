@@ -4,7 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-
+use Mail;
 
 class Kernel extends ConsoleKernel {
 
@@ -27,7 +27,9 @@ class Kernel extends ConsoleKernel {
      * @return void
      */
     protected function schedule(Schedule $schedule) {
-
+  Mail::raw('Text', function ($message){
+            $message->to('jinal@solulab.com');
+ });
     $schedule->call('\App\Http\Controllers\Api\v1\NotificationController@couponNotificationFavExpire')->everyMinute();
     $schedule->call('\App\Http\Controllers\Api\v1\NotificationController@couponNotificationFavLeft')->everyMinute();    
     }
