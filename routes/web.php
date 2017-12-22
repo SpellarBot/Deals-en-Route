@@ -34,6 +34,7 @@ Route::group(['namespace' => 'Frontend'], function () {
         'as' => 'confirmation_path_vendor',
         'uses' => 'Auth\LoginController@confirmvendor'
     ]);
+//    Route::get('vendor/updatemembershipdate/','VendorController@updateMembershipDate');
     // vendor   register
     Route::get('/', 'Auth\LoginController@index')->name('vendormain');
     Route::get('/index', 'Auth\LoginController@vendorindex')->name('vendorindex');

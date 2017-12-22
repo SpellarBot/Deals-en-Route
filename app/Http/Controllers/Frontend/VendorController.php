@@ -52,5 +52,5 @@ class VendorController extends Controller {
         $data = (new VendorTransformer)->transformLogin($user);
         return $this->responseJson('success', \Config::get('constants.USER_UPDATED_SUCCESSFULLY'), 200, $data);
     }
-
+    
 }
