@@ -69,6 +69,7 @@ class Activity extends Model {
                     $q->where('created_by', Auth::id())
                     ->orWhere('share_friend_id', Auth::id());
                 })->groupby('activity_id')
+                   ->orderBy('activity_id', 'desc')
                 ->simplePaginate(\Config::get('constants.PAGINATE'));
         return $activity;
     }
