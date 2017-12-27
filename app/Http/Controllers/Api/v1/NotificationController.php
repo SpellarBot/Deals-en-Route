@@ -64,7 +64,7 @@ class NotificationController extends Controller {
                         if ($isPolygon) {
                                 
                             $coupon = Coupon::where('coupon_id', $value['coupon_id'])->first();
-                            $rand = rand(0, 4);
+                            $rand = rand(0, 3);
                             $nMessage = \Config::get('constants.NOTIFY_GEO')[$rand];
                             $fMessage = $coupon->finalNotifyMessage(Auth::id(), Auth::id(), $coupon, $nMessage);
                             // send notification
