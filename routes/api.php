@@ -75,7 +75,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         //notification list
         Route::post('/notification/isread', 'ActivityController@addnotificationread');
         Route::post('/notification/list', 'ActivityController@notificationList');
-
+        Route::post('/notification/allread', 'ActivityController@addnotificationallread');
         //contact us 
         Route::post('/contact/addcontact', 'CouponController@addContact');
 
