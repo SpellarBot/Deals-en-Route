@@ -45,7 +45,7 @@ class StripeAddOnsController extends Controller {
         $add_ons = PlanAddOns::addOnsInsert($adoninsert);
         $user_access =$this->userAccess(); 
         if ($add_ons) {  
-           return response()->json(['status' => 1, 'message' => 'Extra Geo-Location(Miles) Added to your Plan.Thank You'], 200);
+           return response()->json(['status' => 1, 'message' => 'Extra geolocation (miles) added to your plan. Thank you!'], 200);
         } else {
             return response()->json(['status' => 0, 'message' => 'Please Try again Later'], 400);
         }
@@ -71,7 +71,7 @@ class StripeAddOnsController extends Controller {
             'enddate' => $user_details['enddate']);
         $add_ons = PlanAddOns::addOnsInsert($adoninsert);
         if ($add_ons) {
-            return response()->json(['status' => 1, 'message' => 'Extra Geo Fensing Area Added to your Plan.Thank You'], 200);
+            return response()->json(['status' => 1, 'message' => 'Extra geofencing area added to your plan. Thank you!'], 200);
         } else {
             return response()->json(['status' => 0, 'message' => 'Please Try again Later'], 400);
         }
@@ -97,7 +97,7 @@ class StripeAddOnsController extends Controller {
             'enddate' => $user_details['enddate']);
         $add_ons = PlanAddOns::addOnsInsert($adoninsert);
         if ($add_ons) {
-            return response()->json(['status' => 1, 'message' => 'Extra Deals Added to your Plan.Thank You'], 200);
+            return response()->json(['status' => 1, 'message' => 'Extra deals have been added to your plan. Thank you!'], 200);
         } else {
             return response()->json(['status' => 0, 'message' => 'Please Try again Later'], 400);
         }

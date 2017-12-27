@@ -333,7 +333,7 @@
                                                 </div>
                                                 <div class="form-group">
 
-                                                    {{ Form::label('query', 'Query:') }}
+                                                    {{ Form::label('query', 'Message:') }}
                                                     {{ Form::textarea('query','',['class'=>'form-control','style'=>'height:200px !important']) }}
 
                                                 </div>

@@ -77,7 +77,7 @@ class CouponController extends Controller {
                 $data = (new CouponTransformer)->transformDetail($coupondetail);
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
-            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
+            return $this->responseJson('success', \Config::get('constants.NO_DEAL'), 200);
         } catch (\Exception $e) {
 //     throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
