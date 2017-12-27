@@ -158,8 +158,7 @@ class Coupon extends Model {
     public static function getCouponDetail($data) {
 
 
-        $query = Coupon::active()->deleted()
-                ->where('coupon_id', $data['coupon_id'])
+        $query = Coupon::where('coupon_id', $data['coupon_id'])
                 ->first();
 
         return $query;
