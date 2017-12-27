@@ -169,10 +169,14 @@ class ActivityController extends Controller {
     }
     
      public function addnotificationallread(Request $request) {
- 
+       try {
         $user = Auth::user();
         $user->unreadNotifications()->update(['read_at' => Carbon::now(), 'is_read' => 1]);
         return $this->responseJson('success', \Config::get('constants.NOTI_SUCCESS'), 200);
+        } catch (\Exception $e) {
+            // throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
     }
 
 
