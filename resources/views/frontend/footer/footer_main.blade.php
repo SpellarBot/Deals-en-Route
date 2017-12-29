@@ -18,7 +18,7 @@
                         <li class="tos"> <a target="_blank" href="{{ route('termscondition')}}">Terms and Conditions</a> </li>
                         <li class="privacy"> <a target="_blank" href="{{ route('privacy')}}">Privacy Policy</a> </li>
                         <li class="feedback"> <a target="_blank" href="{{ route('report')}}">Report a Problem</a> </li>
-                        <li class="help"> <a target="_blank" href="https://docs.google.com/document/d/167vk1SHoR-od6_Cr6BoYj9Gp-nmqtogOh0dYjmzRXeU/edit?usp=sharing">Help</a> </li>
+                        <li class="help"> <a target="_blank" href="{{ route('help')}}">Help</a> </li>
                     </ul>
                 </div>
                 <p class="copyright"> Copyright &copy;  <script>
