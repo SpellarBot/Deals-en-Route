@@ -118,7 +118,6 @@
 				</div>
 			</div>
 		</div>
-
 <!-- end of  banner -->
 @endsection
 

@@ -17,7 +17,6 @@
                     <ul>
                         <li class="tos"> <a target="_blank" href="{{ route('termscondition')}}">Terms and Conditions</a> </li>
                         <li class="privacy"> <a target="_blank" href="{{ route('privacy')}}">Privacy Policy</a> </li>
-                        <li class="feedback"> <a target="_blank" href="{{ route('report')}}">Report a Problem</a> </li>
                         <li class="help"> <a target="_blank" href="{{ route('help')}}">Help</a> </li>
                     </ul>
                 </div>
