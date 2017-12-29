@@ -154,16 +154,16 @@
                         <a class="social-links fb normal" target="_blank" href="{{ \Config::get('constants.FACEBOOK_LINK') }}"><div class="icon-container"><i class="icon icon-fb"></i></div></a>
                     </div>
                     <div class="social-button-container">
-                        <a class="social-links dribbble hover-state" target="_blank" href="{{ \Config::get('constants.LINKDIN_LINK') }}"><div class="icon-container"><i class="icon icon-linkdln"></i></div></a>
-                        <a class="social-links dribbble normal" target="_blank" href="{{ \Config::get('constants.LINKDIN_LINK') }}"><div class="icon-container"><i class="icon icon-linkdln"></i></div></a>
+                        <a class="social-links dribbble hover-state" target="_blank" href="{{ \Config::get('constants.LINKDIN_LINK') }}"><div class="icon-container"><i class="fa fa-linkedin"></i></div></a>
+                        <a class="social-links dribbble normal" target="_blank" href="{{ \Config::get('constants.LINKDIN_LINK') }}"><div class="icon-container"><i class="fa fa-linkedin"></i></div></a>
                     </div>
                     <div class="social-button-container">
                         <a class="social-links instagram hover-state" target="_blank" href="{{ \Config::get('constants.INSTAGRAM_LINK') }}"><div class="icon-container"><i class="icon icon-instagram"></i></div></a>
                         <a class="social-links instagram normal" target="_blank" href="{{ \Config::get('constants.INSTAGRAM_LINK') }}"><div class="icon-container"><i class="icon icon-instagram"></i></div></a>
                     </div>
                     <div class="social-button-container">
-                        <a class="social-links be hover-state" target="_blank" href="{{ \Config::get('constants.TWITTER_LINK') }}"><div class="icon-container"><i class="icon icon-be"></i></div></a>
-                        <a class="social-links be normal" target="_blank" href="{{ \Config::get('constants.TWITTER_LINK') }}"><div class="icon-container"><i class="icon icon-be"></i></div></a>
+                        <a class="social-links be hover-state" target="_blank" href="{{ \Config::get('constants.TWITTER_LINK') }}"><div class="icon-container"><i class="fa fa-twitter"></i></div></a>
+                        <a class="social-links be normal" target="_blank" href="{{ \Config::get('constants.TWITTER_LINK') }}"><div class="icon-container"><i class="fa fa-twitter"></i></div></a>
                     </div>
                 </div>
 
