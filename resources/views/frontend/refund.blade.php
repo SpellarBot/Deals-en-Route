@@ -7,7 +7,7 @@
         <div class="header">
             <div class="row">
                 <div class="col-sm-6">
-                    <a href="index.html" class="logo"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo.png' ?>"></a>
+                    <a href="{{ route('vendorindex')}}" class="logo"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo.png' ?>"></a>
                 </div>
                 <div class="col-sm-6 text-right">
                     <h2>Refund Policy</h2>

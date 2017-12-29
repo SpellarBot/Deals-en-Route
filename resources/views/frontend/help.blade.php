@@ -17,7 +17,7 @@
 			<div class="header">
 				<div class="row">
 					<div class="col-xs-4">
-						<a href="index.html" class="logo">
+						<a href="{{ route('vendorindex')}}" class="logo">
 							<img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo.png' ?>">
 						</a>
 					</div>
