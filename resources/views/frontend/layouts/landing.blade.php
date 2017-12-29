@@ -4,7 +4,7 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
 	  
 	<title>DealsEnRoute Landing Page</title>
-          <link rel="icon" type="image/gif" href="images/favico.gif">
+          <link rel="icon" type="image/gif" href="<?php echo \Config::get('app.url'). '/public/frontend/img/favicon.png' ?>">
 	  <link rel="stylesheet" href="{{ asset('frontend/css/main.css') }}">
           <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')}}">
 
