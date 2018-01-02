@@ -33,12 +33,12 @@
                         <p class="text-primary">We are creating a more efficient relationship between you- the student, parent, teacher, long-time resident- and businesses in your college town by offering targeted, customized and time-sensitive deals powered by geo-location.</p>
                         <div class="outer-button-container">
                             <div class="normal-button-container">
-                                <a data-target="#follow" href="{{ route('vendorindex')}}"  class="btn btn-default normal-links hover-state popup-open">Inqury for Business<div class="icon-container"><i class="icon icon-arrow-right"></i></div></a>
-                                <a data-target="#follow" href="{{ route('vendorindex')}}"  class="btn btn-default normal-links normal popup-open">Inqury for Business<div class="icon-container"><i class="icon icon-arrow-right"></i></div></a>
+                                <a data-target="#follow" href="{{ route('vendorindex')}}"  class="btn btn-default normal-links hover-state">Inqury for Business<div class="icon-container"><i class="icon icon-arrow-right"></i></div></a>
+                                <a data-target="#follow" href="{{ route('vendorindex')}}"  class="btn btn-default normal-links normal">Inqury for Business<div class="icon-container"><i class="icon icon-arrow-right"></i></div></a>
                             </div>
                             <div class="normal-button-container">
-                                <a data-target="#follow" href="https://itunes.apple.com/us/app/deals-en-route-customer/id1327286547?ls=1&mt=8"  class="btn btn-default normal-links hover-state popup-open"><div class="icon-container"><i class="icon fa fa-apple"></i></div>Download iOS App<div class="icon-container"><i class="icon icon-arrow-right"></i></div></a>
-                                <a data-target="#follow" href="https://itunes.apple.com/us/app/deals-en-route-customer/id1327286547?ls=1&mt=8"  class="btn btn-default normal-links normal popup-open"><div class="icon-container"><i class="icon fa fa-apple"></i></div>Download iOS App<div class="icon-container"><i class="icon icon-arrow-right"></i></div></a>
+                                <a data-target="#follow" href="https://itunes.apple.com/us/app/deals-en-route-customer/id1327286547?ls=1&mt=8"  class="btn btn-default normal-links hover-state "><div class="icon-container"><i class="icon fa fa-apple"></i></div>Download iOS App<div class="icon-container"><i class="icon icon-arrow-right"></i></div></a>
+                                <a data-target="#follow" href="https://itunes.apple.com/us/app/deals-en-route-customer/id1327286547?ls=1&mt=8"  class="btn btn-default normal-links normal"><div class="icon-container"><i class="icon fa fa-apple"></i></div>Download iOS App<div class="icon-container"><i class="icon icon-arrow-right"></i></div></a>
                             </div>
                         </div>
                     </div>
