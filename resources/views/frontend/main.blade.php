@@ -143,7 +143,7 @@
                                         <script>
                                  
                                     document.write(new Date().getFullYear())
-                                </script> DealsEnRoute - All right reserved.</p>
+                                </script> DealsenRoute - All right reserved.</p>
                                 </div>
                             </div>
                         </div>
