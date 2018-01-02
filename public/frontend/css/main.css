@@ -9786,7 +9786,7 @@ a:hover {
   z-index: 4;
   text-align: center;
   opacity: 1;
-  transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in, visibility 400ms ease-in;
 }
 .arrow-section-container > p {
   font-size: 12px;
@@ -10094,6 +10094,7 @@ a:hover {
 }
 .vs-active-section-2 .arrow-section-container {
   opacity: 0;
+  visibility: hidden;
 }
 /*.vs-active-section-3 .page-nav .list-unstyled > li:nth-child(1) > a {
   color: #fff;

@@ -130,9 +130,18 @@
 
                     <footer class="footer-bottom">
                         <div class="footer-inner-alternative">
+                            
+                       
                             <div class="row">
                                 <div class="col-sm-12 text-center">
-                                    <p>©<script>
+                                    <p>
+                         <a target="_blank" style="color: white" href="{{ route('termscondition')}}">Terms and Conditions </a> |
+                        <a target="_blank" style="color: white" href="{{ route('privacy')}}">Privacy Policy</a> |
+                        <a target="_blank" style="color: white" href="{{ route('help')}}">Help</a> 
+                                       <br>
+                                        ©
+                                        <script>
+                                 
                                     document.write(new Date().getFullYear())
                                 </script> DealsEnRoute - All right reserved.</p>
                                 </div>
