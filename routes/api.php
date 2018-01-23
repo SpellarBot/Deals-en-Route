@@ -82,6 +82,11 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         //geonotification
         Route::post('/coupon/geonotify', 'NotificationController@couponGeoNotification');
 
+        //Deal(Coupon) Likes and Comments Routes
+
+        Route::post('/coupon/likedeal', 'CouponController@addlike');
+        Route::post('/coupon/commentdeal', 'CouponController@addComment');
+        Route::post('/coupon/editcommentdeal', 'CouponController@editComment');
 
         // additional routes here
     });
