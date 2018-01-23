@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration {
+class DealComments extends Migration {
 
     /**
      * Run the migrations.
@@ -12,16 +12,15 @@ class CreateUsersTable extends Migration {
      * @return void
      */
     public function up() {
-        if (!Schema::hasTable('users')) {
-            Schema::create('users', function (Blueprint $table) {
+        if (!Schema::hasTable('deal_comments')) {
+            Schema::create('deal_comments', function (Blueprint $table) {
                 $table->increments('id');
-                $table->string('name');
-                $table->string('email')->unique();
-                $table->string('password');
-                $table->rememberToken();
+                $table->bigInteger('comment_by');
+                $table->bigInteger('coupon_id');
+                $table->string('comment_desc');
                 $table->timestamps();
             });
-        }    //
+        }
     }
 
     /**
@@ -30,7 +29,7 @@ class CreateUsersTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('users');
+        Schema::drop('deal_comments');
     }
 
 }

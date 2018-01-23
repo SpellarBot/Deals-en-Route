@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration {
+class DealLikes extends Migration {
 
     /**
      * Run the migrations.
@@ -12,25 +12,25 @@ class CreateUsersTable extends Migration {
      * @return void
      */
     public function up() {
-        if (!Schema::hasTable('users')) {
-            Schema::create('users', function (Blueprint $table) {
+        if (!Schema::hasTable('deal_likes')) {
+            Schema::create('deal_likes', function (Blueprint $table) {
                 $table->increments('id');
-                $table->string('name');
-                $table->string('email')->unique();
-                $table->string('password');
-                $table->rememberToken();
+                $table->bigInteger('like_by');
+                $table->bigInteger('coupon_id');
+                $table->tinyInteger('is_like');
                 $table->timestamps();
             });
-        }    //
+        }
     }
 
     /**
+     * 
      * Reverse the migrations.
      *
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('users');
+        Schema::drop('deal_likes');
     }
 
 }
