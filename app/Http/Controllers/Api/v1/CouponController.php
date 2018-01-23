@@ -22,6 +22,9 @@ use App\PaymentInfo;
 use App\Http\Services\PdfTrait;
 use Mail;
 use Illuminate\Support\Facades\Storage;
+use App\DealLikes;
+use App\DealComments;
+use App\BusinessRating;
 
 class CouponController extends Controller {
 
@@ -40,25 +43,35 @@ class CouponController extends Controller {
 
 //coupon listing catgeory wise
     public function couponListCategoryWise(Request $request) {
-        try {
-
+//        try {
 // get the request
-            $data = $request->all();
+        $data = $request->all();
 //add lat long if passsed to the data
-            $passdata = $data;
-            unset($passdata['category_id']);
-            $user_detail = \App\UserDetail::saveUserDetail($passdata, Auth::user()->id);
+        $passdata = $data;
+        unset($passdata['category_id']);
+        $user_detail = \App\UserDetail::saveUserDetail($passdata, Auth::user()->id);
 //find nearby coupon
-            $couponlist = \App\Coupon::getNearestCoupon($data);
-            if (count($couponlist) > 0) {
-                $data = (new CouponTransformer)->transformList($couponlist);
-                return $this->responseJson('success', \Config::get('constants.COUPON_LIST'), 200, $data);
+        $couponlist = \App\Coupon::getNearestCoupon($data);
+        if (count($couponlist) > 0) {
+            foreach ($couponlist as $coupons) {
+                $getlikes = DealLikes::getLikes($coupons->coupon_id);
+//                print_r(auth()->id());die;
+                $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
+                $getComments = DealComments::getComments($coupons->coupon_id);
+                $getbusinessRating = BusinessRating::getRatings($coupons->created_by);
+                $coupons->total_likes = $getlikes['total_likes'];
+                $coupons->total_comments = $getComments['total_comments'];
+                $coupons->vendor_ratings = ($getbusinessRating['total_ratings'] == 0 ? 0 : number_format(($getbusinessRating['total_ratings'] / 5), 1));
+                $coupons->user_liked = ($getUserslike == 0 ? 0 : $getUserslike);
             }
-            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
-        } catch (\Exception $e) {
- //throw $e;
-            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+            $data = (new CouponTransformer)->transformList($couponlist);
+            return $this->responseJson('success', \Config::get('constants.COUPON_LIST'), 200, $data);
         }
+        return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
+//        } catch (\Exception $e) {
+//            //throw $e;
+//            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+//        }
     }
 
 // coupon details
@@ -256,7 +269,7 @@ class CouponController extends Controller {
             $coupon_data = array();
             foreach ($coupon as $c) {
                 $coupons = $c->getAttributes();
-                
+
                 if ($coupons['category_image'] && !empty($coupons['category_image'])) {
                     $coupons['coupon_logo'] = URL::to('storage/app/public/coupon_logo/' . $coupons['category_image']);
                 } else {
@@ -453,6 +466,38 @@ class CouponController extends Controller {
         $details['commision'] = TRUE;
         $invoice = $this->generateInvoice($details);
         return $invoice;
+    }
+
+    public function addlike(Request $request) {
+        $data = $request->all();
+        $likeDeal = DealLikes::addLike($data);
+        $getlikes = DealLikes::getLikes($data['coupon_id']);
+        $response['total_likes'] = $getlikes['total_likes'];
+        if ($data['is_like'] == 1) {
+            return $this->responseJson('success', 'Coupon Like Successfully. ', 200, $response);
+        } else {
+            return $this->responseJson('success', 'Coupon UnLike Successfully. ', 200, $response);
+        }
+    }
+
+    public function addComment(Request $request) {
+        $data = $request->all();
+        $commentDeal = DealComments::addComment($data);
+        return $this->responseJson('success', 'Comment Added Successfully. ', 200);
+    }
+
+    public function editComment(Request $request) {
+        $data = $request->all();
+        $editcommentDeal = DealComments::editComment($data);
+        return $this->responseJson('success', 'Comment Edit Successfully. ', 200);
+    }
+
+    public function getDistance($lat, $long, $coupon_lat, $coupon_long) {
+
+        return '6371 * 2 * ASIN(SQRT(POWER(SIN((' . $lat .
+                ' - ABS(' . $coupon_lat . ')) * PI() / 180 / 2), 2) + COS(' . $lat .
+                ' * PI() / 180) * COS(ABS(' . $coupon_lat . ') * PI() / 180) * POWER(SIN((' . $long .
+                ' - ' . $coupon_long . ') * PI() / 180 / 2), 2)))';
     }
 
 }

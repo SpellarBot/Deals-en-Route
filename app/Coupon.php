@@ -82,6 +82,7 @@ class Coupon extends Model {
     public function categoryDetail() {
         return $this->hasOne('App\CouponCategory', 'category_id', 'coupon_category_id');
     }
+
 //latitude:23.019154525372173
 //longitude:72.51920767128468
     /**
@@ -127,13 +128,13 @@ class Coupon extends Model {
                 $coupontotal[] = $couponlists['coupon_id'];
             }
         }
-        $ex = (!empty($coupontotal)?implode(',', $coupontotal):0);
-        $query = Coupon::active()->deleted()->select(DB::raw('coupon.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
+        $ex = (!empty($coupontotal) ? implode(',', $coupontotal) : 0);
+        $query = Coupon::active()->deleted()->select(DB::raw('coupon.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,(coupon_redeem_limit - coupon_total_redeem) as remaining_coupons,coupon_code,coupon_end_date,'
                                 . 'coupon_name,coupon_logo,created_by,coupon_lat,coupon_original_price,coupon_total_discount,'
                                 . 'coupon_long,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat)))) ) as distance'))
-                        ->where(\DB::raw('TIMESTAMP(`coupon_start_date`)'), '<=', date('Y-m-d H:i:s'))
-                        ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
-                        ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
+                ->where(\DB::raw('TIMESTAMP(`coupon_start_date`)'), '<=', date('Y-m-d H:i:s'))
+                ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
+                ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
                 ->havingRaw('( coupon_radius >= distance or coupon_id in ( ' . $ex . ' ) )');
         if (isset($data['category_id'])) {
             $query->where('coupon_category_id', $data['category_id']);
@@ -290,16 +291,16 @@ class Coupon extends Model {
     }
 
     public static function getCouponAllList() {
-          $id = User::find(Auth::id())->userDetail->category_id;
-            $idsArr = explode(',', $id);
+        $id = User::find(Auth::id())->userDetail->category_id;
+        $idsArr = explode(',', $id);
         $coupon_list = Coupon::where(\DB::raw('coupon_redeem_limit'), '>', \DB::raw('coupon_total_redeem'))
                 ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
                 ->active()
                 ->deleted()
-                 ->whereIn('coupon_category_id', $idsArr)
+                ->whereIn('coupon_category_id', $idsArr)
                 ->orderBy('coupon_id', 'desc')
                 ->get();
-      
+
         return $coupon_list;
     }
 
