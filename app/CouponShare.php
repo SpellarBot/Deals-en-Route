@@ -35,7 +35,7 @@ class CouponShare extends Model {
     public function vendorDetail() {
         return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
     }
-    
+
     /**
      * Get the vendor detail record associated with the user.
      */
@@ -76,36 +76,36 @@ class CouponShare extends Model {
                     ->get();
 
             $coupon = Coupon::find($couponid);
-            $fMessage = $coupon->finalNotifyMessage(Auth::id(),'', $coupon,  \Config::get('constants.NOTIFY_SHARED_COUPON'));
-               
-               // send notification to your friends
-                Notification::send($user, new FcmNotification([
+            $fMessage = $coupon->finalNotifyMessage(Auth::id(), '', $coupon, \Config::get('constants.NOTIFY_SHARED_COUPON'));
+
+            // send notification to your friends
+            Notification::send($user, new FcmNotification([
                 'type' => 'sharecoupon',
-                'notification_message' =>\Config::get('constants.NOTIFY_SHARED_COUPON'),
+                'notification_message' => \Config::get('constants.NOTIFY_SHARED_COUPON'),
                 'message' => $fMessage,
                 'name' => $creator_id->userDetail->first_name . ' ' . $creator_id->userDetail->last_name,
                 'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
                 'coupon_id' => $coupon->coupon_id
             ]));
-                
+
             // send notification to yourself
-                Notification::send($creator_id, new FcmNotification([
+            Notification::send($creator_id, new FcmNotification([
                 'type' => 'sharedcoupon',
-                'notification_message' =>\Config::get('constants.NOTIFY_SHARE_COUPON'),
+                'notification_message' => \Config::get('constants.NOTIFY_SHARE_COUPON'),
                 'message' => \Config::get('constants.NOTIFY_SHARE_COUPON'),
-                 'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
-                 'coupon_id' => $coupon->coupon_id
+                'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
+                'coupon_id' => $coupon->coupon_id
             ]));
-         
-          
+
+
             if (CouponShare::insert($datafb)) {
-                if($activity->getCouponShareCount($activity->activity_id, $couponid)==1){
-                Activity::where('activity_id', $activity->activity_id)
-                        ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid),
-                            'activity_name_creator'=> \Config::get('constants.ACTVITY_CREATOR_MESSAGE_1')  ]);
-                }else {
-                      Activity::where('activity_id', $activity->activity_id)
-                        ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid)]);
+                if ($activity->getCouponShareCount($activity->activity_id, $couponid) == 1) {
+                    Activity::where('activity_id', $activity->activity_id)
+                            ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid),
+                                'activity_name_creator' => \Config::get('constants.ACTVITY_CREATOR_MESSAGE_1')]);
+                } else {
+                    Activity::where('activity_id', $activity->activity_id)
+                            ->update(['count_fb_friend' => $activity->getCouponShareCount($activity->activity_id, $couponid)]);
                 }
             }
         }
@@ -137,20 +137,22 @@ class CouponShare extends Model {
 //                    }
             }
             CouponShare::insert($datafb);
-          
+
             Activity::where('activity_id', $activity->activity_id)
-                    ->update(['count_fb_friend' => $activity->getCouponActivityFriendCount($activity->activity_id, $couponid,$userid)]);
+                    ->update(['count_fb_friend' => $activity->getCouponActivityFriendCount($activity->activity_id, $couponid, $userid)]);
         }
     }
 
     public static function couponShareList($data) {
         $user = Auth()->user()->userDetail;
-
+        $lat = $user->latitude;
+        $lng = $user->longitude;
+        $circle_radius = \Config::get('constants.EARTH_RADIUS');
         $result = CouponShare::
-                select(DB::raw('coupon.coupon_id,coupon_lat,coupon_long,'
+                select(DB::raw('coupon.coupon_id,coupon_lat,coupon_long,coupon_original_price,coupon_total_discount,'
                                 . 'coupon_share.coupon_id,coupon_start_date,'
                                 . 'coupon_end_date,coupon_detail,'
-                                . 'coupon_name,coupon_logo,created_by,coupon_category_id'))
+                                . 'coupon_name,coupon_logo,created_bycoupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat))))) as distance'))
                 ->leftJoin('coupon', 'coupon_share.coupon_id', '=', 'coupon.coupon_id')
                 ->where('share_friend_id', Auth::id())
                 ->where('is_active', self::IS_TRUE)

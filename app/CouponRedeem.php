@@ -27,6 +27,7 @@ class CouponRedeem extends Model {
     public function vendorDetail() {
         return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
     }
+
     /**
      * Get the vendor detail record associated with the user.
      */
@@ -43,9 +44,10 @@ class CouponRedeem extends Model {
         $circle_radius = \Config::get('constants.EARTH_RADIUS');
         $lat = $user->latitude;
         $lng = $user->longitude;
+        $circle_radius = \Config::get('constants.EARTH_RADIUS');
         $result = CouponRedeem::
-                select(DB::raw('coupon.coupon_id,coupon_lat,coupon_long,coupon_redeem.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
-                                . 'coupon_name,coupon_logo,created_by,coupon_category_id'))
+                select(DB::raw('coupon.coupon_id,coupon_lat,coupon_long,coupon_redeem.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,(coupon_redeem_limit - coupon_total_redeem) as remaining_coupons,coupon_code,coupon_end_date,coupon_original_price,coupon_total_discount,'
+                                . 'coupon_name,coupon_logo,created_by,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat))))) as distance'))
                 ->leftJoin('coupon', 'coupon_redeem.coupon_id', '=', 'coupon.coupon_id')
                 ->where('is_active', self::IS_TRUE)
                 ->where('is_delete', self::IS_FALSE)

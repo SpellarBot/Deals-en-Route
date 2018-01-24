@@ -31,26 +31,26 @@ class CouponFavourite extends Model {
     public static function Coupon() {
         return $this->belongsToMany('App\Coupon', 'coupon_id', 'coupon_id');
     }
-/**
+
+    /**
      * Get the vendor detail record associated with the user.
      */
     public function categoryDetail() {
         return $this->hasOne('App\CouponCategory', 'category_id', 'coupon_category_id');
     }
-    
-     //category logo image
-      public function getCategoryLogoImageAttribute($value) {
+
+    //category logo image
+    public function getCategoryLogoImageAttribute($value) {
 
         return (!empty($value)) ? URL::to('/storage/app/public/category_logo_image') . '/' . $value : "";
     }
+
     /**
      * Get the vendor detail record associated with the user.
      */
     public function vendorDetail() {
         return $this->hasOne('App\VendorDetail', 'user_id', 'created_by');
     }
-
-    
 
     //update or create favourtie coupon data ssss
     public static function addFavCoupon($data) {
@@ -72,9 +72,8 @@ class CouponFavourite extends Model {
         $lat = $user->latitude;
         $lng = $user->longitude;
         $circle_radius = \Config::get('constants.EARTH_RADIUS');
-
         $result = CouponFavourite::
-                select(DB::raw('coupon.coupon_id,coupon_favourite.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,coupon_original_price,coupon_total_discount,(coupon_redeem_limit - coupon_total_redeem) as remaining_coupons,coupon_code,coupon_end_date,'
+                select(DB::raw('coupon.coupon_id,coupon_favourite.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,coupon_original_price,coupon_total_discount,(coupon_redeem_limit - coupon_total_redeem) as remaining_coupons,coupon_code,coupon_end_date,coupon_original_price,coupon_total_discount,'
                                 . 'coupon_name,coupon_logo,coupon_lat,coupon_long,created_by,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat))))) as distance'))
                 ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
                 ->where('is_active', self::IS_TRUE)
@@ -87,15 +86,15 @@ class CouponFavourite extends Model {
 
         return $result;
     }
-    
+
     // coupon favorite list limit 5
     public static function getCouponAllFavListLimit() {
 
         $circle_radius = \Config::get('constants.EARTH_RADIUS');
         $result = CouponFavourite::
                 select(DB::raw('coupon.coupon_id,coupon_favourite.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
-                        . 'coupon_name,coupon_logo,coupon_lat, (coupon_redeem_limit - coupon_total_redeem) AS new_bal,'
-                        . 'coupon_long,created_by,coupon_category_id,user_detail.user_id,((' . $circle_radius . ' * acos(cos(radians(user_detail.latitude)) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(user_detail.longitude)) + sin(radians(user_detail.latitude)) * sin(radians(coupon_lat))))) as distance'))
+                                . 'coupon_name,coupon_logo,coupon_lat, (coupon_redeem_limit - coupon_total_redeem) AS new_bal,'
+                                . 'coupon_long,created_by,coupon_category_id,user_detail.user_id,((' . $circle_radius . ' * acos(cos(radians(user_detail.latitude)) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(user_detail.longitude)) + sin(radians(user_detail.latitude)) * sin(radians(coupon_lat))))) as distance'))
                 ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
                 ->leftJoin('user_detail', 'coupon_favourite.user_id', '=', 'user_detail.user_id')
                 ->where('is_active', self::IS_TRUE)
@@ -107,17 +106,17 @@ class CouponFavourite extends Model {
 
         return $result;
     }
-    
-      // coupon favorite list fav expire
+
+    // coupon favorite list fav expire
     public static function getCouponAllFavExpire() {
         $date = Carbon::now()->format('Y-m-d');
 
         $circle_radius = \Config::get('constants.EARTH_RADIUS');
         $result = CouponFavourite::
                 select(DB::raw('coupon.coupon_id,coupon_favourite.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,'
-                        . 'coupon_name,coupon_lat,DATE_SUB(coupon_end_date, INTERVAL 1 DAY)  as datesub,'
-                        . 'coupon_long,created_by,coupon_category_id,user_detail.user_id,((' . $circle_radius . ' * acos(cos(radians(user_detail.latitude)) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(user_detail.longitude)) + sin(radians(user_detail.latitude)) * sin(radians(coupon_lat))))) as distance'))
-                 ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
+                                . 'coupon_name,coupon_lat,DATE_SUB(coupon_end_date, INTERVAL 1 DAY)  as datesub,'
+                                . 'coupon_long,created_by,coupon_category_id,user_detail.user_id,((' . $circle_radius . ' * acos(cos(radians(user_detail.latitude)) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(user_detail.longitude)) + sin(radians(user_detail.latitude)) * sin(radians(coupon_lat))))) as distance'))
+                ->leftJoin('coupon', 'coupon_favourite.coupon_id', '=', 'coupon.coupon_id')
                 ->leftJoin('user_detail', 'coupon_favourite.user_id', '=', 'user_detail.user_id')
                 ->where('is_active', self::IS_TRUE)
                 ->where('is_delete', self::IS_FALSE)
@@ -126,9 +125,7 @@ class CouponFavourite extends Model {
                 ->orderBy('distance')
                 ->get();
 
-       return $result;
+        return $result;
     }
-    
-    
 
 }
