@@ -23,7 +23,7 @@ class CouponTransformer {
                 'coupon_end_date' => $item->coupon_end_date ?? '',
                 'coupon_likes' => $item->total_likes ?? '',
                 'vendor_ratings' => $item->vendor_ratings ?? '',
-                'user_liked' => $item->user_liked ?? '',
+                'is_liked' => $item->is_liked ?? '',
                 'coupon_comments' => $item->total_comments ?? '',
                 'distance' => number_format($item->distance, 2) ?? '',
                 'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
