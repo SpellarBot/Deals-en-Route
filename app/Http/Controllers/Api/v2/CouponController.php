@@ -62,7 +62,7 @@ class CouponController extends Controller {
                 $coupons->total_likes = $getlikes['total_likes'];
                 $coupons->total_comments = $getComments['total_comments'];
                 $coupons->vendor_ratings = ($getbusinessRating['total_ratings'] == 0 ? 0 : number_format(($getbusinessRating['total_ratings'] / 5), 1));
-                $coupons->user_liked = ($getUserslike == 0 ? 0 : $getUserslike);
+                $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
             }
             $data = (new CouponTransformer)->transformList($couponlist);
             return $this->responseJson('success', \Config::get('constants.COUPON_LIST'), 200, $data);
