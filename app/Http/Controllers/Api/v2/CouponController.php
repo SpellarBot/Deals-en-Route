@@ -116,22 +116,31 @@ class CouponController extends Controller {
     }
 
     public function couponFavList(Request $request) {
-        try {
+//        try {
 // get the request
             $data = $request->all();
-
 //find nearby coupon
-
             $coupondetail = \App\CouponFavourite::getCouponFavList($data);
             if (count($coupondetail) > 0) {
+                foreach ($coupondetail as $coupons) {
+                    $getlikes = DealLikes::getLikes($coupons->coupon_id);
+//                print_r(auth()->id());die;
+                    $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
+                    $getComments = DealComments::getComments($coupons->coupon_id);
+                    $getbusinessRating = BusinessRating::getRatings($coupons->created_by);
+                    $coupons->total_likes = $getlikes['total_likes'];
+                    $coupons->total_comments = $getComments['total_comments'];
+                    $coupons->vendor_ratings = ($getbusinessRating['total_ratings'] == 0 ? 0 : number_format(($getbusinessRating['total_ratings'] / 5), 1));
+                    $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
+                }
                 $data = (new CouponTransformer)->transformFavSearchList($coupondetail);
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
-        } catch (\Exception $e) {
-//    throw $e;
-            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
-        }
+//        } catch (\Exception $e) {
+////    throw $e;
+//            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+//        }
     }
 
     public function couponSearchList(Request $request) {
