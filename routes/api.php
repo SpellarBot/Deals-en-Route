@@ -105,7 +105,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
 });
 
 Route::group(['namespace' => 'Api\v2', 'prefix' => 'v2'], function() {
-     Route::post('/user/register', 'Auth\RegisterController@create');
+    Route::post('/user/register', 'Auth\RegisterController@create');
     Route::post('/user/login', 'Auth\LoginController@login');
     Route::post('/user/socialregister', 'Auth\RegisterController@registerwithfb');
     Route::post('/user/addemail', 'Auth\RegisterController@addemail');
