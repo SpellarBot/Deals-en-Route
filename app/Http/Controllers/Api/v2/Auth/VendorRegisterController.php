@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Auth;
+namespace App\Http\Controllers\Api\v2\Auth;
 
 use App\Http\Services\ResponseTrait;
 use App\Http\Services\MailTrait;
 use App\VendorDetail;
 use App\CouponCategory;
 use App\User;
-use App\Http\Controllers\Api\v1\Controller;
+use App\Http\Controllers\Api\v2\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;

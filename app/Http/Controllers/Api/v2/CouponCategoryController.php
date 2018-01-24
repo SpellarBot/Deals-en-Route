@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\v2;
 
 use Illuminate\Http\Request;
 use App\Http\Services\CategoryTrait;
 use App\Http\Services\ResponseTrait;
-use App\Http\Controllers\Api\v1\Controller;
+use App\Http\Controllers\Api\v2\Controller;
 use App\Http\Transformer\CategoryTransformer;
 use Auth;
 

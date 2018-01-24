@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\v2;
 
 use App\Http\Services\MailTrait;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use App\User;
 use App\StripeUser;
 use App\VendorDetail;
 use App\PaymentInfo;
-use App\Http\Controllers\Api\v1\Auth;
+use App\Http\Controllers\Api\v2\Auth;
 use Mail;
 use App\Http\Services\PdfTrait;
 use Illuminate\Support\Facades\Storage;
