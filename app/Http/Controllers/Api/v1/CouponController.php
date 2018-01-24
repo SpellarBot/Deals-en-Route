@@ -56,7 +56,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
- //throw $e;
+            //throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -256,7 +256,7 @@ class CouponController extends Controller {
             $coupon_data = array();
             foreach ($coupon as $c) {
                 $coupons = $c->getAttributes();
-                
+
                 if ($coupons['category_image'] && !empty($coupons['category_image'])) {
                     $coupons['coupon_logo'] = URL::to('storage/app/public/coupon_logo/' . $coupons['category_image']);
                 } else {
