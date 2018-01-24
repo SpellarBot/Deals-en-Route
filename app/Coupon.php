@@ -396,4 +396,16 @@ COALESCE(SUM(case when   (week(coupon_redeem.created_at)-week(DATE_FORMAT(coupon
         return $c;
     }
 
+    public static function getVendorDetails($coupon) {
+        $vendordetails = Coupon::select('vendor_detail.*', 'coupon.*')
+                ->leftjoin('vendor_detail', 'vendor_detail.user_id', 'coupon.created_by')
+                ->where('coupon_id', $coupon['coupon_id'])
+                ->first();
+        if ($vendordetails) {
+            return $vendordetails->getAttributes();
+        } else {
+            return 0;
+        }
+    }
+
 }
