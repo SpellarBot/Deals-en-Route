@@ -38,7 +38,11 @@ class DealComments extends Model {
                 ->where('coupon_id', $id)
                 ->groupBy('parent_id')
                 ->first();
-        return $comments->getAttributes();
+        if ($comments) {
+            return $comments->getAttributes();
+        } else {
+            return 0;
+        }
     }
 
 }

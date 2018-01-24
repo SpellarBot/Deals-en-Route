@@ -36,7 +36,11 @@ class DealLikes extends Model {
                 ->where('coupon_id', $id)
                 ->where('is_like', self::IS_TRUE)
                 ->first();
-        return $likes->getAttributes();
+        if ($likes) {
+            return $likes->getAttributes();
+        } else {
+            return 0;
+        }
     }
 
     public static function getUserLike($id, $user_id) {

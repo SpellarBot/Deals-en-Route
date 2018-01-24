@@ -41,7 +41,11 @@ class BusinessRating extends Model {
         $getRatings = BusinessRating::select(\DB::raw('sum(rating) as total_ratings'))
                 ->where('vendor_id', $id)
                 ->first();
-        return $getRatings->getAttributes();
+        if ($getRatings) {
+            return $getRatings->getAttributes();
+        } else {
+            return 0;
+        }
     }
 
 }

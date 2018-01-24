@@ -172,6 +172,7 @@ Route::group(['namespace' => 'Api\v2', 'prefix' => 'v2'], function() {
         Route::post('/coupon/likedeal', 'CouponController@addlike');
         Route::post('/coupon/commentdeal', 'CouponController@addComment');
         Route::post('/coupon/editcommentdeal', 'CouponController@editComment');
+        Route::post('/coupon/businessFromCoupon', 'CouponController@getBusinessDetails');
 
         // additional routes here
     });
