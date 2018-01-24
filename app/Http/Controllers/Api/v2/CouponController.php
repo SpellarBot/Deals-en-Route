@@ -172,21 +172,31 @@ class CouponController extends Controller {
     }
 
     public function redeemCouponList(Request $request) {
-        try {
+//        try {
 // get the request
-            $data = $request->all();
+        $data = $request->all();
 
-            $couponlist = \App\CouponRedeem::redeemCouponList($data);
+        $couponlist = \App\CouponRedeem::redeemCouponList($data);
 
-            if (count($couponlist) > 0) {
-                $data = (new CouponTransformer)->transformShareList($couponlist);
-                return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
+        if (count($couponlist) > 0) {
+            foreach ($couponlist as $coupons) {
+                $getlikes = DealLikes::getLikes($coupons->coupon_id);
+                $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
+                $getComments = DealComments::getComments($coupons->coupon_id);
+                $getbusinessRating = BusinessRating::getRatings($coupons->created_by);
+                $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
+                $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
+                $coupons->vendor_ratings = ($getbusinessRating == 0 ? 0 : number_format(($getbusinessRating['total_ratings'] / 5), 1));
+                $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
             }
-            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
-        } catch (\Exception $e) {
-//  throw $e;
-            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+            $data = (new CouponTransformer)->transformShareList($couponlist);
+            return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
         }
+        return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
+//        } catch (\Exception $e) {
+////  throw $e;
+//            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+//        }
     }
 
     public function shareCouponList(Request $request) {
@@ -198,6 +208,16 @@ class CouponController extends Controller {
             $couponlist = \App\CouponShare::couponShareList($data);
 
             if (count($couponlist) > 0) {
+                foreach ($couponlist as $coupons) {
+                    $getlikes = DealLikes::getLikes($coupons->coupon_id);
+                    $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
+                    $getComments = DealComments::getComments($coupons->coupon_id);
+                    $getbusinessRating = BusinessRating::getRatings($coupons->created_by);
+                    $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
+                    $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
+                    $coupons->vendor_ratings = ($getbusinessRating == 0 ? 0 : number_format(($getbusinessRating['total_ratings'] / 5), 1));
+                    $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
+                }
                 $data = (new CouponTransformer)->transformShareList($couponlist);
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
