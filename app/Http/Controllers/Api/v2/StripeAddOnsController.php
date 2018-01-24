@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\v2;
 
 use App\Http\Services\MailTrait;
 use Illuminate\Http\Request;

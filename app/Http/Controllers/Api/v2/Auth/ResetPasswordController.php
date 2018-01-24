@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Auth;
+namespace App\Http\Controllers\Api\v2\Auth;
 
-use App\Http\Controllers\Api\v1\Controller;
+use App\Http\Controllers\Api\v2\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
