@@ -52,7 +52,7 @@ return [
     'USER_DEACTIVE' => 'sorry your account have been deactivated by admin.please contact admin.',
     'CONTACT_SUCCESS' => 'Message Sent Successfully.',
     'CONTACT_FAILURE' => 'It Seems Some Wrong With Your Email.Please Add Valid Email.',
-    'NO_DEAL'=>'The deal is not available anymore.',
+    'NO_DEAL' => 'The deal is not available anymore.',
     //client mail
     'CLIENT_MAIL' => 'support@dealsenroute.com',
     //activity message
@@ -60,15 +60,15 @@ return [
     'ACTVITY_CREATOR_MESSAGE' => '{{created_by}} shared {{coupon_name}} coupon with {{shared_name}} and {{count}} others',
     'ACTVITY_FRIEND_MESSAGE' => '{{created_by}} shared a {{coupon_name}} coupon with you ',
     'ACTVITY_FRIEND_REDEEM' => 'Your friend {{created_by}} has redeemed coupon {{coupon_name}}',
-    'ACTIVITY_LIKE'=>'{{like_friend}} liked the coupon {{coupon_name}} shared by you.',
-    'ACTIVITY_COMMENT'=>'{{comment_friend}} posted a comment on the coupon {{coupon_name}} shared by you.',
+    'ACTIVITY_LIKE' => '{{like_friend}} liked the coupon {{coupon_name}} shared by you.',
+    'ACTIVITY_COMMENT' => '{{comment_friend}} posted a comment on the coupon {{coupon_name}} shared by you.',
     'SHARE_ACTIVITY' => 'shared activity successfully.',
     //notification message
     //-- geo notification
     'NOTIFY_GEO' => [0 => "We have a, {{coupon_name}} at {{vendor_name}} just for you!",
         1 => 'You have to check out this deal from {{vendor_name}}.',
         2 => 'We think you’d like this deal from {{vendor_name}}.',
-    //    3 => ' Your friends have been redeeming this deal. Check to see what’s inside.',
+        //    3 => ' Your friends have been redeeming this deal. Check to see what’s inside.',
         3 => 'This was the most popular deal in your area today, check it out.',
     ],
     //-- coupon expire in fav(favorites only, do not notify about coupons expiring that are not favorited)
@@ -92,14 +92,11 @@ return [
     //local path
     'IMAGE_PATH' => 'storage/app/public/',
     'PAGINATE' => 10,
-    
-    
     //SOCAIL SITE LINK 
-    'FACEBOOK_LINK'=>'https://www.facebook.com/dealsenroute',
-    'LINKDIN_LINK'=>'https://www.linkedin.com/company/11119147',
-    'TWITTER_LINK'=>'https://twitter.com/dealsenroute',
-    'INSTAGRAM_LINK'=>'https://www.instagram.com/dealsenroute',
-    
+    'FACEBOOK_LINK' => 'https://www.facebook.com/dealsenroute',
+    'LINKDIN_LINK' => 'https://www.linkedin.com/company/11119147',
+    'TWITTER_LINK' => 'https://twitter.com/dealsenroute',
+    'INSTAGRAM_LINK' => 'https://www.instagram.com/dealsenroute',
     //notification
     //stripe keys
     'STRIPE_KEY' => 'pk_test_dvnwoMABEgschsRqPZRuGJrp',
@@ -107,6 +104,8 @@ return [
     'STRIPE_VERSION' => '2017-08-15',
     'DATE_FORMAT' => 'n/j/y - g:00 A',
     'SETTINGS' => 'Settings Page Details!',
+    'VENDOR_RATING' => 'Vendor Rating Submited Successfully',
+    'VENDOR_RATING_DETAILS' => 'Vendor Rating Details'
 ];
 
 
