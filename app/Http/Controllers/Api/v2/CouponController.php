@@ -24,7 +24,7 @@ use Mail;
 use Illuminate\Support\Facades\Storage;
 use App\DealLikes;
 use App\DealComments;
-use App\BusinessRating;
+use App\VendorRating;
 
 class CouponController extends Controller {
 
@@ -57,10 +57,10 @@ class CouponController extends Controller {
                     $getlikes = DealLikes::getLikes($coupons->coupon_id);
                     $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
                     $getComments = DealComments::getComments($coupons->coupon_id);
-                    $getbusinessRating = BusinessRating::getRatings($coupons->created_by);
+                    $getvendorRating = BusinessRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getbusinessRating == 0 ? 0 : number_format(($getbusinessRating['total_ratings'] / 5), 1));
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformList($couponlist);
@@ -125,10 +125,10 @@ class CouponController extends Controller {
                     $getlikes = DealLikes::getLikes($coupons->coupon_id);
                     $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
                     $getComments = DealComments::getComments($coupons->coupon_id);
-                    $getbusinessRating = BusinessRating::getRatings($coupons->created_by);
+                    $getvendorRating = BusinessRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getbusinessRating == 0 ? 0 : number_format(($getbusinessRating['total_ratings'] / 5), 1));
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformFavSearchList($coupondetail);
@@ -155,10 +155,10 @@ class CouponController extends Controller {
                     $getlikes = DealLikes::getLikes($coupons->coupon_id);
                     $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
                     $getComments = DealComments::getComments($coupons->coupon_id);
-                    $getbusinessRating = BusinessRating::getRatings($coupons->created_by);
+                    $getvendorRating = BusinessRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getbusinessRating == 0 ? 0 : number_format(($getbusinessRating['total_ratings'] / 5), 1));
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformFavSearchList($coupondetail);
@@ -183,10 +183,10 @@ class CouponController extends Controller {
                 $getlikes = DealLikes::getLikes($coupons->coupon_id);
                 $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
                 $getComments = DealComments::getComments($coupons->coupon_id);
-                $getbusinessRating = BusinessRating::getRatings($coupons->created_by);
+                $getvendorRating = BusinessRating::getRatings($coupons->created_by);
                 $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                 $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                $coupons->vendor_ratings = ($getbusinessRating == 0 ? 0 : number_format(($getbusinessRating['total_ratings'] / 5), 1));
+                $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
                 $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
             }
             $data = (new CouponTransformer)->transformShareList($couponlist);
@@ -212,10 +212,10 @@ class CouponController extends Controller {
                     $getlikes = DealLikes::getLikes($coupons->coupon_id);
                     $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
                     $getComments = DealComments::getComments($coupons->coupon_id);
-                    $getbusinessRating = BusinessRating::getRatings($coupons->created_by);
+                    $getvendorRating = BusinessRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getbusinessRating == 0 ? 0 : number_format(($getbusinessRating['total_ratings'] / 5), 1));
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformShareList($couponlist);
@@ -537,15 +537,15 @@ class CouponController extends Controller {
                 ' - ' . $coupon_long . ') * PI() / 180 / 2), 2)))';
     }
 
-    public function getBusinessDetails(Request $request) {
+    public function getVendorDetails(Request $request) {
         $data = $request->all();
 
         $vendor = \App\Coupon::getVendorDetails($data);
         $vendor['vendor_logo'] = ($vendor['vendor_logo'] ? asset('storage/app/public/vendor_logo/' . $vendor['vendor_logo']) : asset('storage/app/public/vendor_logo/'));
         if ($vendor) {
-            return $this->responseJson('success', 'Business Details. ', 200, $vendor);
+            return $this->responseJson('success', 'Vendor Details. ', 200, $vendor);
         } else {
-            return $this->responseJson('error', 'Business not found!!  ', 400, $vendor);
+            return $this->responseJson('error', 'Vendor not found!!  ', 400, $vendor);
         }
     }
 
