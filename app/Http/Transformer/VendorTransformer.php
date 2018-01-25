@@ -71,7 +71,22 @@ class VendorTransformer {
             'card_last_four' => $data['card_last_four'] ?? '',
             'subscription_plan' => $data['stripe_plan'] ?? '',
             'card_brand' => $data['card_brand'] ?? '',
-            'vendor_logo' => (!empty($data['vendor_logo'])) ? URL::to('storage/app/public/vendor_logo/'.$data['vendor_logo']) : URL::to('storage/app/public/vendor_logo/'),
+            'vendor_logo' => (!empty($data['vendor_logo'])) ? URL::to('storage/app/public/vendor_logo/' . $data['vendor_logo']) : URL::to('storage/app/public/vendor_logo/'),
+        ];
+    }
+
+    public function transformvendorData($data) {
+        return [
+            'user_id' => $data['vendor_id'] ?? '',
+            'businessname1' => $data['vendor_name'] ?? '',
+            'businessname2' => $data['billing_businessname'] ?? '',
+            'vendor_address' => $data['vendor_address'] ?? '',
+            'vendor_city' => $data['vendor_city'] ?? '',
+            'vendor_state' => $data['vendor_state'] ?? '',
+            'vendor_zip' => $data['vendor_zip'] ?? '',
+            'vendor_phone' => $data['vendor_phone'] ?? '',
+            'vendor_country' => $data['country_name'] ?? '',
+            'vendor_logo' => (!empty($data['vendor_logo'])) ? URL::to('storage/app/public/vendor_logo/' . $data['vendor_logo']) : URL::to('storage/app/public/vendor_logo/'),
         ];
     }
 

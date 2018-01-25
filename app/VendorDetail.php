@@ -9,7 +9,7 @@ use Auth;
 class VendorDetail extends Model {
 
     use \App\Http\Services\UserTrait;
-        use \App\Http\Services\CouponTrait;
+    use \App\Http\Services\CouponTrait;
 
     protected $table = 'vendor_detail';
     protected $dateFormat = 'Y-m-d';
@@ -52,14 +52,14 @@ class VendorDetail extends Model {
         $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
-         $user_access =$vendor_detail->userAccess(); 
+        $user_access = $vendor_detail->userAccess();
         $user = \App\Subscription::where('user_id', Auth::id())->first();
         if ($user) {
             $deals_left = $user->getRenewalCoupon($user_access);
-            if($user_access['dealstotal']!=0){
-            $deals_percent = ($deals_left / $user_access['dealstotal']) * 100;
-            }else{
-                $deals_percent=0;
+            if ($user_access['dealstotal'] != 0) {
+                $deals_percent = ($deals_left / $user_access['dealstotal']) * 100;
+            } else {
+                $deals_percent = 0;
             }
             return ['deals_left' => $deals_left, 'deals_percent' => $deals_percent];
         }
