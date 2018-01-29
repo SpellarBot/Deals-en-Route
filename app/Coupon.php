@@ -408,4 +408,23 @@ COALESCE(SUM(case when   (week(coupon_redeem.created_at)-week(DATE_FORMAT(coupon
         }
     }
 
+    public static function getCouponByVendor($vendor_id) {
+        $user = Auth()->user()->userDetail;
+        $circle_radius = \Config::get('constants.EARTH_RADIUS');
+        $lat = $user->latitude;
+        $lng = $user->longitude;
+        $circle_radius = \Config::get('constants.EARTH_RADIUS');
+        $result = Coupon::
+                select(DB::raw('coupon.coupon_id,coupon_lat,coupon_long,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,(coupon_redeem_limit - coupon_total_redeem) as remaining_coupons,coupon_code,coupon_end_date,coupon_original_price,coupon_total_discount,'
+                                . 'coupon_name,coupon_logo,created_by,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat))))) as distance'))
+                ->where(\DB::raw('TIMESTAMP(`coupon_start_date`)'), '<=', date('Y-m-d H:i:s'))
+                ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
+                ->where('is_active', self::IS_TRUE)
+                ->where('is_delete', self::IS_FALSE)
+                ->where('created_by', $vendor_id)
+                ->groupBy('coupon_id')
+                ->simplePaginate(\Config::get('constants.PAGINATE'));
+        return $result;
+    }
+
 }

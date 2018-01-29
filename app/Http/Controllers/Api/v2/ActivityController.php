@@ -7,6 +7,7 @@ use Auth;
 use App\Http\Transformer\ActivityTransformer;
 use App\Http\Transformer\UserTransformer;
 use Carbon\Carbon;
+use App\ActivityCommentLike;
 
 class ActivityController extends Controller {
 
@@ -36,7 +37,7 @@ class ActivityController extends Controller {
             \App\CouponShare::addShareCoupon($exp, $data['coupon_id'], $activity);
             return $this->responseJson('success', \Config::get('constants.ADD_FB_FRIEND'), 200);
         } catch (\Exception $e) {
-             //throw $e;
+            //throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -70,7 +71,23 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-              throw $e;
+            throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+    }
+
+    public function acivityAddCommentLike(Request $request) {
+        try {
+            // get the request
+            $data = $request->all();
+            //add like
+            $activitycommentlike = ActivityCommentLike::addCommentLike($data);
+            if ($activitycommentlike) {
+                return $this->responseJson('success', \Config::get('constants.ACTIVITY_COMMENT_LIKE_SUCCESS'), 200);
+            }
+            return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
+        } catch (\Exception $e) {
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -86,13 +103,18 @@ class ActivityController extends Controller {
             $comment->fill($data);
 
             if ($comment->save()) {
-    
-                $activity= \App\Activity::where('activity_id', $data['activity_id'])->first();
-                $activity->total_comment=$this->getCommentCount($data['activity_id']);
-                $activity->save();      
-               if($activity->save() && $activity->created_by!=Auth::id()){
-                \App\ActivityShare::sendActivityNotification($activity,'activitycomment',\Config::get('constants.ACTIVITY_COMMENT'),$comment);
-               }
+                if (array_key_exists('parent_id', $data) && !empty($data['parent_id'])) {
+                    $comment->parent_id = $data['parent_id'];
+                } else {
+                    $comment->parent_id = $comment->comment_id;
+                }
+                $comment->save();
+                $activity = \App\Activity::where('activity_id', $data['activity_id'])->first();
+                $activity->total_comment = $this->getCommentCount($data['activity_id']);
+                $activity->save();
+                if ($activity->save() && $activity->created_by != Auth::id()) {
+                    \App\ActivityShare::sendActivityNotification($activity, 'activitycomment', \Config::get('constants.ACTIVITY_COMMENT'), $comment);
+                }
                 return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
@@ -100,7 +122,7 @@ class ActivityController extends Controller {
             // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-    }  
+    }
 
     public function commentList(Request $request) {
         try {
@@ -116,7 +138,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 400);
         } catch (\Exception $e) {
-              throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -144,14 +166,14 @@ class ActivityController extends Controller {
         }
         return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 400);
     }
-    
+
     public function commentEdit(Request $request) {
-           try {
+        try {
             // get the request
             $data = $request->all();
 
             //update comment
-            $comment = \App\Comment::where('comment_id',$data['comment_id'])->first();
+            $comment = \App\Comment::where('comment_id', $data['comment_id'])->first();
             $comment->fill($data);
 
             if ($comment->save()) {
@@ -161,23 +183,20 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-           //  throw $e;
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-           
-         
     }
-    
-     public function addnotificationallread(Request $request) {
-       try {
-        $user = Auth::user();
-        $user->unreadNotifications()->update(['read_at' => Carbon::now(), 'is_read' => 1]);
-        return $this->responseJson('success', \Config::get('constants.NOTI_SUCCESS'), 200);
+
+    public function addnotificationallread(Request $request) {
+        try {
+            $user = Auth::user();
+            $user->unreadNotifications()->update(['read_at' => Carbon::now(), 'is_read' => 1]);
+            return $this->responseJson('success', \Config::get('constants.NOTI_SUCCESS'), 200);
         } catch (\Exception $e) {
             // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-
 
 }
