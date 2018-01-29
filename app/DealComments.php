@@ -23,6 +23,12 @@ class DealComments extends Model {
                     'coupon_id' => $data['coupon_id']
                         ]
         );
+        if (array_key_exists('parent_id', $data) && !empty($data['parent_id'])) {
+            $addComment->parent_id = $data['parent_id'];
+        } else {
+            $addComment->parent_id = $addComment->id;
+        }
+        $addComment->save();
         return $addComment;
     }
 
@@ -43,6 +49,15 @@ class DealComments extends Model {
         } else {
             return 0;
         }
+    }
+
+    public static function getCommentsByCoupon($id) {
+        $comments = DealComments::select(\DB::raw('deal_comments.*,deal_comment_likes.liked_by,deal_comment_likes.is_like'))
+                ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
+                ->where('coupon_id', $id)
+                ->orderBy('deal_comments.updated_at', 'asc')
+                ->get();
+        return $comments;
     }
 
 }

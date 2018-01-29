@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use URL;
 use Auth;
+use DB;
 
 class VendorDetail extends Model {
 
@@ -44,8 +45,7 @@ class VendorDetail extends Model {
     }
 
     public function getVendorLogoAttribute($value) {
-
-        return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/vendor_logo/tmp/' . $value))) ? URL::to('/storage/app/public/vendor_logo/tmp') . '/' . $value : "";
+        return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/vendor_logo/' . $value))) ? URL::to('/storage/app/public/vendor_logo/') . '/' . $value : URL::to('/storage/app/public/vendor_logo/');
     }
 
     public static function getStripeVendor() {
@@ -184,6 +184,18 @@ class VendorDetail extends Model {
                 ->where('vendor_detail.user_id', $vendor_id)
                 ->first();
         return $details;
+    }
+
+    public static function getNearestVendor($data) {
+        $user = Auth()->user()->userDetail;
+        $circle_radius = \Config::get('constants.EARTH_RADIUS');
+        $coupontotal = [];
+        $lat = $user->latitude;
+        $lng = $user->longitude;
+        $query = VendorDetail::select(DB::raw('vendor_lat,vendor_long,vendor_logo,vendor_name,billing_businessname,vendor_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(vendor_lat)) * cos(radians(vendor_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(vendor_lat)))) ) as distance'))
+                ->havingRaw('(5 >= distance)');
+        $result = $query->groupBy('vendor_id')->orderBy('distance', 'asc')->orderBy('vendor_id', 'desc')->simplePaginate(\Config::get('constants.PAGINATE'));
+        return $result;
     }
 
 }

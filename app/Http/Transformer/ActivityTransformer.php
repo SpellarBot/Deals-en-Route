@@ -24,21 +24,21 @@ class ActivityTransformer {
         $var = [];
         foreach ($data as $item) {
             $user = $this->getUserDetail($item->created_by);
-            $share_friend = $this->getUserDetail($item->share_friend_id); 
+            $share_friend = $this->getUserDetail($item->share_friend_id);
             $name = $user->first_name . " " . $user->last_name;
-            if(!empty($share_friend)){
-            $sharename=$share_friend->first_name . " " . $share_friend->last_name;
+            if (!empty($share_friend)) {
+                $sharename = $share_friend->first_name . " " . $share_friend->last_name;
             }
             $image = (!empty($user->profile_pic)) ? URL::to('/storage/app/public/profile_pic/tmp') . '/' . $user->profile_pic : "";
 
             $fmessage = $this->finalMessage($item->activity_message, $item);
-            
-          if($item->count_fb_friend=='' || $item->count_fb_friend==0 ||  $item->count_fb_friend==1){
-            $count=0;
-        }else{
-            $count = $item->count_fb_friend-1;
-              $count = (string)$count." others";
-        }
+
+            if ($item->count_fb_friend == '' || $item->count_fb_friend == 0 || $item->count_fb_friend == 1) {
+                $count = 0;
+            } else {
+                $count = $item->count_fb_friend - 1;
+                $count = (string) $count . " others";
+            }
             $var[] = [
                 'activity_id' => $item->activity_id ?? '',
                 'activity_name' => $fmessage,
@@ -46,8 +46,9 @@ class ActivityTransformer {
                 'total_share' => $item->total_share ?? 0,
                 'total_comment' => $item->total_comment ?? 0,
                 'is_like' => $item->activitylike->is_like ?? 0,
+                'creator_id' => $item->created_by,
                 'creator_name' => $name,
-                'share_name' => $sharename??'',
+                'share_name' => $sharename ?? '',
                 'image' => $image,
                 'count' => $count
             ];
@@ -66,7 +67,7 @@ class ActivityTransformer {
                 'activity_id' => $item->activity_id ?? '',
                 'comment_desc' => $item->comment_desc ?? '',
                 'created_by' => $item->user->first_name . " " . $item->user->last_name ?? '',
-                'user_id' => ($item->created_by==Auth::id()) ?Auth::id(): 0,
+                'user_id' => ($item->created_by == Auth::id()) ? Auth::id() : 0,
                 'creator_image' => (!empty($item->user->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $item->user->profile_pic : "",
             ];
         });

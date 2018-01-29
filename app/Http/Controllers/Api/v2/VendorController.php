@@ -115,4 +115,25 @@ class VendorController extends Controller {
         }
     }
 
+    //coupon listing catgeory wise
+    public function getNearByVendors(Request $request) {
+        try {
+// get the request
+            $data = $request->all();
+//add lat long if passsed to the data
+            $passdata = $data;
+            $user_detail = \App\UserDetail::saveUserDetail($passdata, Auth::user()->id);
+//find nearby coupon
+            $vendorlist = VendorDetail::getNearestVendor($data);
+            if (count($vendorlist) > 0) {
+                $data = (new VendorTransformer())->transformList($vendorlist);
+                return $this->responseJson('success', \Config::get('constants.COUPON_LIST'), 200, $data);
+            }
+            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
+        } catch (\Exception $e) {
+            //throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+    }
+
 }

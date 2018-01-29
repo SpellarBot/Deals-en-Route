@@ -90,4 +90,20 @@ class VendorTransformer {
         ];
     }
 
+    public function transformList($vendor) {
+        $var = [];
+        $var = $vendor->map(function ($item) {
+            return [
+                'vendor_id' => $item->vendor_id ?? '',
+                'businessname1' => $item->vendor_name ?? '',
+                'businessname2' => $item->billing_businessname ?? '',
+                'vendor_lat' => $item->vendor_lat ?? '',
+                'vendor_long' => $item->vendor_long ?? '',
+                'distance' => number_format($item->distance, 2) ?? '',
+                'vendor_logo' => $item->vendor_logo ?? URL::to('storage/app/public/vendor_logo/'),
+            ];
+        });
+        return ['has_page' => $vendor->hasMorePages(), 'current_page' => $vendor->currentPage(), 'listing' => $var];
+    }
+
 }

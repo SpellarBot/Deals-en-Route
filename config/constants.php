@@ -40,6 +40,8 @@ return [
     'COMMENT_UPDATE' => 'comment updated successfully.',
     'ADD_FB_FRIEND' => 'successfully added fb friend',
     'ACTIVITY_LIKE_SUCCESS' => 'activity liked successfully.',
+    'ACTIVITY_COMMENT_LIKE_SUCCESS' => 'activity comment liked successfully.',
+    'DEAL_COMMENT_LIKE_SUCCESS' => 'Deal comment liked successfully.',
     'ACTIVITY_LIST' => 'activity listed successfully.',
     'COMMENT_ADD' => 'comment added successfully.',
     'COUPON_UPDATE' => 'Coupon Updated Successfully.',

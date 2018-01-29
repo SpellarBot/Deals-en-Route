@@ -150,6 +150,7 @@ Route::group(['namespace' => 'Api\v2', 'prefix' => 'v2'], function() {
         Route::post('/activity/activitylist', 'ActivityController@activityList');
         Route::post('/activity/addlike', 'ActivityController@acivityAddLike');
         Route::post('/activity/comment', 'ActivityController@comment');
+        Route::post('/activity/comment/like', 'ActivityController@acivityAddCommentLike');
         Route::post('/activity/commentlist', 'ActivityController@commentList');
         Route::post('/activity/share', 'ActivityController@shareActivity');
         Route::post('/activity/commentedit', 'ActivityController@commentEdit');
@@ -171,10 +172,14 @@ Route::group(['namespace' => 'Api\v2', 'prefix' => 'v2'], function() {
 
         Route::post('/coupon/likedeal', 'CouponController@addlike');
         Route::post('/coupon/commentdeal', 'CouponController@addComment');
+        Route::post('/coupon/commentdeal/like', 'CouponController@addCommentLike');
         Route::post('/coupon/editcommentdeal', 'CouponController@editComment');
         Route::post('/coupon/vendorFromCoupon', 'CouponController@getVendorDetails');
+        Route::post('/coupon/getCommentsofDeal', 'CouponController@getCommentsofDeal');
         Route::post('/user/vendorRating', 'VendorController@vendorRating');
         Route::post('/user/getVendorRatingDetails', 'VendorController@getVendorRatingsDetails');
+        Route::post('/user/getNearByVendorlist', 'VendorController@getNearByVendors');
+        Route::post('/user/getCouponsByVendor', 'CouponController@getCouponsByVendor');
 
         // additional routes here
     });
