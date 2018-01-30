@@ -8,9 +8,10 @@ use Auth;
 use App\Http\Services\ActivityTrait;
 
 class Activity extends Model {
-   
+
     use ActivityTrait;
-    /**
+
+/**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -60,7 +61,7 @@ class Activity extends Model {
 
     public static function activityList() {
         $userid = Auth::id();
-        $activity = Activity::select(['activity.activity_id','share_friend_id', 'total_like', 'total_share', 'activity_name_friends',
+        $activity = Activity::select(['activity.activity_id', 'share_friend_id', 'total_like', 'total_share', 'activity_name_friends',
                     'activity.created_by', 'total_comment', 'count_fb_friend', 'activity_name_creator', 'activity.coupon_id',
                     \DB::raw('(if(created_by != "' . $userid . '",activity_name_friends,activity_name_creator )) as activity_message')])
                 ->leftJoin('coupon_share', 'coupon_share.activity_id', '=', 'activity.activity_id')
@@ -69,7 +70,7 @@ class Activity extends Model {
                     $q->where('created_by', Auth::id())
                     ->orWhere('share_friend_id', Auth::id());
                 })->groupby('activity_id')
-                   ->orderBy('activity_id', 'desc')
+                ->orderBy('activity_id', 'desc')
                 ->simplePaginate(\Config::get('constants.PAGINATE'));
         return $activity;
     }
@@ -82,10 +83,24 @@ class Activity extends Model {
         $activity->coupon_id = $data->coupon_id;
         $activity->created_by = $userid;
         $activity->save();
-        $friendlist = ($activity->getCouponShareFriend($data->coupon_id,$userid));
-       
+        $friendlist = ($activity->getCouponShareFriend($data->coupon_id, $userid));
+
         $array_unique = array_map("unserialize", array_unique(array_map("serialize", $friendlist)));
         CouponShare::addRedeemCoupon($array_unique, $data->coupon_id, $activity);
+        return $activity;
+    }
+
+    public static function getActivityDetails($data) {
+        $activity = Activity::select(['activity.activity_id', 'share_friend_id', 'total_like', 'total_share', 'activity_name_friends',
+                            'activity.created_by', 'total_comment', 'count_fb_friend', 'activity_name_creator', 'activity.coupon_id',
+                            \DB::raw('(if(created_by != "' . Auth::id() . '",activity_name_friends,activity_name_creator )) as activity_message')])
+                        ->leftJoin('coupon_share', 'coupon_share.activity_id', '=', 'activity.activity_id')
+                        ->havingRaw('activity_message != "" ')
+                        ->where('activity.activity_id', $data['activity_id'])
+                        ->where(function($q) {
+                            $q->where('created_by', Auth::id())
+                            ->orWhere('share_friend_id', Auth::id());
+                        })->first();
         return $activity;
     }
 

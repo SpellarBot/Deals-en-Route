@@ -43,11 +43,11 @@ use AuthenticatesUsers;
 
     public function index() {
         // show logo image
-     
+
         return view('frontend.main');
     }
-    
-      public function vendorindex() {
+
+    public function vendorindex() {
         // show logo image
         $company_logo = $this->showLogoImage();
         return view('frontend.home')->with(['company_logo' => $company_logo]);
@@ -162,6 +162,22 @@ use AuthenticatesUsers;
 
     public function help() {
         return view('frontend.help');
+    }
+
+    public function helpmobile() {
+        return view('frontend.helpmobile');
+    }
+
+    public function termsmobile() {
+        return view('frontend.termsmobile');
+    }
+
+    public function privacymobile() {
+        return view('frontend.privacymobile');
+    }
+
+    public function aboutmobile() {
+        return view('frontend.aboutmobile');
     }
 
 }

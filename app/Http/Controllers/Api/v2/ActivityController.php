@@ -199,4 +199,39 @@ class ActivityController extends Controller {
         }
     }
 
+    public function getActivityComments(Request $request) {
+
+        try {
+            $data = $request->all();
+            //find nearby coupon
+            $activity = \App\Activity::getActivityDetails($data);
+            if (count($activity) > 0) {
+                $data['activity_details'] = (new ActivityTransformer)->transformActivityDetails($activity);
+                $getComments = \App\Comment::getCommentsByActivity($data['activity_id']);
+                $data['comments_list'] = [];
+                foreach ($getComments as $comment) {
+                    $com = $comment->getAttributes();
+                    $dt = new Carbon($com['updated_at']);
+                    $getUser = \App\UserDetail::find($com['created_by']);
+                    $comment_details['user_id'] = $getUser->user_id;
+                    $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
+                    $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
+                    if ($com['liked_by'] === auth()->id() && $com['is_like'] === 1) {
+                        $comment_details['is_liked'] = 1;
+                    } else {
+                        $comment_details['is_liked'] = 0;
+                    }
+                    $comment_details['comment'] = $com['comment_desc'];
+                    $comment_details['comment_time'] = $dt->diffForHumans();
+                    array_push($data['comments_list'], $comment_details);
+                }
+                return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
+            }
+            return $this->responseJson('success', \Config::get('constants.NO_DEAL'), 200);
+        } catch (\Exception $e) {
+            throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+    }
+
 }
