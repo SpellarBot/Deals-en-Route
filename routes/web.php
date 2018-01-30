@@ -50,6 +50,10 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/refund_policy', 'Auth\LoginController@refund')->name('refund');
     Route::get('/report', 'Auth\LoginController@report')->name('report');
     Route::get('/help', 'Auth\LoginController@help')->name('help');
+    Route::get('/helpmobile', 'Auth\LoginController@helpmobile')->name('helpmobile');
+    Route::get('/privacymobile', 'Auth\LoginController@privacymobile')->name('privacymobile');
+    Route::get('/termsmobile', 'Auth\LoginController@termsmobile')->name('termsconditionmobile');
+    Route::get('/aboutmobile', 'Auth\LoginController@aboutmobile')->name('aboutmobile');
 
     //vendor login
     Route::get('login', 'Auth\LoginController@vendorindex')->name('user.loginform');

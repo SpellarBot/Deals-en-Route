@@ -68,7 +68,7 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/activity/commentlist', 'ActivityController@commentList');
         Route::post('/activity/share', 'ActivityController@shareActivity');
         Route::post('/activity/commentedit', 'ActivityController@commentEdit');
-
+        
         // user logout
         Route::post('/user/logout', 'Auth\LoginController@logout');
 
@@ -154,6 +154,7 @@ Route::group(['namespace' => 'Api\v2', 'prefix' => 'v2'], function() {
         Route::post('/activity/commentlist', 'ActivityController@commentList');
         Route::post('/activity/share', 'ActivityController@shareActivity');
         Route::post('/activity/commentedit', 'ActivityController@commentEdit');
+        Route::post('/activity/getActivityComments', 'ActivityController@getActivityComments');
 
         // user logout
         Route::post('/user/logout', 'Auth\LoginController@logout');
