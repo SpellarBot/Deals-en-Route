@@ -29,6 +29,7 @@ return [
     'NO_RECORDS' => 'no records found.',
     'COUPON_LIST' => 'coupon listed successfully,',
     'COUPON_DETAIL' => 'coupon detial.',
+    'ACTIVITY_COMMENT_DETAIL' => 'Activity Comment Detial.',
     'USER_LOGOUT_SUCCESS' => 'User logout successfully.',
     'NOT_AUTHORIZED' => 'you are not allowed to perform the action.',
     'USER_SELECT_PLAN' => 'You Have Not Selected Any Plan Yet.Please Select Anyone.',

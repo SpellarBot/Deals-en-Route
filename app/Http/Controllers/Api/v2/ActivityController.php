@@ -225,7 +225,7 @@ class ActivityController extends Controller {
                     $comment_details['comment_time'] = $dt->diffForHumans();
                     array_push($data['comments_list'], $comment_details);
                 }
-                return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
+                return $this->responseJson('success', \Config::get('constants.ACTIVITY_COMMENT_DETAIL'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_DEAL'), 200);
         } catch (\Exception $e) {

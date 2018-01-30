@@ -115,7 +115,7 @@ class VendorController extends Controller {
         }
     }
 
-    //coupon listing catgeory wise
+    //NearBy Vendors 
     public function getNearByVendors(Request $request) {
         try {
 // get the request
@@ -123,13 +123,36 @@ class VendorController extends Controller {
 //add lat long if passsed to the data
             $passdata = $data;
             $user_detail = \App\UserDetail::saveUserDetail($passdata, Auth::user()->id);
-//find nearby coupon
+//find nearby vendors
             $vendorlist = VendorDetail::getNearestVendor($data);
             if (count($vendorlist) > 0) {
                 $data = (new VendorTransformer())->transformList($vendorlist);
                 return $this->responseJson('success', \Config::get('constants.COUPON_LIST'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
+        } catch (\Exception $e) {
+            //throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+    }
+
+    public function getVendorDetails(Request $request) {
+        try {
+            $data = $request->all();
+            $vendorDetails = VendorDetail::getVendorDetails($data['vendor_id']);
+            $data['vendor_details'] = (new VendorTransformer())->transformvendorData($vendorDetails->getAttributes());
+            $hoursofOperations = VendorHours::getHoursOfOperations($data['vendor_id']);
+            $data['vendor_details']['hours_of_operations'] = [];
+            foreach ($hoursofOperations as $hours) {
+                $hour = $hours->getAttributes();
+                $dt1 = new Carbon($hour['open_time']);
+                $dt2 = new Carbon($hour['close_time']);
+                $dataVendorHour['day'] = $this->getDaysfromNumber($hour['days']);
+                $dataVendorHour['open_time'] = $dt1->format('h:i A');
+                $dataVendorHour['close_time'] = $dt2->format('h:i A');
+                array_push($data['vendor_details']['hours_of_operations'], $dataVendorHour);
+            }
+            return $this->responseJson('success', \Config::get('constants.VENDOR_RATING_DETAILS'), 200, $data);
         } catch (\Exception $e) {
             //throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
