@@ -6,7 +6,7 @@
     body {
         margin: 0;
         padding: 0;
-        background: #000000;
+        background: transparent;
     }
 
     .container {
