@@ -26,6 +26,7 @@ use App\DealLikes;
 use App\DealComments;
 use App\VendorRating;
 use App\DealCommentLikes;
+use App\CouponFavourite;
 
 class CouponController extends Controller {
 
@@ -44,33 +45,33 @@ class CouponController extends Controller {
 
 //coupon listing catgeory wise
     public function couponListCategoryWise(Request $request) {
-        try {
+//        try {
 // get the request
-            $data = $request->all();
+        $data = $request->all();
 //add lat long if passsed to the data
-            $passdata = $data;
-            unset($passdata['category_id']);
-            $user_detail = \App\UserDetail::saveUserDetail($passdata, Auth::user()->id);
+        $passdata = $data;
+        unset($passdata['category_id']);
+        $user_detail = \App\UserDetail::saveUserDetail($passdata, Auth::user()->id);
 //find nearby coupon
-            $couponlist = \App\Coupon::getNearestCoupon($data);
-            if (count($couponlist) > 0) {
-                foreach ($couponlist as $coupons) {
-                    $getlikes = DealLikes::getLikes($coupons->coupon_id);
-                    $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
-                    $getComments = DealComments::getComments($coupons->coupon_id);
-                    $getvendorRating = VendorRating::getRatings($coupons->created_by);
-                    $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
-                    $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
-                    $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
-                }
-                $data = (new CouponTransformer)->transformList($couponlist);
-                return $this->responseJson('success', \Config::get('constants.COUPON_LIST'), 200, $data);
+        $couponlist = \App\Coupon::getNearestCoupon($data);
+        if (count($couponlist) > 0) {
+            foreach ($couponlist as $coupons) {
+                $getlikes = CouponFavourite::getLikes($coupons->coupon_id);
+                $getUserslike = CouponFavourite::getUserLike($coupons->coupon_id, auth()->id());
+                $getComments = DealComments::getComments($coupons->coupon_id);
+                $getvendorRating = VendorRating::getRatings($coupons->created_by);
+                $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
+                $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
+                $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
             }
-            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
-        } catch (\Exception $e) {
-            //throw $e;
-            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+            $data = (new CouponTransformer)->transformList($couponlist);
+            return $this->responseJson('success', \Config::get('constants.COUPON_LIST'), 200, $data);
+//            }
+//            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
+//        } catch (\Exception $e) {
+//            //throw $e;
+//            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
 
@@ -123,8 +124,8 @@ class CouponController extends Controller {
             $coupondetail = \App\CouponFavourite::getCouponFavList($data);
             if (count($coupondetail) > 0) {
                 foreach ($coupondetail as $coupons) {
-                    $getlikes = DealLikes::getLikes($coupons->coupon_id);
-                    $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
+                    $getlikes = CouponFavourite::getLikes($coupons->coupon_id);
+                    $getUserslike = CouponFavourite::getUserLike($coupons->coupon_id, auth()->id());
                     $getComments = DealComments::getComments($coupons->coupon_id);
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
@@ -153,8 +154,8 @@ class CouponController extends Controller {
             $coupondetail = \App\Coupon::getNearestCoupon($data);
             if (count($coupondetail) > 0) {
                 foreach ($coupondetail as $coupons) {
-                    $getlikes = DealLikes::getLikes($coupons->coupon_id);
-                    $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
+                    $getlikes = CouponFavourite::getLikes($coupons->coupon_id);
+                    $getUserslike = CouponFavourite::getUserLike($coupons->coupon_id, auth()->id());
                     $getComments = DealComments::getComments($coupons->coupon_id);
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
@@ -181,8 +182,8 @@ class CouponController extends Controller {
 
         if (count($couponlist) > 0) {
             foreach ($couponlist as $coupons) {
-                $getlikes = DealLikes::getLikes($coupons->coupon_id);
-                $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
+                $getlikes = CouponFavourite::getLikes($coupons->coupon_id);
+                $getUserslike = CouponFavourite::getUserLike($coupons->coupon_id, auth()->id());
                 $getComments = DealComments::getComments($coupons->coupon_id);
                 $getvendorRating = VendorRating::getRatings($coupons->created_by);
                 $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
@@ -210,8 +211,8 @@ class CouponController extends Controller {
 
             if (count($couponlist) > 0) {
                 foreach ($couponlist as $coupons) {
-                    $getlikes = DealLikes::getLikes($coupons->coupon_id);
-                    $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
+                    $getlikes = CouponFavourite::getLikes($coupons->coupon_id);
+                    $getUserslike = CouponFavourite::getUserLike($coupons->coupon_id, auth()->id());
                     $getComments = DealComments::getComments($coupons->coupon_id);
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
@@ -613,8 +614,8 @@ class CouponController extends Controller {
             $couponlist = \App\Coupon::getCouponByVendor($data['vendor_id']);
             if (count($couponlist) > 0) {
                 foreach ($couponlist as $coupons) {
-                    $getlikes = DealLikes::getLikes($coupons->coupon_id);
-                    $getUserslike = DealLikes::getUserLike($coupons->coupon_id, auth()->id());
+                    $getlikes = CouponFavourite::getLikes($coupons->coupon_id);
+                    $getUserslike = CouponFavourite::getUserLike($coupons->coupon_id, auth()->id());
                     $getComments = DealComments::getComments($coupons->coupon_id);
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
