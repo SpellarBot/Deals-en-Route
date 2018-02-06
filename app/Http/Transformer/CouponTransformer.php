@@ -27,6 +27,7 @@ class CouponTransformer {
                 'is_liked' => $item->is_liked ?? '',
                 'coupon_comments' => $item->total_comments ?? '',
                 'distance' => number_format($item->distance, 2) ?? '',
+                'vendor_id' => $item->vendorDetail->user_id ?? '',
                 'vendor_logo' => $item->vendorDetail->vendor_logo ?? '',
                 'category_logo_image' => $item->categoryDetail->category_logo_image ?? "",
                 'coupon_start_date' => $item->coupon_start_date ?? '',
@@ -68,7 +69,8 @@ class CouponTransformer {
                 'coupon_end_date' => $item->coupon_end_date ?? '',
 //                'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
                 'coupon_lat' => $item->coupon_lat ?? '',
-                'coupon_long' => $item->coupon_long ?? ''
+                'coupon_long' => $item->coupon_long ?? '',
+                'vendor_id' => $item->vendorDetail->user_id ?? '',
             ];
         });
         return ['has_page' => $coupon->hasMorePages(), 'current_page' => $coupon->currentPage(), 'listing' => $var];
@@ -91,7 +93,8 @@ class CouponTransformer {
             'coupon_end_date' => $item->coupon_end_date ?? '',
 //            'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
             'coupon_lat' => $item->coupon_lat ?? '',
-            'coupon_long' => $item->coupon_long ?? ''
+            'coupon_long' => $item->coupon_long ?? '',
+            'vendor_id' => $item->vendorDetail->user_id ?? '',
         ];
 
         return ['has_page' => $coupon->hasMorePages(), 'current_page' => $coupon->currentPage(), 'listing' => $var];
@@ -123,7 +126,8 @@ class CouponTransformer {
                 'coupon_end_date' => $item->coupon_end_date ?? '',
 //                'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
                 'coupon_lat' => $item->coupon_lat ?? '',
-                'coupon_long' => $item->coupon_long ?? ''
+                'coupon_long' => $item->coupon_long ?? '',
+                'vendor_id' => $item->vendorDetail->user_id ?? '',
             ];
         });
         return ['has_page' => $coupon->hasMorePages(), 'current_page' => $coupon->currentPage(), 'listing' => $var];
@@ -145,7 +149,8 @@ class CouponTransformer {
                 'coupon_end_date' => $item->coupon_end_date ?? '',
                 'coupon_logo' => $item->coupon_logo ?? "",
                 'coupon_lat' => $item->coupon_lat ?? '',
-                'coupon_long' => $item->coupon_long ?? ''
+                'coupon_long' => $item->coupon_long ?? '',
+//                'vendor_id' => $item->vendorDetail->user_id ?? '',
             );
             array_push($var, $details);
         }

@@ -63,20 +63,20 @@ trait CouponTrait {
     }
 
     public function finalMessage($message, $item) {
-      
-        if($item->count_fb_friend=='' || $item->count_fb_friend==0){
-            $count=0;
-        }else{
-              $count = $item->count_fb_friend - 1;
+
+        if ($item->count_fb_friend == '' || $item->count_fb_friend == 0) {
+            $count = 0;
+        } else {
+            $count = $item->count_fb_friend - 1;
         }
         $share_friend = $this->getUserDetail($item->share_friend_id);
         $find = ['{{coupon_name}}', '{{count}}', '{{created_by}}', '{{shared_name}}'];
-        if(empty($share_friend)){
-             $replace = [$item->coupon->coupon_name, $count, $item->user->first_name . " " . $item->user->last_name
+        if (empty($share_friend)) {
+            $replace = [$item->coupon->coupon_name, $count, $item->user->first_name . " " . $item->user->last_name
             ];
-        }else{
-        $replace = [$item->coupon->coupon_name, $count, $item->user->first_name . " " . $item->user->last_name,
-            $share_friend->first_name . " " . $share_friend->last_name];
+        } else {
+            $replace = [$item->coupon->coupon_name, $count, $item->user->first_name . " " . $item->user->last_name,
+                $share_friend->first_name . " " . $share_friend->last_name];
         }
         $message = str_replace($find, $replace, $message);
         return $message;
@@ -143,7 +143,7 @@ trait CouponTrait {
 
         $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
                 ->join('subscriptions', 'subscriptions.stripe_id', 'stripe_users.stripe_id')
-                   ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
+                ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
                 ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
@@ -155,21 +155,19 @@ trait CouponTrait {
                 ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
                 ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
                 ->get();
-if(empty($vendor_detail)){
-       $array['geolocationtotal'] = 0;
-        $array['geofencingtotal'] = 0;
-        $array['dealstotal'] = 0;
-}else {
-        $currentpackagedeal=$vendor_detail->userSubscription[0]->deals + $add_ons[0]->dealstotal;
-        $previousleftdeal= $vendor_detail->deals_used;
-        $totaldealsleft=$currentpackagedeal-$previousleftdeal;
-        $array['geolocationtotal'] = $add_ons[0]->geolocationtotal + $vendor_detail->userSubscription[0]->geolocation;
-        $array['geofencingtotal'] = $add_ons[0]->geofencingtotal + $vendor_detail->userSubscription[0]->geofencing;
-        $array['dealstotal'] = $totaldealsleft;
-        
-}
+        if (empty($vendor_detail)) {
+            $array['geolocationtotal'] = 0;
+            $array['geofencingtotal'] = 0;
+            $array['dealstotal'] = 0;
+        } else {
+            $currentpackagedeal = $vendor_detail->userSubscription[0]->deals + $add_ons[0]->dealstotal;
+            $previousleftdeal = $vendor_detail->deals_used;
+            $totaldealsleft = $currentpackagedeal - $previousleftdeal;
+            $array['geolocationtotal'] = $add_ons[0]->geolocationtotal + $vendor_detail->userSubscription[0]->geolocation;
+            $array['geofencingtotal'] = $add_ons[0]->geofencingtotal + $vendor_detail->userSubscription[0]->geofencing;
+            $array['dealstotal'] = $totaldealsleft;
+        }
         return $array;
     }
 
-    
 }
