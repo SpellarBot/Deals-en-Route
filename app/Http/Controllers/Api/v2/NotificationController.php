@@ -26,25 +26,25 @@ class NotificationController extends Controller {
     public function couponGeoNotification(Request $request) {
         try {
             $request = $request->all();
-             
-           
-                $validator = Validator::make($request, [
-                            'latitude' => 'required',
-                            'longitude' => 'required',
-                ]);
-                if ($validator->fails()) {
-                    return $this->responseJson('error', $validator->errors()->first(), 400);
-                } 
-                \App\UserDetail::saveUserDetail($request,Auth::id());
-                $usernotify = User::find(Auth::id())->userDetail->notification_new_offer;
-                 if ($usernotify == 1) {
+
+
+            $validator = Validator::make($request, [
+                        'latitude' => 'required',
+                        'longitude' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return $this->responseJson('error', $validator->errors()->first(), 400);
+            }
+            \App\UserDetail::saveUserDetail($request, Auth::id());
+            $usernotify = User::find(Auth::id())->userDetail->notification_new_offer;
+            if ($usernotify == 1) {
                 $couponlist = Coupon::getCouponAllList();
                 foreach ($couponlist as $key => $value) {
 
-                    $xAxis = '';
-                    $yAxis = '';
+                    $xAxis = [];
+                    $yAxis = [];
                     $checkUserNotifyGeoOffer = $this->getUserNotificationOffer(Auth::id(), $value['coupon_id'], 'geonotification');
- 
+
                     if ($checkUserNotifyGeoOffer <= 0) {
 
                         $jsonDecode = json_decode($value['coupon_notification_point']);
@@ -62,7 +62,7 @@ class NotificationController extends Controller {
                         $isPolygon = Coupon::is_in_polygon($pointsPolygon, $verticesX, $verticesY, $longitudeX, $latitudeY);
 
                         if ($isPolygon) {
-                                
+
                             $coupon = Coupon::where('coupon_id', $value['coupon_id'])->first();
                             $rand = rand(0, 3);
                             $nMessage = \Config::get('constants.NOTIFY_GEO')[$rand];
@@ -75,21 +75,20 @@ class NotificationController extends Controller {
                                 'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
                                 'coupon_id' => $coupon->coupon_id,
                             ]));
-                           
                         }
                     }
                 }
-                 return $this->responseJson('success', 'notification sent', 200);
+                return $this->responseJson('success', 'notification sent', 200);
             }
         } catch (\Exception $e) {
-           // throw $e;
+            // throw $e;
         }
     }
 
-     //cron job for coupon expiring
+    //cron job for coupon expiring
     public function couponNotificationFavExpire(Request $request) {
-        
-         $couponlist = \App\CouponFavourite::getCouponAllFavExpire();
+
+        $couponlist = \App\CouponFavourite::getCouponAllFavExpire();
 
         foreach ($couponlist as $couponlists) {
             $to_id = \App\User::find($couponlists['user_id']);
@@ -97,27 +96,23 @@ class NotificationController extends Controller {
             $checkUserNotify = $this->getUserNotification($couponlists['user_id'], $couponlists['coupon_id'], 'favexpire');
 
             if ($checkUserNotify <= 0) {
-            $fMessage = $coupondetail->finalNotifyMessage(Auth::id(), Auth::id(), $coupondetail,  \Config::get('constants.NOTIFY_FAV_EXPIRE'));
+                $fMessage = $coupondetail->finalNotifyMessage(Auth::id(), Auth::id(), $coupondetail, \Config::get('constants.NOTIFY_FAV_EXPIRE'));
                 // send notification
                 Notification::send($to_id, new FcmNotification([
                     'type' => 'favexpire',
-                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE') ,
+                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE'),
                     'message' => $fMessage,
-                   'image' => (!empty($coupondetail->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupondetail->coupon_logo : "",
-                   'coupon_id' => $couponlists['coupon_id']
+                    'image' => (!empty($coupondetail->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupondetail->coupon_logo : "",
+                    'coupon_id' => $couponlists['coupon_id']
                 ]));
             }
         }
-        
-    
-
-
     }
-    
+
     //cron job for coupon left
     public function couponNotificationFavLeft(Request $request) {
-  
-         $couponlist = \App\CouponFavourite::getCouponAllFavListLimit();
+
+        $couponlist = \App\CouponFavourite::getCouponAllFavListLimit();
 
         foreach ($couponlist as $couponlists) {
             $to_id = \App\User::find($couponlists['user_id']);
@@ -131,14 +126,11 @@ class NotificationController extends Controller {
                     'type' => 'favleft',
                     'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
                     'message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
-                    'image' => (!empty($couponlists['coupon_logo'])) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $couponlists['coupon_logo'] : "",        
-                   'coupon_id' => $couponlists['coupon_id']
+                    'image' => (!empty($couponlists['coupon_logo'])) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $couponlists['coupon_logo'] : "",
+                    'coupon_id' => $couponlists['coupon_id']
                 ]));
             }
         }
     }
-    
-    
-    
 
 }
