@@ -354,7 +354,7 @@ class CouponController extends Controller {
                     'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
                     'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
                     'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                    'coupon_id' => $getCoupondetails->coupon_id,
+                    'coupon_id' => $getCoupondetails->coupon_id
                 ]));
                 return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
             } else {
@@ -367,6 +367,7 @@ class CouponController extends Controller {
                     'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
                     'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
                     'coupon_id' => $getCoupondetails->coupon_id,
+                    'is_reedem' => 1
                 ]));
 
                 if ($this->getCouponShareWebCount($getCoupondetails->coupon_id, $data['user_id']) > 0) {
