@@ -46,7 +46,6 @@ class ActivityController extends Controller {
         try {
             // get the request
             $data = $request->all();
-
             //find nearby coupon
             $activitylist = \App\Activity::activityList();
             if (count($activitylist) > 0) {
