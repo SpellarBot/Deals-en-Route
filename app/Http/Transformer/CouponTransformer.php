@@ -32,6 +32,8 @@ class CouponTransformer {
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
                 'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
+                'coupon_lat' => $item->coupon_lat ?? '',
+                'coupon_long' => $item->coupon_long ?? ''
             ];
         });
 
@@ -65,6 +67,8 @@ class CouponTransformer {
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
                 'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
+                'coupon_lat' => $item->coupon_lat ?? '',
+                'coupon_long' => $item->coupon_long ?? ''
             ];
         });
         return ['has_page' => $coupon->hasMorePages(), 'current_page' => $coupon->currentPage(), 'listing' => $var];
@@ -86,6 +90,8 @@ class CouponTransformer {
             'coupon_redemption_code' => $item->coupon_code ?? '',
             'coupon_end_date' => $item->coupon_end_date ?? '',
             'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
+            'coupon_lat' => $item->coupon_lat ?? '',
+            'coupon_long' => $item->coupon_long ?? ''
         ];
 
         return ['has_page' => $coupon->hasMorePages(), 'current_page' => $coupon->currentPage(), 'listing' => $var];
@@ -116,6 +122,8 @@ class CouponTransformer {
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
                 'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
+                'coupon_lat' => $item->coupon_lat ?? '',
+                'coupon_long' => $item->coupon_long ?? ''
             ];
         });
         return ['has_page' => $coupon->hasMorePages(), 'current_page' => $coupon->currentPage(), 'listing' => $var];
@@ -135,7 +143,9 @@ class CouponTransformer {
                 'coupon_active' => ($item->coupon_redeem_limit - $item->coupon_total_redeem),
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
-                'coupon_logo' => $item->coupon_logo ?? ""
+                'coupon_logo' => $item->coupon_logo ?? "",
+                'coupon_lat' => $item->coupon_lat ?? '',
+                'coupon_long' => $item->coupon_long ?? ''
             );
             array_push($var, $details);
         }
