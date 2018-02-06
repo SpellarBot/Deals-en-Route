@@ -18,7 +18,7 @@ class UserDetail extends Model {
         'user_detail_id', 'first_name', 'last_name', 'dob', 'phone', 'profile_pic',
         'latitude', 'longitude', 'fb_token', 'google_token', 'twitter_token', 'user_id',
         'category_id', 'type', 'notification_fav_expire', 'notification_new_offer',
-        'notification_recieve_offer'
+        'notification_recieve_offer', 'gender'
     ];
     protected $table = 'user_detail';
     protected $dateFormat = 'Y-m-d';
@@ -57,7 +57,7 @@ class UserDetail extends Model {
 
         $user_detail = UserDetail::firstOrNew(["user_id" => $user_id]);
         $user_detail->user_id = $user_id;
-     
+
         $user_detail->fill($data);
         $user_detail->save();
         return $user_detail;

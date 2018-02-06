@@ -128,4 +128,29 @@ class CouponFavourite extends Model {
         return $result;
     }
 
+    public static function getLikes($id) {
+        $likes = CouponFavourite::select(\DB::raw('count(favourite_id) as total_likes'))
+                ->where('coupon_id', $id)
+                ->where('is_favorite', self::IS_TRUE)
+                ->first();
+        if ($likes) {
+            return $likes->getAttributes();
+        } else {
+            return 0;
+        }
+    }
+
+    public static function getUserLike($id, $user_id) {
+        $likes = CouponFavourite::select(\DB::raw('*'))
+                ->where('coupon_id', $id)
+                ->where('user_id', $user_id)
+                ->where('is_favorite', self::IS_TRUE)
+                ->first();
+        if (count($likes) > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 }

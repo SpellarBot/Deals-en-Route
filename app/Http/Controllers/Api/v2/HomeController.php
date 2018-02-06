@@ -42,6 +42,8 @@ class HomeController extends Controller {
         }
         $allreedemcoupons = CouponRedeem::getRedeemCoupon();
         $redeem_by_18_below = 0;
+        $redeem_by_male = 0;
+        $redeem_by_female = 0;
         $redeem_by_18_34 = 0;
         $redeem_by_35_50 = 0;
         $redeem_by_above_50 = 0;
@@ -55,6 +57,11 @@ class HomeController extends Controller {
                 $redeem_by_35_50 = $redeem_by_35_50 + 1;
             } elseif ($redeem['age'] >= 50) {
                 $redeem_by_above_50 = $redeem_by_above_50 + 1;
+            }
+            if ($redeem['gender'] == 'male') {
+                $redeem_by_male ++;
+            } else if ($redeem['gender'] == 'female') {
+                $redeem_by_female ++;
             }
         }
         $dealsbyplan = \App\Subscription::select('plan_access.deals', 'plan_add_ons.addon_type', 'plan_add_ons.quantity')
@@ -81,6 +88,8 @@ class HomeController extends Controller {
         $data['redeem_by_18_34'] = strval($redeem_by_18_34);
         $data['redeem_by_35_50'] = strval($redeem_by_35_50);
         $data['redeem_by_above_50'] = strval($redeem_by_above_50);
+        $data['redeem_by_male'] = strval(($redeem_by_male != 0) ? number_format(($redeem_by_male / $total_coupon) * 100, 2) : 0);
+        $data['redeem_by_female'] = strval(($redeem_by_female != 0) ? number_format(($redeem_by_female / $total_coupon) * 100, 2) : 0);
         $data['reemaining_deal'] = strval($vendor_detail['deals_left']);
         $data['total_coupons'] = strval($total_coupon);
         $data['total_coupons_remaining'] = strval(($total_coupon - $total_coupon_reedem));

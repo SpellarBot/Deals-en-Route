@@ -31,7 +31,7 @@ class CouponTransformer {
                 'category_logo_image' => $item->categoryDetail->category_logo_image ?? "",
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
-                'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
+//                'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
                 'coupon_lat' => $item->coupon_lat ?? '',
                 'coupon_long' => $item->coupon_long ?? ''
             ];
@@ -66,7 +66,7 @@ class CouponTransformer {
                 'category_logo_image' => $item->categoryDetail->category_logo_image ?? "",
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
-                'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
+//                'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
                 'coupon_lat' => $item->coupon_lat ?? '',
                 'coupon_long' => $item->coupon_long ?? ''
             ];
@@ -89,7 +89,7 @@ class CouponTransformer {
             'coupon_qrcode_image' => $item->coupon_qrcode_image ?? '',
             'coupon_redemption_code' => $item->coupon_code ?? '',
             'coupon_end_date' => $item->coupon_end_date ?? '',
-            'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
+//            'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
             'coupon_lat' => $item->coupon_lat ?? '',
             'coupon_long' => $item->coupon_long ?? ''
         ];
@@ -121,7 +121,7 @@ class CouponTransformer {
                 'category_logo_image' => $item->categoryDetail->category_logo_image ?? "",
                 'coupon_start_date' => $item->coupon_start_date ?? '',
                 'coupon_end_date' => $item->coupon_end_date ?? '',
-                'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
+//                'is_favorite' => (empty($item->couponFavDetail)) ? 0 : $item->couponFavDetail->is_favorite,
                 'coupon_lat' => $item->coupon_lat ?? '',
                 'coupon_long' => $item->coupon_long ?? ''
             ];
