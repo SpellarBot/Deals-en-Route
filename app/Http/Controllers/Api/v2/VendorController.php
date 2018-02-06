@@ -79,7 +79,7 @@ class VendorController extends Controller {
                 array_push($data['vendor_details']['hours_of_operations'], $dataVendorHour);
             }
 
-            return $this->responseJson('success', \Config::get('constants.VENDOR_RATING_DETAILS'), 200, $data);
+            return $this->responseJson('success', \Config::get('constants.VENDOR_RATINGDETAILS'), 200, $data);
         } catch (\Exception $e) {
             //throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
