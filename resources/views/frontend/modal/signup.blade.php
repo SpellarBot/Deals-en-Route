@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-         
+
             <div class="modal-body">
 
                 {{ Form::open(['route' => 'users.store', 'class' => 'form','files'=> true,'id'=>'signupform']) }}
@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="signupDEtails">
-          
+
                         <div class="errorpopup">
                             <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -33,9 +33,12 @@
                             <h4>Sign Up Details</h4>
                             <div class="form-group">
                                 {{ Form::select('vendor_category',[''=>'Select Category']+$signup_category_images,$category_image->category_id,
-                                                      ['class'=>'form-control selectinput','id'=>'vendorcategory'])
+                                ['class'=>'form-control selectinput','id'=>'vendorcategory'])
                                 }}
-
+                                <!--                                {{ Form::select('vendor_category',[''=>'Select Category','other'=>'Other']+$signup_category_images,$category_image->category_id,
+                                                                ['class'=>'form-control selectinput','id'=>'vendorcategory'])
+                                                                }}
+                                {{ Form::text('vendor_category', '', ['placeholder'=>'Category Name','class'=>'form-control hide']) }}-->
                                 <input name="browser" class="inputtext" style="display:none;" disabled="disabled">
                             </div>
 
@@ -43,9 +46,9 @@
                                 {{ Form::text('vendor_name', '', ['placeholder'=>'Business Name','class'=>'form-control']) }}
                             </div>
 
-       
+
                             <div class="form-group">
-                 
+
                                 {{ Form::text('vendor_address', '', ['placeholder'=>'Street Address','class'=>'form-control','id'=>'autocomplete1']) }}
                             </div>
 
@@ -92,7 +95,7 @@
                                         {{ Form::file('vendor_logo',['id' => 'vendorlogo','accept'=>'image/*']) }}
                                     </span>
                                 </div>
-                               
+
                             </div>
 
                         </div>
@@ -124,32 +127,32 @@
                             </div>
                             <h4>Billing Details {{ Form::checkbox('check-address', 'yes','',['id' => 'check-address']) }}(Same As Business Address)</h4>
                             <div id="billingdetails">
-                        
-                            <div class="form-group">
-                                {{ Form::text('billing_businessname', '', ['placeholder'=>'Business Name','class'=>'form-control']) }}
 
-                            </div>
-                            
-                            <div class="form-group">
-                                {{ Form::text('billing_home', '', ['placeholder'=>'Street Address','class'=>'form-control']) }}
+                                <div class="form-group">
+                                    {{ Form::text('billing_businessname', '', ['placeholder'=>'Business Name','class'=>'form-control']) }}
 
-                            </div>
-                            <div class="form-group">
-                                {{ Form::text('billing_city', '', ['placeholder'=>'City','class'=>'form-control']) }}
+                                </div>
 
-                            </div>
-                             <div class="form-group">
-                                {{ Form::text('billing_state', '', ['placeholder'=>'State','class'=>'form-control']) }}
+                                <div class="form-group">
+                                    {{ Form::text('billing_home', '', ['placeholder'=>'Street Address','class'=>'form-control']) }}
 
-                            </div>
-                            
-                            <div class="form-group">
-                                {{ Form::text('billing_zip', '', ['placeholder'=>'Zip','maxlength'=>'10','class'=>'form-control']) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::text('billing_city', '', ['placeholder'=>'City','class'=>'form-control']) }}
 
-                            </div>
-                            <div class="form-group">
-                                {{ Form::select('billing_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput']) }}
-                            </div>
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::text('billing_state', '', ['placeholder'=>'State','class'=>'form-control']) }}
+
+                                </div>
+
+                                <div class="form-group">
+                                    {{ Form::text('billing_zip', '', ['placeholder'=>'Zip','maxlength'=>'10','class'=>'form-control']) }}
+
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::select('billing_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput']) }}
+                                </div>
                             </div>     
                         </div>
                         <div class="col-sm-12">

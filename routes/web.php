@@ -42,9 +42,9 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('/register/create', 'Auth\RegisterController@create');
     Route::post('register/update', 'VendorController@update');
     Route::post('/register/subcription', 'Auth\RegisterController@subscribe');
-    
+
     //vendor help pages
-    
+
     Route::get('/terms_condition', 'Auth\LoginController@terms')->name('termscondition');
     Route::get('/privacy_policy', 'Auth\LoginController@privacy')->name('privacy');
     Route::get('/refund_policy', 'Auth\LoginController@refund')->name('refund');
@@ -78,6 +78,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/coupon/edit/{id}', 'CouponController@edit');
     Route::post('/coupon/update', 'CouponController@update')->name('front.coupon.update');
     Route::post('/coupon/store', 'CouponController@store');
+    Route::post('/coupon/generateCouponCode', 'CouponController@generateCouponCode');
     Route::any('/vendor/changesubscription', array('as' => 'changesubscription', 'uses' => 'HomeController@changeSubscription'));
     Route::any('/vendor/cancelSubscription', array('as' => 'cancelsub', 'uses' => 'StripeController@cancelSubscription'));
     Route::post('/vendor/updatesubscription', 'StripeController@changeSubscription');
@@ -89,7 +90,6 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('/vendor/purchaseDeals', 'StripeAddOnsController@purchaseDeals');
     Route::post('/vendor/contact', 'HomeController@sendContact')->name('vendor.submitcontact');
     Route::post('/vendor/couponredeem', 'CouponController@CouponRedemption');
-    
 });
 // Admin routes
 Route::group(['namespace' => 'Admin'], function () {

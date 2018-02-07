@@ -92,6 +92,8 @@ class CouponRedeem extends Model {
         $redeem_by_18_34 = 0;
         $redeem_by_35_50 = 0;
         $redeem_by_above_50 = 0;
+        $redeem_by_male = 0;
+        $redeem_by_female = 0;
         foreach ($allreedemcoupons as $redeemcoupon) {
             $redeem = $redeemcoupon->getAttributes();
             if ($redeem['age'] < 18) {
@@ -103,6 +105,11 @@ class CouponRedeem extends Model {
             } elseif ($redeem['age'] >= 50) {
                 $redeem_by_above_50 = $redeem_by_above_50 + 1;
             }
+            if ($redeem['gender'] == 'male') {
+                $redeem_by_male ++;
+            } else if ($redeem['gender'] == 'female') {
+                $redeem_by_female ++;
+            }
         }
 
         $data['redeem_by_18_below_per'] = ($redeem_by_18_below != 0) ? number_format(($redeem_by_18_below / $total_coupon) * 100, 2) : 0;
@@ -113,6 +120,8 @@ class CouponRedeem extends Model {
         $data['redeem_by_18_34'] = $redeem_by_18_34;
         $data['redeem_by_35_50'] = $redeem_by_35_50;
         $data['redeem_by_above_50'] = $redeem_by_above_50;
+        $data['redeem_by_male'] = strval(($redeem_by_male != 0) ? number_format(($redeem_by_male / $total_coupon) * 100, 2) : 0);
+        $data['redeem_by_female'] = strval(($redeem_by_female != 0) ? number_format(($redeem_by_female / $total_coupon) * 100, 2) : 0);
         return $data;
     }
 

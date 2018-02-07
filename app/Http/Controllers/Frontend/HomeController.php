@@ -41,7 +41,7 @@ class HomeController extends Controller {
         $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
-        $user_access =$this->userAccess(); 
+        $user_access = $this->userAccess();
 
         $user = \App\Subscription::where('user_id', Auth::id())->first();
         if ($user) {
@@ -85,7 +85,7 @@ class HomeController extends Controller {
 
     public function sendContact(ContactRequest $contactrequest) {
         try {
-    
+
             $data = $contactrequest->all();
             $array_mail = ['to' => \Config::get('constants.CLIENT_MAIL'),
                 'type' => 'contactuserweb',
@@ -93,9 +93,8 @@ class HomeController extends Controller {
                     'query' => $data['query'],
                     'name' => $data['user_name']]
             ];
-           $this->sendMail($array_mail);
-           return response()->json(['status' => 1, 'message' => \Config::get('constants.CONTACT_SUCCESS')], 200);
-
+            $this->sendMail($array_mail);
+            return response()->json(['status' => 1, 'message' => \Config::get('constants.CONTACT_SUCCESS')], 200);
         } catch (\Exception $e) {
             // throw $e;
             return response()->json(['status' => 0, 'message' => \Config::get('constants.APP_ERROR')], 200);
