@@ -77,7 +77,7 @@ class VendorTransformer {
 
     public function transformvendorData($data) {
         return [
-            'user_id' => $data['vendor_id'] ?? '',
+            'vendor_id' => $data['vendor_id'] ?? '',
             'businessname1' => $data['vendor_name'] ?? '',
             'businessname2' => $data['billing_businessname'] ?? '',
             'vendor_address' => $data['vendor_address'] ?? '',
