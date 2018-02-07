@@ -27,16 +27,16 @@ var showArray = [];
 
 
 $(document).ready(function () {
-  if(localStorage.getItem("NewCoupon"))
-    {   
+    if (localStorage.getItem("NewCoupon"))
+    {
         $('.alert-success').show();
-          $('.successmessage').html(localStorage.getItem("NewCoupon"));
-         setTimeout(function () {
-                    $('.alert-success').fadeOut('slow');
-                }, 10000);     
+        $('.successmessage').html(localStorage.getItem("NewCoupon"));
+        setTimeout(function () {
+            $('.alert-success').fadeOut('slow');
+        }, 10000);
         localStorage.clear();
     }
-    
+
     $('.fileinput').fileinput();
     jQuery(".prev-step").click(function (e) {
 
@@ -116,7 +116,7 @@ $(document).ready(function () {
         clickToSelect: false,
         pageList: [8, 10, 25, 50, 100],
         formatNoMatches: function () {
-          return 'Please add some deals to start seeing the data.';
+            return 'Please add some deals to start seeing the data.';
         },
         formatShowingRows: function (pageFrom, pageTo, totalRows) {
             //do nothing here, we don't want to show the text "showing x of y from..."
@@ -310,7 +310,7 @@ $(document).on("submit", "#update-coupon", function (event) {
             $(".form-group").removeClass('has-error');
             $(".checkbox").removeClass('has-error');
             $(".help-block").html('');
- // setErrorNoti('Please resolve the error');
+            // setErrorNoti('Please resolve the error');
             if (data.responseJSON.errors != '') {
                 $.each(data.responseJSON.errors, function (key, value) {
                     if (key == 'coupon_logo') {
@@ -355,8 +355,8 @@ $(document).on("submit", "#create-coupon", function (event) {
         success: function (data) {
             if (data.status == 1) {
                 $('#loadingDiv').hide();
-               localStorage.setItem("NewCoupon",data.message)
-               location.reload(true); 
+                localStorage.setItem("NewCoupon", data.message)
+                location.reload(true);
 
             } else {
 
@@ -663,8 +663,8 @@ function getSquareFeet(radius) {
     {
         showArray.push({"lat": polygonBounds.getAt(a).lat(), "lng": polygonBounds.getAt(a).lng()});
     }
-    
-     showArray.push({"lat": polygonBounds.getAt(0).lat(), "lng": polygonBounds.getAt(0).lng()});
+
+    showArray.push({"lat": polygonBounds.getAt(0).lat(), "lng": polygonBounds.getAt(0).lng()});
     // set polygon shape for second map
 
     var sqfeet = google.maps.geometry.spherical.computeArea(radius.getPath()) * 10.76;
@@ -761,3 +761,24 @@ function initCallback() {
     initAutocomplete();
     Maps();
 }
+
+$(document).on('click', '.createcoupon', function () {
+    $.ajax({
+        url: $('#hidAbsUrl').val() + "/coupon/generateCouponCode",
+        type: 'POST',
+        success: function (data) {
+            $('#coupon_code').val(data.message);
+            $('.coupon_code').text(data.message);
+        },
+        beforeSend: function () {
+            $('#loadingDiv').show();
+        },
+        complete: function () {
+            $('#loadingDiv').hide();
+        },
+        error: function (data) {
+            $('#loadingDiv').hide();
+            $('#coupon_code').removeAttr('readonly');
+        }
+    });
+});

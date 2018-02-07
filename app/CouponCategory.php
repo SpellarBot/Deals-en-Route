@@ -40,9 +40,9 @@ class CouponCategory extends Model {
 
         return (!empty($value)) ? URL::to('/storage/app/public/category_image') . '/' . $value : "";
     }
-    
+
     //category logo image
-      public function getCategoryLogoImageAttribute($value) {
+    public function getCategoryLogoImageAttribute($value) {
 
         return (!empty($value)) ? URL::to('/storage/app/public/category_logo_image') . '/' . $value : "";
     }
@@ -67,6 +67,10 @@ class CouponCategory extends Model {
                 ->deleted()
                 ->get();
         return $category;
+    }
+
+    public static function addCategory($data) {
+//        CouponCategory::create([])
     }
 
 }

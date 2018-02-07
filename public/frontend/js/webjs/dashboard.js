@@ -424,5 +424,3 @@ $(document).on("click", ".redeemnow", function (event) {
     });
 
 });
-
-

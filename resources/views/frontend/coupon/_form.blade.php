@@ -56,7 +56,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_code', 'Coupon Code:') }}
-                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code']) }}
+                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code','readonly'=>'readonly']) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>

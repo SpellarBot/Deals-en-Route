@@ -93,7 +93,7 @@ class CouponController extends Controller {
             if (!empty($request['validationcheck']) && $request['validationcheck'] == 1) {
 
                 $coupon = Coupon::addCoupon($request);
-                      
+
                 $file = Input::file('coupon_logo');
                 //store image
                 if (!empty($file)) {
@@ -103,7 +103,7 @@ class CouponController extends Controller {
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-             throw $e;
+            throw $e;
             return response()->json(['status' => 0, 'message' => \Config::get('constants.APP_ERROR')], 400);
         }
         // If we reach here, then// data is valid and working.//
@@ -211,53 +211,77 @@ class CouponController extends Controller {
                 return response()->json(['errors' => $validator->errors()], 400);
             }
             $coupondata = explode('-', $data['coupon']);
-            if(!empty($coupondata[1]) && !empty($coupondata[2])) {
-            $data['coupon_code'] = $coupondata[1];
-            $data['user_id'] = $coupondata[2];
-            $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
-            if (count($getCoupondetails) > 0) {
-                if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
-                    $user = \App\User::find($data['user_id']);
+            if (!empty($coupondata[1]) && !empty($coupondata[2])) {
+                $data['coupon_code'] = $coupondata[1];
+                $data['user_id'] = $coupondata[2];
+                $getCoupondetails = \App\Coupon::getCouponDetailByCode($data);
+                if (count($getCoupondetails) > 0) {
+                    if ($getCoupondetails->coupon_total_redeem == $getCoupondetails->coupon_redeem_limit) {
+                        $user = \App\User::find($data['user_id']);
 // send notification success for coupon failure
-                    Notification::send($user, new FcmNotification([
-                        'type' => 'redeemfailure',
-                        'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                        'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                        'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                        'coupon_id' => $getCoupondetails->coupon_id,
-                    ]));
-                    return response()->json(['status' => 0, 'message' => 'Maximum Coupon Redeemption Limit Reached'], 200);
-                } else {
-                    $commision = $this->deductiveCommision($getCoupondetails);
-                    $user = \App\User::find($data['user_id']);
+                        Notification::send($user, new FcmNotification([
+                            'type' => 'redeemfailure',
+                            'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
+                            'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
+                            'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                            'coupon_id' => $getCoupondetails->coupon_id,
+                        ]));
+                        return response()->json(['status' => 0, 'message' => 'Maximum Coupon Redeemption Limit Reached'], 200);
+                    } else {
+                        $commision = $this->deductiveCommision($getCoupondetails);
+                        $user = \App\User::find($data['user_id']);
 // send notification success for coupon redeem
-                    Notification::send($user, new FcmNotification([
-                        'type' => 'redeemsuccess',
-                        'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                        'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                        'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                        'coupon_id' => $getCoupondetails->coupon_id,
-                    ]));
+                        Notification::send($user, new FcmNotification([
+                            'type' => 'redeemsuccess',
+                            'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
+                            'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
+                            'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                            'coupon_id' => $getCoupondetails->coupon_id,
+                        ]));
 
-                    if ($this->getCouponShareWebCount($getCoupondetails->coupon_id, $data['user_id']) > 0) {
-                        $activity = \App\Activity::redeemActivity($getCoupondetails, $data['user_id']);
+                        if ($this->getCouponShareWebCount($getCoupondetails->coupon_id, $data['user_id']) > 0) {
+                            $activity = \App\Activity::redeemActivity($getCoupondetails, $data['user_id']);
+                        }
+                        $couponReedem = array();
+                        $couponReedem['user_id'] = $data['user_id'];
+                        $couponReedem['coupon_id'] = $getCoupondetails['coupon_id'];
+                        \App\CouponRedeem::addCouponReedem($couponReedem);
+                        $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
+                        $getCoupondetails->save();
+                        return response()->json(['status' => 1, 'message' => 'Coupon Redeemed Successfully.'], 200);
                     }
-                    $couponReedem = array();
-                    $couponReedem['user_id'] = $data['user_id'];
-                    $couponReedem['coupon_id'] = $getCoupondetails['coupon_id'];
-                    \App\CouponRedeem::addCouponReedem($couponReedem);
-                    $getCoupondetails->coupon_total_redeem = $getCoupondetails->coupon_total_redeem + 1;
-                    $getCoupondetails->save();
-                    return response()->json(['status' => 1, 'message' => 'Coupon Redeemed Successfully.'], 200);
                 }
-            }
-            return response()->json(['status' => 0, 'message' => 'No Coupon Found.'], 200);
+                return response()->json(['status' => 0, 'message' => 'No Coupon Found.'], 200);
             }
             return response()->json(['status' => 0, 'message' => 'Invalid redemption code.'], 200);
         } catch (\Exception $e) {
             //  throw $e;
             return response()->json(['status' => 0, 'message' => 'Invalid redemption code'], 200);
         }
+    }
+
+    public function generateCouponCode() {
+
+        while (true) {
+            $coupon = $this->generateRandomCode();
+            $getcode = Coupon::where('coupon_code', $coupon)->first();
+            if (empty($getcode)) {
+                break;
+            }
+        }
+        return response()->json(['status' => 1, 'message' => $coupon], 200);
+    }
+
+    public function generateRandomCode() {
+        $randstr = '';
+        $chars = array('1', '2', '3', '4', '5',
+            '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+            'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+        for ($rand = 0; $rand <= 4; $rand++) {
+            $random = rand(0, count($chars) - 1);
+            $randstr .= $chars[$random];
+        }
+        return $randstr;
     }
 
 }
