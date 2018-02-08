@@ -61,7 +61,7 @@
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
                             {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$user_access['geolocationtotal'],'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider']) }}
-                            <p> (in miles) </p>
+                            <p> (in miles)   <button type="button" class="btn pull-right btn-sm btn-info btn-fill btn-wd btn-create" data-toggle="modal" data-target="#buyextramiles">Buy Extra Miles</button></p>
                         </div>
 
                         <div class="form-group">
@@ -85,37 +85,37 @@
                         </div>
 
 
-<!--                        @if(isset($coupon)) 
-
-                        <div class="fileinput input-group fileinput-exists " data-provides="fileinput">
-                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
-                                <img src="{{$coupon->coupon_logo}}">
-                            </div>
-                            <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename"></span></div>
-                            <span class="input-group-addon btn btn-default btn-file">
-
-                                <span class="fileinput-exists">Change
-                                </span> 
-
-                                <input value="" name="" type="hidden">{{ Form::file('coupon_logo',['id' => 'file1','accept'=>'image/*']) }}
-                            </span>
-                        </div>
-                        @else
-                        <div class="form-group couponlogo ">
-                            {{ Form::label('coupon_logo', 'Coupon Image:') }}
-                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename"></span></div>
-                                <span class="input-group-addon btn btn-default btn-file">
-                                    <span class="fileinput-new">Browse</span>
-                                    <span class="fileinput-exists">Change
-                                    </span> 
-
-                                    {{ Form::file('coupon_logo',['id' => 'file1','accept'=>'image/*']) }}
-                                </span>
-                            </div>
-                        </div>
-
-                        @endif-->
+                        <!--                        @if(isset($coupon)) 
+                        
+                                                <div class="fileinput input-group fileinput-exists " data-provides="fileinput">
+                                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+                                                        <img src="{{$coupon->coupon_logo}}">
+                                                    </div>
+                                                    <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename"></span></div>
+                                                    <span class="input-group-addon btn btn-default btn-file">
+                        
+                                                        <span class="fileinput-exists">Change
+                                                        </span> 
+                        
+                                                        <input value="" name="" type="hidden">{{ Form::file('coupon_logo',['id' => 'file1','accept'=>'image/*']) }}
+                                                    </span>
+                                                </div>
+                                                @else
+                                                <div class="form-group couponlogo ">
+                                                    {{ Form::label('coupon_logo', 'Coupon Image:') }}
+                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                        <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename"></span></div>
+                                                        <span class="input-group-addon btn btn-default btn-file">
+                                                            <span class="fileinput-new">Browse</span>
+                                                            <span class="fileinput-exists">Change
+                                                            </span> 
+                        
+                                                            {{ Form::file('coupon_logo',['id' => 'file1','accept'=>'image/*']) }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                        
+                                                @endif-->
                         <ul class="list-inline pull-right pad-top">
                             <li>
 
@@ -139,6 +139,9 @@
                     <ul class="list-inline pad-top" style="text-align: center">
                         <li class="pull-left">
                             <button type="button" class="btn btn-create prev-step">Previous</button>
+                        </li>
+                        <li class="pull-left">
+                            <button type="button" class="btn pull-right btn-sm btn-info btn-fill btn-wd btn-create" data-toggle="modal" data-target="#buygeofencearea">Buy Geofence Area</button>
                         </li>
                         @if(!isset($coupon)) 
                         <li>
@@ -184,7 +187,7 @@
                                 <tr>
                                     <td>Start Time:</td>
 
-                                    <td class="coupon_start_date"> {{ isset($start_date_converted) ? Carbon\Carbon::parse($start_date_converted)->format(\Config::get('constants.DATE_FORMAT')) : Carbon\Carbon::parse($currenttime)->format(\Config::get('constants.DATE_FORMAT'))  }} <?php // echo date('g A, d M Y');  ?></td>
+                                    <td class="coupon_start_date"> {{ isset($start_date_converted) ? Carbon\Carbon::parse($start_date_converted)->format(\Config::get('constants.DATE_FORMAT')) : Carbon\Carbon::parse($currenttime)->format(\Config::get('constants.DATE_FORMAT'))  }} <?php // echo date('g A, d M Y');           ?></td>
                                 </tr>
                                 <tr>
                                     <td>End Time:</td>
@@ -231,7 +234,3 @@
         </div>
     </div>
 </div>
-
-
-
-

@@ -208,20 +208,28 @@ class ActivityController extends Controller {
                 $data['activity_details'] = (new ActivityTransformer)->transformActivityDetails($activity);
                 $getComments = \App\Comment::getCommentsByActivity($data['activity_id']);
                 $data['comments_list'] = [];
-                foreach ($getComments as $comment) {
-                    $com = $comment->getAttributes();
-                    $dt = new Carbon($com['updated_at']);
-                    $getUser = \App\UserDetail::find($com['created_by']);
+                foreach ($getComments as $com) {
+                    $dt = new Carbon($com->updated_at);
+                    $getUser = \App\UserDetail::find($com->created_by);
                     $comment_details['user_id'] = $getUser->user_id;
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
                     $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
-                    if ($com['liked_by'] === auth()->id() && $com['is_like'] === 1) {
+                    if ($com->liked_by === auth()->id() && $com->is_like === 1) {
                         $comment_details['is_liked'] = 1;
                     } else {
                         $comment_details['is_liked'] = 0;
                     }
-                    $comment_details['comment'] = $com['comment_desc'];
+                    $comment_details['comment'] = $com->comment_desc;
+                    $comment_details['comment_id'] = $com->comment_id;
                     $comment_details['comment_time'] = $dt->diffForHumans();
+                    $getReplyComments = \App\Comment::getCommentsByParentId($com->parent_id, $com->id);
+                    foreach ($getReplyComments as $key => $val) {
+                        $dt2 = new Carbon($val['updated_at']);
+                        $getReplyComments[$key]['comment_by'] = $val['first_name'] . ' ' . $val['last_name'];
+                        $getReplyComments[$key]['profile_pic'] = ($val['profile_pic'] ? asset('storage/app/public/profile_pic/' . $val['profile_pic']) : asset('storage/app/public/profile_pic/'));
+                        $getReplyComments[$key]['profile_pic'] = $dt2->diffForHumans();
+                    }
+                    $comment_details['replycomments'] = $getReplyComments;
                     array_push($data['comments_list'], $comment_details);
                 }
                 return $this->responseJson('success', \Config::get('constants.ACTIVITY_COMMENT_DETAIL'), 200, $data);

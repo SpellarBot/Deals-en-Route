@@ -1,7 +1,8 @@
 @extends('frontend.layouts.dashboard')
 @section('title', 'Deals en Route|Index')
 @section('content')
-
+@include('frontend/modal/miles',['currenttime'=>$currenttime,'user_access'=>$user_access])
+@include('frontend/modal/geofence',['currenttime'=>$currenttime,'user_access'=>$user_access])
 
 <div class="main-panel">   	
     <nav class="navbar navbar-default">
@@ -36,7 +37,6 @@
     <div class="content">
 
         <div class="tab-content">
-
             @include('frontend/dashboard/dash',['year'=>$year])
             @include("frontend/coupon/couponlist",['coupon_lists'=>$coupon_lists])
             @include("frontend/coupon/create",['currenttime'=>$currenttime,'user_access'=>$user_access])
@@ -207,15 +207,15 @@
                                                                         <option value="{{ $i }}">{{ $i }}</option>
                                                                         @endfor
                                                                     </select>
-                                                               
+
                                                                 </div>
                                                             </div>
                                                             <button type="submit" class="btn btn-pack btn-buy1">Buy</button>
-                                                         
+
                                                         </div>
-                                                       
+
                                                     </form>
-                                                        <p class="package-addon3">Available Miles - {!! number_format($user_access['geolocationtotal']) !!} Miles</p>    
+                                                    <p class="package-addon3">Available Miles - {!! number_format($user_access['geolocationtotal']) !!} Miles</p>    
                                                 </div>
                                                 <div class="package-add">
                                                     <p class="package-addon1">Geo-Fencing</p>
@@ -235,11 +235,11 @@
                                                                 </div>
                                                             </div>
                                                             <button type="submit" class="btn btn-pack btn-buy1">Buy</button>
-                                                            
+
                                                         </div>
-                                                         
+
                                                     </form>
-                                                     <p class="package-addon3">Available geo fencing -{!! number_format($user_access['geofencingtotal']) !!} sq.ft</p>
+                                                    <p class="package-addon3">Available geo fencing -{!! number_format($user_access['geofencingtotal']) !!} sq.ft</p>
                                                 </div>
                                                 <div class="package-add">
                                                     <p class="package-addon1">Additional-Deals</p>
@@ -257,11 +257,11 @@
                                                                 </div>
                                                             </div>
                                                             <button type="submit" class="btn btn-pack btn-buy1">Buy</button>
-                                                        
+
                                                         </div>
-                                                     
+
                                                     </form>
-                                                          <p class="package-addon3">Available deals  - {!! number_format($deals_left) !!} deals</p>
+                                                    <p class="package-addon3">Available deals  - {!! number_format($deals_left) !!} deals</p>
                                                 </div>
                                             </div>
                                         </div>
