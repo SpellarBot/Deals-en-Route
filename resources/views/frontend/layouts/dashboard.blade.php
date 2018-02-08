@@ -41,6 +41,7 @@
             @include('frontend/sidebar/sidebar')
             @yield('content')   
             @include('frontend/modal/createcoupon')
+            
         </div>
         <!--=============================Core JS Files=============================-->
 

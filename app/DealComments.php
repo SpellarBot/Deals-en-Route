@@ -56,7 +56,19 @@ class DealComments extends Model {
                 ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
                 ->where('coupon_id', $id)
                 ->orderBy('deal_comments.updated_at', 'asc')
+                ->groupBy('parent_id')
                 ->get();
+        return $comments;
+    }
+
+    public static function getCommentsByParentId($id, $comment_id) {
+        $comments = DealComments::select(\DB::raw('deal_comments.id,deal_comments.comment_by,deal_comments.updated_at,deal_comments.coupon_id,deal_comments.comment_desc,deal_comments.parent_id,deal_comment_likes.liked_by,deal_comment_likes.is_like,user_detail.first_name ,user_detail.last_name,user_detail.profile_pic,user_detail.user_id'))
+                        ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
+                        ->leftjoin('user_detail', 'user_detail.user_id', 'deal_comments.comment_by')
+                        ->where('deal_comments.parent_id', $id)
+                        ->where('deal_comments.id', '!=', $comment_id)
+                        ->orderBy('deal_comments.updated_at', 'asc')
+                        ->get()->toArray();
         return $comments;
     }
 
