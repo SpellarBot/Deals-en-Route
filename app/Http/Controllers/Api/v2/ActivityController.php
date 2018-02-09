@@ -205,8 +205,19 @@ class ActivityController extends Controller {
             //find nearby coupon
             $activity = \App\Activity::getActivityDetails($data);
             if (count($activity) > 0) {
+                if ($data['page'] == 1) {
+                    $offset = 0;
+                } else {
+                    $offset = (($data['page'] - 1) * 10);
+                }
+                $data['current_page'] = $data['page'];
                 $data['activity_details'] = (new ActivityTransformer)->transformActivityDetails($activity);
-                $getComments = \App\Comment::getCommentsByActivity($data['activity_id']);
+                $getComments = \App\Comment::getCommentsByActivity($data['activity_id'], $offset, 10);
+                if (count($getComments) < 10) {
+                    $data['hasMorePages'] = false;
+                } else {
+                    $data['hasMorePages'] = true;
+                }
                 $data['comments_list'] = [];
                 foreach ($getComments as $com) {
                     $dt = new Carbon($com->updated_at);
@@ -221,13 +232,31 @@ class ActivityController extends Controller {
                     }
                     $comment_details['comment'] = $com->comment_desc;
                     $comment_details['comment_id'] = $com->comment_id;
+                    $comment_details['parent_id'] = $com->parent_id;
                     $comment_details['comment_time'] = $dt->diffForHumans();
                     $getReplyComments = \App\Comment::getCommentsByParentId($com->parent_id, $com->id);
                     foreach ($getReplyComments as $key => $val) {
                         $dt2 = new Carbon($val['updated_at']);
                         $getReplyComments[$key]['comment_by'] = $val['first_name'] . ' ' . $val['last_name'];
                         $getReplyComments[$key]['profile_pic'] = ($val['profile_pic'] ? asset('storage/app/public/profile_pic/' . $val['profile_pic']) : asset('storage/app/public/profile_pic/'));
-                        $getReplyComments[$key]['profile_pic'] = $dt2->diffForHumans();
+                        $getReplyComments[$key]['comment_time'] = $dt2->diffForHumans();
+                        $getReplyComments[$key]['comment'] = $val['comment_desc'];
+                        $getReplyComments[$key]['comment_id'] = $val['comment_id'];
+                        if ($val['is_like'] === auth()->id() && $val['is_like'] === 1) {
+                            $getReplyComments[$key]['is_liked'] = 1;
+                        } else {
+                            $getReplyComments[$key]['is_liked'] = 0;
+                        }
+                        unset($getReplyComments[$key]['comment_desc']);
+                        unset($getReplyComments[$key]['id']);
+                        unset($getReplyComments[$key]['activity_id']);
+                        unset($getReplyComments[$key]['created_by']);
+                        unset($getReplyComments[$key]['updated_at']);
+                        unset($getReplyComments[$key]['created_at']);
+                        unset($getReplyComments[$key]['liked_by']);
+                        unset($getReplyComments[$key]['is_like']);
+                        unset($getReplyComments[$key]['first_name']);
+                        unset($getReplyComments[$key]['last_name']);
                     }
                     $comment_details['replycomments'] = $getReplyComments;
                     array_push($data['comments_list'], $comment_details);
