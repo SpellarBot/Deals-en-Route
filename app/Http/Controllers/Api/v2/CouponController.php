@@ -556,7 +556,7 @@ class CouponController extends Controller {
                 if ($data['page'] == 1) {
                     $offset = 0;
                 } else {
-                    $offset = ($data['page'] * 10);
+                    $offset = (($data['page'] - 1) * 10);
                 }
                 $data['current_page'] = $data['page'];
                 $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
