@@ -2679,6 +2679,9 @@ a.btn.btn-pack.btn-danger {
 .reg-icon-list .row{ margin-left: -10px; margin-right: -10px;  }
 @media only screen and (min-width: 992px) {
     .reg-icon-list .col-lg-2{ padding-left: 10px; padding-right: 10px; width: 11.11%; }
+    .reg-icon-list .col-lg-2:nth-child(9n+1){
+        clear: left;
+    }
 }
 .reg-icon-list .box{margin: 10px auto; min-height: 95px; padding: 4px; }
 .reg-icon-list .box a span { font-size: 14px; line-height: 18px; }
