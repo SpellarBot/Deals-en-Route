@@ -577,7 +577,22 @@ class CouponController extends Controller {
                         $dt2 = new Carbon($val['updated_at']);
                         $getReplyComments[$key]['comment_by'] = $val['first_name'] . ' ' . $val['last_name'];
                         $getReplyComments[$key]['profile_pic'] = ($val['profile_pic'] ? asset('storage/app/public/profile_pic/' . $val['profile_pic']) : asset('storage/app/public/profile_pic/'));
-                        $getReplyComments[$key]['profile_pic'] = $dt2->diffForHumans();
+                        $getReplyComments[$key]['comment_time'] = $dt2->diffForHumans();
+                        $getReplyComments[$key]['comment'] = $val['comment_desc'];
+                        $getReplyComments[$key]['comment_id'] = $val['id'];
+                        if ($val['is_like'] === auth()->id() && $val['is_like'] === 1) {
+                            $getReplyComments[$key]['is_liked'] = 1;
+                        } else {
+                            $getReplyComments[$key]['is_liked'] = 0;
+                        }
+                        unset($getReplyComments[$key]['comment_desc']);
+                        unset($getReplyComments[$key]['id']);
+                        unset($getReplyComments[$key]['coupon_id']);
+                        unset($getReplyComments[$key]['updated_at']);
+                        unset($getReplyComments[$key]['liked_by']);
+                        unset($getReplyComments[$key]['is_like']);
+                        unset($getReplyComments[$key]['first_name']);
+                        unset($getReplyComments[$key]['last_name']);
                     }
                     $comment_details['replycomments'] = $getReplyComments;
                     array_push($data['comments_list'], $comment_details);
