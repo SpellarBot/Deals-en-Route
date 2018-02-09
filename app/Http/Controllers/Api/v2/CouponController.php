@@ -553,9 +553,19 @@ class CouponController extends Controller {
             //find comments
             $coupondetail = \App\Coupon::getCouponDetail($data);
             if (count($coupondetail) > 0) {
+                if ($data['page'] == 1) {
+                    $offset = 0;
+                } else {
+                    $offset = ($data['page'] * 10);
+                }
+                $data['current_page'] = $data['page'];
                 $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
-                $getComments = DealComments::getCommentsByCoupon($data['coupon_id']);
-
+                $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, 10);
+                if (count($getComments) < 10) {
+                    $data['hasMorePages'] = false;
+                } else {
+                    $data['hasMorePages'] = true;
+                }
                 $data['comments_list'] = [];
                 foreach ($getComments as $com) {
                     $dt = new Carbon($com->updated_at);
