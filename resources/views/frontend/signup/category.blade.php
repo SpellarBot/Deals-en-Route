@@ -13,11 +13,11 @@
     <div class="container">
         <h1>Register Your Business</h1>
         <h3>Congratulations! One more step to pushing your business to new heights! You have a 30-day free trial — Way less than what you spend on a current advertising methods collectively!</h3>
-        <div class="box-container">
+        <div class="box-container reg-icon-list">
             <div class="row">
                 @foreach ($category_images as $category_image)
 
-                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
                     <div class="box">
                         <a href=""  class="box-bg clickopen" data-toggle="modal" data-id="{{ $category_image->category_id }}">
                             <img src="{{ $category_image->category_image }}">

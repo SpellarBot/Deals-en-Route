@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     //modal close
     $(".modal").on("hidden.bs.modal", function () {
-        $('.form-control').val('');
+//        $('.form-control').val('');
         $(".form-group").removeClass('has-error');
         $(".input-group").removeClass('has-error');
         $(".help-block").html('');
