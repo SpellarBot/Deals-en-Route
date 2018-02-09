@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class DealComments extends Model {
 
@@ -51,12 +52,14 @@ class DealComments extends Model {
         }
     }
 
-    public static function getCommentsByCoupon($id) {
+    public static function getCommentsByCoupon($id, $offset, $limit) {
         $comments = DealComments::select(\DB::raw('deal_comments.*,deal_comment_likes.liked_by,deal_comment_likes.is_like'))
                 ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
                 ->where('coupon_id', $id)
                 ->orderBy('deal_comments.updated_at', 'asc')
                 ->groupBy('parent_id')
+                ->skip($offset)
+                ->take($limit)
                 ->get();
         return $comments;
     }
