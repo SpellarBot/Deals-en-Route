@@ -17,22 +17,75 @@
                 <h3>Coupon Details</h3>
                 <div class="row" >
 
-                    <div class="col-sm-5" style="text-align: center; height:500px;">
-                        <div id="preview-main">
+                    <div class="col-sm-6" style="text-align: center; height:auto;">
+                        <!-- <div id="preview-main">
                             <img src="{{ \Config::get('app.url') . '/public/frontend/img/preview1.png' }}" width="250" alt="">
-                        </div>
+                        </div> -->
                         <div id="preview-in" class="viewdata">
 
-                            <div class="logo" ><img src="{{ $vendor_detail->vendor_logo}}" width="70" alt=""></div>
+                            <!-- <div class="logo" ><img src="{{ $vendor_detail->vendor_logo}}" width="70" alt=""></div>
 
                             <div class="b-name">{{ $vendor_detail->vendor_name}}</div>
-                            <div class="b-sub"> {{ str_limit($vendor_detail->vendor_address,40)}}</div>
-                            <div class="coupon-name coupon_name"  >{{ !isset($coupon->coupon_name) ? 'COUPON NAME': $coupon->coupon_name }}</div>
-                            <div class="coupon-desc coupon_detail" >{{ !isset($coupon->coupon_detail) ? 'Coupon description': $coupon->coupon_detail }} </div>
-                            <div class="barcode"><img src="{{ \Config::get('app.url') . '/public/frontend/img/sample2.png' }}" width="47" alt=""></div>
-                            <div class="red-code1" >Redemption Code</div>
-                            <div class="red-code2 coupon_code" >{{ !isset($coupon->coupon_code) ? 'XXXXX': $coupon->coupon_code }} </div>
-                            <div class="validity">Valid until <div class="coupon_end_date">{{ !isset($end_date_converted) ? 'XX XXX XXXX': Carbon\Carbon::parse($end_date_converted)->format(\Config::get('constants.DATE_FORMAT')) }}  </div></div>         
+                            <div class="b-sub"> {{ str_limit($vendor_detail->vendor_address,40)}}</div> -->
+                            <div class="frontcoupon">
+                                <div class="couponhead">
+                                    <div class="couponleft">
+                                        <div class="coupon-name coupon_name"  >{{ !isset($coupon->coupon_name) ? 'COUPON NAME': $coupon->coupon_name }}</div>
+                                        <div class="coupon-desc coupon_detail" >{{ !isset($coupon->coupon_detail) ? 'Coupon description': $coupon->coupon_detail }} </div>
+                                    </div>
+                                    <div class="couponright">
+                                        <span class="boxbg">8.9</span>
+                                        <span class="boxdetail">Miles</span>
+                                    </div>
+                                </div>
+                                <div class="couponfooter">
+                                <!--<div class="validity"> <div class="coupon_end_date">{{ !isset($end_date_converted) ? 'XX XXX XXXX': Carbon\Carbon::parse($end_date_converted)->format(\Config::get('constants.DATE_FORMAT')) }}  </div> </div> -->
+                                    <div class="validity">
+                                        <div class="v-days">
+                                            <span class="boxbg">0</span>
+                                            <span class="boxbg">3</span>
+                                            <span class="boxdetail">Days</span>
+                                        </div>
+                                        <div class="colon">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="v-hours">
+                                            <span class="boxbg">1</span>
+                                            <span class="boxbg">2</span>
+                                            <span class="boxdetail">Hours</span>
+                                        </div>
+                                        <div class="colon">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="v-mints">
+                                            <span class="boxbg">1</span>
+                                            <span class="boxbg">7</span>
+                                            <span class="boxdetail">Minutes</span>
+                                        </div>
+                                    </div>
+                                    <div class="leftcoupen">
+                                        <span class="boxbg">1</span>
+                                        <span class="boxbg">0</span>
+                                        <span class="boxdetail">Coupons Left</span>
+                                    </div>
+                                    <div class="pricebox">
+                                        <span class="old-price">$10</span>
+                                        <span class="new-price">$8</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="backcoupon">
+                                <div class="couponleft">
+                                    <img src="{{ \Config::get('app.url') . '/public/frontend/img/mapstatic.png' }}" width="450" alt="">
+                                </div>
+                                <div class="couponright">
+                                    <div class="barcode"><img src="{{ \Config::get('app.url') . '/public/frontend/img/sample2.png' }}" width="47" alt=""></div>
+                                    <div class="red-code1" >Redemption Code</div>
+                                    <div class="red-code2 coupon_code" >{{ !isset($coupon->coupon_code) ? 'XXXXX': $coupon->coupon_code }} </div>
+                                </div>
+                                
+                            </div>
+                                    
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -43,7 +96,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_detail', 'Description:') }}
-                            {{ Form::text('coupon_detail', old('coupon_detail'), ['placeholder'=>'Enter Your Description','class'=>'form-control','maxlength'=>'30']) }}
+                            {{ Form::text('coupon_detail', old('coupon_detail'), ['placeholder'=>'Enter Your Description','class'=>'form-control','maxlength'=>'50']) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_redeem_limit', 'Total Coupons:') }}
