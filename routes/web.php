@@ -97,18 +97,7 @@ Route::group(['namespace' => 'Admin'], function () {
     Route::get('/admin', 'Auth\LoginController@showLoginForm');
     Route::get('admin/login', 'Auth\LoginController@showLoginForm')->name('admin.loginform');
 
-    //user controller
-    Route::get('admin/users/getlist', ['uses' => 'UserController@getlist', 'as' => 'datatables.userdata']);
-    Route::get('admin/users/active', ['uses' => 'UserController@active']);
-    Route::resource('admin/users', 'UserController');
 
-    //setting
-    Route::get('admin/settings', ['uses' => 'UserController@setting']);
-
-    //vendor controller
-    Route::get('admin/vendors/getlist', ['uses' => 'VendorController@getlist', 'as' => 'datatables.vendordata']);
-    Route::get('admin/vendors/active', ['uses' => 'VendorController@active']);
-    Route::resource('admin/vendors', 'VendorController');
 
     //login/logout
     Route::post('admin/login', 'Auth\LoginController@login')->name('admin.login');

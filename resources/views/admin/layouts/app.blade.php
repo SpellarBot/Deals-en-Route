@@ -63,23 +63,7 @@
 
     </nav>
 </div>
-<div class="row wrapper border-bottom white-bg page-heading">
-   <div class="col-lg-10">  <h2><?php $routes=\Request::route()->getName(); $ex=explode('.',$routes); echo $ex[0]; ?></h2>
-                <ol class="breadcrumb">
 
-
-                                    @if(empty(Request::segments()))
-
-                                    @else
-                                    @for($i = 1; $i <= count(Request::segments()); $i++)
-
-                                    <li class=""> <a href="{{ URL::to( implode("/",array_slice(Request::segments($i),0,$i)))}}">
-                                    <strong>  {{ucwords(Request::segment($i))}} </strong>
-                                    </a> </li>@endfor
-                                    @endif
-                </ol>
-        </div>
-    </div>
            <div class="wrapper wrapper-content animated fadeInRight">
                         @yield('content')
                     </div>
