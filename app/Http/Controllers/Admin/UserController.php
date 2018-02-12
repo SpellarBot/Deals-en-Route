@@ -167,7 +167,7 @@ class UserController extends Controller {
     public function getlist(Request $request) {
         $request = $request->all();
         // get all the contacts
-        $templates = User::select(['id', 'email', 'first_name', 'last_name', 'dob', 'is_delete', 'is_active'])
+        $templates = User::select(['id', 'email', 'first_name', 'last_name', 'gender','dob', 'is_delete', 'is_active'])
                 ->leftJoin('user_detail', 'user_detail.user_id', '=', 'users.id')
                 ->where('role', '=', 'user')
                 ->deleted();

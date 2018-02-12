@@ -7,7 +7,7 @@
                            <span>
                             <img alt="image" class="img-circle" src="<?php echo $image;?>" />
                              </span>
-                            <h2>Deals en route</h2>                            
+                                                  
                         </div>
                       
                     </li>
@@ -17,7 +17,10 @@
                         <a href="{{ url('/admin/users') }}"  title="Users"><i class="fa fa-users"></i> <span class="nav-label"> Users </span> </a>
                     </li>
                    <li class="{{ Request::segment(2) === 'vendors' ? 'active' : null }}">
-                        <a href="{{ url('/admin/vendors') }}"  title="Vendors"><i class="fa fa-users"></i> <span class="nav-label"> Vendors </span> </a>
+                        <a href="{{ url('/admin/vendors') }}"  title="Vendors"><i class="fa fa-users"></i> <span class="nav-label"> Businesses </span> </a>
+                    </li>
+                      <li class="{{ Request::segment(2) === 'vendors' ? 'active' : null }}">
+                        <a href="{{ url('/admin/vendors') }}"  title="Vendors"><i class="fa fa-users"></i> <span class="nav-label"> Packages </span> </a>
                     </li>
                      <li class="{{ Request::segment(2) === 'settings' ? 'active' : null }}">
                         <a href="{{ url('/admin/settings') }}"  title="Settings"><i class="fa fa-gear"></i> <span class="nav-label"> Setting </span> </a>

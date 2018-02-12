@@ -25,8 +25,9 @@
                                     <thead>
                                         <tr>
                                             <th>id</th>
-                                            <th>Email</th>
                                             <th>Full Name</th>
+                                            <th>Email</th>
+                                             <th>Gender</th>
                                             <th>Dob</th>
                                             <th><center> Action </center></th>
                                             
@@ -51,7 +52,7 @@
 <script type="text/javascript">
     var url = "{{ route('datatables.userdata') }}";
 </script>
-<script src="{{ asset('backend/js/webjs/users.js') }}"></script>
+<script src="{{ asset('js/webjs/users.js') }}"></script>
 
 @endsection
 

@@ -20,8 +20,9 @@ $(document).ready(function () {
         oLanguage: {sEmptyTable: "No records found"},
         columns: [
             {data: 'id', name: 'id'},
+             {data: 'full_name', name: 'full_name'},
             {data: 'email', name: 'email'},
-            {data: 'full_name', name: 'full_name'},
+           {data: 'gender', name: 'gender'},
             {data: 'dob', name: 'dob'},
 
             {
