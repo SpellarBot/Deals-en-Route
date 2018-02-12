@@ -60,8 +60,8 @@ use RegistersUsers;
      * @return \App\User
      */
     public function create(RegisterFormRequest $request) {
-//        DB::beginTransaction();
-//        try {
+       DB::beginTransaction();
+        try {
         // process the store
         $data = $request->all();
 //        print_r($data);die;
@@ -83,40 +83,40 @@ use RegistersUsers;
             $stripeuser->createToken($data);
             Session::flash('success', \Config::get('constants.USER_EMAIL_VERIFICATION'));
         }
-//        } catch (\Cartalyst\Stripe\Exception\CardErrorException $e) {
-//
-//            \App\StripeUser::findCustomer($data['email']);
-//            DB::rollback();
-//
-//            $message = $e->getMessage();
-//            if (strpos($message, 'year') !== false || strpos($message, 'month') !== false) {
-//                return response()->json(['errors' => ['card_expiry' => [0 => ucwords($message)]]], 422);
-//            } elseif (strpos($message, 'cvv') !== false || strpos($message, 'security code') !== false) {
-//                return response()->json(['errors' => ['card_cvv' => [0 => ucwords($message)]]], 422);
-//            } elseif (strpos($message, 'number') !== false || strpos($message, 'card') !== false) {
-//                return response()->json(['errors' => ['card_no' => [0 => ucwords($message)]]], 422);
-//            }
-//            return response()->json(['status' => 0, 'message' => ucwords($message)], 422);
-//        } catch (\Cartalyst\Stripe\Exception\UnauthorizedExceptioncatch $e) {
-//            //throw $e;
-//            // \App\StripeUser::findCustomer($data['email']);
-//            DB::rollback();
-//            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
-//        } catch (\Exception $e) {
-//            // throw $e;
-//            //    \App\StripeUser::findCustomer($data['email']);
-//            DB::rollback();
-//            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
-//        }
-//        // If we reach here, then// data is valid and working.//
-//        DB::commit();
-//        $array_mail = ['to' => $data['email'],
-//            'type' => 'verifyvendor',
-//            'data' => ['confirmation_code' => User::find($user_detail->user_id)->confirmation_code],
-//        ];
-//        $this->sendMail($array_mail);
-//        // redirect
-//        return view('frontend.signup.pricetable')->with(['user_id' => $user_detail->user_id]);
+        } catch (\Cartalyst\Stripe\Exception\CardErrorException $e) {
+
+            \App\StripeUser::findCustomer($data['email']);
+            DB::rollback();
+
+            $message = $e->getMessage();
+            if (strpos($message, 'year') !== false || strpos($message, 'month') !== false) {
+                return response()->json(['errors' => ['card_expiry' => [0 => ucwords($message)]]], 422);
+            } elseif (strpos($message, 'cvv') !== false || strpos($message, 'security code') !== false) {
+                return response()->json(['errors' => ['card_cvv' => [0 => ucwords($message)]]], 422);
+            } elseif (strpos($message, 'number') !== false || strpos($message, 'card') !== false) {
+                return response()->json(['errors' => ['card_no' => [0 => ucwords($message)]]], 422);
+            }
+            return response()->json(['status' => 0, 'message' => ucwords($message)], 422);
+        } catch (\Cartalyst\Stripe\Exception\UnauthorizedExceptioncatch $e) {
+            //throw $e;
+            // \App\StripeUser::findCustomer($data['email']);
+            DB::rollback();
+            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
+        } catch (\Exception $e) {
+            // throw $e;
+            //    \App\StripeUser::findCustomer($data['email']);
+            DB::rollback();
+            return response()->json(['status' => 0, 'message' => ucwords($e->getMessage())], 422);
+        }
+        // If we reach here, then// data is valid and working.//
+        DB::commit();
+        $array_mail = ['to' => $data['email'],
+            'type' => 'verifyvendor',
+            'data' => ['confirmation_code' => User::find($user_detail->user_id)->confirmation_code],
+        ];
+        $this->sendMail($array_mail);
+        // redirect
+        return view('frontend.signup.pricetable')->with(['user_id' => $user_detail->user_id]);
     }
 
     /**
