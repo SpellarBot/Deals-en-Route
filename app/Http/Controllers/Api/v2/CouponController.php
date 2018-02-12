@@ -561,6 +561,7 @@ class CouponController extends Controller {
                 $data['current_page'] = $data['page'];
                 $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
                 $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, 10);
+                
                 if (count($getComments) < 10) {
                     $data['hasMorePages'] = false;
                 } else {
@@ -569,7 +570,8 @@ class CouponController extends Controller {
                 $data['comments_list'] = [];
                 foreach ($getComments as $com) {
                     $dt = new Carbon($com->updated_at);
-                    $getUser = \App\UserDetail::find($com->comment_by);
+                    $getUser = \App\UserDetail::where('user_id',$com->comment_by)->first();
+                
                     $comment_details['comment_id'] = $com->id;
                     $comment_details['user_id'] = $getUser->user_id;
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
