@@ -250,6 +250,7 @@ class ActivityController extends Controller {
                     $comment_details['parent_id'] = $com->parent_id;
                      $comment_details['tag_user_id'] = $tags;
                     $comment_details['comment_time'] = $dt->diffForHumans();
+                    
                     $getReplyComments = \App\Comment::getCommentsByParentId($com->parent_id, $com->comment_id);
                     foreach ($getReplyComments as $key => $val) {
                            $tagreplyfriendarray=explode(",",$val['tag_user_id']);
