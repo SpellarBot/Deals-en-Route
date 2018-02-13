@@ -621,7 +621,7 @@ class CouponController extends Controller {
                         $getReplyComments[$keyreply]['tag_user_id'] = $tagsreply;
                          
                         $getReplyComments[$keyreply]['comment_id'] = $valreply['id'];
-                        if ($valreply['is_like'] === auth()->id() && $valreply['is_like'] === 1) {
+                        if ($valreply['liked_by'] === auth()->id() && $valreply['is_like'] === 1) {
                             $getReplyComments[$keyreply]['is_liked'] = 1;
                         } else {
                             $getReplyComments[$keyreply]['is_liked'] = 0;
