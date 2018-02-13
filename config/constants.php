@@ -28,6 +28,7 @@ return [
     'CATEGORY_SAVE' => 'saved category listed successfully',
     'NO_RECORDS' => 'no records found.',
     'COUPON_LIST' => 'coupon listed successfully,',
+    'TAG_LIST'=>'tag listed successfully.',
     'COUPON_DETAIL' => 'coupon detial.',
     'ACTIVITY_COMMENT_DETAIL' => 'Activity Comment Detial.',
     'USER_LOGOUT_SUCCESS' => 'User logout successfully.',

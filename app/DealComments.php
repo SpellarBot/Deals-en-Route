@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+use Auth;
 class DealComments extends Model {
 
     //
@@ -15,13 +15,14 @@ class DealComments extends Model {
 
     public $primaryKey = 'id';
     protected $fillable = [
-        'id', 'comment_by', 'comment_desc', 'coupon_id', 'created_at', 'updated_at'
+        'id', 'comment_by', 'comment_desc', 'coupon_id', 'created_at', 'updated_at','tag_user_id'
     ];
 
     public static function addComment($data) {
         $addComment = DealComments::create(['comment_desc' => $data['comment'],
-                    'comment_by' => $data['user_id'],
-                    'coupon_id' => $data['coupon_id']
+                    'comment_by' =>Auth::id(),
+                    'coupon_id' => $data['coupon_id'],
+                     'tag_user_id'=>$data['tag_user_id'] 
                         ]
         );
         if (array_key_exists('parent_id', $data) && !empty($data['parent_id'])) {
@@ -61,11 +62,12 @@ class DealComments extends Model {
                 ->skip($offset)
                 ->take($limit)
                 ->get();
+        
         return $comments;
     }
 
     public static function getCommentsByParentId($id, $comment_id) {
-        $comments = DealComments::select(\DB::raw('deal_comments.id,deal_comments.comment_by,deal_comments.updated_at,deal_comments.coupon_id,deal_comments.comment_desc,deal_comments.parent_id,deal_comment_likes.liked_by,deal_comment_likes.is_like,user_detail.first_name ,user_detail.last_name,user_detail.profile_pic,user_detail.user_id'))
+        $comments = DealComments::select(\DB::raw('deal_comments.id,deal_comments.tag_user_id,deal_comments.comment_by,deal_comments.updated_at,deal_comments.coupon_id,deal_comments.comment_desc,deal_comments.parent_id,deal_comment_likes.liked_by,deal_comment_likes.is_like,user_detail.first_name ,user_detail.last_name,user_detail.profile_pic,user_detail.user_id'))
                         ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
                         ->leftjoin('user_detail', 'user_detail.user_id', 'deal_comments.comment_by')
                         ->where('deal_comments.parent_id', $id)

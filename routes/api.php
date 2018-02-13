@@ -182,6 +182,10 @@ Route::group(['namespace' => 'Api\v2', 'prefix' => 'v2'], function() {
         Route::post('/user/getNearByVendorlist', 'VendorController@getNearByVendors');
         Route::post('/user/getCouponsByVendor', 'CouponController@getCouponsByVendor');
         Route::post('/user/getVendorDetails', 'VendorController@getVendorDetails');
+        
+        //tag friends
+          Route::post('/tag/friendlist', 'TagController@getAllUsers');
+        
 
         // additional routes here
     });

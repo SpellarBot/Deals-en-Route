@@ -13,7 +13,7 @@ class Comment extends Model {
 
     public $primaryKey = 'comment_id';
     protected $fillable = [
-        'comment_id', 'created_at', 'updated_at', 'comment_desc', 'activity_id'
+        'comment_id', 'created_at', 'updated_at', 'comment_desc', 'activity_id','tag_user_id'
     ];
 
     public function user() {
@@ -29,6 +29,7 @@ class Comment extends Model {
                 ->skip($offset)
                 ->take($limit)
                 ->get();
+   
         return $comments;
     }
 

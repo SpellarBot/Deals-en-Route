@@ -104,4 +104,16 @@ class Activity extends Model {
         return $activity;
     }
 
+    public static function getTagUsers() {
+
+        $user = \App\User::with('alluserdetail')
+                ->where('id', '!=', Auth::id())
+                ->where('role', 'user')
+                ->get();
+        if ($user) {
+            return $user;
+        }
+        return false;
+    }
+
 }

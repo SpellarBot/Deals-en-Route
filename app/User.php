@@ -52,9 +52,13 @@ class User extends Authenticatable {
      * Get the phone record associated with the user.
      */
     public function userDetail() {
-        return $this->hasOne('App\UserDetail');
+        return $this->hasOne('App\UserDetail','user_id', 'id');
     }
 
+     public function alluserdetail()
+{
+    return $this->hasMany('App\UserDetail');
+}
     public function deviceDetail() {
         return $this->hasOne('App\DeviceDetail', 'user_id', 'id');
     }
