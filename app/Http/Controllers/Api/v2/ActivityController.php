@@ -270,7 +270,7 @@ class ActivityController extends Controller {
                         $getReplyComments[$key]['comment'] = $val['comment_desc'];
                         $getReplyComments[$key]['comment_id'] = $val['comment_id'];
                         $getReplyComments[$key]['tag_user_id'] = $tagsreply;
-                        if ($val['is_like'] === auth()->id() && $val['is_like'] === 1) {
+                        if ($val['liked_by'] === auth()->id() && $val['is_like'] === 1) {
                             $getReplyComments[$key]['is_liked'] = 1;
                         } else {
                             $getReplyComments[$key]['is_liked'] = 0;

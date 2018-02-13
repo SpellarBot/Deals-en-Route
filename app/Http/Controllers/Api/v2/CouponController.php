@@ -47,30 +47,30 @@ class CouponController extends Controller {
     public function couponListCategoryWise(Request $request) {
         try {
 // get the request
-        $data = $request->all();
+            $data = $request->all();
 //add lat long if passsed to the data
-        $passdata = $data;
-        unset($passdata['category_id']);
-        $user_detail = \App\UserDetail::saveUserDetail($passdata, Auth::user()->id);
+            $passdata = $data;
+            unset($passdata['category_id']);
+            $user_detail = \App\UserDetail::saveUserDetail($passdata, Auth::user()->id);
 //find nearby coupon
-        $couponlist = \App\Coupon::getNearestCoupon($data);
-        if (count($couponlist) > 0) {
-            foreach ($couponlist as $coupons) {
-                $getlikes = CouponFavourite::getLikes($coupons->coupon_id);
-                $getUserslike = CouponFavourite::getUserLike($coupons->coupon_id, auth()->id());
-                $getComments = DealComments::getComments($coupons->coupon_id);
-                $getvendorRating = VendorRating::getRatings($coupons->created_by);
-                $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
-                $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
-                $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
+            $couponlist = \App\Coupon::getNearestCoupon($data);
+            if (count($couponlist) > 0) {
+                foreach ($couponlist as $coupons) {
+                    $getlikes = CouponFavourite::getLikes($coupons->coupon_id);
+                    $getUserslike = CouponFavourite::getUserLike($coupons->coupon_id, auth()->id());
+                    $getComments = DealComments::getComments($coupons->coupon_id);
+                    $getvendorRating = VendorRating::getRatings($coupons->created_by);
+                    $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
+                    $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                    $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
+                }
+                $data = (new CouponTransformer)->transformList($couponlist);
+                return $this->responseJson('success', \Config::get('constants.COUPON_LIST'), 200, $data);
             }
-            $data = (new CouponTransformer)->transformList($couponlist);
-            return $this->responseJson('success', \Config::get('constants.COUPON_LIST'), 200, $data);
-           }
-           return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
-       } catch (\Exception $e) {
-           //throw $e;
+            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
+        } catch (\Exception $e) {
+            //throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -176,29 +176,29 @@ class CouponController extends Controller {
     public function redeemCouponList(Request $request) {
         try {
 // get the request
-        $data = $request->all();
+            $data = $request->all();
 
-        $couponlist = \App\CouponRedeem::redeemCouponList($data);
+            $couponlist = \App\CouponRedeem::redeemCouponList($data);
 
-        if (count($couponlist) > 0) {
-            foreach ($couponlist as $coupons) {
-                $getlikes = CouponFavourite::getLikes($coupons->coupon_id);
-                $getUserslike = CouponFavourite::getUserLike($coupons->coupon_id, auth()->id());
-                $getComments = DealComments::getComments($coupons->coupon_id);
-                $getvendorRating = VendorRating::getRatings($coupons->created_by);
-                $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
-                $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
-                $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
+            if (count($couponlist) > 0) {
+                foreach ($couponlist as $coupons) {
+                    $getlikes = CouponFavourite::getLikes($coupons->coupon_id);
+                    $getUserslike = CouponFavourite::getUserLike($coupons->coupon_id, auth()->id());
+                    $getComments = DealComments::getComments($coupons->coupon_id);
+                    $getvendorRating = VendorRating::getRatings($coupons->created_by);
+                    $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
+                    $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                    $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
+                }
+                $data = (new CouponTransformer)->transformShareList($couponlist);
+                return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
-            $data = (new CouponTransformer)->transformShareList($couponlist);
-            return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
-        }
-        return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
+            return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
 ////  throw $e;
-          return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
-       }
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
     }
 
     public function shareCouponList(Request $request) {
@@ -561,7 +561,7 @@ class CouponController extends Controller {
                 $data['current_page'] = $data['page'];
                 $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
                 $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, 10);
-          
+
                 if (count($getComments) < 10) {
                     $data['hasMorePages'] = false;
                 } else {
@@ -570,8 +570,8 @@ class CouponController extends Controller {
                 $data['comments_list'] = [];
                 foreach ($getComments as $com) {
                     $dt = new Carbon($com->updated_at);
-                    $getUser = \App\UserDetail::where('user_id',$com->comment_by)->first();
-                
+                    $getUser = \App\UserDetail::where('user_id', $com->comment_by)->first();
+
                     $comment_details['comment_id'] = $com->id;
                     $comment_details['user_id'] = $getUser->user_id;
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
@@ -581,45 +581,47 @@ class CouponController extends Controller {
                     } else {
                         $comment_details['is_liked'] = 0;
                     }
-                   
-                    $tagfriendarray=explode(",",$com->tag_user_id);
-                    $tags=[];
-                     if(!empty($com->tag_user_id)){
-                    foreach($tagfriendarray as $key=>$val){
-                        
-                        $detail=\App\UserDetail::where('user_id',$val)->first();
-                        
-                        $tags[$key]['user_id']= (int)$val;
-                        $tags[$key]['full_name']= '@'.$detail->first_name." ".$detail->last_name;
-                        $tags[$key]['profile_pic']= (!empty($detail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
-                       
-                    }
+
+                    $tagfriendarray = explode(",", $com->tag_user_id);
+                    $tags = [];
+                    if (!empty($com->tag_user_id)) {
+                        foreach ($tagfriendarray as $key => $val) {
+
+                            $detail = \App\UserDetail::where('user_id', $val)->first();
+
+                            $tags[$key]['user_id'] = (int) $val;
+                            $tags[$key]['full_name'] = '@' . $detail->first_name . " " . $detail->last_name;
+                            $tags[$key]['profile_pic'] = (!empty($detail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                        }
                     }
                     $comment_details['comment'] = $com->comment_desc;
                     $comment_details['parent_id'] = $com->parent_id;
                     $comment_details['tag_user_id'] = $tags;
                     $comment_details['comment_time'] = $dt->diffForHumans();
                     $getReplyComments = DealComments::getCommentsByParentId($com->parent_id, $com->id);
-                 
+//                     print_r($getReplyComments); 
+
                     foreach ($getReplyComments as $keyreply => $valreply) {
-                       $tagreplyfriendarray=explode(",",$valreply['tag_user_id']);
-                       $tagsreply=[];
-                      foreach($tagreplyfriendarray as $key1=>$val1){
-                        if(!empty($val1)){
-                        $detailreply=\App\UserDetail::where('user_id',$val1)->first();
-                        
-                        $tagsreply[$key1]['user_id']= (int)$val1;
-                        $tagsreply[$key1]['full_name']= '@'.$detailreply->first_name." ".$detailreply->last_name;
-                        $tagsreply[$key1]['profile_pic']= (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                        $tagreplyfriendarray = explode(",", $valreply['tag_user_id']);
+                        $tagsreply = [];
+                        foreach ($tagreplyfriendarray as $key1 => $val1) {
+                            if (!empty($val1)) {
+                                $detailreply = \App\UserDetail::where('user_id', $val1)->first();
+
+                                $tagsreply[$key1]['user_id'] = (int) $val1;
+                                $tagsreply[$key1]['full_name'] = '@' . $detailreply->first_name . " " . $detailreply->last_name;
+                                $tagsreply[$key1]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                            }
                         }
-                    }
+
                         $dt2 = new Carbon($valreply['updated_at']);
                         $getReplyComments[$keyreply]['comment_by'] = $valreply['first_name'] . ' ' . $valreply['last_name'];
                         $getReplyComments[$keyreply]['profile_pic'] = ($valreply['profile_pic'] ? asset('storage/app/public/profile_pic/' . $valreply['profile_pic']) : asset('storage/app/public/profile_pic/'));
+
                         $getReplyComments[$keyreply]['comment_time'] = $dt2->diffForHumans();
                         $getReplyComments[$keyreply]['comment'] = $valreply['comment_desc'];
                         $getReplyComments[$keyreply]['tag_user_id'] = $tagsreply;
-                         
+
                         $getReplyComments[$keyreply]['comment_id'] = $valreply['id'];
                         if ($valreply['liked_by'] === auth()->id() && $valreply['is_like'] === 1) {
                             $getReplyComments[$keyreply]['is_liked'] = 1;
@@ -635,9 +637,11 @@ class CouponController extends Controller {
                         unset($getReplyComments[$keyreply]['first_name']);
                         unset($getReplyComments[$keyreply]['last_name']);
                     }
+
                     $comment_details['replycomments'] = $getReplyComments;
                     array_push($data['comments_list'], $comment_details);
                 }
+//                exit;
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_DEAL'), 200);

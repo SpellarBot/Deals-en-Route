@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Auth;
+
 class DealComments extends Model {
 
     //
@@ -15,14 +16,14 @@ class DealComments extends Model {
 
     public $primaryKey = 'id';
     protected $fillable = [
-        'id', 'comment_by', 'comment_desc', 'coupon_id', 'created_at', 'updated_at','tag_user_id'
+        'id', 'comment_by', 'comment_desc', 'coupon_id', 'created_at', 'updated_at', 'tag_user_id'
     ];
 
     public static function addComment($data) {
         $addComment = DealComments::create(['comment_desc' => $data['comment'],
-                    'comment_by' =>Auth::id(),
+                    'comment_by' => Auth::id(),
                     'coupon_id' => $data['coupon_id'],
-                     'tag_user_id'=>$data['tag_user_id'] 
+                    'tag_user_id' => (isset($data['tag_user_id'])) ? $data['tag_user_id'] : ''
                         ]
         );
         if (array_key_exists('parent_id', $data) && !empty($data['parent_id'])) {
@@ -37,6 +38,7 @@ class DealComments extends Model {
     public static function editComment($data) {
         $editComment = DealComments::find($data['comment_id']);
         $editComment->comment_desc = $data['comment'];
+        $editComment->tag_user_id = (isset($data['tag_user_id'])) ? $data['tag_user_id'] : '';
         $editComment->save();
         return $editComment;
     }
@@ -54,7 +56,7 @@ class DealComments extends Model {
     }
 
     public static function getCommentsByCoupon($id, $offset, $limit) {
-        $comments = DealComments::select(\DB::raw('deal_comments.*,deal_comment_likes.liked_by,deal_comment_likes.is_like'))
+        $comments = DealComments::select(\DB::raw('deal_comments.*,deal_comment_likes.liked_by,min(deal_comments.id) as id,deal_comment_likes.is_like'))
                 ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
                 ->where('coupon_id', $id)
                 ->orderBy('deal_comments.updated_at', 'asc')
@@ -62,7 +64,7 @@ class DealComments extends Model {
                 ->skip($offset)
                 ->take($limit)
                 ->get();
-        
+
         return $comments;
     }
 
