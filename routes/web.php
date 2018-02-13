@@ -127,4 +127,9 @@ Route::group(['namespace' => 'Admin'], function () {
     Route::get('admin/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('admin/register', 'Auth\RegisterController@register');
     Route::get('admin/home', 'HomeController@index');
+    
+    //admin panel userlist
+    Route::get('admin/userlist', 'AdminController@userlist');
+    
+    Route::get('admin/vendorlist', 'AdminController@vendorlist');
 });
