@@ -132,4 +132,9 @@ Route::group(['namespace' => 'Admin'], function () {
     Route::get('admin/userlist', 'AdminController@userlist');
     
     Route::get('admin/vendorlist', 'AdminController@vendorlist');
+    
+    Route::get('admin/reported-content', 'AdminController@reportedContent');
+    
+    Route::get('admin/city', 'AdminController@citylist');
+    Route::get('admin/payments', 'AdminController@payment');
 });

@@ -43,5 +43,20 @@ class AdminController extends Controller {
         //echo '<pre>';print_r($data['user_list']);exit;
         return view('admin.businesses', $data);
     }
+    
+    public function citylist(){
+        $data = [];
+        return view('admin.cities', $data);
+    }
+    
+     public function payment(){
+        $data = [];
+        return view('admin.payments', $data);
+    }
+    
+    public function reportedContent(){
+        $data['user_list'] = User::where('is_delete', '0')->where('role', 'user')->leftjoin('user_detail', 'users.id', 'user_detail.user_id')->get();
+        return view('admin.reported-content', $data);
+    }
 
 }

@@ -125,25 +125,25 @@
                         </a>
                      </li>
                      <li class="">
-                        <a href="packages.html" title="Packages">
+                        <a href="{{ asset('admin/vendorlist') }}" title="Packages">
                            <em class="fa fa-inbox"></em>
                            <span>Packages</span>
                         </a>
                      </li>
                      <li class="">
-                        <a href="reported-content.html" title="Reported Content">
+                        <a href="{{ asset('admin/reported-content') }}" title="Reported Content">
                            <em class="icon-docs"></em>
                            <span>Reported Content</span>
                         </a>
                      </li>
                      <li class="">
-                        <a href="cities.html" title="Cities">
+                        <a href="{{ asset('admin/city') }}" title="Cities">
                            <em class="fa fa-building-o"></em>
                            <span>Cities</span>
                         </a>
                      </li>
                      <li class="">
-                        <a href="payments.html" title="Payments">
+                        <a href="{{ asset('admin/payments') }}" title="Payments">
                            <em class="fa fa-money"></em>
                            <span>Payments</span>
                         </a>
