@@ -107,19 +107,23 @@ class Activity extends Model {
 
     public static function getTagUsers($data) {
 
-    
+    if (isset($data['search']) && !empty($data['search'])) {
+         $keyword = $data['search'];
+    }else{
+        $keyword="NULL";
+    }
          $query = \App\User::leftjoin('user_detail', 'user_detail.user_id', 'users.id')
                 ->where('id', '!=', Auth::id())
                 ->where('role', 'user');
-          if (isset($data['search'])) {
-            $keyword = $data['search'];
+          
+           
             $query->where(function($q) use ($keyword) {
                 $q->where(DB::raw("CONCAT(user_detail.first_name,' ',user_detail.last_name)"), "LIKE", "%$keyword%")
                         ->orWhere(DB::raw("CONCAT(user_detail.last_name,' ',user_detail.first_name)"), "LIKE", "%$keyword%")
                         ->orWhere("last_name", "LIKE", "%$keyword%")
                         ->orWhere("first_name", "LIKE", "%$keyword%");
             });
-        } 
+        
          $result= $query->get();
        
         if ($result) {
