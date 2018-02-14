@@ -13,10 +13,11 @@ class TagController extends Controller {
     use \App\Http\Services\ResponseTrait;
     use \App\Http\Services\ActivityTrait;
 
-    public function getAllUsers() {
+    public function getAllUsers(Request $request) {
          try {
 // get the request
-         $user= Activity::getTagUsers();
+         $request=$request->all();
+         $user= Activity::getTagUsers($request);
          
         if (count($user) > 0) {
             $data = (new TagTransformer)->transformAllUsers($user);
@@ -24,7 +25,7 @@ class TagController extends Controller {
         }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-//  throw $e;
+  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
        

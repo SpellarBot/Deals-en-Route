@@ -119,7 +119,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-             throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -183,7 +183,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-            //  throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -222,7 +222,7 @@ class ActivityController extends Controller {
                 $data['comments_list'] = [];
                 foreach ($getComments as $com) {
                     $dt = new Carbon($com->updated_at);
-                    $getUser = \App\UserDetail::where('user_id',$com->created_by)->first();
+                    $getUser = \App\UserDetail::where('user_id', $com->created_by)->first();
                     $comment_details['user_id'] = $getUser->user_id;
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
                     $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
@@ -231,39 +231,40 @@ class ActivityController extends Controller {
                     } else {
                         $comment_details['is_liked'] = 0;
                     }
-                    
-                         $tagfriendarray=explode(",",$com->tag_user_id);
-                    $tags=[];
-                     if(!empty($com->tag_user_id)){
-                    foreach($tagfriendarray as $key1=>$val1){
-                        
-                        $detail=\App\UserDetail::where('user_id',$val1)->first();
-                        
-                        $tags[$key1]['user_id']= (int)$val1;
-                        $tags[$key1]['full_name']= '@'.$detail->first_name." ".$detail->last_name;
-                        $tags[$key1]['profile_pic']= (!empty($detail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
-                       
-                    }
+
+                    $tagfriendarray = explode(",", $com->tag_user_id);
+                    $tags = [];
+                    if (!empty($com->tag_user_id)) {
+                        foreach ($tagfriendarray as $key1 => $val1) {
+
+                            $detail = \App\UserDetail::where('user_id', $val1)->first();
+                            if ($detail) {
+                                $tags[$key1]['user_id'] = (int) $val1;
+                                $tags[$key1]['full_name'] = '@' . $detail->first_name . " " . $detail->last_name;
+                                $tags[$key1]['profile_pic'] = (!empty($detail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                            }
+                        }
                     }
                     $comment_details['comment'] = $com->comment_desc;
                     $comment_details['comment_id'] = $com->comment_id;
                     $comment_details['parent_id'] = $com->parent_id;
-                     $comment_details['tag_user_id'] = $tags;
+                    $comment_details['tag_user_id'] = $tags;
                     $comment_details['comment_time'] = $dt->diffForHumans();
-                    
+
                     $getReplyComments = \App\Comment::getCommentsByParentId($com->parent_id, $com->comment_id);
                     foreach ($getReplyComments as $key => $val) {
-                           $tagreplyfriendarray=explode(",",$val['tag_user_id']);
-                       $tagsreply=[];
-                      foreach($tagreplyfriendarray as $key2=>$val2){
-                        if(!empty($val2)){
-                        $detailreply=\App\UserDetail::where('user_id',$val2)->first();
-                   
-                        $tagsreply[$key2]['user_id']= (int)$val2;
-                        $tagsreply[$key2]['full_name']= '@'.$detailreply->first_name." ".$detailreply->last_name;
-                        $tagsreply[$key2]['profile_pic']= (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detailreply->profile_pic : "";
+                        $tagreplyfriendarray = explode(",", $val['tag_user_id']);
+                        $tagsreply = [];
+                        foreach ($tagreplyfriendarray as $key2 => $val2) {
+                            if (!empty($val2)) {
+                                $detailreply = \App\UserDetail::where('user_id', $val2)->first();
+                                if ($detailreply) {
+                                    $tagsreply[$key2]['user_id'] = (int) $val2;
+                                    $tagsreply[$key2]['full_name'] = '@' . $detailreply->first_name . " " . $detailreply->last_name;
+                                    $tagsreply[$key2]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detailreply->profile_pic : "";
+                                }
+                            }
                         }
-                    }
                         $dt2 = new Carbon($val['updated_at']);
                         $getReplyComments[$key]['comment_by'] = $val['first_name'] . ' ' . $val['last_name'];
                         $getReplyComments[$key]['profile_pic'] = ($val['profile_pic'] ? asset('storage/app/public/profile_pic/' . $val['profile_pic']) : asset('storage/app/public/profile_pic/'));

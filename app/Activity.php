@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Services\CouponTrait;
 use Auth;
 use App\Http\Services\ActivityTrait;
+use DB;
 
 class Activity extends Model {
 
@@ -104,14 +105,25 @@ class Activity extends Model {
         return $activity;
     }
 
-    public static function getTagUsers() {
+    public static function getTagUsers($data) {
 
-        $user = \App\User::with('alluserdetail')
+    
+         $query = \App\User::leftjoin('user_detail', 'user_detail.user_id', 'users.id')
                 ->where('id', '!=', Auth::id())
-                ->where('role', 'user')
-                ->get();
-        if ($user) {
-            return $user;
+                ->where('role', 'user');
+          if (isset($data['search'])) {
+            $keyword = $data['search'];
+            $query->where(function($q) use ($keyword) {
+                $q->where(DB::raw("CONCAT(user_detail.first_name,' ',user_detail.last_name)"), "LIKE", "%$keyword%")
+                        ->orWhere(DB::raw("CONCAT(user_detail.last_name,'',user_detail.first_name)"), "LIKE", "%$keyword%")
+                        ->orWhere("last_name", "LIKE", "%$keyword%")
+                        ->orWhere("first_name", "LIKE", "%$keyword%");
+            });
+        } 
+         $result= $query->get();
+       
+        if ($result) {
+            return $result;
         }
         return false;
     }

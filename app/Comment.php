@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Comment extends Model {
 
@@ -21,7 +22,7 @@ class Comment extends Model {
     }
 
     public static function getCommentsByActivity($id, $offset, $limit) {
-        $comments = Comment::select(\DB::raw('comment.*,activity_comment_likes.liked_by,activity_comment_likes.is_like'))
+        $comments = Comment::select(\DB::raw('comment.*,min(comment.comment_id) as comment_id,activity_comment_likes.liked_by,activity_comment_likes.is_like'))
                 ->leftjoin('activity_comment_likes', 'activity_comment_likes.comment_id', 'comment.comment_id')
                 ->where('comment.activity_id', $id)
                 ->orderBy('comment.updated_at', 'asc')
@@ -34,11 +35,16 @@ class Comment extends Model {
     }
 
     public static function getCommentsByParentId($id, $comment_id) {
-        $comments = Comment::select(\DB::raw('comment.*,activity_comment_likes.liked_by,activity_comment_likes.is_like,user_detail.first_name ,user_detail.last_name,user_detail.profile_pic,user_detail.user_id'))
+        $comments = Comment::select(\DB::raw('comment.*,activity_comment_likes.liked_by,'
+                . 'activity_comment_likes.is_like,user_detail.first_name ,user_detail.last_name,'
+                . 'user_detail.profile_pic,user_detail.user_id'))
                 ->leftjoin('activity_comment_likes', 'activity_comment_likes.comment_id', 'comment.comment_id')
                 ->leftjoin('user_detail', 'user_detail.user_id', 'comment.created_by')
                 ->where('comment.parent_id', $id)
                 ->where('comment.comment_id', '!=', $comment_id)
+                 ->orWhere(function($q) {
+                    $q->Where('activity_comment_likes.liked_by', Auth::id());
+                })
                 ->orderBy('comment.updated_at', 'asc')
                 ->get();
         return $comments;
