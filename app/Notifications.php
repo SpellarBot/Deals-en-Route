@@ -30,6 +30,7 @@ class Notifications extends Model {
             'is_read' => 0,
             'coupon_id' => $data['coupon_id']
         ]);
+      
         self::sendNotification($returnvalue);
         return $returnvalue;
     }
