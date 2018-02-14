@@ -9,16 +9,16 @@
       <link rel="shortcut icon" href="{{ asset('img/admin/favicon.ico') }}" type="image/x-icon">
       <!-- =============== VENDOR STYLES ===============-->
       <!-- FONT AWESOME-->
-      <link rel="stylesheet" href="../vendor/admin/fontawesome/css/font-awesome.min.css">
+      <link rel="stylesheet" href="{{ asset('vendor/admin/fontawesome/css/font-awesome.min.css') }}">
       <!-- SIMPLE LINE ICONS-->
-      <link rel="stylesheet" href="../vendor/admin/simple-line-icons/css/simple-line-icons.css">
+      <link rel="stylesheet" href="{{ asset('vendor/admin/simple-line-icons/css/simple-line-icons.css') }}">
       <!-- ANIMATE.CSS-->
-      <link rel="stylesheet" href="../vendor/admin/animate.css/animate.min.css">
+      <link rel="stylesheet" href="{{ asset('vendor/admin/animate.css/animate.min.css') }}">
       <!-- WHIRL (spinners)-->
-      <link rel="stylesheet" href="../vendor/admin/whirl/dist/whirl.css">
+      <link rel="stylesheet" href="{{ asset('vendor/admin/whirl/dist/whirl.css') }}">
       <!-- =============== PAGE VENDOR STYLES ===============-->
       <!-- WEATHER ICONS-->
-      <link rel="stylesheet" href="../vendor/admin/weather-icons/css/weather-icons.min.css">
+      <link rel="stylesheet" href="{{ asset('vendor/admin/weather-icons/css/weather-icons.min.css') }}">
       <!-- =============== BOOTSTRAP STYLES ===============-->
       <link rel="stylesheet" href="{{ asset('css/admin/bootstrap.css') }}" id="bscss">
       <!-- =============== APP STYLES ===============-->
@@ -275,42 +275,42 @@
    </div>
    <!-- =============== VENDOR SCRIPTS ===============-->
    <!-- MODERNIZR-->
-   <script src="../vendor/admin/modernizr/modernizr.custom.js"></script>
+   <script src="{{ asset('vendor/admin/modernizr/modernizr.custom.js') }}"></script>
    <!-- MATCHMEDIA POLYFILL-->
-   <script src="../vendor/admin/matchMedia/matchMedia.js"></script>
+   <script src="{{ asset('vendor/admin/matchMedia/matchMedia.js') }}"></script>
    <!-- JQUERY-->
-   <script src="../vendor/admin/jquery/dist/jquery.js"></script>
+   <script src="{{ asset('vendor/admin/jquery/dist/jquery.js') }}"></script>
    <!-- BOOTSTRAP-->
-   <script src="../vendor/admin/bootstrap/dist/js/bootstrap.js"></script>
+   <script src="{{ asset('vendor/admin/bootstrap/dist/js/bootstrap.js') }}"></script>
    <!-- STORAGE API-->
-   <script src="../vendor/admin/jQuery-Storage-API/jquery.storageapi.js"></script>
+   <script src="{{ asset('vendor/admin/jQuery-Storage-API/jquery.storageapi.js') }}"></script>
    <!-- JQUERY EASING-->
-   <script src="../vendor/admin/jquery.easing/js/jquery.easing.js"></script>
+   <script src="{{ asset('vendor/admin/jquery.easing/js/jquery.easing.js') }}"></script>
    <!-- ANIMO-->
-   <script src="../vendor/admin/animo.js/animo.js"></script>
+   <script src="{{ asset('vendor/admin/animo.js/animo.js') }}"></script>
    <!-- SLIMSCROLL-->
-   <script src="../vendor/admin/slimScroll/jquery.slimscroll.min.js"></script>
+   <script src="{{ asset('vendor/admin/slimScroll/jquery.slimscroll.min.js') }}"></script>
    <!-- SCREENFULL-->
-   <script src="../vendor/admin/screenfull/dist/screenfull.js"></script>
+   <script src="{{ asset('vendor/admin/screenfull/dist/screenfull.js') }}"></script>
    <!-- LOCALIZE-->
-   <script src="../vendor/admin/jquery-localize-i18n/dist/jquery.localize.js"></script>
+   <script src="{{ asset('vendor/admin/jquery-localize-i18n/dist/jquery.localize.js') }}"></script>
    <!-- RTL demo-->
    <script src="{{ asset('js/admin/demo/demo-rtl.js') }}"></script>
    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
    <!-- SPARKLINE-->
-   <script src="../vendor/admin/sparkline/index.js"></script>
+   <script src="{{ asset('vendor/admin/sparkline/index.js') }}"></script>
    <!-- FLOT CHART-->
-   <script src="../vendor/admin/flot/jquery.flot.js"></script>
-   <script src="../vendor/admin/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-   <script src="../vendor/admin/flot/jquery.flot.resize.js"></script>
-   <script src="../vendor/admin/flot/jquery.flot.pie.js"></script>
-   <script src="../vendor/admin/flot/jquery.flot.time.js"></script>
-   <script src="../vendor/admin/flot/jquery.flot.categories.js"></script>
-   <script src="../vendor/admin/flot-spline/js/jquery.flot.spline.min.js"></script>
+   <script src="{{ asset('vendor/admin/flot/jquery.flot.js') }}"></script>
+   <script src="{{ asset('vendor/admin/flot.tooltip/js/jquery.flot.tooltip.min.js') }}"></script>
+   <script src="{{ asset('vendor/admin/flot/jquery.flot.resize.js') }}"></script>
+   <script src="{{ asset('vendor/admin/flot/jquery.flot.pie.js') }}"></script>
+   <script src="{{ asset('vendor/admin/flot/jquery.flot.time.js') }}"></script>
+   <script src="{{ asset('vendor/admin/flot/jquery.flot.categories.js') }}"></script>
+   <script src="{{ asset('vendor/admin/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
    <!-- EASY PIE CHART-->
-   <script src="../vendor/admin/jquery.easy-pie-chart/dist/jquery.easypiechart.js"></script>
+   <script src="{{ asset('vendor/admin/jquery.easy-pie-chart/dist/jquery.easypiechart.js') }}"></script>
    <!-- MOMENT JS-->
-   <script src="../vendor/admin/moment/min/moment-with-locales.min.js"></script>
+   <script src="{{ asset('vendor/admin/moment/min/moment-with-locales.min.js') }}"></script>
    <!-- DEMO-->
    <script src="{{ asset('js/admin/demo/demo-flot.js') }}"></script>
    <!-- =============== APP SCRIPTS ===============-->
