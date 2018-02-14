@@ -115,7 +115,7 @@ class Activity extends Model {
             $keyword = $data['search'];
             $query->where(function($q) use ($keyword) {
                 $q->where(DB::raw("CONCAT(user_detail.first_name,' ',user_detail.last_name)"), "LIKE", "%$keyword%")
-                        ->orWhere(DB::raw("CONCAT(user_detail.last_name,'',user_detail.first_name)"), "LIKE", "%$keyword%")
+                        ->orWhere(DB::raw("CONCAT(user_detail.last_name,' ',user_detail.first_name)"), "LIKE", "%$keyword%")
                         ->orWhere("last_name", "LIKE", "%$keyword%")
                         ->orWhere("first_name", "LIKE", "%$keyword%");
             });
