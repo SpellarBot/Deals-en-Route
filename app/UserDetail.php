@@ -8,7 +8,7 @@ use App\Notifications\FcmNotification;
 use Illuminate\Notifications\Notifiable;
 use Notification;
 use Carbon\Carbon;
-
+use Auth;
 class UserDetail extends Model {
 
     use ImageTrait;
@@ -40,7 +40,7 @@ class UserDetail extends Model {
     public static function formatDob($value) {
         return Carbon::parse($value)->format('m/d/Y');
     }
-
+    
     public static function saveUserDetail($data, $user_id) {
 
         if (isset($data['profile_pic'])) {

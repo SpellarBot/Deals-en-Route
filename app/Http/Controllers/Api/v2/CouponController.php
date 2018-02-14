@@ -36,6 +36,7 @@ class CouponController extends Controller {
     use \App\Http\Services\CouponTrait;
     use \App\Http\Services\ActivityTrait;
     use \App\Http\Services\MailTrait;
+    use \App\Http\Services\ImageTrait;
 
     protected function validatordetail(array $data) {
         return Validator::make($data, [
@@ -521,9 +522,21 @@ class CouponController extends Controller {
     }
 
     public function addComment(Request $request) {
-        $data = $request->all();
-        $commentDeal = DealComments::addComment($data);
-        return $this->responseJson('success', 'Comment Added Successfully. ', 200);
+        DB::beginTransaction();
+        try {
+
+            $data = $request->all();
+            $commentDeal = DealComments::addComment($data);
+
+            // save the user
+        } catch (\Exception $e) {
+            DB::rollback();
+              throw $e;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+        // If we reach here, then// data is valid and working.//
+        DB::commit();
+        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
     }
 
     public function addCommentLike(Request $request) {
@@ -623,7 +636,7 @@ class CouponController extends Controller {
                         $getReplyComments[$keyreply]['tag_user_id'] = $tagsreply;
 
                         $getReplyComments[$keyreply]['comment_id'] = $valreply['id'];
-                        if ($valreply['liked_by'] === auth()->id() && $valreply['is_like'] === 1) {
+                        if ($valreply['is_like'] === 1) {
                             $getReplyComments[$keyreply]['is_liked'] = 1;
                         } else {
                             $getReplyComments[$keyreply]['is_liked'] = 0;

@@ -12,6 +12,7 @@ return [
     'USER_UPDATE_PROFILE' => 'profile updated successfully',
     'USER_UPDATED_SUCCESSFULLY' => 'User Updated Successsfully.',
     'PROFILE_UPDATED_SUCCESSFULLY' => 'Profile Updated Successsfully.',
+    'COMMENT_ADD'=>'Comment added successully.',
     'USER_UNAUTHENTICATED' => 'unauthenticated',
     'USER_DETAIL' => 'user detail',
     'DASHBOARD_DETAIL' => 'Dashboard detail',
@@ -87,6 +88,8 @@ return [
     'NOTIFY_SHARE_COUPON' => 'Sharing is caring! Keep sharing to make your wallet and friends happy by helping them save!',
     //-- Friend shared coupon with you
     'NOTIFY_SHARED_COUPON' => '{{from_id}} shared a deal with you. Check out the deal to see what’s inside!',
+    
+    'NOTIFY_TAG_MESSAGE'=>'{{from_id}} has tagged you in their comment.',
     //user
     'USER_NOT_FOUND' => 'we could not find user with that email.',
     'TOKEN_EXPIRED' => 'your token has expired.',
