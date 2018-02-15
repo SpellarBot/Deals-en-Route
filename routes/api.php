@@ -186,6 +186,8 @@ Route::group(['namespace' => 'Api\v2', 'prefix' => 'v2'], function() {
         //tag friends
           Route::post('/tag/friendlist', 'TagController@getAllUsers');
         
+          //report content
+          Route::post('/services/addreport', 'ServicesController@addReportContent');
 
         // additional routes here
     });
