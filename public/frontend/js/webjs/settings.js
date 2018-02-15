@@ -281,5 +281,9 @@ $(document).ready(function () {
             }
         });
     });
+
+    //Initializes the time picker
+    $('#fromtimepicker').mdtimepicker();
+    $('#totimepicker').mdtimepicker();
 });
 

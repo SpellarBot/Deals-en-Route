@@ -299,6 +299,58 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="card">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ Form::open([ 'id' => 'updatePassword']) }}
+                                        <div class="form-group pt-20">
+                                            <h5 class="title">From Day & Time</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <select class="form-control" name="fromweekday">
+                                                <option value="">Select Week Day</option>
+                                                <option value="1">Sunday</option>
+                                                <option value="2">Monday</option>
+                                                <option value="3">Tuesday</option>
+                                                <option value="4">Wednesday</option>
+                                                <option value="5">Thursday</option>
+                                                <option value="6">Friday</option>
+                                                <option value="7">Saturday</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="fromtimepicker" type="text" placeholder="Select Time" class="form-control timepicker">
+                                        </div>
+                                        <div class="form-group">
+                                            <h5 class="title">To Day & Time</h5>
+                                        </div>
+                                        <div class="form-group">
+                                            <select class="form-control" name="fromweekday">
+                                                <option value="">Select Week Day</option>
+                                                <option value="1">Sunday</option>
+                                                <option value="2">Monday</option>
+                                                <option value="3">Tuesday</option>
+                                                <option value="4">Wednesday</option>
+                                                <option value="5">Thursday</option>
+                                                <option value="6">Friday</option>
+                                                <option value="7">Saturday</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="totimepicker" type="text" placeholder="Select Time" class="form-control timepicker">
+                                        </div>
+                                        <ul class="list-inline pad-top pull-right">
+                                            <li>
+                                                <button type="submit" class="btn btn-create">Submit</button>
+                                            </li>
+                                        </ul>
+                                        {{ Form::close() }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
