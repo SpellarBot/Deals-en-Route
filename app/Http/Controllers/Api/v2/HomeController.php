@@ -15,6 +15,7 @@ use App\Http\Transformer\VendorTransformer;
 class HomeController extends Controller {
 
     use ResponseTrait;
+        use \App\Http\Services\CouponTrait;
 
     public function dashboard(Request $request) {
         $data = array();
@@ -70,12 +71,19 @@ class HomeController extends Controller {
                 ->where('subscriptions.user_id', $user_id)
                 ->where('plan_add_ons.addon_type', 'deals')
                 ->get();
+        
+  
+        $user_access = $this->userAccess();
+     
         $totaladdon = 0;
         $totaldeals = 0;
+        
         foreach ($dealsbyplan as $addon) {
             $totaldeals = $addon->deals;
             $totaladdon = $addon->quantity + $totaladdon;
+            
         }
+     
 //        $data['redeem_by_18_below_per'] = number_format(($redeem_by_18_below / $total_coupon) * 100, 2);
 //        $data['redeem_by_18_34_per'] = number_format(($redeem_by_18_34 / $total_coupon) * 100, 2);
 //        $data['redeem_by_35_50_per'] = number_format(($redeem_by_35_50 / $total_coupon) * 100, 2);
@@ -90,10 +98,14 @@ class HomeController extends Controller {
         $data['redeem_by_above_50'] = strval($redeem_by_above_50);
         $data['redeem_by_male'] = strval(($redeem_by_male != 0) ? number_format(($redeem_by_male / $total_coupon) * 100, 2) : 0);
         $data['redeem_by_female'] = strval(($redeem_by_female != 0) ? number_format(($redeem_by_female / $total_coupon) * 100, 2) : 0);
-         $data['redeem_by_male_total'] = strval($redeem_by_male);
-        $data['redeem_by_female_total'] = strval($redeem_by_female );
+        $data['redeem_by_male_total'] = strval($redeem_by_male);
+        $data['redeem_by_female_total'] = strval($redeem_by_female);
         $data['reemaining_deal'] = strval($vendor_detail['deals_left']);
         $data['total_coupons'] = strval($total_coupon);
+        $data['additional_geo_location_total'] = $user_access['additionalgeolocation'];
+        $data['additional_geo_fencing_total'] = $user_access['additionalgeofencing'];
+        $data['additional_geo_location_percent'] =  strval(($user_access['additionalgeolocation'] != 0) ? number_format(($user_access['additionalgeolocation'] / $user_access['geolocationtotal']) * 100, 2) : 0);
+        $data['additional_geo_fencing_percent'] =  strval(($user_access['additionalgeofencing'] != 0) ? number_format(($user_access['additionalgeofencing'] / $user_access['geofencingtotal']) * 100, 2) : 0);
         $data['total_coupons_remaining'] = strval(($total_coupon - $total_coupon_reedem));
         $data['total_deals_created_count'] = strval(count($coupons));
         $data['total_deals_can_create_count'] = strval(($totaladdon + $totaldeals));

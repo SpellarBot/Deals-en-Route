@@ -166,6 +166,8 @@ trait CouponTrait {
             $array['geolocationtotal'] = $add_ons[0]->geolocationtotal + $vendor_detail->userSubscription[0]->geolocation;
             $array['geofencingtotal'] = $add_ons[0]->geofencingtotal + $vendor_detail->userSubscription[0]->geofencing;
             $array['dealstotal'] = $totaldealsleft;
+            $array['additionalgeolocation']=$add_ons[0]->geolocationtotal;
+           $array['additionalgeofencing']=$add_ons[0]->geofencingtotal;
         }
         return $array;
     }
