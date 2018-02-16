@@ -56,9 +56,9 @@ class ServicesController extends Controller {
             //add like
             $reportcontent = \App\City::searchCity($data);
             if ($reportcontent) {
-                  return response()->json(['status' => 'success', 'message' => ucwords(\Config::get('constants.CITY_REQUEST'))], 200,1);
+                  return response()->json(['status' => 'success', 'message' => ucwords(\Config::get('constants.CITY_REQUEST')),'data' => 1], 200);
             }
-             return response()->json(['status' => 'success', 'message' => ucwords(\Config::get('constants.CITY_REQUEST'))], 200,0);
+             return response()->json(['status' => 'success', 'message' => ucwords(\Config::get('constants.CITY_REQUEST')),'data' => 0], 200);
 
         } catch (\Exception $e) {
             // throw $e;
