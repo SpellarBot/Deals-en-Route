@@ -190,7 +190,7 @@ Route::group(['namespace' => 'Api\v2', 'prefix' => 'v2'], function() {
           Route::post('/services/addreport', 'ServicesController@addReportContent');
 
            //city request
-          Route::post('/services/citylist', 'ServicesController@addCityList');
+          Route::post('/services/citylist', 'ServicesController@addCityRequest');
            Route::post('/services/cityrequest', 'ServicesController@fetchCityRequest');
         // additional routes here
     });

@@ -20,6 +20,7 @@ return [
     'USER_CREATED' => 'User Created Successfully.',
     'CITY_LIST'=>'city listed successfully.',
     'CITY_REQUEST'=>'city request added successfully.',
+    'CITY_ADD_REQUEST'=>'request sent successfully.',
     //email
     'EMAIL_VERIFIED' => 'You have successfully verified your account.',
     'EMAIL_CODE_EXPIRED' => 'Sorry code which you entered has expired.',

@@ -16,19 +16,17 @@ class ServicesController extends Controller {
     use \App\Http\Services\ResponseTrait;
     use \App\Http\Services\ActivityTrait;
 
-
-
     public function addReportContent(Request $request) {
         try {
             // get the request
             $data = $request->all();
-            
-        $validator = Validator::make($data, [
-            'report_content' => 'required',
-            'comment_id' => 'required',
-            'type' => 'required',
-        ]);
-          
+
+            $validator = Validator::make($data, [
+                        'report_content' => 'required',
+                        'comment_id' => 'required',
+                        'type' => 'required',
+            ]);
+
             if ($validator->fails()) {
                 return $this->responseJson('error', $validator->errors()->first(), 400);
             }
@@ -37,9 +35,8 @@ class ServicesController extends Controller {
             if ($reportcontent) {
                 return $this->responseJson('success', \Config::get('constants.CONTENT_ADD'), 200);
             }
-            
         } catch (\Exception $e) {
-           // throw $e;
+            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -48,45 +45,45 @@ class ServicesController extends Controller {
         try {
             // get the request
             $data = $request->all();
-            
-        $validator = Validator::make($data, [
-            'name' => 'required',
 
-        ]);
-          
+            $validator = Validator::make($data, [
+                        'name' => 'required',
+            ]);
+
             if ($validator->fails()) {
                 return $this->responseJson('error', $validator->errors()->first(), 400);
             }
             //add like
             $reportcontent = \App\City::searchCity($data);
-          if($reportcontent){
-             return $this->responseJson('success', \Config::get('constants.CITY_REQUEST'), 200,1);
-          }
-              return $this->responseJson('success', \Config::get('constants.CITY_REQUEST'), 200,0);
+            if ($reportcontent) {
+                  return response()->json(['status' => 'success', 'message' => ucwords(\Config::get('constants.CITY_REQUEST'))], 200,1);
+            }
+             return response()->json(['status' => 'success', 'message' => ucwords(\Config::get('constants.CITY_REQUEST'))], 200,0);
+
         } catch (\Exception $e) {
-           // throw $e;
-            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+            // throw $e;
+            return response()->json(['status' => 'success', 'message' => ucwords(\Config::get('constants.APP_ERROR'))], 400);
+   
         }
     }
 
-    public function addCityList(Request $request) {
+    public function addCityRequest(Request $request) {
         try {
             // get the request
             $data = $request->all();
-          
-            //add like
-            $citylist =\App\City::cityListRequest($data);
-            if ($citylist) {
-                return $this->responseJson('success', \Config::get('constants.CITY_LIST'), 200,$citylist);
+
+            if (isset($data['city_request_id']) && !empty(isset($data['city_request_id']))) {
+                \App\CityRequest::cityRequest($data['city_request_id']);
+                return $this->responseJson('success', \Config::get('constants.CITY_ADD_REQUEST'), 200);
+            } else {
+                //list city
+                $citylist = \App\City::cityListRequest();
+                return $this->responseJson('success', \Config::get('constants.CITY_LIST'), 200, $citylist);
             }
-            
         } catch (\Exception $e) {
-           // throw $e;
+          //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-    
-    
-
 
 }
