@@ -18,6 +18,9 @@ return [
     'DASHBOARD_DETAIL' => 'Dashboard detail',
     'REDEEM_COUPON_YEAR' => 'Monthly Redeem Coupon detail',
     'USER_CREATED' => 'User Created Successfully.',
+    'CITY_LIST'=>'city listed successfully.',
+    'CITY_REQUEST'=>'city request added successfully.',
+    'CITY_ADD_REQUEST'=>'request sent successfully.',
     //email
     'EMAIL_VERIFIED' => 'You have successfully verified your account.',
     'EMAIL_CODE_EXPIRED' => 'Sorry code which you entered has expired.',
@@ -52,6 +55,7 @@ return [
     'COUPON_ADD_REDEEM' => 'coupon redeemed successfully,',
     'COUPON_DELETE' => 'coupon deleted successfully.',
     'COUPON_CREATE' => 'Coupon Added Successfully.',
+    'CONTENT_ADD'=>'Report content added successfully.',
     'EARTH_RADIUS' => 3959,
     'USER_DELETE' => 'sorry your account have been deleted by admin.please contact admin.',
     'USER_DEACTIVE' => 'sorry your account have been deactivated by admin.please contact admin.',

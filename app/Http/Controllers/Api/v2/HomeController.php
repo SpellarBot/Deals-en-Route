@@ -74,7 +74,7 @@ class HomeController extends Controller {
         
   
         $user_access = $this->userAccess();
-     
+  
         $totaladdon = 0;
         $totaldeals = 0;
         
