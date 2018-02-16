@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class ReportContent extends Model
 {
@@ -21,6 +22,7 @@ class ReportContent extends Model
    public static function addReportContent($data){
        
        $report = new ReportContent();
+       $report->reported_by=Auth::id();
        $report->fill($data);
        
        if($report->save()){
