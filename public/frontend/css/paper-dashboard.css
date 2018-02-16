@@ -1289,6 +1289,7 @@ body.swal2-iosfix {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	font-size: 14px;
 }
 
 .fixed-table-container thead th .sortable {
@@ -1355,7 +1356,7 @@ body.swal2-iosfix {
 
 .fixed-table-container .no-records-found td {
 	font-weight: 300;
-	font-size: 1.5em;
+	font-size: 18px;
 }
 
 .fixed-table-pagination div.pagination,
@@ -3327,7 +3328,7 @@ be a descendant of the grid when it is being dragged.
 .ct-label {
 	fill: rgba(0, 0, 0, 0.4);
 	color: rgba(0, 0, 0, 0.4);
-	font-size: 0.9em;
+	font-size: 12px;
 	line-height: 1;
 }
 
@@ -5586,7 +5587,7 @@ h3,
 
 h4,
 .h4 {
-	font-size: 1.5em;
+	font-size: 22px;
 	font-weight: 600;
 	line-height: 1.2em;
 }
@@ -5851,13 +5852,13 @@ strong {
 
 .sidebar .sidebar-wrapper > .nav i,
 .off-canvas-sidebar .sidebar-wrapper > .nav i {
-	font-size: 20px;
+	font-size: 24px;
 	/* float: left; */
 	/* margin-right: 15px; */
 	line-height: 30px;
 	width: 30px;
 	text-align: center;
-	margin-bottom: 7px;
+	margin-bottom: 5px;
 }
 
 .sidebar .sidebar-wrapper > .nav li > a,
@@ -5867,8 +5868,8 @@ strong {
 	padding-right: 10px;
 	opacity: .7;
 	/* white-space: nowrap; */
-	padding-top: 25px;
-	padding-bottom: 25px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 .sidebar .sidebar-wrapper > .nav li:hover > a,
@@ -5906,7 +5907,7 @@ strong {
 .off-canvas-sidebar .sidebar-wrapper > .nav p {
 	margin: 0;
 	line-height: normal;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 600;
 	text-transform: uppercase;
 	position: relative;
@@ -7772,7 +7773,7 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
 	border-radius: 4px;
 	color: #66615b;
 	font-size: 14px;
-	padding: 7px 18px;
+	padding: 7px 8px;
 	height: 40px;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -8835,14 +8836,14 @@ star {
 
 .navbar .navbar-brand {
 	font-weight: 600;
-	margin: 12px 0px;
+	margin: 0px;
 	padding: 15px 15px;
-	font-size: 20px;
+	font-size: 18px;
 }
 
 .navbar .navbar-nav > li > a {
 	line-height: 1.42857;
-	margin: 16px 0px;
+	margin: 4px 0px;
 	padding: 10px 15px;
 }
 
@@ -12840,10 +12841,10 @@ star {
 
 .chart-circle {
     display: inline-block;
-    font-size: 2em;
+    font-size: 24px;
     height: 130px;
     line-height: 130px;
-    margin: 15px;
+    margin: 20px 0;
     position: relative;
     text-align: center;
     width: 130px;
@@ -13293,7 +13294,7 @@ star {
 	}
 
 	.navbar-header .navbar-toggle {
-		margin: 17px 15px 17px 0;
+		margin: 5px 15px 5px 0;
 		width: 40px;
 		height: 40px;
 	}
