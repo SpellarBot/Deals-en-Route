@@ -283,7 +283,19 @@ $(document).ready(function () {
     });
 
     //Initializes the time picker
-    $('#fromtimepicker').mdtimepicker();
-    $('#totimepicker').mdtimepicker();
+    $('#fromtimepicker1').mdtimepicker();
+    $('#totimepicker1').mdtimepicker();
+    $('#fromtimepicker2').mdtimepicker();
+    $('#totimepicker2').mdtimepicker();
+    $('#fromtimepicker3').mdtimepicker();
+    $('#totimepicker3').mdtimepicker();
+    $('#fromtimepicker4').mdtimepicker();
+    $('#totimepicker4').mdtimepicker();
+    $('#fromtimepicker5').mdtimepicker();
+    $('#totimepicker5').mdtimepicker();
+    $('#fromtimepicker6').mdtimepicker();
+    $('#totimepicker6').mdtimepicker();
+    $('#fromtimepicker7').mdtimepicker();
+    $('#totimepicker7').mdtimepicker();
 });
 

@@ -85,7 +85,9 @@
                                                     <input type="tel" name="vendor_phone" placeholder="@if($vendor_detail->vendor_phone != '' ) {{$vendor_detail->vendor_phone}} (x-xxx-xxx-xxxx) @endif (x-xxx-xxx-xxxx)" pattern="^\d{1}-\d{3}-\d{3}-\d{4}$" maxlength="15">
                                                 </div>
                                                 <fieldset>
-                                                    <input type="file" name="vendor_logo" id="file" accept="image/*" />
+                                                    <!-- <input type="file" name="vendor_logo" id="file" accept="image/*" /> -->
+                                                    <label for="file" class="file-upload__label">Upload Vendor Logo</label>
+                                                    <input id="file" class="file-upload__input" type="file" name="vendor_logo" accept="image/*">
                                                 </fieldset>
                                                 <!--                                                <div class="form-group">
                                                                                                  <input type="email" placeholder="Email" required>
@@ -300,47 +302,124 @@
                             </div>
                         </div>
 
-                        <div class="card">
+                        <div class="card hours-opration">
+                            <div class="header">
+                                <h5 class="title">Hours of operation</h5>
+                            </div>
                             <div class="content">
                                 <div class="row">
                                     <div class="col-md-12">
                                         {{ Form::open([ 'id' => 'updatePassword']) }}
-                                        <div class="form-group pt-20">
-                                            <h5 class="title">From Day & Time</h5>
+                                        <div class="row">
+                                            <div class="col-sm-6 pb-15"><label>Days</label></div>
+                                            <div class="col-sm-3 text-center pb-15"><label>From</label></div>
+                                            <div class="col-sm-3 text-center pb-15"><label>to</label></div>
                                         </div>
-                                        <div class="form-group">
-                                            <select class="form-control" name="fromweekday">
-                                                <option value="">Select Week Day</option>
-                                                <option value="1">Sunday</option>
-                                                <option value="2">Monday</option>
-                                                <option value="3">Tuesday</option>
-                                                <option value="4">Wednesday</option>
-                                                <option value="5">Thursday</option>
-                                                <option value="6">Friday</option>
-                                                <option value="7">Saturday</option>
-                                            </select>
+                                        <div class="row">
+                                            <div class="col-sm-6"><p class="package-addon1">Sunday</p></div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker1" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="totimepicker1" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <input id="fromtimepicker" type="text" placeholder="Select Time" class="form-control timepicker">
+                                        <div class="row">
+                                            <div class="col-sm-6"><p class="package-addon1">Monday</p></div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker2" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="totimepicker2" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <h5 class="title">To Day & Time</h5>
+                                        <div class="row">
+                                            <div class="col-sm-6"><p class="package-addon1">Tuesday</p></div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker3" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="totimepicker3" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <select class="form-control" name="fromweekday">
-                                                <option value="">Select Week Day</option>
-                                                <option value="1">Sunday</option>
-                                                <option value="2">Monday</option>
-                                                <option value="3">Tuesday</option>
-                                                <option value="4">Wednesday</option>
-                                                <option value="5">Thursday</option>
-                                                <option value="6">Friday</option>
-                                                <option value="7">Saturday</option>
-                                            </select>
+                                        <div class="row">
+                                            <div class="col-sm-6"><p class="package-addon1">Wednesday</p></div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker4" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="totimepicker4" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <input id="totimepicker" type="text" placeholder="Select Time" class="form-control timepicker">
+                                        <div class="row">
+                                            <div class="col-sm-6"><p class="package-addon1">Thursday</p></div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker5" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="totimepicker5" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-sm-6"><p class="package-addon1">Friday</p></div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker6" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="totimepicker6" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6"><p class="package-addon1">Saturday</p></div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker7" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input id="totimepicker7" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                
+                                            </div>
+                                            <div class="col-sm-3">
+                                                
+                                            </div>
+                                        </div>
+                                        
                                         <ul class="list-inline pad-top pull-right">
                                             <li>
                                                 <button type="submit" class="btn btn-create">Submit</button>
