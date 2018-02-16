@@ -58,7 +58,7 @@ class ServicesController extends Controller {
                 return $this->responseJson('error', $validator->errors()->first(), 400);
             }
             //add like
-            $reportcontent = \App\UsCity::searchCity($data);
+            $reportcontent = \App\City::searchCity($data);
           if($reportcontent){
              return $this->responseJson('success', \Config::get('constants.CITY_REQUEST'), 200,'true');
           }
@@ -75,13 +75,13 @@ class ServicesController extends Controller {
             $data = $request->all();
           
             //add like
-            $citylist =\App\UsCity::cityListRequest($data);
+            $citylist =\App\City::cityListRequest($data);
             if ($citylist) {
                 return $this->responseJson('success', \Config::get('constants.CITY_LIST'), 200,$citylist);
             }
             
         } catch (\Exception $e) {
-            throw $e;
+           // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
