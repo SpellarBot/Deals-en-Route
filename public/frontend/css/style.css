@@ -952,8 +952,8 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 .logo-redeem img {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     margin-bottom: 10px;
     margin-top: 10px;
 }
@@ -2666,7 +2666,6 @@ a.btn.btn-pack.btn-danger {
     line-height: 18px;
     margin-bottom: 30px;
 }
-
 .prnco h4{
     font-size: 18px;
     line-height: 20px;
@@ -2698,8 +2697,19 @@ a.btn.btn-info.btn-fill.btn-wd.btn-create.redeemnow{width: 100%;max-width: 380px
 .form-control[readonly]{background-color: #ffffff;cursor: pointer;}
 
 .pt-20{padding-top: 20px !important;}
+.pb-15{padding-bottom: 15px !important;}
+.pb-20{padding-bottom: 20px !important;}
 .pr-0{padding-right: 0px !important;}
 .pl-0{padding-left: 0px !important;}
+.hours-opration .form-control[readonly]{height: 34px !important; font-size: 14px !important;text-align: center;}
+button.btn.btn-pack.btn-buy1{width: 100px;}
+
+/*****************************************
+  upload button styles
+******************************************/
+.file-upload {position: relative;display: inline-block;}
+.file-upload__label {display: block;padding: 0 10px;line-height: 2.7em;height: 2.7em;border-radius: .4em;transition: background .3s;border: 1px solid #c2c2c2 !important;border-radius: 5px !important;font-weight:normal;cursor: pointer;}
+.file-upload__input {position: absolute;left: 0;top: 0;right: 0;bottom: 0;font-size: 1;width: 0;height: 100%;opacity: 0;}
 
 @media only screen and (min-width: 1200px) {
     .tab-pane .col-lg-8.col-md-12.col-sm-12{width: calc(100% - 460px);}
