@@ -2721,8 +2721,9 @@ button.btn.btn-pack.btn-buy1{width: 100px;}
 .file-upload__input {position: absolute;left: 0;top: 0;right: 0;bottom: 0;font-size: 1;width: 0;height: 100%;opacity: 0;}
 
 /*Map*/
-div#googlegeofencing {width: 100% !important;max-width: 1140px !important;margin: 0px auto;float: none;}
+div#googlegeofencing {width: calc(100% - 60px) !important;max-width: 1100px !important;margin: 0px auto;float: none;}
 #step2 > .col-sm-10.col-sm-offset-1{max-width: 1140px;margin: 0px auto;float: none; width: 100%;}
+#step2 .list-inline.pad-top{margin-left: 0px;}
 #step2 .list-inline.pad-top li{width: 25%;}
 #step2 .list-inline.pad-top li .btn-create{width: 100%;}
 @media only screen and (min-width: 1200px) {
@@ -2735,6 +2736,7 @@ div#googlegeofencing {width: 100% !important;max-width: 1140px !important;margin
 }
 @media only screen and (max-width: 767px) {
     #step2 > .col-sm-10.col-sm-offset-1{padding: 0px;}
+    div#googlegeofencing {width: calc(100% - 40px) !important;}
 }
 @media only screen and (max-width: 550px) {
     #step2 .list-inline.pad-top li{width: 100%;}
