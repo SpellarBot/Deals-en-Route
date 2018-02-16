@@ -73,15 +73,21 @@
                               <!-- START list group-->
                               <div class="list-group">
                                  <!-- last list item-->
-                                 <a href="#" class="list-group-item">
+<!--                                 <a href="#" class="list-group-item">
                                     <small>My Profile</small>
                                  </a>
                                  <a href="#" class="list-group-item">
                                     <small>Change Password</small>
-                                 </a>
-                                 <a href="#" class="list-group-item">
-                                    <small>Logout</small>
-                                 </a>
+                                 </a>-->
+                                 <a href="{{ url('/admin/logout') }}" class="list-group-item"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                             <i class="fa fa-sign-out"></i>  Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ url('/admin/logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
                               </div>
                               <!-- END list group-->
                            </li>
@@ -169,7 +175,7 @@
                <div class="row">
                   <div class="col-lg-4 col-sm-6">
                      <!-- START widget-->
-                     <a href="users.html">
+                     <a href="{{ asset('admin/userlist') }}">
                         <div class="panel widget bg-primary">
                            <div class="row row-table">
                               <div class="col-xs-4 text-center bg-primary-dark pv-lg">
@@ -185,7 +191,7 @@
                   </div>
                   <div class="col-lg-4 col-sm-6">
                      <!-- START widget-->
-                     <a href="survey.html">
+                     <a href="{{ asset('admin/vendorlist') }}">
                         <div class="panel widget bg-purple">
                            <div class="row row-table">
                               <div class="col-xs-4 text-center bg-purple-dark pv-lg">
@@ -201,7 +207,7 @@
                   </div>
                   <div class="col-lg-4 col-sm-6">
                      <!-- START widget-->
-                     <a href="invitation.html">
+                     <a href="#">
                         <div class="panel widget bg-green">
                            <div class="row row-table">
                               <div class="col-xs-4 text-center bg-green-dark pv-lg">
@@ -217,7 +223,7 @@
                   </div>
                   <div class="col-lg-4 col-sm-6">
                      <!-- START widget-->
-                     <a href="categorymanagement.html">
+                     <a href="{{ asset('admin/reported-content') }}">
                         <div class="panel widget bg-warning">
                            <div class="row row-table">
                               <div class="col-xs-4 text-center bg-warning-dark pv-lg">
@@ -233,7 +239,7 @@
                   </div>
                   <div class="col-lg-4 col-sm-6">
                      <!-- START widget-->
-                     <a href="subcategory.html">
+                     <a href="{{ asset('admin/city') }}">
                         <div class="panel widget bg-success">
                            <div class="row row-table">
                               <div class="col-xs-4 text-center bg-success-dark pv-lg">
@@ -249,7 +255,7 @@
                   </div>
                   <div class="col-lg-4 col-sm-6">
                      <!-- START widget-->
-                     <a href="questionsmanagement.html">
+                     <a href="{{ asset('admin/payments') }}">
                         <div class="panel widget bg-yellow">
                            <div class="row row-table">
                               <div class="col-xs-4 text-center bg-yellow-dark pv-lg">

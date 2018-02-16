@@ -77,15 +77,21 @@
                                         <!-- START list group-->
                                         <div class="list-group">
                                             <!-- last list item-->
-                                            <a href="#" class="list-group-item">
+<!--                                            <a href="#" class="list-group-item">
                                                 <small>My Profile</small>
                                             </a>
                                             <a href="#" class="list-group-item">
                                                 <small>Change Password</small>
-                                            </a>
-                                            <a href="#" class="list-group-item">
-                                                <small>Logout</small>
-                                            </a>
+                                            </a>-->
+                                            <a href="{{ url('/admin/logout') }}" class="list-group-item"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                             <i class="fa fa-sign-out"></i>  Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ url('/admin/logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
                                         </div>
                                         <!-- END list group-->
                                     </li>

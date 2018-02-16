@@ -77,15 +77,21 @@
                               <!-- START list group-->
                               <div class="list-group">
                                  <!-- last list item-->
-                                 <a href="#" class="list-group-item">
+<!--                                 <a href="#" class="list-group-item">
                                     <small>My Profile</small>
                                  </a>
                                  <a href="#" class="list-group-item">
                                     <small>Change Password</small>
-                                 </a>
-                                 <a href="#" class="list-group-item">
-                                    <small>Logout</small>
-                                 </a>
+                                 </a>-->
+                                 <a href="{{ url('/admin/logout') }}" class="list-group-item"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                             <i class="fa fa-sign-out"></i>  Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ url('/admin/logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
                               </div>
                               <!-- END list group-->
                            </li>
@@ -174,35 +180,39 @@
                      <div class="col-lg-12">
                         <div class="panel panel-default">
                            <div class="panel-body">
-                              <div class="col-xs-6">
+                              <div class="col-xs-8">
                                  <div class="row">
                                     <div class="form-group">
-                                       <label class="col-sm-2 control-label">Filter</label>
-                                       <div class="col-sm-5">
-                                          <select name="signuptype" class="form-control m-b">
-                                             <option>Signup Type</option>
-                                             <option>Facebook</option>
-                                             <option>Google+</option>
-                                             <option>Twitter</option>
-                                             <option>Email</option>
-                                          </select>
-                                       </div>
-                                       <div class="col-sm-5">
-                                          <select name="userstatus" class="form-control m-b">
-                                             <option>User Status</option>
-                                             <option>Active</option>
-                                             <option>Not Active</option>
-                                          </select>
-                                       </div>
-                                    </div>
+                                         <form id="business_filter" method="get" action="{{ asset('admin/vendorlist') }}">
+                                             <label class="col-sm-1 control-label" style="padding: 0 5px 0;top: 5px;">Filter</label>
+                                             <div class="col-sm-3" style="padding: 0 5px 0;">
+                                                 <select name="pcg_type" class="form-control m-b">
+                                                     <option value="">Business status</option>
+                                                     <option value="gold" @if($pcg_type == 'gold') selected @endif>gold</option>
+                                                     <option value="silver" @if($pcg_type == 'silver') selected @endif>silver</option>
+                                                     <option value="bronze" @if($pcg_type == 'bronze') selected @endif>bronze</option>
+                                                 </select>
+                                             </div>
+                                             <div class="col-sm-3" style="padding: 0 5px 0;">
+                                                 <select name="status" class="form-control m-b">
+                                                     <option value="" @if($status == '') selected @endif>User Status</option>
+                                                     <option value="1" @if($status == '1') selected @endif>Active</option>
+                                                     <option value="0" @if($status == '0') selected @endif>Not Active</option>
+                                                 </select>                                                 
+                                             </div>
+                                             <div class="col-sm-3" style="padding: 0 5px 0;"><input placeholder="Business Name" type="text" class="form-control m-b" name="business_search" value="{{$business_search}}"></div>
+                                             <div class="col-sm-2" style="padding: 0 5px 0;"><button class="btn btn-info btn-oval">Search</button></div>
+                                             <input type="hidden" value="0" name="is_pdf" id="is_pdf">
+                                         </form>
+                                     </div>
                                  </div>
                               </div>
-                              <div class="col-xs-6 text-right">
-                                 <button type="button" class="btn btn-primary btn-oval">Export PDF</button>
+                              <div class="col-xs-4 text-right">
+                                  <button type="button" class="btn btn-primary btn-oval" onclick="pdf()">Export PDF</button>
                               </div>
                               <div class="col-xs-12 mt-15">
                                  <div class="table-responsive user-management">
-                                    <table id="users" class="table table-striped table-hover">
+                                    <table class="table table-striped table-hover">
                                        <thead>
                                           <tr>
                                              <th>Business Name</th>
@@ -214,18 +224,19 @@
                                           </tr>
                                        </thead>
                                        <tbody>
-                                           @foreach($user_list as $row)
+                                           @foreach($business_list as $row)
                                           <tr>
                                               <td>{{$row->vendor_name}}</td>
                                               <td>{{$row->email}}</td>
                                               <td>{{$row->vendor_phone}}</td>
-                                              <td>{{$row->sub}}</td>
-                                              <td class="active">Active</td>
-                                              <td><a href="#">View Details</a></td>
+                                              <td>{{$row->stripe_plan}}</td>
+                                              <td class="active">{{($row->is_activeActive == 1) ? 'Not Active' : 'Active'}}</td>
+                                              <td><a href="{{ asset('admin/vendor-detail/'.$row->id)}}">View Details</a></td>
                                           </tr>
                                          @endforeach
                                        </tbody>
                                     </table>
+                                     {{ $business_list->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                  </div>
                               </div>
                            </div>
@@ -240,6 +251,13 @@
             <span>&copy; 2018 - DealsEnRoute</span>
          </footer>
       </div>
+        <script type="text/javascript">
+           function pdf(){
+               $('#is_pdf').val('1');
+               $('#business_filter').submit();
+               $('#is_pdf').val('0');
+           }
+   </script>
       <!-- =============== VENDOR SCRIPTS ===============-->
       <!-- MODERNIZR-->
       <script src="{{ asset('vendor/admin/modernizr/modernizr.custom.js') }}"></script>
