@@ -57,6 +57,16 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="card card-dash0">
                             <div class="header head-coupons">
+                                <h5 class="text-capitalize">Remaining Deals in Package</h5> 
+                            </div>
+                            <div class="card-content" align="center">
+                                <div id="dealtotal" class="chart-circle" data-percent="0"> <span>0%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="card card-dash0">
+                            <div class="header head-coupons">
                                 <h5>Total Coupons Redemption Rate</h5>
                             </div>
                             <div class="card-content" align="center">
@@ -67,7 +77,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="card card-dash0">
                             <div class="header head-coupons">
-                                <h5>Total Coupons Redemption Rate</h5>
+                                <h5>Additional Geofencing</h5>
                             </div>
                             <div class="card-content" align="center">
                                 <div id="geofencing1" class="chart-circle" data-percent="0"> <span>0%</span></div>
@@ -77,23 +87,14 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="card card-dash0">
                             <div class="header head-coupons">
-                                <h5 class="text-capitalize">Remaining Deals in Package</h5> 
-                            </div>
-                            <div class="card-content" align="center">
-                                <div id="dealtotal" class="chart-circle" data-percent="0"> <span>0</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="card card-dash0">
-                            <div class="header head-coupons">
-                                <h5>Total Coupons Redemption Rate</h5>
+                                <h5>Additional Geofencing</h5>
                             </div>
                             <div class="card-content" align="center">
                                 <div id="geofencing2" class="chart-circle" data-percent="0"> <span>0%</span></div>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
