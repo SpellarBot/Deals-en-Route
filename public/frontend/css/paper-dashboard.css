@@ -12841,12 +12841,12 @@ star {
 .chart-circle {
     display: inline-block;
     font-size: 2em;
-    height: 200px;
-    line-height: 200px;
-    margin: 25px;
+    height: 130px;
+    line-height: 130px;
+    margin: 15px;
     position: relative;
     text-align: center;
-    width: 200px;
+    width: 130px;
 }
 
 .chart-circle1 {

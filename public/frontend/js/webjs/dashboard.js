@@ -115,9 +115,45 @@ $(document).ready(function () {
         })
 
     });
+    $('#chartmale').easyPieChart({
+        lineWidth: 4,
+        size: 70,
+        scaleColor: false,
+        trackColor: 'rgba(70,185,109,.25)',
+        barColor: '#4fa8de',
+        animate: ({
+            duration: 5000,
+            enabled: true
+        })
+
+    });
+    $('#chartfemale').easyPieChart({
+        lineWidth: 4,
+        size: 70,
+        scaleColor: false,
+        trackColor: 'rgba(79,168,222,.25)',
+        barColor: '#4fa8de',
+        animate: ({
+            duration: 5000,
+            enabled: true
+        })
+
+    });
     $('#charttotal').easyPieChart({
-        lineWidth: 12,
-        size: 200,
+        lineWidth: 7,
+        size: 130,
+        scaleColor: false,
+        trackColor: 'rgba(70,85,109,.25)',
+        barColor: '#46b96d',
+        animate: ({
+            duration: 5000,
+            enabled: true
+        })
+
+    });
+    $('#geofencing1').easyPieChart({
+        lineWidth: 7,
+        size: 130,
         scaleColor: false,
         trackColor: 'rgba(70,85,109,.25)',
         barColor: '#46b96d',
@@ -129,8 +165,20 @@ $(document).ready(function () {
     });
 
     $('#dealtotal').easyPieChart({
-        lineWidth: 12,
-        size: 200,
+        lineWidth: 7,
+        size: 130,
+        scaleColor: false,
+        trackColor: 'rgba(70,85,109,.25)',
+        barColor: '#46b96d',
+        animate: ({
+            duration: 5000,
+            enabled: true
+        })
+
+    });
+    $('#geofencing2').easyPieChart({
+        lineWidth: 7,
+        size: 130,
         scaleColor: false,
         trackColor: 'rgba(70,85,109,.25)',
         barColor: '#46b96d',
@@ -187,7 +235,7 @@ $(document).ready(function () {
                 axisY: {
                     onlyInteger: true,
                 },
-                height: "250px",
+                height: "160px",
                 low: 0,
             };
             var responsiveOptions = [
