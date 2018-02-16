@@ -13,8 +13,7 @@ class City extends Model
     const IS_NOT_CONFIRMED = 0;
     const IS_CONFIRMED = 1;
     
-    
-    
+   
     public static function cityListRequest(){
         
         return City::select('id','name')
@@ -29,7 +28,7 @@ class City extends Model
          ->get();
          $count=count($citysearch);
          if($count>0){
-             return 'true';
+             return true;
          }
          return false;
 

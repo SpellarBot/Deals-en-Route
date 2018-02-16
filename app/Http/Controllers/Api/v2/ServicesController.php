@@ -60,9 +60,9 @@ class ServicesController extends Controller {
             //add like
             $reportcontent = \App\City::searchCity($data);
           if($reportcontent){
-             return $this->responseJson('success', \Config::get('constants.CITY_REQUEST'), 200,'true');
+             return $this->responseJson('success', \Config::get('constants.CITY_REQUEST'), 200,1);
           }
-              return $this->responseJson('success', \Config::get('constants.CITY_REQUEST'), 200,'false');
+              return $this->responseJson('success', \Config::get('constants.CITY_REQUEST'), 200,0);
         } catch (\Exception $e) {
            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
@@ -85,10 +85,8 @@ class ServicesController extends Controller {
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
+    
+    
 
-
-    
-    
-    
 
 }
