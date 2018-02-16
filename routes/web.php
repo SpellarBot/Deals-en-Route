@@ -130,8 +130,14 @@ Route::group(['namespace' => 'Admin'], function () {
     
     //admin panel userlist
     Route::get('admin/userlist', 'AdminController@userlist');
+    Route::get('admin/user-detail/{id}', 'AdminController@userDetail');
+    Route::get('admin/disable-user/{id}/{type}', 'AdminController@disableUser');
+    Route::get('admin/active-user/{id}/{type}', 'AdminController@activeUser');
+    Route::get('admin/offerlist-pdf/{id}', 'AdminController@offerlistPdf');
     
     Route::get('admin/vendorlist', 'AdminController@vendorlist');
+    Route::get('admin/vendor-detail/{id}', 'AdminController@vendorDetail');
+    Route::get('admin/business-detail-pdf/{id}', 'AdminController@businessDetailPdf');
     
     Route::get('admin/reported-content', 'AdminController@reportedContent');
     
