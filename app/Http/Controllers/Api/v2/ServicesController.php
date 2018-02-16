@@ -50,7 +50,7 @@ class ServicesController extends Controller {
             $data = $request->all();
             
         $validator = Validator::make($data, [
-            'city_name' => 'required',
+            'name' => 'required',
 
         ]);
           
@@ -58,38 +58,30 @@ class ServicesController extends Controller {
                 return $this->responseJson('error', $validator->errors()->first(), 400);
             }
             //add like
-            $reportcontent = \App\UsCity::addReportContent($data);
-            if ($reportcontent) {
-                return $this->responseJson('success', \Config::get('constants.CONTENT_ADD'), 200);
-            }
-            
+            $reportcontent = \App\UsCity::searchCity($data);
+          if($reportcontent){
+             return $this->responseJson('success', \Config::get('constants.CITY_REQUEST'), 200,'true');
+          }
+              return $this->responseJson('success', \Config::get('constants.CITY_REQUEST'), 200,'false');
         } catch (\Exception $e) {
            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
 
-     public function addCityList(Request $request) {
+    public function addCityList(Request $request) {
         try {
             // get the request
             $data = $request->all();
-            
-        $validator = Validator::make($data, [
-            'city_name' => 'required',
-
-        ]);
           
-            if ($validator->fails()) {
-                return $this->responseJson('error', $validator->errors()->first(), 400);
-            }
             //add like
-            $reportcontent = \App\ReportContent::addReportContent($data);
-            if ($reportcontent) {
-                return $this->responseJson('success', \Config::get('constants.CONTENT_ADD'), 200);
+            $citylist =\App\UsCity::cityListRequest($data);
+            if ($citylist) {
+                return $this->responseJson('success', \Config::get('constants.CITY_LIST'), 200,$citylist);
             }
             
         } catch (\Exception $e) {
-           // throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }

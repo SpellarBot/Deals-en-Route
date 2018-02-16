@@ -15,10 +15,24 @@ class UsCity extends Model
     
     
     
-    public function getCityList(){
+    public static function cityListRequest(){
         
-        $city= UsCity::find();
+        return UsCity::select('id','name')
+         ->get();
         
+    }
+    
+    public static function searchCity($data){
+        
+         $keyword=$data['name'];
+         $citysearch= UsCity::Where("name", "LIKE", "$keyword")->Where("is_active",self::IS_CONFIRMED)
+         ->get();
+         $count=count($citysearch);
+         if($count>0){
+             return 'true';
+         }
+         return false;
+
     }
     
     

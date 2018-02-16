@@ -18,6 +18,8 @@ return [
     'DASHBOARD_DETAIL' => 'Dashboard detail',
     'REDEEM_COUPON_YEAR' => 'Monthly Redeem Coupon detail',
     'USER_CREATED' => 'User Created Successfully.',
+    'CITY_LIST'=>'city listed successfully.',
+    'CITY_REQUEST'=>'city request added successfully.',
     //email
     'EMAIL_VERIFIED' => 'You have successfully verified your account.',
     'EMAIL_CODE_EXPIRED' => 'Sorry code which you entered has expired.',

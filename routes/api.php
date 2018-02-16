@@ -189,6 +189,9 @@ Route::group(['namespace' => 'Api\v2', 'prefix' => 'v2'], function() {
           //report content
           Route::post('/services/addreport', 'ServicesController@addReportContent');
 
+           //city request
+          Route::post('/services/citylist', 'ServicesController@addCityList');
+           Route::post('/services/cityrequest', 'ServicesController@fetchCityRequest');
         // additional routes here
     });
     //vendor routes
