@@ -669,6 +669,12 @@ class CouponController extends Controller {
         $editcommentDeal = DealComments::editComment($data);
         return $this->responseJson('success', 'Comment Edit Successfully. ', 200);
     }
+    
+    public function deleteComment(Request $request) {
+        $id = $request->id;
+        $editcommentDeal = DealComments::deleteDealComment($id);
+        return $this->responseJson('success', 'Comment deleted Successfully. ', 200);
+    }
 
     public function getDistance($lat, $long, $coupon_lat, $coupon_long) {
 
