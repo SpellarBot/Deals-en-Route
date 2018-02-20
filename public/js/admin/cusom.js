@@ -91,95 +91,95 @@
 
         // Pie chart
         // -----------------------Remaining Deals-----------------------
-        var remainingDeals = {
-            labels: [
-                'Remaining',
-                'Completed'
-            ],
-            datasets: [{
-                data: [100, 50],
-                backgroundColor: [
-                    '#4bba6d',
-                    '#3b5898'
-                ],
-                hoverBackgroundColor: [
-                    '#4bba6d',
-                    '#3b5898'
-                ]
-            }]
-        };
-
-        var pieOptions = {
-            legend: {
-                display: false
-            }
-        };
-        var piectx = document.getElementById('remainingDeals').getContext('2d');
-        var pieChart = new Chart(piectx, {
-            data: remainingDeals,
-            type: 'pie',
-            options: pieOptions
-        });
-        // -----------------------Remaining Miles-----------------------
-        var remainingMiles = {
-            labels: [
-                'Remaining',
-                'Completed'
-            ],
-            datasets: [{
-                data: [100, 30],
-                backgroundColor: [
-                    '#4bba6d',
-                    '#3b5898'
-                ],
-                hoverBackgroundColor: [
-                    '#4bba6d',
-                    '#3b5898'
-                ]
-            }]
-        };
-
-        var pieOptions = {
-            legend: {
-                display: false
-            }
-        };
-        var piectx = document.getElementById('remainingMiles').getContext('2d');
-        var pieChart = new Chart(piectx, {
-            data: remainingMiles,
-            type: 'pie',
-            options: pieOptions
-        });
-        // -----------------------Remaining Geofencing-----------------------
-        var remainingGeofencing = {
-            labels: [
-                'Remaining',
-                'Completed'
-            ],
-            datasets: [{
-                data: [100, 75],
-                backgroundColor: [
-                    '#4bba6d',
-                    '#3b5898'
-                ],
-                hoverBackgroundColor: [
-                    '#4bba6d',
-                    '#3b5898'
-                ]
-            }]
-        };
-
-        var pieOptions = {
-            legend: {
-                display: false
-            }
-        };
-        var piectx = document.getElementById('remainingGeofencing').getContext('2d');
-        var pieChart = new Chart(piectx, {
-            data: remainingGeofencing,
-            type: 'pie',
-            options: pieOptions
-        });
+//        var remainingDeals = {
+//            labels: [
+//                'Remaining',
+//                'Completed'
+//            ],
+//            datasets: [{
+//                data: [100, 50],
+//                backgroundColor: [
+//                    '#4bba6d',
+//                    '#3b5898'
+//                ],
+//                hoverBackgroundColor: [
+//                    '#4bba6d',
+//                    '#3b5898'
+//                ]
+//            }]
+//        };
+//
+//        var pieOptions = {
+//            legend: {
+//                display: false
+//            }
+//        };
+//        var piectx = document.getElementById('remainingDeals').getContext('2d');
+//        var pieChart = new Chart(piectx, {
+//            data: remainingDeals,
+//            type: 'pie',
+//            options: pieOptions
+//        });
+//        // -----------------------Remaining Miles-----------------------
+//        var remainingMiles = {
+//            labels: [
+//                'Remaining',
+//                'Completed'
+//            ],
+//            datasets: [{
+//                data: [100, 30],
+//                backgroundColor: [
+//                    '#4bba6d',
+//                    '#3b5898'
+//                ],
+//                hoverBackgroundColor: [
+//                    '#4bba6d',
+//                    '#3b5898'
+//                ]
+//            }]
+//        };
+//
+//        var pieOptions = {
+//            legend: {
+//                display: false
+//            }
+//        };
+//        var piectx = document.getElementById('remainingMiles').getContext('2d');
+//        var pieChart = new Chart(piectx, {
+//            data: remainingMiles,
+//            type: 'pie',
+//            options: pieOptions
+//        });
+//        // -----------------------Remaining Geofencing-----------------------
+//        var remainingGeofencing = {
+//            labels: [
+//                'Remaining',
+//                'Completed'
+//            ],
+//            datasets: [{
+//                data: [100, 75],
+//                backgroundColor: [
+//                    '#4bba6d',
+//                    '#3b5898'
+//                ],
+//                hoverBackgroundColor: [
+//                    '#4bba6d',
+//                    '#3b5898'
+//                ]
+//            }]
+//        };
+//
+//        var pieOptions = {
+//            legend: {
+//                display: false
+//            }
+//        };
+//        var piectx = document.getElementById('remainingGeofencing').getContext('2d');
+//        var pieChart = new Chart(piectx, {
+//            data: remainingGeofencing,
+//            type: 'pie',
+//            options: pieOptions
+//        });
     });
 
 })(window, document, window.jQuery);

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input;
 use PDF;
 use App\Coupon;
 use App\PlanAddOns;
+use App\PaymentInfo;
 
 class AdminController extends Controller {
 
@@ -209,7 +210,16 @@ class AdminController extends Controller {
 
     public function payment()
     {
-        $data = [];
+        $data['paylist'] = PaymentInfo::leftjoin('vendor_detail','vendor_detail.vendor_id','paymentinfo.vendor_id');
+        
+        if(Input::get('is_pdf') != '' || Input::get('is_pdf') != '' ){
+            
+        }
+        
+        $data['paylist'] = $data['paylist']->paginate(10);
+        
+        if(Input::get('is_pdf') != '' && Input::get('is_pdf') > 0){}
+        
         return view('admin.payments', $data);
     }
 

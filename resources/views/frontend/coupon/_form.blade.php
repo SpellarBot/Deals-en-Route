@@ -5,7 +5,7 @@
             <?php $coupon_id = isset($coupon) ? $coupon->coupon_id : ''; ?>
             {{ Form::hidden('steps', 1, ['class' => 'stepsincrement']) }}
             {{ Form::hidden('coupon_id',$coupon_id, ['class' => 'coupon_id']) }}
-
+            
             {{ Form::hidden('validationcheck', 0, ['class' => 'validationcheck']) }}
             {{ Form::hidden('vendor_lat', $vendor_detail->vendor_lat, ['class' => 'vendor_lat']) }}
             {{ Form::hidden('vendor_long', $vendor_detail->vendor_long, ['class' => 'vendor_long']) }}
