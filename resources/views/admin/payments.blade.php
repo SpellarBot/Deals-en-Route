@@ -13,10 +13,12 @@
       <link rel="stylesheet" href="{{ asset('vendor/admin/weather-icons/css/weather-icons.min.css')}}">
       <link rel="stylesheet" href="{{ asset('vendor/admin/datatables-colvis/css/dataTables.colVis.css')}}">
       <link rel="stylesheet" href="{{ asset('vendor/admin/datatables/media/css/dataTables.bootstrap.css')}}">
+      <link rel="stylesheet" href="{{ asset('vendor/admin/jquery-ui/themes/smoothness/jquery-ui.min.css')}}">
       <link rel="stylesheet" href="{{ asset('vendor/admin/dataTables.fontAwesome/index.css')}}">
       <link rel="stylesheet" href="{{ asset('css/admin/bootstrap.css')}}" id="bscss">
       <link rel="stylesheet" href="{{ asset('css/admin/app.css')}}" id="maincss">
       <link rel="stylesheet" href="{{ asset('css/admin/custom.css')}}">
+      
    </head>
    <body>
       <div class="wrapper">
@@ -213,24 +215,18 @@
                                     <div class="form-group date-rang mb-0 clearfix">
                                        <label class="col-md-2 col-sm-3 col-xs-12 control-label">DateTimePicker</label>
                                        <div id="datetimepicker1" class="col-md-4 col-sm-4 col-xs-12 input-group date first">
-                                          <input type="text" class="form-control">
-                                          <span class="input-group-addon">
-                                             <span class="fa fa-calendar"></span>
-                                          </span>
-                                       </div>
+                                           <input type="text" class="form-control datepicker" onclick="setZindex()">
+                                        </div>
                                        <label class="col-lg-1 col-md-1 col-sm-1 col-xs-12 control-label text-center">To</label>
                                        <div id="datetimepicker1" class="col-md-4 col-sm-4 col-xs-12 mb-15 input-group date">
-                                          <input type="text" class="form-control">
-                                          <span class="input-group-addon">
-                                             <span class="fa fa-calendar"></span>
-                                          </span>
+                                          <input type="text"  class="form-control datepicker" onclick="setZindex()">
                                        </div>
                                     </div>
                                  </div>
                               </div>
                               <div class="col-xs-12 mt-15">
                                  <div class="table-responsive user-management">
-                                    <table id="users" class="table table-striped table-hover">
+                                    <table class="table table-striped table-hover">
                                        <thead>
                                           <tr>
                                              <th>Payee</th>
@@ -243,116 +239,20 @@
                                           </tr>
                                        </thead>
                                        <tbody>
+                                           @foreach($paylist as $row)
                                           <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
+                                             <td><a href="">{{$row->vendor_name}}</a></td>
+                                             <td>{{$row->created_at}}</td>
+                                             <td>$ {{$row->payment_amount}}</td>
+                                             <td>{{$row->payment_type}}</td>
+                                             <td>{{$row->transaction_id}}</td>
+                                             <td><span class="text-success">{{$row->payment_status}}</span></td>
                                              <td><a href="">Resend Invoice</a></td>
                                           </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
-                                          <tr>
-                                             <td><a href="">Domino's LA</a></td>
-                                             <td>22nd Jan 2018</td>
-                                             <td>$29.99</td>
-                                             <td>Package Renew - Gold</td>
-                                             <td>ADDS76657</td>
-                                             <td><span class="text-success">Processed</span></td>
-                                             <td><a href="">Resend Invoice</a></td>
-                                          </tr>
+                                          @endforeach
                                        </tbody>
                                     </table>
+                                     {{ $paylist->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                  </div>
                               </div>
                            </div>
@@ -364,12 +264,14 @@
          </section>
          <!-- Page footer-->
          <footer>
-            <span>&copy; 2018 - DealsEnRoute</span>
+             <span>&copy; 2018 - DealsEnRoute</span>
          </footer>
       </div>
+       
       <!-- =============== VENDOR SCRIPTS ===============-->
       <script src="{{ asset('vendor/admin/modernizr/modernizr.custom.js')}}"></script>
       <script src="{{ asset('vendor/admin/jquery/dist/jquery.js')}}"></script>
+      <script src="{{ asset('vendor/admin/jquery-ui/jquery-ui.js')}}"></script>
       <script src="{{ asset('vendor/admin/bootstrap/dist/js/bootstrap.js')}}"></script>
       <script src="{{ asset('vendor/admin/jQuery-Storage-API/jquery.storageapi.js')}}"></script>
       <script src="{{ asset('vendor/admin/datatables/media/js/jquery.dataTables.min.js')}}"></script>
@@ -386,5 +288,14 @@
       <!-- =============== APP SCRIPTS ===============-->
       <script src="{{ asset('js/admin/app.js')}}"></script>
       <script src="{{ asset('js/admin/cusom.js')}}"></script>
+     <script type="text/javascript">
+        $(document).ready(function(){
+            $(".datepicker").datepicker();
+        });
+        function setZindex(){
+            $("#ui-datepicker-div").css("z-index","9999");
+        }
+     </script>
+          
    </body>
 </html>

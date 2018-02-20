@@ -208,7 +208,7 @@
                                         </div>
                                         <div class="col-xs-12 mt-15">
                                             <div class="table-responsive user-management">
-                                                <table id="users" class="table table-striped table-hover">
+                                                <table class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th>Reported By</th>
