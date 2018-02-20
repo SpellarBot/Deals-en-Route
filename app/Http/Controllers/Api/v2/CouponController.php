@@ -717,6 +717,10 @@ class CouponController extends Controller {
         }
     }
 
-    
+    public function deleteComment(Request $request) {
+        $id = $request->id;
+        $editcommentDeal = DealComments::deleteDealComment($id);
+        return $this->responseJson('success', 'Comment deleted Successfully. ', 200);
+    }
     
 }

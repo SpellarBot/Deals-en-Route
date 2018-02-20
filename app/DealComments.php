@@ -239,5 +239,11 @@ class DealComments extends Model {
              }
              return $data;
     }
+    
+
+    public static function deleteDealComment($id){
+       DealComments::where('id', $id)->delete();
+       return $id;
+    }
 
 }
