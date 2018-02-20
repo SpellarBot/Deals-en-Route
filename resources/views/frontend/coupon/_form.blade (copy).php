@@ -5,7 +5,7 @@
             <?php $coupon_id = isset($coupon) ? $coupon->coupon_id : ''; ?>
             {{ Form::hidden('steps', 1, ['class' => 'stepsincrement']) }}
             {{ Form::hidden('coupon_id',$coupon_id, ['class' => 'coupon_id']) }}
-            
+
             {{ Form::hidden('validationcheck', 0, ['class' => 'validationcheck']) }}
             {{ Form::hidden('vendor_lat', $vendor_detail->vendor_lat, ['class' => 'vendor_lat']) }}
             {{ Form::hidden('vendor_long', $vendor_detail->vendor_long, ['class' => 'vendor_long']) }}
@@ -115,7 +115,7 @@
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
                             {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$user_access['geolocationtotal'],'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider']) }}
-                            <p class="extra-miles"> <span>(in miles)</span> <button type="button" class="btn pull-right btn-sm btn-info btn-fill btn-wd btn-create" data-toggle="modal" data-target="#buyextramiles">Buy Extra Miles</button></p>
+                            <p> (in miles)   <button type="button" class="btn pull-right btn-sm btn-info btn-fill btn-wd btn-create" data-toggle="modal" data-target="#buyextramiles">Buy Extra Miles</button></p>
                         </div>
 
                         <div class="form-group">

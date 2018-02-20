@@ -26,11 +26,55 @@
                     </div>
                 </div>                
                 @endforeach
+
+                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                    <div class="box">
+                        <a href=""  class="box-bg" data-toggle="modal" data-target="#otherCategoryModal">
+                            <img src="storage/app/public/web_category_image/33.png">
+                            <span>Other</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 @include('frontend/modal/signup')
+
+<div id="otherCategoryModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                Other Category
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12"><br>
+                    <h5 class="package-title">Add Category:</h5>
+                    <div class="package-add">
+                        <form>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Add Category">
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 text-center">
+                                    <button type="submit" class="btn btn-priamry btn-save">Save</button>    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+
+    </div>
+</div>
+
+
 @endsection
 @section('scripts')
 <script src="{{ asset('frontend/js/webjs/register.js?reload=1318923150"') }}"></script>

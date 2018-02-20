@@ -205,7 +205,7 @@
                                                                 <div class="form-group">
                                                                     <select class="form-control" name="extra_miles">
                                                                         <option value="">Select Miles</option>
-                                                                        @for($i=1;$i<=30;$i++)
+                                                                        @for($i=1;$i<=10;$i++)
                                                                         <option value="{{ $i }}">{{ $i }}</option>
                                                                         @endfor
                                                                     </select>
@@ -232,7 +232,7 @@
                                                                         <option value="40000">40,000</option>
                                                                         <option value="60000">60,000</option>
                                                                         <option value="80000">80,000</option>
-                                                                        <option value="100000">10,0000</option>
+                                                                        <option value="100000">1,00,000</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
