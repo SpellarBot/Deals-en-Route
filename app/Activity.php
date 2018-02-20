@@ -61,26 +61,26 @@ class Activity extends Model {
     }
 
     public static function activityList($id) {
+
         $userid = Auth::id();
-        
+
         $activity = Activity::select(['activity.activity_id', 'share_friend_id', 'total_like', 'total_share', 'activity_name_friends',
                     'activity.created_by', 'total_comment', 'count_fb_friend', 'activity_name_creator', 'activity.coupon_id',
                     \DB::raw('(if(created_by != "' . $userid . '",activity_name_friends,activity_name_creator )) as activity_message')])
                 ->leftJoin('coupon_share', 'coupon_share.activity_id', '=', 'activity.activity_id')
                 ->havingRaw('activity_message != "" ');
-           if(isset($id) && $id==0){
-               $activity->where('created_by', Auth::id());    
-             
-           }else if(isset($id) && $id==1){
-                  $activity->where('share_friend_id', Auth::id());
-            
-           }else {
-                $activity->where(function($q) {
-                    $q->where('created_by', Auth::id())
-                    ->orWhere('share_friend_id', Auth::id());
-                }); 
-           }
-           $result = $activity->groupby('activity_id')
+        if ($id == 3) {
+            $activity->where(function($q) {
+                $q->where('created_by', Auth::id())
+                        ->orWhere('share_friend_id', Auth::id());
+            });
+        } else if ($id == 0) {
+            $activity->where('share_friend_id', Auth::id());
+        } else if ($id == 1) {
+
+            $activity->where('created_by', Auth::id());
+        }
+        $result = $activity->groupby('activity_id')
                 ->orderBy('activity_id', 'desc')
                 ->simplePaginate(\Config::get('constants.PAGINATE'));
         return $result;
@@ -117,25 +117,25 @@ class Activity extends Model {
 
     public static function getTagUsers($data) {
 
-    if (isset($data['search']) && !empty($data['search'])) {
-         $keyword = $data['search'];
-    }else{
-        $keyword="NULL";
-    }
-         $query = \App\User::leftjoin('user_detail', 'user_detail.user_id', 'users.id')
+        if (isset($data['search']) && !empty($data['search'])) {
+            $keyword = $data['search'];
+        } else {
+            $keyword = "NULL";
+        }
+        $query = \App\User::leftjoin('user_detail', 'user_detail.user_id', 'users.id')
                 ->where('id', '!=', Auth::id())
                 ->where('role', 'user');
-          
-           
-            $query->where(function($q) use ($keyword) {
-                $q->where(DB::raw("CONCAT(user_detail.first_name,' ',user_detail.last_name)"), "LIKE", "%$keyword%")
-                        ->orWhere(DB::raw("CONCAT(user_detail.last_name,' ',user_detail.first_name)"), "LIKE", "%$keyword%")
-                        ->orWhere("last_name", "LIKE", "%$keyword%")
-                        ->orWhere("first_name", "LIKE", "%$keyword%");
-            });
-        
-         $result= $query->get();
-       
+
+
+        $query->where(function($q) use ($keyword) {
+            $q->where(DB::raw("CONCAT(user_detail.first_name,' ',user_detail.last_name)"), "LIKE", "%$keyword%")
+                    ->orWhere(DB::raw("CONCAT(user_detail.last_name,' ',user_detail.first_name)"), "LIKE", "%$keyword%")
+                    ->orWhere("last_name", "LIKE", "%$keyword%")
+                    ->orWhere("first_name", "LIKE", "%$keyword%");
+        });
+
+        $result = $query->get();
+
         if ($result) {
             return $result;
         }

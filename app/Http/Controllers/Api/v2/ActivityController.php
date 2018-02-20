@@ -47,7 +47,12 @@ class ActivityController extends Controller {
         try {
             // get the request
             $data = $request->all();
-            $id=(isset($data['id'])?$data['id']:'');
+           if(isset($data['is_own_id'])){
+               $id=$data['is_own_id'];
+           }else{
+               $id=3;
+           }
+        
             //find nearby coupon
             $activitylist = \App\Activity::activityList($id);
             if (count($activitylist) > 0) {
