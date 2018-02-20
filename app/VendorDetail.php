@@ -22,7 +22,8 @@ class VendorDetail extends Model {
         'billing_home', 'billing_state', 'billing_zip', 'billing_city',
         'billing_country', 'vendor_country', 'vendor_state', 'vendor_city', 'vendor_lat',
         'vendor_long', 'billing_businessname', 'check-address', 'vendor_time_zone',
-        'deal_used'
+        'deal_used','additional_geo_location_used','additional_geo_fencing_used',
+        'additional_geo_location_total','additional_geo_fencing_total'
     ];
 
     public function userSubscription() {

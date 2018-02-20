@@ -91,7 +91,9 @@ class Subscription extends Model {
         if ($totalCouponsUsed || $totalCouponsUsed == 0) {
 
             $totalCouponLeft = $userAccess['dealstotal'] - $totalCouponsUsed;
-            $vendordetail= \App\VendorDetail::where('user_id', Auth::id())->update(['deal_used' => $totalCouponsUsed]);
+            $vendordetail= \App\VendorDetail::where('user_id', Auth::id())->update(['deal_used' => $totalCouponsUsed,
+                'additional_geo_fencing_total'=>$userAccess['additionalgeofencing'],
+                'additional_geo_location_total'=>$userAccess['additionalgeolocation']]);
             return $totalCouponLeft;
         }
      

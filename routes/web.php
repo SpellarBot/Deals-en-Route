@@ -59,7 +59,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('login', 'Auth\LoginController@vendorindex')->name('user.loginform');
     Route::post('vendor/login', 'Auth\LoginController@login')->name('vendor.login');
     Route::post('vendor/logout', 'Auth\LoginController@logout')->name('vendor.logout');
-
+ 
 
     //vendor update
     Route::post('vendor/updatePassword', 'Auth\ResetPasswordController@updatePasssword')->name('vendor.updatePassword');
@@ -90,6 +90,8 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('/vendor/purchaseDeals', 'StripeAddOnsController@purchaseDeals');
     Route::post('/vendor/contact', 'HomeController@sendContact')->name('vendor.submitcontact');
     Route::post('/vendor/couponredeem', 'CouponController@CouponRedemption');
+    
+    Route::post('coupon/additonalcost', 'CouponController@additionalCost')->name('vendor.additionalcost');
 });
 // Admin routes
 Route::group(['namespace' => 'Admin'], function () {

@@ -30,11 +30,11 @@ class CouponRequest extends FormRequest {
 
         $commonvaldiation = ['coupon_name' => 'required|max:255',
             'coupon_detail' => 'required',
-            'coupon_redeem_limit' => 'required|numeric',
-            'coupon_end_date' => 'required',
-            'coupon_radius' => 'required|integer',
-            'coupon_original_price' => 'numeric|required|min:0|greater_than:coupon_discounted_price',
-            'coupon_discounted_percent' => 'required_without:coupon_discounted_price',
+//            'coupon_redeem_limit' => 'required|numeric',
+//            'coupon_end_date' => 'required',
+//            'coupon_radius' => 'required|integer',
+//            'coupon_original_price' => 'numeric|required|min:0|greater_than:coupon_discounted_price',
+//            'coupon_discounted_percent' => 'required_without:coupon_discounted_price',
         ];
         //update coupon validation 
         if ($this->request->get('coupon_id') != '') {
@@ -81,7 +81,7 @@ class CouponRequest extends FormRequest {
                 // step 1
                 'coupon_code' => 'required|unique:coupon',
                 //step 2
-                'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe['geofencingtotal'],
+              //  'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe['geofencingtotal'],
                 'coupon_notification_point' => 'required',
                      
             ];
@@ -92,7 +92,7 @@ class CouponRequest extends FormRequest {
                 // step 1
                 'coupon_code' => 'required|unique:coupon',
                 //step 2
-               'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe['geofencingtotal'],
+              // 'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe['geofencingtotal'],
                 'coupon_notification_point' => 'required',
                 // step 3
                 'agree' => 'required'

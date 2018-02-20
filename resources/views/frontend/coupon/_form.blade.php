@@ -34,7 +34,7 @@
                                         <div class="coupon-desc coupon_detail" >{{ !isset($coupon->coupon_detail) ? 'Coupon description': $coupon->coupon_detail }} </div>
                                     </div>
                                     <div class="couponright">
-                                        <span class="boxbg">8.9</span>
+                                        <span class="boxbg total_miles" >{{ (isset($coupon))?$coupon->coupon_radius:"0"}}</span>
                                         <span class="boxdetail">Miles</span>
                                     </div>
                                 </div>
@@ -69,8 +69,8 @@
                                         <span class="boxdetail">Coupons Left</span>
                                     </div>
                                     <div class="pricebox">
-                                        <span class="old-price">$10</span>
-                                        <span class="new-price">$8</span>
+                                        <span class="old-price original_price" >$0</span>
+                                        <span class="new-price">$0</span>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,8 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_code', 'Coupon Code:') }}
-                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code','readonly'=>'readonly']) }}
+                    
+                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code']) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
@@ -182,6 +183,7 @@
                 <h3>Geofence</h3>
 
                 <div class="row">
+<input id="pac-input" class="col-sm-10 col-sm-offset-1 form-group" type="text" placeholder="Search Box">
 
                     <div class="col-sm-10 col-sm-offset-1 form-group"> <div id="info">{!! !isset($coupon->coupon_notification_sqfeet) ? '': '<label> Area Sqft Covered : </label>'.' '.number_format($coupon->coupon_notification_sqfeet,2).' ft²' !!} </div></div>
                     <div  class="col-sm-10 col-sm-offset-1" id="googlegeofencing" style="height: 400px;max-width: 980px;"></div> 
@@ -203,7 +205,7 @@
                         @endif
                         <li class="pull-right">
 
-                            <button type="button" class="btn btn-create next-step">Save and continue</button>
+                            <button type="button" class="btn btn-create next-step getextracost">Save and continue</button>
                         </li>
                     </ul>
                 </div>
@@ -256,7 +258,7 @@
                             <tfoot>
                                 <tr>
                                     <td>Total:</td>
-                                    <td>$0</td>
+                                    <td><div class="totalextra"> </div></td>
                                 </tr>
                             </tfoot>
                         </table>

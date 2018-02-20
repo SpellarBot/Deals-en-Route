@@ -259,6 +259,7 @@ class CouponController extends Controller {
             return response()->json(['status' => 0, 'message' => 'Invalid redemption code'], 200);
         }
     }
+    
 
     public function generateCouponCode() {
 
@@ -282,6 +283,23 @@ class CouponController extends Controller {
             $randstr .= $chars[$random];
         }
         return $randstr;
+    }
+    
+    public function additionalCost(Request $request){
+       try{
+           $request=$request->all();
+          
+         $additional=  \App\AdditionalCost::getAdditionalCost($request); 
+         if($additional){
+             return $additional;
+         }
+            
+        } catch (\Exception $ex) {
+            throw $ex;
+            return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
+        }
+    
+        
     }
 
 }
