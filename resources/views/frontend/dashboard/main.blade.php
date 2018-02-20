@@ -228,11 +228,11 @@
                                                                 <div class="form-group">
                                                                     <select class="form-control" name="extra_fensing_area">
                                                                         <option value="">Select Fencing</option>
-                                                                        <option value="20000">20000</option>
-                                                                        <option value="40000">40000</option>
-                                                                        <option value="60000">60000</option>
-                                                                        <option value="80000">80000</option>
-                                                                        <option value="100000">100000</option>
+                                                                        <option value="20000">20,000</option>
+                                                                        <option value="40000">40,000</option>
+                                                                        <option value="60000">60,000</option>
+                                                                        <option value="80000">80,000</option>
+                                                                        <option value="100000">1,00,000</option>
                                                                     </select>
                                                                 </div>
                                                             </div>

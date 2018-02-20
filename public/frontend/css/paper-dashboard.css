@@ -6208,12 +6208,15 @@ strong {
 .off-canvas-sidebar[data-active-color="info"] .nav li.active > a {
 	color: #395999;
 	opacity: 1;
+	background: #395999;
 }
 
 .sidebar[data-active-color="success"] .nav li.active > a,
 .off-canvas-sidebar[data-active-color="success"] .nav li.active > a {
-	color: #395999;
+	/* color: #395999; */
 	opacity: 1;
+	color: #fff;
+	background: #395999;
 }
 
 .sidebar[data-active-color="warning"] .nav li.active > a,
@@ -8799,7 +8802,7 @@ star {
 
 .sidebar .nav > li {
 	text-align: center;
-	border-bottom: 1px solid #e8e8e8;
+	/*border-bottom: 1px solid #e8e8e8;*/
 }
 
 .nav > li > a:hover,
@@ -9231,7 +9234,7 @@ star {
 }
 
 .card {
-	border-radius: 6px;
+	border-radius: 15px;
 	box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
 	background-color: #FFFFFF;
 	color: #252422;
@@ -12967,7 +12970,7 @@ star {
 		padding-right: 15px;
 	}
 
-	.sidebar .sidebar-wrapper li.active > a:not([data-toggle="collapse"]):before {
+	/*.sidebar .sidebar-wrapper li.active > a:not([data-toggle="collapse"]):before {
 		border-right: 12px solid #cfcfca;
 		border-top: 12px solid transparent;
 		border-bottom: 12px solid transparent;
@@ -12992,7 +12995,7 @@ star {
 		top: 50%;
 		transition: opacity 150ms ease-in;
 		transform: translateY(-50%);
-	}
+	}*/
 }
 
 /*          Changes for small display      */

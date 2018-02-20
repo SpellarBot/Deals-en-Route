@@ -13,7 +13,7 @@
                 </ul>
             </div>
             <!--next section container-->
-            <nav class="arrow-section-container hidden-sm hidden-xs"><a class="go-to-next" href="#"><i class="icon icon-arrow-down"></i></a></nav>
+            <!-- <nav class="arrow-section-container hidden-sm hidden-xs"><a class="go-to-next" href="#"><i class="icon icon-arrow-down"></i></a></nav> -->
             <nav class="arrow-section-container visible-sm visible-xs"><a href="#content" class="scrollTo"><i class="icon icon-arrow-down"></i></a></nav>
             <div class="landing scene" id="demo-slider">
                 <div class="slides video-slide active" id="content">
@@ -22,7 +22,7 @@
                             <!-- <video class="composizione" loop muted>
                                 <source src="images/video/finale-white.mp4" type='video/mp4'>
                             </video> -->
-                            <img class="composizione" src="<?php echo \Config::get('app.url') . '/public/frontend/img/images/banner.gif' ?> ">
+                            <img class="composizione" src="<?php echo \Config::get('app.url') . '/public/frontend/img/images/homebanner.jpg' ?> ">
                         </div>
                         <div class="static-video-container visible-md" id="scene5" style="background-image:url('<?php echo \Config::get('app.url') . '/public/frontend/img/images/banner.jpg' ?>')"></div>
                     </div>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="gif-container toshow visible-sm visible-xs">
-                        <img class="img-responsive" src="<?php echo \Config::get('app.url') . '/public/frontend/img/images/gif-banner.gif' ?>">
+                        <img class="img-responsive" src="<?php echo \Config::get('app.url') . '/public/frontend/img/images/homebanner.jpg' ?>">
                     </div>
                 </div>
                 <!--second slide-->
@@ -150,7 +150,6 @@
                     </footer>
                 </div>
             </div>
-            
         </section>
        <div class="social-popup">
             <div class="velina"></div>
