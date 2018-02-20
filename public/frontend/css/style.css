@@ -2393,7 +2393,10 @@ footer ul.social span {
 
 @media (min-width: 1200px) {
     .prices {
-        margin: -50px auto 20px;
+        /*margin: -50px auto 20px;*/
+        align-items: center;
+        display: flex;
+        height: calc(100vh - 150px);
     }
 }
 
@@ -2633,17 +2636,40 @@ footer ul.social span {
 }
 
 .alert {
-    border-radius: 15px;
+    border-radius: 10px;
     margin-bottom: 0px;
+    padding-right: 15px;
 }
 
 .errorpopup .alert-dismissable .close,
 .errorpopup .alert-dismissible .close {
     position: absolute;
+    /*top: 50%;*/
+    top: -10px;
+    /*right: 7px;*/
+    right: -10px;
+    color: #fff;
+    text-shadow: none;
+    font-size: 24px;
+    line-height: 24px;
+    width: 24px;
+    height: 24px;
+    background: #3a5899;
+    border-radius: 50%;
+    box-shadow: 0 0 7px #000;
+    opacity: 1;
+    /*transform: translateY(-50%);*/
+}
+.errorpopup .alert-dismissable .close:hover,
+.errorpopup .alert-dismissible .close:hover {
+    background: #153167;
+}
+.errorpopup .alert-dismissable .close > span,
+.errorpopup .alert-dismissible .close > span{
     top: 50%;
-    right: 7px;
-    color: inherit;
-    transform: translateY(-50%);
+    left: 50%;
+    position: absolute;
+    transform: translate(-45%, -53%);
 }
 
 .vendorlogo .help-block {

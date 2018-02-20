@@ -29,7 +29,7 @@
 
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
                     <div class="box">
-                        <a href=""  class="box-bg clickopen" data-toggle="modal" data-target="#otherCategoryModal">
+                        <a href=""  class="box-bg" data-toggle="modal" data-target="#otherCategoryModal">
                             <img src="storage/app/public/web_category_image/33.png">
                             <span>Other</span>
                         </a>
