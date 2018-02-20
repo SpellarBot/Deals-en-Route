@@ -56,5 +56,10 @@ class Comment extends Model {
                 ->get();
         return $comments;
     }
+    
+    public static function deleteActivityComment($id) {
+        Comment::where('comment_id',$id)->delete();
+        return $id;
+    }
 
 }

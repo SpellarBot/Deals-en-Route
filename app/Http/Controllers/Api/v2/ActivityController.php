@@ -198,6 +198,11 @@ class ActivityController extends Controller {
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
+    
+    public function deleteComment(Request $request){
+        $comment = \App\Comment::deleteActivityComment($request->id);
+        return $this->responseJson('success', 'Comment deleted Successfully. ', 200);
+    }
 
     public function addnotificationallread(Request $request) {
         try {
