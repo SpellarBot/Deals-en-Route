@@ -80,7 +80,7 @@ header.staticpage {
 }*/
 
 header .logo img {
-    height: 100px;
+    height: 80px;
     padding: 5px 0px;
 }
 
@@ -639,16 +639,17 @@ input[type=date]::-webkit-outer-spin-button {
 
 .price-page {
     background-image: url(../img/bg-price.jpg);
-    background-size: cover;
+    background-size: auto;
+    background-position: 50%;
 }
 
 .price-page .header {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #ffffff;
     display: inline-block;
-    width: 150px;
-    height: 140px;
+    width: 120px;
+    height: 120px;
     padding: 3px 21px;
-    border-bottom-right-radius: 140px;
+    border-bottom-right-radius: 80%;
     transition: 1s;
 }
 
@@ -662,7 +663,7 @@ input[type=date]::-webkit-outer-spin-button {
     margin-bottom: 30px;
     border-radius: 30px;
     box-shadow: 0 15px 73px rgba(0, 0, 0, 0.1);
-    background-image: url(../img/logo-price.png);
+    /*background-image: url(../img/logo-price.png);*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: 70%;
@@ -675,7 +676,7 @@ input[type=date]::-webkit-outer-spin-button {
     border-radius: 30px;
     box-shadow: 0 15px 73px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    background-image: url(../img/logo-price.png);
+    /*background-image: url(../img/logo-price.png);*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: 70%;
@@ -693,7 +694,7 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 .prices .head {
-    font-size: 20px;
+    font-size: 18px;
     color: #555555;
     font-weight: bold;
     text-align: center;
@@ -706,6 +707,11 @@ input[type=date]::-webkit-outer-spin-button {
     font-weight: bold;
     text-align: center;
     margin-bottom: -10px;
+}
+.prices .price > sub{
+    top: -13px;
+    right: 4px;
+    font-size: 70%;
 }
 
 .prices .cardm .price {
@@ -726,8 +732,8 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 .prices .deals {
-    font-size: 13px;
-    line-height: 15px;
+    font-size: 12px;
+    line-height: 14px;
     color: #5b5b5b;
     text-align: center;
 }
@@ -785,7 +791,7 @@ input[type=date]::-webkit-outer-spin-button {
         margin-bottom: 50px;
         border-radius: 50px;
         box-shadow: 0 15px 73px rgba(0, 0, 0, 0.1);
-        background-image: url(../img/logo-price.png);
+        /*background-image: url(../img/logo-price.png);*/
         background-position: center;
         background-repeat: no-repeat;
         background-size: 70%;
@@ -797,7 +803,7 @@ input[type=date]::-webkit-outer-spin-button {
         border-radius: 50px;
         box-shadow: 0 15px 73px rgba(0, 0, 0, 0.1);
         z-index: 10;
-        background-image: url(../img/logo-price.png);
+        /*background-image: url(../img/logo-price.png);*/
         background-position: center;
         background-repeat: no-repeat;
         background-size: 70%;
@@ -812,36 +818,42 @@ input[type=date]::-webkit-outer-spin-button {
         order: 3;
     }
     .prices .head {
-        font-size: 25px;
+        font-size: 20px;
         color: #555555;
         font-weight: bold;
         text-align: center;
         margin-bottom: 10px;
     }
     .prices .price {
-        font-size: 65px;
+        font-size: 60px;
         color: #395999;
         font-weight: bold;
         text-align: center;
         margin-bottom: -20px;
     }
+    .prices .price > sup{
+        font-size: 70%;
+        top: -.35em;
+        right: 4px;
+    }
     .prices .cardm .price {
         color: #4bb96d;
     }
     .prices .price-pm {
-        font-size: 23px;
+        font-size: 18px;
         color: #395999;
         font-weight: bold;
         text-align: center;
-        padding-bottom: 20px;
+        padding-bottom: 10px;
+        padding-top: 8px;
     }
     .prices .cardm .price-pm {
         color: #4bb96d;
         padding-bottom: 20px;
     }
     .prices .deals {
-        font-size: 17px;
-        line-height: 19px;
+        font-size: 14px;
+        line-height: 16px;
         color: #5b5b5b;
         text-align: center;
     }
@@ -851,7 +863,7 @@ input[type=date]::-webkit-outer-spin-button {
         color: #5b5b5b;
         text-align: center;
         font-weight: bold;
-        padding-top: 25px;
+        padding-top: 20px;
     }
     .prices .discl {
         font-size: 14px;
@@ -2453,7 +2465,7 @@ footer ul.social span {
         display: block;
     }
     .prices {
-        margin: 0 auto 35px;
+        margin: 15px auto 35px;
     }
 
 }
@@ -2733,6 +2745,7 @@ div#googlegeofencing {width: calc(100% - 60px) !important;max-width: 1100px !imp
 .extra-miles > button{margin-left: 10px;}
 .btn-priamry.btn-save{box-shadow: none;}
 .btn-priamry.btn-save:hover{top: 0px;background-color: #25385f;border-color: #25385f;transition: all linear 0.3s;}
+.prices .container{max-width: 1050px;}
 
 @media only screen and (min-width: 1200px) {
     .tab-pane .col-lg-8.col-md-12.col-sm-12{width: calc(100% - 460px);}

@@ -44,9 +44,9 @@
                             <p class="price"><sup>$</sup>149</p>
                             <p class="price-pm">PER MONTH</p>
                             <p class="deals">~ Create and Send Coupons
-                                <br><br> ~ Geolocation (Mile Radius 5-10 miles)
+                                <br><br> ~ Geolocation (Up to 10 mile radius)
                                 <br><br> ~ Geofencing (one per deal up to 20,000 Sq. Feet)
-                                <br><br> ~ Analytics ( Age + Gender + Coupon Views + Potential Customer Reach)
+                                <br><br> ~ Analytics (Age + Gender)
                                 <br><br> ~ 30 Deals/ Unlimited Coupons
                                 <br><br> ~ Sticker for Store window (Deals en Route certified)</p>
                             <p class="head2">Additional Packages</p>
@@ -76,9 +76,9 @@
                                 <p class="price"><sup>$</sup>99</p>
                                 <p class="price-pm">PER MONTH</p>
                                 <p class="deals">~ Create and Send Coupons
-                                    <br><br> ~ Geolocation (Mile Radius 1-5 Miles)
+                                    <br><br> ~ Geolocation (Up to 5 mile radius)
                                     <br><br> ~ Geofencing (one per deal up to 20,000 Sq. Feet)
-                                    <br><br> ~ Analytics ( Age + Gender)
+                                    <br><br> ~ Analytics (Age)
                                     <br><br> ~ 20 Deals / Unlimited Coupons
                                     <br><br> ~ Sticker for Store window (Deals en Route certified)</p>
                                 <p class="head2">Additional Packages</p>
@@ -106,7 +106,7 @@
                                     <p class="price"><sup>$</sup>49</p>
                                     <p class="price-pm">PER MONTH</p>
                                     <p class="deals">~ Create and Send Coupons
-                                        <br><br> ~ Geolocation (Mile Radius 0-1 Miles)
+                                        <br><br> ~ Geolocation (Up to 1 mile radius)
                                         <br><br> ~ Geofencing (one per deal up to 20,000 Sq. Feet)
                                         <br><br> ~ 10 Deals / Unlimited Coupons
                                         <br><br> ~ Sticker for Store window (Deals en Route certified)</p>
