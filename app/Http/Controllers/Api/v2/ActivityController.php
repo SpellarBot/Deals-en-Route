@@ -47,8 +47,9 @@ class ActivityController extends Controller {
         try {
             // get the request
             $data = $request->all();
+            $id=(isset($data['id'])?$data['id']:'');
             //find nearby coupon
-            $activitylist = \App\Activity::activityList();
+            $activitylist = \App\Activity::activityList($id);
             if (count($activitylist) > 0) {
                 $activitydata = (new ActivityTransformer)->transformActivityList($activitylist);
                 return $this->responseJson('success', \Config::get('constants.ACTIVITY_LIST'), 200, $activitydata);

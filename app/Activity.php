@@ -60,20 +60,30 @@ class Activity extends Model {
         return $activity;
     }
 
-    public static function activityList() {
+    public static function activityList($id) {
         $userid = Auth::id();
+        
         $activity = Activity::select(['activity.activity_id', 'share_friend_id', 'total_like', 'total_share', 'activity_name_friends',
                     'activity.created_by', 'total_comment', 'count_fb_friend', 'activity_name_creator', 'activity.coupon_id',
                     \DB::raw('(if(created_by != "' . $userid . '",activity_name_friends,activity_name_creator )) as activity_message')])
                 ->leftJoin('coupon_share', 'coupon_share.activity_id', '=', 'activity.activity_id')
-                ->havingRaw('activity_message != "" ')
-                ->where(function($q) {
+                ->havingRaw('activity_message != "" ');
+           if(isset($id) && $id==0){
+               $activity->where('created_by', Auth::id());    
+             
+           }else if(isset($id) && $id==1){
+                  $activity->where('share_friend_id', Auth::id());
+            
+           }else {
+                $activity->where(function($q) {
                     $q->where('created_by', Auth::id())
                     ->orWhere('share_friend_id', Auth::id());
-                })->groupby('activity_id')
+                }); 
+           }
+           $result = $activity->groupby('activity_id')
                 ->orderBy('activity_id', 'desc')
                 ->simplePaginate(\Config::get('constants.PAGINATE'));
-        return $activity;
+        return $result;
     }
 
     public static function redeemActivity($data, $userid) {
