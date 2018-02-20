@@ -36,11 +36,16 @@ class DealComments extends Model {
         }
         if (array_key_exists('parent_id', $data) && !empty($data['parent_id'])) {
             $addComment->parent_id = $data['parent_id'];
+            $id=$data['parent_id'];
         } else {
             $addComment->parent_id = $addComment->id;
+            $id=$addComment->id;
         }
-        $addComment->save();
-        return $addComment;
+        if($addComment->save())
+        {
+           return  self::getDealListById($id);
+        }
+ 
     }
 
     public static function editComment($data) {
@@ -128,6 +133,114 @@ class DealComments extends Model {
                 ]));
     }
     
+        public static function getCommentsByCouponById($id) {
+        $comments = DealComments::select(\DB::raw('deal_comments.*,deal_comment_likes.liked_by,min(deal_comments.id) as id,deal_comment_likes.is_like'))
+                ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
+                ->where('coupon_id', $id)
+                ->orderBy('deal_comments.updated_at', 'desc')
+                ->groupBy('parent_id')
+                ->skip($offset)
+                ->take($limit)
+                ->get();
+
+        return $comments;
+    }
+ 
+    
+    
+    public static function getDealListById($id){
+         //find comments
+            $coupondetail = \App\Coupon::getCouponDetail($data);
+            if (count($coupondetail) > 0) {
+                if ($data['page'] == 1) {
+                    $offset = 0;
+                } else {
+                    $offset = (($data['page'] - 1) * 10);
+                }
+                $data['current_page'] = $data['page'];
+                $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
+                $getComments = DealComments::getCommentsByCouponById($id);
+
+            
+                $data['comments_list'] = [];
+                foreach ($getComments as $com) {
+                    $dt = new Carbon($com->updated_at);
+                    $getUser = \App\UserDetail::where('user_id', $com->comment_by)->first();
+
+                    $comment_details['comment_id'] = $com->id;
+                    $comment_details['user_id'] = $getUser->user_id;
+                    $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
+                    $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
+                    if ($com->liked_by === auth()->id() && $com->is_like === 1) {
+                        $comment_details['is_liked'] = 1;
+                    } else {
+                        $comment_details['is_liked'] = 0;
+                    }
+
+                    $tagfriendarray = explode(",", $com->tag_user_id);
+                    $tags = [];
+                    if (!empty($com->tag_user_id)) {
+                        foreach ($tagfriendarray as $key => $val) {
+
+                            $detail = \App\UserDetail::where('user_id', $val)->first();
+
+                            $tags[$key]['user_id'] = (int) $val;
+                            $tags[$key]['full_name'] = '@' . $detail->first_name . " " . $detail->last_name;
+                            $tags[$key]['profile_pic'] = (!empty($detail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                        }
+                    }
+                    $comment_details['comment'] = $com->comment_desc;
+                    $comment_details['parent_id'] = $com->parent_id;
+                    $comment_details['tag_user_id'] = $tags;
+                    $comment_details['comment_time'] = $dt->diffForHumans();
+                    $getReplyComments = DealComments::getCommentsByParentId($com->parent_id, $com->id);
+//                     print_r($getReplyComments); 
+
+                    foreach ($getReplyComments as $keyreply => $valreply) {
+                        $tagreplyfriendarray = explode(",", $valreply['tag_user_id']);
+                        $tagsreply = [];
+                        foreach ($tagreplyfriendarray as $key1 => $val1) {
+                            if (!empty($val1)) {
+                                $detailreply = \App\UserDetail::where('user_id', $val1)->first();
+
+                                $tagsreply[$key1]['user_id'] = (int) $val1;
+                                $tagsreply[$key1]['full_name'] = '@' . $detailreply->first_name . " " . $detailreply->last_name;
+                                $tagsreply[$key1]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                            }
+                        }
+
+                        $dt2 = new Carbon($valreply['updated_at']);
+                        $getReplyComments[$keyreply]['comment_by'] = $valreply['first_name'] . ' ' . $valreply['last_name'];
+                        $getReplyComments[$keyreply]['profile_pic'] = ($valreply['profile_pic'] ? asset('storage/app/public/profile_pic/' . $valreply['profile_pic']) : asset('storage/app/public/profile_pic/'));
+
+                        $getReplyComments[$keyreply]['comment_time'] = $dt2->diffForHumans();
+                        $getReplyComments[$keyreply]['comment'] = $valreply['comment_desc'];
+                        $getReplyComments[$keyreply]['tag_user_id'] = $tagsreply;
+
+                        $getReplyComments[$keyreply]['comment_id'] = $valreply['id'];
+                        if ($valreply['is_like'] === 1) {
+                            $getReplyComments[$keyreply]['is_liked'] = 1;
+                        } else {
+                            $getReplyComments[$keyreply]['is_liked'] = 0;
+                        }
+                        unset($getReplyComments[$keyreply]['comment_desc']);
+                        unset($getReplyComments[$keyreply]['id']);
+                        unset($getReplyComments[$keyreply]['coupon_id']);
+                        unset($getReplyComments[$keyreply]['updated_at']);
+                        unset($getReplyComments[$keyreply]['liked_by']);
+                        unset($getReplyComments[$keyreply]['is_like']);
+                        unset($getReplyComments[$keyreply]['first_name']);
+                        unset($getReplyComments[$keyreply]['last_name']);
+                    }
+
+                    $comment_details['replycomments'] = $getReplyComments;
+                    array_push($data['comments_list'], $comment_details);
+                }
+             }
+             return $data;
+    }
+    
+
     public static function deleteDealComment($id){
        DealComments::where('id', $id)->delete();
        return $id;
