@@ -68,8 +68,8 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
         Route::post('/activity/commentlist', 'ActivityController@commentList');
         Route::post('/activity/share', 'ActivityController@shareActivity');
         Route::post('/activity/commentedit', 'ActivityController@commentEdit');
-       
-        
+
+
         // user logout
         Route::post('/user/logout', 'Auth\LoginController@logout');
 
@@ -184,16 +184,17 @@ Route::group(['namespace' => 'Api\v2', 'prefix' => 'v2'], function() {
         Route::post('/user/getNearByVendorlist', 'VendorController@getNearByVendors');
         Route::post('/user/getCouponsByVendor', 'CouponController@getCouponsByVendor');
         Route::post('/user/getVendorDetails', 'VendorController@getVendorDetails');
-        
-        //tag friends
-          Route::post('/tag/friendlist', 'TagController@getAllUsers');
-        
-          //report content
-          Route::post('/services/addreport', 'ServicesController@addReportContent');
 
-           //city request
-          Route::post('/services/citylist', 'ServicesController@addCityRequest');
-           Route::post('/services/cityrequest', 'ServicesController@fetchCityRequest');
+        //tag friends
+        Route::post('/tag/friendlist', 'TagController@getAllUsers');
+
+        //report content
+        Route::post('/services/addreport', 'ServicesController@addReportContent');
+
+        //city request
+        Route::post('/services/citylist', 'ServicesController@addCityRequest');
+        Route::post('/services/cityrequest', 'ServicesController@fetchCityRequest');
+        Route::get('/test/push', 'NotificationController@testnoti');
         // additional routes here
     });
     //vendor routes

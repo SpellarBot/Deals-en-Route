@@ -47,12 +47,12 @@ class ActivityController extends Controller {
         try {
             // get the request
             $data = $request->all();
-           if(isset($data['is_own_id'])){
-               $id=$data['is_own_id'];
-           }else{
-               $id=3;
-           }
-        
+            if (isset($data['is_own_id'])) {
+                $id = $data['is_own_id'];
+            } else {
+                $id = 3;
+            }
+
             //find nearby coupon
             $activitylist = \App\Activity::activityList($id);
             if (count($activitylist) > 0) {
@@ -120,18 +120,16 @@ class ActivityController extends Controller {
                 $activity->save();
                 if ($activity->save() && $activity->created_by != Auth::id()) {
                     \App\ActivityShare::sendActivityNotification($activity, 'activitycomment', \Config::get('constants.ACTIVITY_COMMENT'), $comment);
-                    if(isset($data['tag_user_id']) && !empty($data['tag_user_id'])){
-            $ids_arr = explode(',', $data['tag_user_id']);
-            \App\DealComments::sendTagActivityCommentNotification($ids_arr,$comment);
-          
-                }
-                    
+                    if (isset($data['tag_user_id']) && !empty($data['tag_user_id'])) {
+                        $ids_arr = explode(',', $data['tag_user_id']);
+                        \App\DealComments::sendTagActivityCommentNotification($ids_arr, $comment);
+                    }
                 }
                 return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-             throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -189,10 +187,9 @@ class ActivityController extends Controller {
             $comment->fill($data);
 
             if ($comment->save()) {
-                     if(isset($data['tag_user_id']) && !empty($data['tag_user_id'])){
-            $ids_arr = explode(',', $data['tag_user_id']);
-            \App\DealComments::sendTagActivityCommentNotification($ids_arr,$comment);
-          
+                if (isset($data['tag_user_id']) && !empty($data['tag_user_id'])) {
+                    $ids_arr = explode(',', $data['tag_user_id']);
+                    \App\DealComments::sendTagActivityCommentNotification($ids_arr, $comment);
                 }
 //                \App\Activity::where('activity_id', $data['activity_id'])
 //                        ->update(['total_comment' => $this->getCommentCount($data['activity_id'])]);
@@ -200,12 +197,12 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-              throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-    
-    public function deleteComment(Request $request){
+
+    public function deleteComment(Request $request) {
         $comment = \App\Comment::deleteActivityComment($request->id);
         return $this->responseJson('success', 'Comment deleted Successfully. ', 200);
     }
@@ -228,15 +225,21 @@ class ActivityController extends Controller {
             //find nearby coupon
             $activity = \App\Activity::getActivityDetails($data);
             if (count($activity) > 0) {
+                if ($data['limit']) {
+                    $limit = $data['limit'];
+                } else {
+                    $limit = 5;
+                }
                 if ($data['page'] == 1) {
                     $offset = 0;
                 } else {
-                    $offset = (($data['page'] - 1) * 10);
+                    $offset = (($data['page'] - 1) * $limit);
                 }
                 $data['current_page'] = $data['page'];
                 $data['activity_details'] = (new ActivityTransformer)->transformActivityDetails($activity);
-                $getComments = \App\Comment::getCommentsByActivity($data['activity_id'], $offset, 10);
-                if (count($getComments) < 10) {
+                $getComments = \App\Comment::getCommentsByActivity($data['activity_id'], $offset, $limit);
+
+                if (count($getComments) < (int) $limit) {
                     $data['hasMorePages'] = false;
                 } else {
                     $data['hasMorePages'] = true;
@@ -244,7 +247,7 @@ class ActivityController extends Controller {
                 $data['comments_list'] = [];
                 foreach ($getComments as $com) {
                     $dt = new Carbon($com->updated_at);
-                    $getUser = \App\UserDetail::where('user_id',$com->created_by)->first();
+                    $getUser = \App\UserDetail::where('user_id', $com->created_by)->first();
                     $comment_details['user_id'] = $getUser->user_id;
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
                     $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
@@ -253,41 +256,40 @@ class ActivityController extends Controller {
                     } else {
                         $comment_details['is_liked'] = 0;
                     }
-                    
-                         $tagfriendarray=explode(",",$com->tag_user_id);
-                    $tags=[];
-                     if(!empty($com->tag_user_id)){
-                    foreach($tagfriendarray as $key1=>$val1){
-                        
-                        $detail=\App\UserDetail::where('user_id',$val1)->first();
-                        if($detail){
-                        $tags[$key1]['user_id']= (int)$val1;
-                        $tags[$key1]['full_name']= '@'.$detail->first_name." ".$detail->last_name;
-                        $tags[$key1]['profile_pic']= (!empty($detail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+
+                    $tagfriendarray = explode(",", $com->tag_user_id);
+                    $tags = [];
+                    if (!empty($com->tag_user_id)) {
+                        foreach ($tagfriendarray as $key1 => $val1) {
+
+                            $detail = \App\UserDetail::where('user_id', $val1)->first();
+                            if ($detail) {
+                                $tags[$key1]['user_id'] = (int) $val1;
+                                $tags[$key1]['full_name'] = '@' . $detail->first_name . " " . $detail->last_name;
+                                $tags[$key1]['profile_pic'] = (!empty($detail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                            }
                         }
-                    }
                     }
                     $comment_details['comment'] = $com->comment_desc;
                     $comment_details['comment_id'] = $com->comment_id;
                     $comment_details['parent_id'] = $com->parent_id;
-                     $comment_details['tag_user_id'] = $tags;
+                    $comment_details['tag_user_id'] = $tags;
                     $comment_details['comment_time'] = $dt->diffForHumans();
-                    
+
                     $getReplyComments = \App\Comment::getCommentsByParentId($com->parent_id, $com->comment_id);
                     foreach ($getReplyComments as $key => $val) {
-                           $tagreplyfriendarray=explode(",",$val['tag_user_id']);
-                       $tagsreply=[];
-                      foreach($tagreplyfriendarray as $key2=>$val2){
-                        if(!empty($val2)){
-                        $detailreply=\App\UserDetail::where('user_id',$val2)->first();
-                         if($detailreply){
-                        $tagsreply[$key2]['user_id']= (int)$val2;
-                        $tagsreply[$key2]['full_name']= '@'.$detailreply->first_name." ".$detailreply->last_name;
-                        $tagsreply[$key2]['profile_pic']= (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detailreply->profile_pic : "";
-                         }
-                        
-                         }
-                    }
+                        $tagreplyfriendarray = explode(",", $val['tag_user_id']);
+                        $tagsreply = [];
+                        foreach ($tagreplyfriendarray as $key2 => $val2) {
+                            if (!empty($val2)) {
+                                $detailreply = \App\UserDetail::where('user_id', $val2)->first();
+                                if ($detailreply) {
+                                    $tagsreply[$key2]['user_id'] = (int) $val2;
+                                    $tagsreply[$key2]['full_name'] = '@' . $detailreply->first_name . " " . $detailreply->last_name;
+                                    $tagsreply[$key2]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detailreply->profile_pic : "";
+                                }
+                            }
+                        }
                         $dt2 = new Carbon($val['updated_at']);
                         $getReplyComments[$key]['comment_by'] = $val['first_name'] . ' ' . $val['last_name'];
                         $getReplyComments[$key]['profile_pic'] = ($val['profile_pic'] ? asset('storage/app/public/profile_pic/' . $val['profile_pic']) : asset('storage/app/public/profile_pic/'));
@@ -318,11 +320,9 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_DEAL'), 200);
         } catch (\Exception $e) {
-           // throw $e;
+            // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
-    
-    
 
 }

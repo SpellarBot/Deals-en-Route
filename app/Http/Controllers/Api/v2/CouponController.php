@@ -531,7 +531,7 @@ class CouponController extends Controller {
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-              throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//
@@ -566,16 +566,20 @@ class CouponController extends Controller {
             //find comments
             $coupondetail = \App\Coupon::getCouponDetail($data);
             if (count($coupondetail) > 0) {
+                if ($data['limit']) {
+                    $limit = $data['limit'];
+                } else {
+                    $limit = 5;
+                }
                 if ($data['page'] == 1) {
                     $offset = 0;
                 } else {
-                    $offset = (($data['page'] - 1) * 5);
+                    $offset = (($data['page'] - 1) * $limit);
                 }
                 $data['current_page'] = $data['page'];
                 $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
-                $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, 5);
-
-                if (count($getComments) < 5) {
+                $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, $limit);
+                if (count($getComments) < (int) $limit) {
                     $data['hasMorePages'] = false;
                 } else {
                     $data['hasMorePages'] = true;
@@ -669,8 +673,6 @@ class CouponController extends Controller {
         $editcommentDeal = DealComments::editComment($data);
         return $this->responseJson('success', 'Comment Edit Successfully. ', 200);
     }
-    
-   
 
     public function getDistance($lat, $long, $coupon_lat, $coupon_long) {
 
@@ -724,5 +726,5 @@ class CouponController extends Controller {
         $editcommentDeal = DealComments::deleteDealComment($id);
         return $this->responseJson('success', 'Comment deleted Successfully. ', 200);
     }
-    
+
 }
