@@ -34,7 +34,7 @@ class Comment extends Model {
         $comments = Comment::select(\DB::raw('comment.*,min(comment.comment_id) as comment_id,activity_comment_likes.liked_by,activity_comment_likes.is_like'))
                 ->leftjoin('activity_comment_likes', 'activity_comment_likes.comment_id', 'comment.comment_id')
                 ->where('comment.activity_id', $id)
-                ->orderBy('comment.updated_at', 'desc')
+                ->orderBy('comment.updated_at', 'asc')
                 ->groupBy('parent_id')
                 ->skip($offset)
                 ->take($limit)
@@ -65,7 +65,7 @@ class Comment extends Model {
                 ->where('comment.parent_id', $id)
                 ->where('comment.comment_id', '!=', $comment_id)
               
-                ->orderBy('comment.updated_at', 'desc')
+                ->orderBy('comment.updated_at', 'asc')
                 ->get();
         return $comments;
     }

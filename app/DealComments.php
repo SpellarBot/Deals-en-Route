@@ -57,7 +57,7 @@ class DealComments extends Model {
     public static function editComment($data) {
         $editComment = DealComments::find($data['comment_id']);
         $editComment->comment_desc = $data['comment'];
-        $editComment->tag_user_id = (isset($data['tag_user_id']) && !empty($data['tag_user_id'])) ? $data['tag_user_id'] : '';
+        $editComment->tag_user_id = (isset($data['tag_user_id'])) ? $data['tag_user_id'] : '';
         
         if(isset($data['tag_user_id']) && !empty($data['tag_user_id'])){
             $ids_arr = explode(',', $data['tag_user_id']);
@@ -88,7 +88,7 @@ class DealComments extends Model {
         $comments = DealComments::select(\DB::raw('deal_comments.*,deal_comment_likes.liked_by,min(deal_comments.id) as id,deal_comment_likes.is_like'))
                 ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
                 ->where('coupon_id', $id)
-                ->orderBy('deal_comments.updated_at', 'desc')
+                ->orderBy('deal_comments.updated_at', 'asc')
                 ->groupBy('parent_id')
                 ->skip($offset)
                 ->take($limit)
@@ -110,7 +110,7 @@ class DealComments extends Model {
         })
                         ->where('deal_comments.parent_id', $id)
                         ->where('deal_comments.id', '!=', $comment_id)
-                        ->orderBy('deal_comments.updated_at', 'desc')
+                        ->orderBy('deal_comments.updated_at', 'asc')
                         ->get()->toArray();
         return $comments;
     }
@@ -162,7 +162,7 @@ class DealComments extends Model {
         $comments = DealComments::select(\DB::raw('deal_comments.*,deal_comment_likes.liked_by,min(deal_comments.id) as id,deal_comments.updated_at,deal_comment_likes.is_like'))
                 ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
                 ->where('deal_comments.id', $id)
-                ->orderBy('deal_comments.updated_at', 'desc')
+                ->orderBy('deal_comments.updated_at', 'asc')
                
                 ->first();
 
