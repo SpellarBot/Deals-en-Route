@@ -527,16 +527,17 @@ class CouponController extends Controller {
 
             $data = $request->all();
             $commentDeal = DealComments::addComment($data);
+       
 
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-              throw $e;
+             throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
-        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
+        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200,$commentDeal);
     }
 
     public function addCommentLike(Request $request) {

@@ -52,7 +52,6 @@ class ActivityController extends Controller {
            }else{
                $id=3;
            }
-        
             //find nearby coupon
             $activitylist = \App\Activity::activityList($id);
             if (count($activitylist) > 0) {

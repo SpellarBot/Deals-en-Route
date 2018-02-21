@@ -45,7 +45,7 @@ class DealComments extends Model {
         {
            return  self::getDealListById($id);
         }
- 
+   
     }
 
     public static function editComment($data) {
@@ -146,32 +146,36 @@ class DealComments extends Model {
         return $comments;
     }
  
-    
+     public static function getCommentsById($id) {
+        $comments = DealComments::select(\DB::raw('deal_comments.*,deal_comment_likes.liked_by,min(deal_comments.id) as id,deal_comment_likes.is_like'))
+                ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
+                ->where('id', $id)
+                ->orderBy('deal_comments.updated_at', 'desc')
+                ->groupBy('parent_id')
+                ->get();
+
+        return $comments;
+    }
     
     public static function getDealListById($id){
          //find comments
-            $coupondetail = \App\Coupon::getCouponDetail($data);
+            $coupondetail = \App\Coupon::getCouponDetail($id);
             if (count($coupondetail) > 0) {
-                if ($data['page'] == 1) {
-                    $offset = 0;
-                } else {
-                    $offset = (($data['page'] - 1) * 10);
-                }
-                $data['current_page'] = $data['page'];
+
                 $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
-                $getComments = DealComments::getCommentsByCouponById($id);
+                $getComments = DealComments::getCommentsById($commentid);
 
             
                 $data['comments_list'] = [];
-                foreach ($getComments as $com) {
-                    $dt = new Carbon($com->updated_at);
-                    $getUser = \App\UserDetail::where('user_id', $com->comment_by)->first();
+               
+                    $dt = new Carbon($getComments->updated_at);
+                    $getUser = \App\UserDetail::where('user_id', $getComments->comment_by)->first();
 
-                    $comment_details['comment_id'] = $com->id;
+                    $comment_details['comment_id'] = $getComments->id;
                     $comment_details['user_id'] = $getUser->user_id;
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
                     $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
-                    if ($com->liked_by === auth()->id() && $com->is_like === 1) {
+                    if ($getComments->liked_by === auth()->id() && $getComments->is_like === 1) {
                         $comment_details['is_liked'] = 1;
                     } else {
                         $comment_details['is_liked'] = 0;
@@ -189,11 +193,11 @@ class DealComments extends Model {
                             $tags[$key]['profile_pic'] = (!empty($detail->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
                         }
                     }
-                    $comment_details['comment'] = $com->comment_desc;
-                    $comment_details['parent_id'] = $com->parent_id;
+                    $comment_details['comment'] = $getComments->comment_desc;
+                    $comment_details['parent_id'] = $getComments->parent_id;
                     $comment_details['tag_user_id'] = $tags;
                     $comment_details['comment_time'] = $dt->diffForHumans();
-                    $getReplyComments = DealComments::getCommentsByParentId($com->parent_id, $com->id);
+                    $getReplyComments = DealComments::getCommentsByParentId($getComments->parent_id, $getComments->id);
 //                     print_r($getReplyComments); 
 
                     foreach ($getReplyComments as $keyreply => $valreply) {
@@ -235,9 +239,10 @@ class DealComments extends Model {
 
                     $comment_details['replycomments'] = $getReplyComments;
                     array_push($data['comments_list'], $comment_details);
-                }
+                
+                 return $data;
              }
-             return $data;
+            
     }
     
 
