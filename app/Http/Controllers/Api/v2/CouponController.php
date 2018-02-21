@@ -666,7 +666,9 @@ class CouponController extends Controller {
 
     public function editComment(Request $request) {
         $data = $request->all();
+        
         $editcommentDeal = DealComments::editComment($data);
+        
         return $this->responseJson('success', 'Comment Edit Successfully. ', 200,$editcommentDeal);
     }
     

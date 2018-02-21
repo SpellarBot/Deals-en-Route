@@ -65,8 +65,9 @@ class DealComments extends Model {
         }
         if($editComment->save())
         {
-      
-           return  self::getDealListById($editComment->coupon_id,$editComment->id);
+          $commentid = ($editComment->parent_id == $editComment->id)?$editComment->id:$editComment->parent_id;
+          
+           return  self::getDealListById($editComment->coupon_id,$commentid);
         }
   
     }
