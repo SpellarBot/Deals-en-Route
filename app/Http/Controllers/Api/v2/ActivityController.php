@@ -249,7 +249,7 @@ class ActivityController extends Controller {
                 foreach ($getComments as $com) {
                     $dt = new Carbon($com->updated_at);
                     $getUser = \App\UserDetail::where('user_id', $com->created_by)->first();
-                    $comment_details['user_id'] = $getUser->user_id;
+                    $comment_details['user_id'] = $getUser->user_id ?? '';
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
                     $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
                     if ($com->liked_by === auth()->id() && $com->is_like === 1) {
