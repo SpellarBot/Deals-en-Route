@@ -566,7 +566,7 @@ class CouponController extends Controller {
             //find comments
             $coupondetail = \App\Coupon::getCouponDetail($data);
             if (count($coupondetail) > 0) {
-                if ($data['limit']) {
+                if (array_key_exists('limit', $data)) {
                     $limit = $data['limit'];
                 } else {
                     $limit = 5;

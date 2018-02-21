@@ -232,7 +232,7 @@ class ActivityController extends Controller {
             //find nearby coupon
             $activity = \App\Activity::getActivityDetails($data);
             if (count($activity) > 0) {
-                if ($data['limit']) {
+                if (array_key_exists('limit', $data)) {
                     $limit = $data['limit'];
                 } else {
                     $limit = 5;
