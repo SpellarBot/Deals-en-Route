@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 use Notification;
 use App\Notifications\FcmNotification;
-
+use App\Http\Transformer\CouponTransformer;
+use Carbon\Carbon;
+use URL;
 class DealComments extends Model {
   use \App\Http\Services\ImageTrait;
     use \App\Http\Services\NotificationTrait;
@@ -36,14 +38,15 @@ class DealComments extends Model {
         }
         if (array_key_exists('parent_id', $data) && !empty($data['parent_id'])) {
             $addComment->parent_id = $data['parent_id'];
-            $id=$data['parent_id'];
+           
         } else {
             $addComment->parent_id = $addComment->id;
-            $id=$addComment->id;
+       
         }
         if($addComment->save())
         {
-           return  self::getDealListById($id);
+      
+           return  self::getDealListById($addComment->coupon_id,$addComment->id);
         }
    
     }
@@ -52,12 +55,17 @@ class DealComments extends Model {
         $editComment = DealComments::find($data['comment_id']);
         $editComment->comment_desc = $data['comment'];
         $editComment->tag_user_id = (isset($data['tag_user_id']) && !empty($data['tag_user_id'])) ? $data['tag_user_id'] : '';
-        $editComment->save();
+        
         if(isset($data['tag_user_id']) && !empty($data['tag_user_id'])){
             $ids_arr = explode(',', $data['tag_user_id']);
             self::sendTagDealCommentNotification($ids_arr,$editComment->coupon_id,$editComment);
         }
-        return $editComment;
+        if($editComment->save())
+        {
+      
+           return  self::getDealListById($editComment->coupon_id,$editComment->id);
+        }
+  
     }
 
     public static function getComments($id) {
@@ -147,25 +155,26 @@ class DealComments extends Model {
     }
  
      public static function getCommentsById($id) {
-        $comments = DealComments::select(\DB::raw('deal_comments.*,deal_comment_likes.liked_by,min(deal_comments.id) as id,deal_comment_likes.is_like'))
+        $comments = DealComments::select(\DB::raw('deal_comments.*,deal_comment_likes.liked_by,min(deal_comments.id) as id,deal_comments.updated_at,deal_comment_likes.is_like'))
                 ->leftjoin('deal_comment_likes', 'deal_comment_likes.comment_id', 'deal_comments.id')
-                ->where('id', $id)
+                ->where('deal_comments.id', $id)
                 ->orderBy('deal_comments.updated_at', 'desc')
-                ->groupBy('parent_id')
-                ->get();
+               
+                ->first();
 
         return $comments;
     }
     
-    public static function getDealListById($id){
+    public static function getDealListById($coupon_id,$id){
+
          //find comments
-            $coupondetail = \App\Coupon::getCouponDetail($id);
+            $coupondetail = \App\Coupon::getCouponDetailById($coupon_id);
+          
             if (count($coupondetail) > 0) {
-
-                $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
-                $getComments = DealComments::getCommentsById($commentid);
-
             
+                $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
+                $getComments = DealComments::getCommentsById($id);
+
                 $data['comments_list'] = [];
                
                     $dt = new Carbon($getComments->updated_at);
@@ -181,9 +190,9 @@ class DealComments extends Model {
                         $comment_details['is_liked'] = 0;
                     }
 
-                    $tagfriendarray = explode(",", $com->tag_user_id);
+                    $tagfriendarray = explode(",", $getComments->tag_user_id);
                     $tags = [];
-                    if (!empty($com->tag_user_id)) {
+                    if (!empty($getComments->tag_user_id)) {
                         foreach ($tagfriendarray as $key => $val) {
 
                             $detail = \App\UserDetail::where('user_id', $val)->first();
@@ -202,6 +211,7 @@ class DealComments extends Model {
 
                     foreach ($getReplyComments as $keyreply => $valreply) {
                         $tagreplyfriendarray = explode(",", $valreply['tag_user_id']);
+                        
                         $tagsreply = [];
                         foreach ($tagreplyfriendarray as $key1 => $val1) {
                             if (!empty($val1)) {
@@ -209,7 +219,7 @@ class DealComments extends Model {
 
                                 $tagsreply[$key1]['user_id'] = (int) $val1;
                                 $tagsreply[$key1]['full_name'] = '@' . $detailreply->first_name . " " . $detailreply->last_name;
-                                $tagsreply[$key1]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                                $tagsreply[$key1]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detailreply->profile_pic : "";
                             }
                         }
 
@@ -240,9 +250,9 @@ class DealComments extends Model {
                     $comment_details['replycomments'] = $getReplyComments;
                     array_push($data['comments_list'], $comment_details);
                 
-                 return $data;
+                  return $data;
              }
-            
+           
     }
     
 

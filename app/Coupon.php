@@ -164,6 +164,15 @@ class Coupon extends Model {
 
         return $query;
     }
+    
+    public static function getCouponDetailById($id) {
+
+
+        $query = Coupon::where('coupon_id', $id)
+                ->first();
+
+        return $query;
+    }
 
     public static function getCouponDetailByCode($data) {
 
