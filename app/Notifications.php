@@ -60,7 +60,8 @@ class Notifications extends Model {
 //        print_r($data);
 //        die;
         if (!empty($tokens)) {
-            $noti = self::sendAPNSNotificaiton($tokens->device_token, '', $data);
+//            $noti = self::sendAPNSNotificaiton($tokens->device_token, '', $data);
+            $noti = self::sendAPNSNotificaiton('', '', $data);
             return $noti;
         }
         die;
@@ -106,7 +107,11 @@ class Notifications extends Model {
         $message = 'Welcome to iOS 7 Push Notifications';
         /* Pur your device token here */
 //        $deviceToken = '1f756b19a78b9a94fac86ede70eb97943db8209872ab0ae18eecd20bcfe20783';
-        $deviceToken = '625af8cf971325f57c96a1e30637d6b830878671a7d93322a22add43a4205184';
+        if ($token) {
+            $deviceToken = $token;
+        } else {
+            $deviceToken = '625af8cf971325f57c96a1e30637d6b830878671a7d93322a22add43a4205184';
+        }
         /* Replace this with the name of the file that you have placed by your PHP
           script file, containing your private key and certificate that you generated
           earlier */
