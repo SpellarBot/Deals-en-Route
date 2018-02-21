@@ -623,7 +623,7 @@ class CouponController extends Controller {
 
                                 $tagsreply[$key1]['user_id'] = (int) $val1;
                                 $tagsreply[$key1]['full_name'] = '@' . $detailreply->first_name . " " . $detailreply->last_name;
-                                $tagsreply[$key1]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                                $tagsreply[$key1]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detailreply->profile_pic : "";
                             }
                         }
 
