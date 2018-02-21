@@ -569,13 +569,13 @@ class CouponController extends Controller {
                 if ($data['page'] == 1) {
                     $offset = 0;
                 } else {
-                    $offset = (($data['page'] - 1) * 5);
+                    $offset = (($data['page'] - 1) * 10);
                 }
                 $data['current_page'] = $data['page'];
                 $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
-                $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, 5);
+                $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, 10);
 
-                if (count($getComments) < 5) {
+                if (count($getComments) < 10) {
                     $data['hasMorePages'] = false;
                 } else {
                     $data['hasMorePages'] = true;

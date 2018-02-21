@@ -23,7 +23,7 @@ class VendorDetail extends Model {
         'billing_country', 'vendor_country', 'vendor_state', 'vendor_city', 'vendor_lat',
         'vendor_long', 'billing_businessname', 'check-address', 'vendor_time_zone',
         'deal_used','additional_geo_location_used','additional_geo_fencing_used',
-        'additional_geo_location_total','additional_geo_fencing_total'
+        'additional_geo_location_total','additional_geo_fencing_total','vendor_street_address'
     ];
 
     public function userSubscription() {
@@ -142,7 +142,27 @@ class VendorDetail extends Model {
                 ->setParam(['address' => $model->vendor_address])
                 ->get();
         $response1 = json_decode($response);
+        
+        $streetaddress="";
+        foreach($response1->results[0]->address_components as $element){
+
+       if(($element->types[0]=='street_number')){
+            $streetaddress .=$element->long_name. ",";
+        }
+       if(($element->types[0]=='route')){
+            $streetaddress .=$element->long_name.",";
+        }
+        
+         if(($element->types[0]=='political')){
+            $streetaddress .=$element->long_name.",";
+        }
+        }
+        
+       $streetaddress=  substr($streetaddress, 0, -1);
+     
+       // $response1->results[0]->route
         if ($response1->status != 'ZERO_RESULTS') {
+            $model->vendor_street_address=$streetaddress;
             $model->vendor_lat = $response1->results[0]->geometry->location->lat;
             $model->vendor_long = $response1->results[0]->geometry->location->lng;
         }
