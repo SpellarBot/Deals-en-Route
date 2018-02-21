@@ -23,6 +23,8 @@ class DealComments extends Model {
     protected $fillable = [
         'id', 'comment_by', 'comment_desc', 'coupon_id', 'created_at', 'updated_at', 'tag_user_id'
     ];
+      const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 
     public static function addComment($data) {
         $addComment = DealComments::create(['comment_desc' => $data['comment'],
@@ -38,15 +40,16 @@ class DealComments extends Model {
         }
         if (array_key_exists('parent_id', $data) && !empty($data['parent_id'])) {
             $addComment->parent_id = $data['parent_id'];
+             $commentid=$data['parent_id'];
            
         } else {
             $addComment->parent_id = $addComment->id;
-       
+             $commentid=$addComment->id;
         }
         if($addComment->save())
         {
       
-           return  self::getDealListById($addComment->coupon_id,$addComment->id);
+           return  self::getDealListById($addComment->coupon_id,$commentid);
         }
    
     }
