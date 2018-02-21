@@ -47,10 +47,10 @@ class Notifications extends Model {
                 "alert" => [
                     "title" => $messagedata->type,
                     "body" => ['message' => $messagedata->message,
-                        'coupon_id' => $notificaitondata['coupon_id'],
+                        'coupon_id' => ((array_key_exists("coupon_id", $notificaitondata) && $notificaitondata['coupon_id']) ? $notificaitondata['coupon_id'] : ""),
                         "activity_id" => ((array_key_exists("activity_id", $notificaitondata) && $notificaitondata['activity_id']) ? $notificaitondata['activity_id'] : ""),
-                        "is_reedem" => (array_key_exists('is_reedem', $notificaitondata) && $notificaitondata['is_reedem'] ? $notificaitondata['is_reedem'] : ""),
-                        "comment_id" => (array_key_exists('comment_id', $notificaitondata) && $notificaitondata['comment_id'])
+                        "is_reedem" => ((array_key_exists('is_reedem', $notificaitondata) && $notificaitondata['is_reedem']) ? $notificaitondata['is_reedem'] : ""),
+                        "comment_id" => ((array_key_exists('comment_id', $notificaitondata) && $notificaitondata['comment_id']) ? $notificaitondata['comment_id'] : "")
                     ],
                     "badge" => 1
                 ],
