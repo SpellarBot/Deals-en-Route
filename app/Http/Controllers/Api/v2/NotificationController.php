@@ -133,4 +133,15 @@ class NotificationController extends Controller {
         }
     }
 
+    public function testnoti() {
+        Notification::send(Auth::user(), new FcmNotification([
+            'type' => 'geonotification',
+            'notification_message' => "testnotification",
+            'message' => "testnotification",
+            'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
+            'coupon_id' => '2',
+            'is_reedem' => true
+        ]));
+    }
+
 }

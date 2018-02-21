@@ -522,21 +522,21 @@ class CouponController extends Controller {
     }
 
     public function addComment(Request $request) {
-      
+
         try {
 
             $data = $request->all();
             $commentDeal = DealComments::addComment($data);
-       
-     
+
+
             // save the user
         } catch (\Exception $e) {
-
-             throw $e;
+            DB::rollback();
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-       
-        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200,$commentDeal);
+
+        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200, $commentDeal);
     }
 
     public function addCommentLike(Request $request) {
@@ -566,16 +566,20 @@ class CouponController extends Controller {
             //find comments
             $coupondetail = \App\Coupon::getCouponDetail($data);
             if (count($coupondetail) > 0) {
+                if ($data['limit']) {
+                    $limit = $data['limit'];
+                } else {
+                    $limit = 5;
+                }
                 if ($data['page'] == 1) {
                     $offset = 0;
                 } else {
-                    $offset = (($data['page'] - 1) * 5);
+                    $offset = (($data['page'] - 1) * $limit);
                 }
                 $data['current_page'] = $data['page'];
                 $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
-                $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, 5);
-
-                if (count($getComments) < 5) {
+                $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, $limit);
+                if (count($getComments) < (int) $limit) {
                     $data['hasMorePages'] = false;
                 } else {
                     $data['hasMorePages'] = true;
@@ -586,7 +590,7 @@ class CouponController extends Controller {
                     $getUser = \App\UserDetail::where('user_id', $com->comment_by)->first();
 
                     $comment_details['comment_id'] = $com->id;
-                    $comment_details['user_id'] = (empty($getUser->user_id))?'':$getUser->user_id;
+                    $comment_details['user_id'] = (empty($getUser->user_id)) ? '' : $getUser->user_id;
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
                     $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
                     if ($com->liked_by === auth()->id() && $com->is_like === 1) {
@@ -666,13 +670,11 @@ class CouponController extends Controller {
 
     public function editComment(Request $request) {
         $data = $request->all();
-        
+
         $editcommentDeal = DealComments::editComment($data);
-        
-        return $this->responseJson('success', 'Comment Edit Successfully. ', 200,$editcommentDeal);
+
+        return $this->responseJson('success', 'Comment Edit Successfully. ', 200, $editcommentDeal);
     }
-    
-   
 
     public function getDistance($lat, $long, $coupon_lat, $coupon_long) {
 
@@ -726,5 +728,5 @@ class CouponController extends Controller {
         $editcommentDeal = DealComments::deleteDealComment($id);
         return $this->responseJson('success', 'Comment deleted Successfully. ', 200);
     }
-    
+
 }
