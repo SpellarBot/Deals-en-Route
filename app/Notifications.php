@@ -29,6 +29,7 @@ class Notifications extends Model {
             'coupon_id' => $data['coupon_id']
         ]);
         $returnvalue['is_reedem'] = $data['is_reedem'];
+        $returnvalue['comment_id'] = $data['comment_id'];
         self::sendNotification($returnvalue);
         return $returnvalue;
     }
@@ -48,7 +49,8 @@ class Notifications extends Model {
                     "body" => ['message' => $messagedata->message,
                         'coupon_id' => $notificaitondata['coupon_id'],
                         "activity_id" => ((array_key_exists("activity_id", $notificaitondata) && $notificaitondata['activity_id']) ? $notificaitondata['activity_id'] : ""),
-                        "is_reedem" => $notificaitondata['is_reedem']
+                        "is_reedem" => (array_key_exists('is_reedem', $notificaitondata) && $notificaitondata['is_reedem'] ? $notificaitondata['is_reedem'] : ""),
+                        "comment_id" => (array_key_exists('comment_id', $notificaitondata) && $notificaitondata['comment_id'])
                     ],
                     "badge" => 1
                 ],

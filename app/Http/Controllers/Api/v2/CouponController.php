@@ -527,8 +527,6 @@ class CouponController extends Controller {
 
             $data = $request->all();
             $commentDeal = DealComments::addComment($data);
-
-
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
