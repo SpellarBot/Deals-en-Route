@@ -60,7 +60,8 @@ class Notifications extends Model {
 //        print_r($data);
 //        die;
         if (!empty($tokens)) {
-            $noti = self::sendAPNSNotificaiton($tokens->device_token, '', $data);
+//            $noti = self::sendAPNSNotificaiton($tokens->device_token, '', $data);
+            $noti = self::sendAPNSNotificaiton('', '', $data);
             return $noti;
         }
         die;
