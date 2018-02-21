@@ -74,7 +74,7 @@ class DealComments extends Model {
     public static function getComments($id) {
         $comments = DealComments::select(\DB::raw('count(id) as total_comments'))
                 ->where('coupon_id', $id)
-                ->groupBy('parent_id')
+//                ->groupBy('parent_id')
                 ->first();
         if ($comments) {
             return $comments->getAttributes();
