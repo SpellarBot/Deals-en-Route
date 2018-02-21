@@ -522,11 +522,12 @@ class CouponController extends Controller {
     }
 
     public function addComment(Request $request) {
-        DB::beginTransaction();
+
         try {
 
             $data = $request->all();
             $commentDeal = DealComments::addComment($data);
+
 
             // save the user
         } catch (\Exception $e) {
@@ -534,9 +535,8 @@ class CouponController extends Controller {
             throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-        // If we reach here, then// data is valid and working.//
-        DB::commit();
-        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
+
+        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200, $commentDeal);
     }
 
     public function addCommentLike(Request $request) {
@@ -590,7 +590,7 @@ class CouponController extends Controller {
                     $getUser = \App\UserDetail::where('user_id', $com->comment_by)->first();
 
                     $comment_details['comment_id'] = $com->id;
-                    $comment_details['user_id'] = $getUser->user_id;
+                    $comment_details['user_id'] = (empty($getUser->user_id)) ? '' : $getUser->user_id;
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
                     $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
                     if ($com->liked_by === auth()->id() && $com->is_like === 1) {
@@ -627,7 +627,7 @@ class CouponController extends Controller {
 
                                 $tagsreply[$key1]['user_id'] = (int) $val1;
                                 $tagsreply[$key1]['full_name'] = '@' . $detailreply->first_name . " " . $detailreply->last_name;
-                                $tagsreply[$key1]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                                $tagsreply[$key1]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detailreply->profile_pic : "";
                             }
                         }
 
@@ -670,8 +670,10 @@ class CouponController extends Controller {
 
     public function editComment(Request $request) {
         $data = $request->all();
+
         $editcommentDeal = DealComments::editComment($data);
-        return $this->responseJson('success', 'Comment Edit Successfully. ', 200);
+
+        return $this->responseJson('success', 'Comment Edit Successfully. ', 200, $editcommentDeal);
     }
 
     public function getDistance($lat, $long, $coupon_lat, $coupon_long) {

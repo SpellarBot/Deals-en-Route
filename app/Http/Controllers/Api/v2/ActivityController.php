@@ -52,7 +52,6 @@ class ActivityController extends Controller {
             } else {
                 $id = 3;
             }
-
             //find nearby coupon
             $activitylist = \App\Activity::activityList($id);
             if (count($activitylist) > 0) {
@@ -111,8 +110,10 @@ class ActivityController extends Controller {
             if ($comment->save()) {
                 if (array_key_exists('parent_id', $data) && !empty($data['parent_id'])) {
                     $comment->parent_id = $data['parent_id'];
+                    $commentid = $data['parent_id'];
                 } else {
                     $comment->parent_id = $comment->comment_id;
+                    $commentid = $comment->comment_id;
                 }
                 $comment->save();
                 $activity = \App\Activity::where('activity_id', $data['activity_id'])->first();
@@ -125,7 +126,8 @@ class ActivityController extends Controller {
                         \App\DealComments::sendTagActivityCommentNotification($ids_arr, $comment);
                     }
                 }
-                return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
+                $commentresponse = $comment->getActivityComment($comment->activity_id, $commentid);
+                return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200, $commentresponse);
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
@@ -193,8 +195,13 @@ class ActivityController extends Controller {
                 }
 //                \App\Activity::where('activity_id', $data['activity_id'])
 //                        ->update(['total_comment' => $this->getCommentCount($data['activity_id'])]);
-                return $this->responseJson('success', \Config::get('constants.COMMENT_UPDATE'), 200);
+
+                $commentid = ($comment->parent_id == $comment->comment_id) ? $comment->comment_id : $comment->parent_id;
+
+                $commentresponse = $comment->getActivityComment($comment->activity_id, $commentid);
+                return $this->responseJson('success', \Config::get('constants.COMMENT_UPDATE'), 200, $commentresponse);
             }
+
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
             throw $e;
@@ -248,7 +255,7 @@ class ActivityController extends Controller {
                 foreach ($getComments as $com) {
                     $dt = new Carbon($com->updated_at);
                     $getUser = \App\UserDetail::where('user_id', $com->created_by)->first();
-                    $comment_details['user_id'] = $getUser->user_id;
+                    $comment_details['user_id'] = ($getUser->user_id ? $getUser->user_id : '');
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
                     $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
                     if ($com->liked_by === auth()->id() && $com->is_like === 1) {

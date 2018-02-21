@@ -164,6 +164,15 @@ class Coupon extends Model {
 
         return $query;
     }
+    
+    public static function getCouponDetailById($id) {
+
+
+        $query = Coupon::where('coupon_id', $id)
+                ->first();
+
+        return $query;
+    }
 
     public static function getCouponDetailByCode($data) {
 
@@ -190,17 +199,17 @@ class Coupon extends Model {
     //save coupon
     public static function addCoupon($data) {
 
-        $details = ['vendor_id' => Auth::id(), 'amount' => $data['totalprice'], 'item_name' => $data['extra_fensing_area'] . ' Geo Fensing Area'];
-        $this->makePayment($details);
-        $user = Subscription::where('user_id', Auth::id())->first();
-        $user_details = $user->getAttributes();
-        $adoninsert = array('user_id' => Auth::id(),
-            'plan_id' => $user_details['stripe_plan'],
-            'addon_type' => 'add_on_geo_fence',
-            'quantity' => $fensingarea,
-            'startdate' => $user_details['startdate'],
-            'enddate' => $user_details['enddate']);
-        $add_ons = PlanAddOns::addOnsInsert($adoninsert);
+//        $details = ['vendor_id' => Auth::id(), 'amount' => $data['totalprice'], 'item_name' => $data['extra_fensing_area'] . ' Geo Fensing Area'];
+//        $this->makePayment($details);
+//        $user = Subscription::where('user_id', Auth::id())->first();
+//        $user_details = $user->getAttributes();
+//        $adoninsert = array('user_id' => Auth::id(),
+//            'plan_id' => $user_details['stripe_plan'],
+//            'addon_type' => 'add_on_geo_fence',
+//            'quantity' => $fensingarea,
+//            'startdate' => $user_details['startdate'],
+//            'enddate' => $user_details['enddate']);
+//        $add_ons = PlanAddOns::addOnsInsert($adoninsert);
         
         
         $coupon = new Coupon();
