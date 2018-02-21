@@ -522,7 +522,7 @@ class CouponController extends Controller {
     }
 
     public function addComment(Request $request) {
-      
+
         try {
 
             $data = $request->all();
@@ -530,11 +530,11 @@ class CouponController extends Controller {
             // save the user
         } catch (\Exception $e) {
 
-           //  throw $e;
+//            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-       
-        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200,$commentDeal);
+
+        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200, $commentDeal);
     }
 
     public function addCommentLike(Request $request) {
@@ -548,7 +548,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-          //  throw $e;
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -673,8 +673,6 @@ class CouponController extends Controller {
 
         return $this->responseJson('success', 'Comment Edit Successfully. ', 200, $editcommentDeal);
     }
-    
-   
 
     public function getDistance($lat, $long, $coupon_lat, $coupon_long) {
 
