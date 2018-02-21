@@ -586,7 +586,7 @@ class CouponController extends Controller {
                     $getUser = \App\UserDetail::where('user_id', $com->comment_by)->first();
 
                     $comment_details['comment_id'] = $com->id;
-                    $comment_details['user_id'] = $getUser->user_id??'';
+                    $comment_details['user_id'] = (empty($getUser->user_id))?'':$getUser->user_id;
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
                     $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
                     if ($com->liked_by === auth()->id() && $com->is_like === 1) {
