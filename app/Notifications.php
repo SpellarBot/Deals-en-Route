@@ -40,6 +40,7 @@ class Notifications extends Model {
 //        print_r($notificaitondata);
 //        die;
         $messagedata = json_decode($notificaitondata['data']);
+        $tokens = DeviceDetail::where('user_id', $notificaitondata['notifiable_id'])->first();
         $data = array(
             "aps" => [
                 "alert" => [
@@ -58,7 +59,10 @@ class Notifications extends Model {
         );
 //        print_r($data);
 //        die;
-        self::sendAPNSNotificaiton('', '', $data);
+        if (!empty($tokens)) {
+            $noti = self::sendAPNSNotificaiton($tokens->device_token, '', $data);
+            return $noti;
+        }
         die;
 
         $optionBuiler = new OptionsBuilder();
