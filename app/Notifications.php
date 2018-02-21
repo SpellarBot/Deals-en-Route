@@ -60,8 +60,8 @@ class Notifications extends Model {
 //        print_r($data);
 //        die;
         if (!empty($tokens)) {
-//            $noti = self::sendAPNSNotificaiton($tokens->device_token, '', $data);
-            $noti = self::sendAPNSNotificaiton('', '', $data);
+            $noti = self::sendAPNSNotificaiton($tokens->device_token, '', $data);
+//            $noti = self::sendAPNSNotificaiton('', '', $data);
             return $noti;
         }
         die;
@@ -148,7 +148,6 @@ class Notifications extends Model {
             echo "Successfully sent the message<br/>";
         }
         fclose($connection);
-        print_r($wroteSuccessfully);
     }
 
 }
