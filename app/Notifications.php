@@ -28,18 +28,19 @@ class Notifications extends Model {
             'is_read' => 0,
             'coupon_id' => $data['coupon_id']
         ]);
-     
-        self::sendNotification($data);
+        $returnvalue['is_reedem'] = $data['is_reedem'];
+        self::sendNotification($returnvalue);
         return $returnvalue;
     }
 
     public static function sendNotification($returnvalue) {
 
-      
+        $notificaitondata = $returnvalue->getAttributes();
+
 //        print_r($notificaitondata);
 //        die;
-        $messagedata = json_decode($returnvalue['data']);
-        $tokens = DeviceDetail::where('user_id', $returnvalue['notifiable_id'])->first();
+        $messagedata = json_decode($notificaitondata['data']);
+        $tokens = DeviceDetail::where('user_id', $notificaitondata['notifiable_id'])->first();
         $data = array(
             "aps" => [
                 "alert" => [
@@ -91,11 +92,10 @@ class Notifications extends Model {
     }
 
     public static function sendAPNSNotificaiton($token = '', $option = '', $data = '', $notification = '') {
-        $apnsHost = \Config::get('constants.APNS_HOST');
-        
+        $apnsHost = 'gateway.sandbox.push.apple.com';
 //        $apnsHost = 'gateway.push.apple.com';
         $apnsPort = 2195;
-        $privateKeyPassword =  \Config::get('constants.APNS_PASSWORD');
+        $privateKeyPassword = '123456';
         if ($token) {
             $deviceToken = $token;
         } else {
@@ -118,11 +118,11 @@ class Notifications extends Model {
                 pack('n', strlen($payload)) .
                 $payload;
         $wroteSuccessfully = fwrite($connection, $notification, strlen($notification));
-        if (!$wroteSuccessfully) {
-            echo "Could not send the message<br/>";
-        } else {
-            echo "Successfully sent the message<br/>";
-        }
+//        if (!$wroteSuccessfully) {
+//            echo "Could not send the message<br/>";
+//        } else {
+//            echo "Successfully sent the message<br/>";
+//        }
         fclose($connection);
     }
 
