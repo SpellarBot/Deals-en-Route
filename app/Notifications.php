@@ -28,8 +28,7 @@ class Notifications extends Model {
             'is_read' => 0,
             'coupon_id' => $data['coupon_id']
         ]);
-        $returnvalue['is_reedem'] = $data['is_reedem'];
-        $returnvalue['comment_id'] = $data['comment_id'];
+
         self::sendNotification($returnvalue);
         return $returnvalue;
     }
@@ -41,30 +40,25 @@ class Notifications extends Model {
 //        print_r($notificaitondata);
 //        die;
         $messagedata = json_decode($notificaitondata['data']);
+        $user = User::find($returnvalue->notifiable_id);
+        $unread = $user->unreadNotifications->count();
         $tokens = DeviceDetail::where('user_id', $notificaitondata['notifiable_id'])->first();
-        $data = array(
+        $data = [
             "aps" => [
                 "alert" => [
-                    "title" => $messagedata->type,
-                    "body" => ['message' => $messagedata->message,
-                        'coupon_id' => ((array_key_exists("coupon_id", $notificaitondata) && $notificaitondata['coupon_id']) ? $notificaitondata['coupon_id'] : ""),
-                        "activity_id" => ((array_key_exists("activity_id", $notificaitondata) && $notificaitondata['activity_id']) ? $notificaitondata['activity_id'] : ""),
-                        "is_reedem" => ((array_key_exists('is_reedem', $notificaitondata) && $notificaitondata['is_reedem']) ? $notificaitondata['is_reedem'] : ""),
-                        "comment_id" => ((array_key_exists('comment_id', $notificaitondata) && $notificaitondata['comment_id']) ? $notificaitondata['comment_id'] : "")
-                    ],
-                    "badge" => 1
+                    "title" => $messagedata->message,
+                    "body" => $messagedata ,
+                    "badge" => $unread
                 ],
                 "mutable-content" => "1",
-                "category" => "newCategory"
+             
             ],
-            "otherCustomURL" => "http://i.przedszkola.edu.pl/d8/28/47-zimowe-zabawy-konspekt-zaj-hospitowanych.jpg"
-        );
-//        print_r($data);
+            "attachment-url" => $messagedata->image
+        ];
+//       print_r($data);
 //        die;
         if (!empty($tokens)) {
-            $noti = self::sendAPNSNotificaiton($tokens->device_token, '', $data);
-//            $noti = self::sendAPNSNotificaiton('', '', $data);
-            return $noti;
+            self::sendAPNSNotificaiton($tokens->device_token, '', $data);
         }
 
 //        $optionBuiler = new OptionsBuilder();
@@ -94,15 +88,14 @@ class Notifications extends Model {
     }
 
     public static function sendAPNSNotificaiton($token = '', $option = '', $data = '', $notification = '') {
-        $apnsHost = 'gateway.sandbox.push.apple.com';
+       $apnsHost = \Config::get('constants.APNS_HOST');
+     
 //        $apnsHost = 'gateway.push.apple.com';
         $apnsPort = 2195;
-        $privateKeyPassword = '123456';
-        if ($token) {
-            $deviceToken = $token;
-        } else {
-            $deviceToken = '625af8cf971325f57c96a1e30637d6b830878671a7d93322a22add43a4205184';
-        }
+        $privateKeyPassword =  \Config::get('constants.APNS_PASSWORD');
+       
+        $deviceToken = $token;
+        
         $pushCertAndKeyPemFile = __DIR__ . '/apns-dev.pem';
         $stream = stream_context_create();
         stream_context_set_option($stream, 'ssl', 'local_cert', $pushCertAndKeyPemFile);
@@ -114,18 +107,17 @@ class Notifications extends Model {
         }
         $messageBody = $data;
         $payload = json_encode($messageBody);
-        $notification = chr(0) .
-                pack('n', 32) .
-                pack('H*', $deviceToken) .
-                pack('n', strlen($payload)) .
-                $payload;
+        $devicetokenapns=pack('H*', $deviceToken);
+        $notification = chr(0) .pack('n', 32) . $devicetokenapns.pack('n', strlen($payload)) .$payload;
         $wroteSuccessfully = fwrite($connection, $notification, strlen($notification));
+        
 //        if (!$wroteSuccessfully) {
 //            echo "Could not send the message<br/>";
 //        } else {
 //            echo "Successfully sent the message<br/>";
 //        }
         fclose($connection);
-    }
+        }
+    
 
 }

@@ -67,18 +67,28 @@ class HomeController extends Controller {
         $year = (isset($request) && !empty($request['year'])) ? $request['year'] : date('Y');
         $month = (isset($request) && !empty($request['month'])) ? $request['month'] : date('m');
         $data = [];
+        $additional = new \App\AdditionalCost();
+        $user_access = $additional->userAccess();
+        $used_plan = $additional->usedCouponTotal();
         $vendor_detail = \App\VendorDetail::getStripeVendor();
         $total_redeem_monthly = Coupon::getReedemCouponMonthly($year);
         $total_redeem_weekly = Coupon::getReedemCouponWeekly($year, $month);
         $total_coupon_monthly = Coupon::getTotalCouponMonthly();
         $total_active_coupon_monthly = Coupon::getTotalActiveCouponMonthly();
         $total_age_wise_redeem = \App\CouponRedeem::getAgeWiseReddemCoupon();
+        $total_additional_fencing_left =  $additional->getAdditionalFencing($used_plan,$user_access);
+        $total_additional_location_left =  $additional->getAdditionalLocation($used_plan,$user_access);
+        $data['total_additional_fencing_left_per'] = ($total_additional_fencing_left != 0) ? number_format(($total_additional_fencing_left / $user_access['additionalgeofencing']) * 100, 2) : 0;
+        $data['total_additional_location_left_per'] = ($total_additional_location_left != 0) ? number_format(($total_additional_location_left / $user_access['additionalgeolocation']) * 100, 2) : 0;   
         $data['total_redeem_monthly'] = $total_redeem_monthly->getAttributes();
+        $data['total_additional_fencing_left'] = $total_additional_fencing_left;
+        $data['total_additional_location_left'] = $total_additional_location_left;
         $data['total_coupon_monthly'] = $total_coupon_monthly->getAttributes();
         $data['total_redeem_weekly'] = $total_redeem_weekly->getAttributes();
         $data['total_active_coupon_monthly'] = $total_active_coupon_monthly->getAttributes();
         $data['deals_left'] = $vendor_detail['deals_left'];
         $data['deals_percent'] = $vendor_detail['deals_percent'];
+    
         $data = $data + $total_age_wise_redeem;
         return $this->responseJson('success', \Config::get('constants.DASHBOARD_DETAIL'), 200, $data);
     }

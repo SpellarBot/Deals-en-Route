@@ -125,6 +125,7 @@ class DealComments extends Model {
             'image' => $addComment->showImage($userfromnotify->userdetail->profile_pic, 'profile_pic'),
             'coupon_id' => $coupon_id,
             'comment_id' => $addComment->id,
+            
         ]));
     }
 
