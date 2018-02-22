@@ -116,7 +116,11 @@ return [
     'DATE_FORMAT' => 'n/j/y - g:00 A',
     'SETTINGS' => 'Settings Page Details!',
     'VENDOR_RATING' => 'Vendor Rating Submited Successfully',
-    'VENDOR_RATINGDETAILS' => 'Vendor Rating Details'
+    'VENDOR_RATINGDETAILS' => 'Vendor Rating Details',
+    
+    // set apns param
+    
+    'APNS_HOST'=>'gateway.sandbox.push.apple.com'
 ];
 
 
