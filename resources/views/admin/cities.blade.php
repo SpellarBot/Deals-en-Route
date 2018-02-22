@@ -137,9 +137,9 @@
                         </a>
                      </li>
                      <li class="">
-                        <a href="{{ asset('admin/vendorlist') }}" title="Packages">
+                        <a href="{{ asset('admin/categories') }}" title="Packages">
                            <em class="fa fa-inbox"></em>
-                           <span>Packages</span>
+                           <span>Categories</span>
                         </a>
                      </li>
                      <li class="">
@@ -173,7 +173,7 @@
             <div class="content-wrapper">
                <h3>
                Cities
-               <small class="sub-title">Lorem ipsum dolor sit amet, consectetur</small>
+               <small class="sub-title"></small>
                
                </h3>
                <div class="container-fluid cities-content-wrapper">
@@ -193,50 +193,28 @@
                      <div id="activeCities" role="tabpanel" class="tab-pane active">
                         <div class="row">
                            <div class="col-lg-12">
-                              <div class="row">
-                                 <div class="panel panel-default">
-                                    <div class="panel-body">
-                                       <div class="form-group clearfix">
-                                          <label class="col-sm-2 control-label">Add Cities</label>
-                                          <div class="col-sm-10">
-                                             <select multiple class="chosen-select form-control" value="Select Cities or City">
-                                                <option>New York</option>
-                                                <option>Chongqing</option>
-                                                <option>Shanghai</option>
-                                                <option>Delhi</option>
-                                                <option>Beijing</option>
-                                                <option>Mumbai</option>
-                                                <option>Lagos</option>
-                                                <option>Karachi</option>
-                                                <option>Guangzhou</option>
-                                                <option>Istanbul</option>
-                                                <option>Tokyo</option>
-                                                <option>Tianjin</option>
-                                                <option>Moscow</option>
-                                                <option>Dhaka</option>
-                                                <option>Cairo</option>
-                                                <option>Seoul</option>
-                                                <option>Kinshasa</option>
-                                                <option>Jakarta</option>
-                                                <option>Wenzhou</option>
-                                                <option>Mexico City</option>
-                                                <option>London</option>
-                                                <option>Hyderabad</option>
-                                                <option>Bengaluru</option>
-                                                <option>Ahmedabad</option>
-                                                <option>Los Angeles</option>
-                                                <option>Durban</option>
-                                             </select>
-                                          </div>
-                                       </div>
-                                       <div class="form-group mb-0 clearfix">
-                                          <div class="col-sm-10 col-sm-offset-2">
-                                             <button type="button" class="btn btn-oval btn-primary btn-lg btn-min-w-100">Save</button>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
+                               <div class="row">
+                                   <div class="panel panel-default">
+                                       <form method="get" action="{{ asset('admin/activeCity')}}">
+                                           <div class="panel-body">
+                                               <div class="form-group clearfix">
+                                                   <label class="col-sm-2 control-label">Add Cities</label>
+                                                   <div class="col-sm-10">
+                                                       <select multiple name="active_city[]" class="chosen-select form-control" value="Select Cities or City">
+                                                           @foreach($city_list_inactive as $row)
+                                                           <option value="{{$row->id}}">{{$row->name}}</option>
+                                                           @endforeach
+                                                       </select>
+                                                   </div>
+                                               </div>
+                                               <div class="form-group mb-0 clearfix">
+                                                   <div class="col-sm-10 col-sm-offset-2">
+                                                       <button type="submit" class="btn btn-oval btn-primary btn-lg btn-min-w-100">Save</button>
+                                                   </div>
+                                               </div>
+                                           </div></form>
+                                   </div>
+                               </div>
                               <!-- START DATATABLE 1-->
                               <div class="row">
                                  <div class="col-lg-12">
@@ -253,30 +231,13 @@
                                                          </tr>
                                                       </thead>
                                                       <tbody>
+                                                      @foreach($city_list_active as $row)
                                                          <tr>
-                                                            <td>New York</td>
-                                                            <td class="text-center"><a href="#" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
+                                                             <td>{{$row->name}}</td>
+                                                            <td class="text-center"><a href="{{ url('/admin/deactiveCity/'.$row->id) }}" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
                                                          </tr>
-                                                         <tr>
-                                                            <td>Delhi</td>
-                                                            <td class="text-center"><a href="#" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
-                                                         </tr>
-                                                         <tr>
-                                                            <td>Mexico City</td>
-                                                            <td class="text-center"><a href="#" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
-                                                         </tr>
-                                                         <tr>
-                                                            <td>Los Angeles</td>
-                                                            <td class="text-center"><a href="#" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
-                                                         </tr>
-                                                         <tr>
-                                                            <td>Ahmedabad</td>
-                                                            <td class="text-center"><a href="#" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
-                                                         </tr>
-                                                         <tr>
-                                                            <td>Tokyo</td>
-                                                            <td class="text-center"><a href="#" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
-                                                         </tr>
+                                                      @endforeach
+                                                         
                                                       </tbody>
                                                    </table>
                                                 </div>
@@ -302,70 +263,15 @@
                                              <tr>
                                                 <th>User Requested</th>
                                                 <th>City Requested</th>
-                                                <th>Message</th>
                                              </tr>
                                           </thead>
                                           <tbody>
+                                              @foreach($city_request as $row)
                                              <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</td>
+                                                <td>{{$row->first_name ?:'-'}} {{$row->last_name}}</td>
+                                                <td>{{$row->name}}</td>
                                              </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Esse laudantium adipisci, optio aliquam enim provident rem.</td>
-                                             </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Animi, a, fugit. Quibusdam error esse reprehenderit cupiditate!</td>
-                                             </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Corporis amet distinctio repellendus cumque unde, dolores a.</td>
-                                             </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Quis ad commodi quo eum debitis unde, quia!</td>
-                                             </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Eveniet excepturi vel optio, at corporis consequuntur ullam.</td>
-                                             </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>A consequuntur, maiores itaque officia voluptatum voluptatibus quae!</td>
-                                             </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Veritatis veniam nesciunt odit odio quas recusandae incidunt!</td>
-                                             </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Voluptatum autem quia, facilis nemo perspiciatis fuga, fugit.</td>
-                                             </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Harum tempora eum earum debitis esse, ipsa at.</td>
-                                             </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Deleniti quia dignissimos aut suscipit magnam mollitia minima?</td>
-                                             </tr>
-                                             <tr>
-                                                <td>John Doe</td>
-                                                <td>New York</td>
-                                                <td>Voluptatibus itaque eum voluptatem, incidunt similique quisquam consequatur.</td>
-                                             </tr>
+                                             @endforeach
                                           </tbody>
                                        </table>
                                     </div>

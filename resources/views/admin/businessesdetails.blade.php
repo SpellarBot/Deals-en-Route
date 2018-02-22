@@ -117,9 +117,9 @@
                         </a>
                      </li>
                      <li class="">
-                        <a href="{{ asset('admin/vendorlist') }}" title="Packages">
+                        <a href="{{ asset('admin/categories') }}" title="Packages">
                            <em class="fa fa-inbox"></em>
-                           <span>Packages</span>
+                           <span>Categories</span>
                         </a>
                      </li>
                      <li class="">
@@ -154,7 +154,7 @@
                <h3>
                
                Business Details
-               <small class="sub-title">Lorem ipsum dolor sit amet, consectetur</small>
+               <small class="sub-title"></small>
                
                <button type="button" class="btn btn-primary btn-oval pull-right back-btn" onclick="location.href='users.html'">Back</button>
                </h3>
