@@ -16,6 +16,8 @@
         <link rel="stylesheet" href="{{ asset('vendor/admin/animate.css/animate.min.css') }}">
         <!-- WHIRL (spinners)-->
         <link rel="stylesheet" href="{{ asset('vendor/admin/whirl/dist/whirl.css') }}">
+        <!-- CHOSEN-->
+        <link rel="stylesheet" href="{{ asset('vendor/admin/chosen_v1.2.0/chosen.min.css') }}">
         <!-- =============== PAGE VENDOR STYLES ===============-->
         <!-- WEATHER ICONS-->
         <link rel="stylesheet" href="{{ asset('vendor/admin/weather-icons/css/weather-icons.min.css') }}">
@@ -24,11 +26,12 @@
         <link rel="stylesheet" href="{{ asset('vendor/admin/datatables/media/css/dataTables.bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/admin/dataTables.fontAwesome/index.css') }}">
         <!-- =============== BOOTSTRAP STYLES ===============-->
-        <link rel="stylesheet" href="{{ asset('css/admin/bootstrap.css') }}" id="bscss">
+        <link rel="stylesheet" href="{{ asset('css/admin/bootstrap.css')}}" id="bscss">
         <!-- =============== APP STYLES ===============-->
-        <link rel="stylesheet" href="{{ asset('css/admin/app.css') }}" id="maincss">
+        <link rel="stylesheet" href="{{ asset('css/admin/app.css')}}" id="maincss">
         <!-- =============== APP STYLES ===============-->
-        <link rel="stylesheet" href="{{ asset('css/admin/custom.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/admin/custom.css')}}">
+
     </head>
     <body>
         <div class="wrapper">
@@ -40,10 +43,10 @@
                     <div class="navbar-header">
                         <a href="#/" class="navbar-brand">
                             <div class="brand-logo">
-                                <img src="{{ asset('img/admin/logo.png') }}" alt="App Logo" class="img-responsive">
+                                <img src="{{ asset('img/admin/logo.png')}}" alt="App Logo" class="img-responsive">
                             </div>
                             <div class="brand-logo-collapsed">
-                                <img src="{{ asset('img/admin/logo-single.png') }}" alt="App Logo" class="img-responsive">
+                                <img src="{{ asset('img/admin/logo-single.png')}}" alt="App Logo" class="img-responsive">
                             </div>
                         </a>
                     </div>
@@ -77,15 +80,15 @@
                                         <!-- START list group-->
                                         <div class="list-group">
                                             <!-- last list item-->
-                                            <!--                                            <a href="#" class="list-group-item">
-                                                                                            <small>My Profile</small>
-                                                                                        </a>
-                                                                                        <a href="#" class="list-group-item">
-                                                                                            <small>Change Password</small>
-                                                                                        </a>-->
+                                            <!--                                 <a href="#" class="list-group-item">
+                                                                                <small>My Profile</small>
+                                                                             </a>
+                                                                             <a href="#" class="list-group-item">
+                                                                                <small>Change Password</small>
+                                                                             </a>-->
                                             <a href="{{ url('/admin/logout') }}" class="list-group-item"
                                                onclick="event.preventDefault();
-                                                       document.getElementById('logout-form').submit();">
+                                                    document.getElementById('logout-form').submit();">
                                                 <i class="fa fa-sign-out"></i>  Logout
                                             </a>
 
@@ -140,13 +143,13 @@
                                     <span>Categories</span>
                                 </a>
                             </li>
-                            <li class="active">
+                            <li class="">
                                 <a href="{{ asset('admin/reported-content') }}" title="Reported Content">
                                     <em class="icon-docs"></em>
                                     <span>Reported Content</span>
                                 </a>
                             </li>
-                            <li class="">
+                            <li class="active">
                                 <a href="{{ asset('admin/city') }}" title="Cities">
                                     <em class="fa fa-building-o"></em>
                                     <span>Cities</span>
@@ -170,81 +173,119 @@
                 <!-- Page content-->
                 <div class="content-wrapper">
                     <h3>
-                        Reported Content
+                        Categories
                         <small class="sub-title"></small>
 
                     </h3>
-                    <div class="container-fluid">
-                        <!-- START DATATABLE 1-->
+                    <div class="container-fluid cities-content-wrapper">
+                        <!-- Nav Tabs -->
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <!--                                        <div class="col-xs-6">
-                                                                                    <div class="row">
-                                                                                        <div class="form-group">
-                                                                                            <label class="col-sm-2 control-label">Filter</label>
-                                                                                            <div class="col-sm-5">
-                                                                                                <select name="signuptype" class="form-control m-b">
-                                                                                                    <option>Signup Type</option>
-                                                                                                    <option>Facebook</option>
-                                                                                                    <option>Google+</option>
-                                                                                                    <option>Twitter</option>
-                                                                                                    <option>Email</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                            <div class="col-sm-5">
-                                                                                                <select name="userstatus" class="form-control m-b">
-                                                                                                    <option>User Status</option>
-                                                                                                    <option>Active</option>
-                                                                                                    <option>Not Active</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>-->
-                                        <form method="get" id="report_filter">
-                                            <div class="col-xs-6">
-                                                <input type="radio" name="is_activity" value="0" onclick="document.getElementById('report_filter').submit();" @if($is_activity == 0)checked @endif><span>Activity Comment</span>
-                                                <input type="radio" name="is_activity" value="1" onclick="document.getElementById('report_filter').submit();" @if($is_activity == 1)checked @endif><span>Deal comment</span>
+                            <div class="col-lg-12 mb-30">
+                                <ul role="tablist" class="nav nav-tabs">
+                                    <li role="presentation" class="active"><a href="#activeCities" aria-controls="home" role="tab" data-toggle="tab">Active Categories</a></li>
+                                    <li role="presentation"><a href="#cityRequests" aria-controls="profile" role="tab" data-toggle="tab">Categories Requests</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- START DATATABLE 1-->
+                        <!-- Tabs Content -->
+                        <div class="tab-content clearfix">
+                            <!-- Active Cities Content -->
+                            <div id="activeCities" role="tabpanel" class="tab-pane active">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="panel panel-default">
+                                                <form method="get" action="{{ asset('admin/activeCity')}}">
+                                                    <div class="panel-body">
+                                                        <div class="form-group clearfix">
+                                                            <label class="col-sm-2 control-label">Add Cities</label>
+                                                            <div class="col-sm-10">
+                                                                <select multiple name="active_city[]" class="chosen-select form-control" value="Select Cities or City">
+                                                                    @foreach($city_list_inactive as $row)
+                                                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group mb-0 clearfix">
+                                                            <div class="col-sm-10 col-sm-offset-2">
+                                                                <button type="submit" class="btn btn-oval btn-primary btn-lg btn-min-w-100">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </div></form>
                                             </div>
-                                            <div class="col-xs-6 text-right">
-                                                <button onclick="pdf()" type="button" class="btn btn-primary btn-oval">Export PDF</button>
+                                        </div>
+                                        <!-- START DATATABLE 1-->
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-body">
+                                                            <div class="col-lg-8 col-lg-offset-2 col-md-12 col-xs-12">
+                                                                <div class="table-responsive user-management cities-table">
+                                                                    <table id="users" class="table table-striped table-hover">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>City Name</th>
+                                                                                <th class="text-center">Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach($city_list_active as $row)
+                                                                            <tr>
+                                                                                <td>{{$row->name}}</td>
+                                                                                <td class="text-center"><a href="{{ url('/admin/deactiveCity/'.$row->id) }}" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
+                                                                            </tr>
+                                                                            @endforeach
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <input type="hidden" name="is_pdf" id="is_pdf">
-                                        </form>
-                                        
-                                        <div class="col-xs-12 mt-15">
-                                            <div class="table-responsive user-management">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Reported By</th>
-                                                            <th>Content Owner</th>
-                                                            <th class="sort-numeric">Comment</th>
-                                                            <th>Reason</th>
-                                                            <th>Reported On</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($report_list as $row)
-                                                        <tr>
-                                                            <td>{{$row->c_firstname ?:'-'}} {{$row->c_lastname}}</td>
-                                                            <td>{{$row->o_firstname ?:'-'}} {{$row->o_lastname}}</td>
-                                                            <td>{{$row->comment_desc ?:'-'}}</td>
-                                                            <td>{{$row->report_content ?:'-'}}</td>
-                                                            <td>{{$row->created_at ?:'-'}}</td>
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                                {{ $report_list->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- City Requests -->
+                            <div id="cityRequests" role="tabpanel" class="tab-pane">
+                                <!-- START DATATABLE 1-->
+                                <div class="row">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="col-xs-12">
+                                                <div class="table-responsive user-management">
+                                                    <table id="table4" class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>User Requested</th>
+                                                                <th>City Requested</th>
+                                                                <th>#</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($requested_list as $row)
+                                                            <tr>
+                                                                <td>{{$row->category_name}}</td>
+                                                                <td>{{$row->request_email}}</td>
+                                                                <td onclick="action()">Action</td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
+                        
                     </div>
                 </div>
             </section>
@@ -252,15 +293,9 @@
             <footer>
                 <span>&copy; 2018 - DealsEnRoute</span>
             </footer>
+            
         </div>
         <!-- =============== VENDOR SCRIPTS ===============-->
-        <script type="text/javascript">
-            function pdf() {
-                $('#is_pdf').val('1');
-                $('#report_filter').submit();
-                $('#is_pdf').val('0');
-            }
-        </script>
         <!-- MODERNIZR-->
         <script src="{{ asset('vendor/admin/modernizr/modernizr.custom.js') }}"></script>
         <!-- MATCHMEDIA POLYFILL-->
@@ -312,8 +347,40 @@
         <script src="{{ asset('vendor/admin/datatables-buttons/js/buttons.print.js') }}"></script>
         <script src="{{ asset('vendor/admin/datatables-responsive/js/dataTables.responsive.js') }}"></script>
         <script src="{{ asset('vendor/admin/datatables-responsive/js/responsive.bootstrap.js') }}"></script>
+        <!-- CHOSEN-->
+        <script src="{{ asset('vendor/admin/chosen_v1.2.0/chosen.jquery.min.js') }}"></script>
         <!-- =============== APP SCRIPTS ===============-->
         <script src="{{ asset('js/admin/app.js') }}"></script>
-        <script src="{{ asset('js/admin/cusom.js') }}"></script>
+        <!--<script src="{{ asset('js/admin//cusom.js') }}"></script>-->
+        <script>
+                                                  $(document).ready(function () {
+                                                      
+                                                      $('.chosen-select').chosen({
+                                                          placeholder_text_multiple: "Select Cities or City"
+                                                      });
+                                                  });
+                                                  function action(){
+                                                      $('#myModal').modal('show'); 
+                                                  }
+        </script>
+        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Modal Header</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Some text in the modal.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
     </body>
 </html>

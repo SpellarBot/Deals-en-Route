@@ -131,9 +131,9 @@
                         </a>
                      </li>
                      <li class="">
-                        <a href="{{ asset('admin/vendorlist') }}" title="Packages">
+                        <a href="{{ asset('admin/categories') }}" title="Packages">
                            <em class="fa fa-inbox"></em>
-                           <span>Packages</span>
+                           <span>Categories</span>
                         </a>
                      </li>
                      <li class="">
@@ -230,7 +230,7 @@
                                  <em class="icon-docs fa-3x"></em>
                               </div>
                               <div class="col-xs-8 pv-lg">
-                                 <div class="h2 mt0">10</div>
+                                 <div class="h2 mt0">{{$reported_content}}</div>
                                  <div class="text-uppercase">Reported Content</div>
                               </div>
                            </div>
@@ -246,7 +246,7 @@
                                  <em class="fa fa-building-o fa-3x"></em>
                               </div>
                               <div class="col-xs-8 pv-lg">
-                                 <div class="h2 mt0">120</div>
+                                 <div class="h2 mt0">{{$city_count}}</div>
                                  <div class="text-uppercase">Cities</div>
                               </div>
                            </div>
@@ -262,7 +262,7 @@
                                  <em class="fa fa-money fa-3x"></em>
                               </div>
                               <div class="col-xs-8 pv-lg">
-                                 <div class="h2 mt0">{{$payment_count}}</div>
+                                 <div class="h2 mt0">$ {{$payment_count}}</div>
                                  <div class="text-uppercase">Payments</div>
                               </div>
                            </div>

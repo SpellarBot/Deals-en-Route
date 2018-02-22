@@ -135,9 +135,9 @@
                         </a>
                      </li>
                      <li class="">
-                        <a href="{{ asset('admin/vendorlist') }}" title="Packages">
+                        <a href="{{ asset('admin/categories') }}" title="Packages">
                            <em class="fa fa-inbox"></em>
-                           <span>Packages</span>
+                           <span>Categories</span>
                         </a>
                      </li>
                      <li class="">
@@ -170,8 +170,8 @@
             <!-- Page content-->
             <div class="content-wrapper">
                <h3>
-               Businesses
-               <small class="sub-title">Lorem ipsum dolor sit amet, consectetur</small>
+               Users
+               <small class="sub-title"></small>
                
                </h3>
                <div class="container-fluid">
