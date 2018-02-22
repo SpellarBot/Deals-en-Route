@@ -527,12 +527,14 @@ class CouponController extends Controller {
 
             $data = $request->all();
             $commentDeal = DealComments::addComment($data);
-
-
             // save the user
         } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
+
+<<<<<<< HEAD
+             throw $e;
+=======
+//            throw $e;
+>>>>>>> refs/remotes/origin/master
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
 
@@ -550,7 +552,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-            throw $e;
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -574,22 +576,12 @@ class CouponController extends Controller {
                 if ($data['page'] == 1) {
                     $offset = 0;
                 } else {
-<<<<<<< HEAD
-                    $offset = (($data['page'] - 1) * 10);
-                }
-                $data['current_page'] = $data['page'];
-                $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
-                $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, 10);
-
-                if (count($getComments) < 10) {
-=======
                     $offset = (($data['page'] - 1) * $limit);
                 }
                 $data['current_page'] = $data['page'];
                 $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
                 $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, $limit);
                 if (count($getComments) < (int) $limit) {
->>>>>>> refs/remotes/origin/master
                     $data['hasMorePages'] = false;
                 } else {
                     $data['hasMorePages'] = true;
