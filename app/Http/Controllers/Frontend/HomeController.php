@@ -65,10 +65,10 @@ class HomeController extends Controller {
 
         $additional = new \App\AdditionalCost();
         $used_plan = $additional->usedCouponTotal();
-        $total_additional_fencing_left =  $additional->getAdditionalFencing();
-        $total_additional_location_left =  $additional->getAdditionalLocation();
-        $total_geofencing= $total_additional_fencing_left + $user_access['basicgeofencing'];
-        $total_location= $total_additional_location_left + $user_access['basicgeolocation'];
+        $total_additional_fencing_left = $additional->getAdditionalFencing();
+        $total_additional_location_left = $additional->getAdditionalLocation();
+        $total_geofencing = $total_additional_fencing_left + $user_access['basicgeofencing'];
+        $total_location = $total_additional_location_left + $user_access['basicgeolocation'];
         $user = \App\Subscription::where('user_id', Auth::id())->first();
         if ($user) {
             $deals_left = $user->getRenewalCoupon($user_access);
@@ -85,7 +85,7 @@ class HomeController extends Controller {
         return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
                     'vendor_detail' => $vendor_detail, 'country_list' => $country_list,
                     'currenttime' => $currenttime, 'year' => $year, 'user_access' => $user_access,
-                     'total_geofencing'=>$total_geofencing,'total_location'=>$total_location,
+                    'total_geofencing' => $total_geofencing, 'total_location' => $total_location,
                     'deals_left' => $deals_left, 'subscription' => $subscription,
                     'hoursofoperation' => $hours_of_operations, 'hoursmsg' => $hoursflage]);
     }
@@ -104,11 +104,11 @@ class HomeController extends Controller {
         $total_coupon_monthly = Coupon::getTotalCouponMonthly();
         $total_active_coupon_monthly = Coupon::getTotalActiveCouponMonthly();
         $total_age_wise_redeem = \App\CouponRedeem::getAgeWiseReddemCoupon();
-        $total_additional_fencing_left =  $additional->getAdditionalFencing();
-        $total_additional_location_left =  $additional->getAdditionalLocation();
-        $vendor_detail_geo= \App\VendorDetail::where('user_id',Auth::id())->first();
+        $total_additional_fencing_left = $additional->getAdditionalFencing();
+        $total_additional_location_left = $additional->getAdditionalLocation();
+        $vendor_detail_geo = \App\VendorDetail::where('user_id', Auth::id())->first();
         $data['total_additional_fencing_left_per'] = ($total_additional_fencing_left != 0) ? number_format(($total_additional_fencing_left / $vendor_detail_geo->additional_geo_fencing_total) * 100, 2) : 0;
-        $data['total_additional_location_left_per'] = ($total_additional_location_left != 0) ? number_format(($total_additional_location_left / $vendor_detail_geo->additional_geo_location_total) * 100, 2) : 0;   
+        $data['total_additional_location_left_per'] = ($total_additional_location_left != 0) ? number_format(($total_additional_location_left / $vendor_detail_geo->additional_geo_location_total) * 100, 2) : 0;
         $data['total_redeem_monthly'] = $total_redeem_monthly->getAttributes();
         $data['total_additional_fencing_left'] = $total_additional_fencing_left;
         $data['total_additional_location_left'] = $total_additional_location_left;
@@ -168,7 +168,7 @@ class HomeController extends Controller {
             }
         }
         if ($i == 0) {
-            return response()->json(['status' => '0', 'message' => 'Please Enter at least one entry'], 200);
+            return response()->json(['status' => '0', 'message' => 'Please Enter at least one entry in Hours of operation'], 200);
         } else {
             return response()->json(['status' => 'success', 'message' => 'Hours of operation Added Successfully!!!'], 200);
         }

@@ -1402,9 +1402,9 @@ span.round-tab i {
     left: 0;
     
     right: 0;*/
-    
-    
-    
+
+
+
 }
 
 #preview-in .frontcoupon{
@@ -2790,4 +2790,27 @@ div#googlegeofencing {width: calc(100% - 60px) !important;max-width: 1100px !imp
 }
 @media only screen and (max-width: 550px) {
     #step2 .list-inline.pad-top li{width: 100%;}
+}
+.hoursofoperationalert {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f5f6fa;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 500px;
+    z-index: 10000;
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+    border: 2px solid #395999
+}
+.hoursofoperationalert  .errormessage{
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+.hoursofoperationalert a{
+    margin: 0 5px;
 }
