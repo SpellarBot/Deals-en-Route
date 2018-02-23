@@ -7,6 +7,8 @@ var showSecMap = '';
 var selectedShape;
 var marker;
 var count = 1;
+var totalSqFeetDrawn;
+var additionalCost;
 var polyOptions_invalid = {
     strokeWeight: 0,
     fillOpacity: 0.45,
@@ -24,7 +26,7 @@ var polyOptions_valid = {
 var date = new Date();
 var markershow;
 var showArray = [];
-
+var totalprice ;
 
 $(document).ready(function () {
     if (localStorage.getItem("NewCoupon"))
@@ -48,6 +50,7 @@ $(document).ready(function () {
 // slider
     $('#couponslider').slider({
         formatter: function (value) {
+            $('.total_miles').text(value);
             return 'Radius miles: ' + value;
         }
     });
@@ -146,7 +149,13 @@ $(document).ready(function () {
     $(".row input[type=text]").keyup(function () {
         id = $(this).attr('id');
         value = $(this).val();
+        if(id=='original_price'){
+           $("." + id).text("$"+value);
+       
+        }else{
+        
         $("." + id).text(value);
+    }
     });
 
     // change percentage value  
@@ -175,6 +184,7 @@ $(document).ready(function () {
         }
         if (finalvalue == 0 || finalvalue != '') {
             $('#final_value').val((finalvalue).toFixed(2));
+            $('.new-price').text("$"+$('#final_value').val());
         }
     });
 
@@ -343,6 +353,11 @@ $(document).on("submit", "#create-coupon", function (event) {
 
         if ($("#create-coupon").hasClass("has-error") == false) {
             formData.append('validationcheck', '1');
+            formData.append('totalprice', totalprice);
+            formData.append('total_geofence_buy', additionalCost.total_geo_fence_buy);
+            formData.append('total_geolocation_buy', additionalCost.total_geo_location_buy);
+           formData.append('totalgeofenceadditionalleft', additionalCost.totalgeofenceadditionalleft);
+           formData.append('totalgeolocationadditionalleft', additionalCost.totalgeolocationadditionalleft);
         }
     }
     $.ajax({
@@ -484,6 +499,52 @@ function Maps() {
         streetViewControl: false,
         mapTypeControl: false,
     });
+    
+   
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+       
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+      
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+          
+
+            
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+    
+    
     // add marker for map 1
     marker = new google.maps.Marker({
         position: position,
@@ -682,12 +743,12 @@ function getSquareFeet(radius) {
         showSecMap.setMap(null);
     }
     b = parseInt(geofencing).toFixed(2);
-
-    if ((sqfeet) < (b)) {
-        selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
-    } else {
-        selectedShape.setOptions({'fillColor': '#ff0000', strokeColor: '#ff0000', strokeWeight: 0});
-    }
+    totalSqFeetDrawn=sqnumfixed
+    if ((sqfeet) > (b)) {
+       
+    
+    } 
+    selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
     setPolygonSecMapShape();
 }
 
@@ -725,6 +786,7 @@ var componentForm = {
 
 // auto complete of google search
 function initAutocomplete() {
+     
 
     // Create the autocomplete object, restricting the search to geographical
     // location types.
@@ -762,7 +824,8 @@ function initCallback() {
     Maps();
 }
 
-$(document).on('click', '.createcoupon', function () {
+$(document).on('click', '.createcoupon', function (e) {
+   
     $.ajax({
         url: $('#hidAbsUrl').val() + "/coupon/generateCouponCode",
         type: 'POST',
@@ -780,5 +843,27 @@ $(document).on('click', '.createcoupon', function () {
             $('#loadingDiv').hide();
             $('#coupon_code').removeAttr('readonly');
         }
+    });
+});
+$(document).on('click', '.getextracost', function (e) {
+  
+    e.preventDefault();
+    var geofencing = $('.geofencing').text();
+    b = parseInt(geofencing).toFixed(2);
+    $.ajax({
+        url: $('#hidAbsUrl').val() + "/coupon/additonalcost",
+        type: 'POST',
+        data:{'totaldrawn':totalSqFeetDrawn,'totalcovered':b, 'totalgeomilesselected':$('.total_miles').text() },
+        success: function (data) {
+            additionalCost=data;
+            totalprice=data.total_rs;
+            $('.totalextra').text(data.total_rs+"$");
+      
+        }, error: function (data) {
+
+            $('.totalextra').text(data);
+      
+        }
+      
     });
 });

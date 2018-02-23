@@ -302,7 +302,8 @@ class CouponController extends Controller {
                     'type' => 'redeemfailure',
                     'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
                     'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                    'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                       'image' => (!empty($getCoupondetails->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/profile_pic') . '/' . $getCoupondetails->vendorDetail->vendor_logo : "",
+                      
                     'coupon_id' => $getCoupondetails->coupon_id,
                 ]));
                 return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);

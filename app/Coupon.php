@@ -91,8 +91,6 @@ class Coupon extends Model {
     public function couponFavDetail() {
         return $this->hasOne('App\CouponFavourite', 'coupon_id', 'coupon_id')->where('coupon_favourite.user_id', Auth::id());
     }
-    
-    
 
     public static function getNearestCoupon($data) {
 
@@ -166,7 +164,7 @@ class Coupon extends Model {
 
         return $query;
     }
-    
+
     public static function getCouponDetailById($id) {
 
 
@@ -199,8 +197,8 @@ class Coupon extends Model {
     }
 
     //save coupon
-    public static function addCoupon($data) {  
-        
+    public static function addCoupon($data) {
+
         $coupon = new Coupon();
         $coupon->fill($data);
         $coupon->created_by = Auth::id();
@@ -217,31 +215,46 @@ class Coupon extends Model {
         $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
         // $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
         if ($coupon->save()) {
-            $payment= self::makePayment($data,$coupon);
-            if($payment){
-            self::getNotificationUsers($coupon);
-            return $coupon;
+            $vendordetail = VendorDetail::where('user_id', Auth::id())->first();
+            if ($data['totalprice'] == '0.00') {
+                $vendordetail->additional_geo_fencing_used = $vendordetail->additional_geo_fencing_used + $data['totalgeofenceadditionalleft'];
+                $vendordetail->additional_geo_location_used = $vendordetail->additional_geo_location_used + $data['totalgeolocationadditionalleft'];
+
+                self::getNotificationUsers($coupon);
+            } else {
+
+                $payment = self::makePayment($data, $coupon);
+                if ($payment) {
+
+                    $vendordetail->additional_geo_fencing_used = $vendordetail->additional_geo_fencing_used + $data['totalgeofenceadditionalleft'];
+                    $vendordetail->additional_geo_location_used = $vendordetail->additional_geo_location_used + $data['totalgeolocationadditionalleft'];
+
+                    self::getNotificationUsers($coupon);
+                }
             }
+            $vendordetail->save();
+            return $coupon;
         }
         return false;
     }
 
-    
-    public static function makePayment($data,$coupon){
+    public static function makePayment($data, $coupon) {
         $details = ['vendor_id' => Auth::id(), 'amount' => $data['totalprice'], 'item_name' => 'Additional cost'];
         app('App\Http\Controllers\Frontend\StripeAddOnsController')->makePayment($details);
         $user = Subscription::where('user_id', Auth::id())->first();
         $user_details = $user->getAttributes();
         $adoninsert = ['user_id' => Auth::id(),
-            'coupon_id' =>$coupon->coupon_id,
-            'is_particular_coupon'=>1,
+            'coupon_id' => $coupon->coupon_id,
+            'is_particular_coupon' => 1,
             'startdate' => $user_details['startdate'],
-            'total_geofence_buy'=> $data['total_geofence_buy'] ,
-            'total_geolocation_buy'=> $data['total_geolocation_buy'],
+            'total_geofence_buy' => $data['total_geofence_buy'],
+            'total_geolocation_buy' => $data['total_geolocation_buy'],
             'enddate' => $user_details['enddate']];
         $add_ons = AdditionalCost::insert($adoninsert);
+
         return $add_ons;
     }
+
     public static function getNotificationUsers($coupon) {
         $device = [];
         $user = User::active()->deleted()

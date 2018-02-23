@@ -80,7 +80,7 @@
                                 <h5>Additional Geofencing</h5>
                             </div>
                             <div class="card-content" align="center">
-                                <div id="geofencing1" class="chart-circle" data-percent="0"> <span>0%</span></div>
+                                <div id="geofencingtotal" class="chart-circle" data-percent="0"> <span>0%</span></div>
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                                 <h5>Additional Geolocation</h5>
                             </div>
                             <div class="card-content" align="center">
-                                <div id="geofencing2" class="chart-circle" data-percent="0"> <span>0%</span></div>
+                                <div id="geolocationtotal" class="chart-circle" data-percent="0"> <span>0%</span></div>
                             </div>
                         </div>
                     </div>
@@ -174,12 +174,12 @@
                 <div class="card">
                     <div class="header head-coupons">
                         <h5>Redemption for male:
-                            <span class="age-right">35-50</span></h5>
+                            <span class="age-right"></span></h5>
                     </div>
                     <div class="card-content card-content1">
                         <div class="row">
                             <div class="col-xs-6">
-                                <p class="coupon-redemption3">0</p>
+                                <p class="coupon-redemption5">0</p>
                             </div>
                             <div class="col-xs-6" align="right">
                                 <div id="chartmale" class="chart-circle1" data-percent="0"><span>0%</span></div>
@@ -192,12 +192,12 @@
                 <div class="card">
                     <div class="header head-coupons">
                         <h5>Redemption for female:
-                            <span class="age-right">50&gt;</span></h5>
+                            <span class="age-right">;</span></h5>
                     </div>
                     <div class="card-content card-content1">
                         <div class="row">
                             <div class="col-xs-6">
-                                <p class="coupon-redemption4">0</p>
+                                <p class="coupon-redemption6">0</p>
                             </div>
                             <div class="col-xs-6" align="right">
                                 <div id="chartfemale" class="chart-circle1" data-percent="0"><span>0%</span></div>
