@@ -147,6 +147,9 @@ function setDashboardNotification(response) {
 }
 
 $(document).on('click', '#addhours', function () {
-    $('.hoursofoperationalert').click();
+    $('.hoursofoperationalert').remove();
     $('a[href=#settings]').click();
+});
+$(document).on('click', '#remindmelater', function () {
+    $('.hoursofoperationalert').remove();
 });
