@@ -20,12 +20,11 @@ use App\CityRequest;
 use App\CouponCategory;
 use Storage;
 use App\Http\Services\ImageTrait;
-use App\Http\Controllers\Frontend\HomeController;
 
 class AdminController extends Controller {
 
     use ImageTrait;
-    use HomeController;
+
     //
     public function userlist()
     {
