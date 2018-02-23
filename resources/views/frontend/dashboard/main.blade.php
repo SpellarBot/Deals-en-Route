@@ -217,7 +217,7 @@
                                                         </div>
 
                                                     </form>
-                                                    <p class="package-addon3">Available Miles - {!! number_format($user_access['geolocationtotal']) !!} Miles</p>    
+                                                    <p class="package-addon3">Available Miles - {!! number_format($total_location) !!} Miles</p>    
                                                 </div>
                                                 <div class="package-add">
                                                     <p class="package-addon1">Geo-Fencing</p>
@@ -241,7 +241,7 @@
                                                         </div>
 
                                                     </form>
-                                                    <p class="package-addon3">Available geo fencing -{!! number_format($user_access['geofencingtotal']) !!} sq.ft</p>
+                                                    <p class="package-addon3">Available geo fencing -{!! number_format($total_geofencing) !!} sq.ft</p>
                                                 </div>
                                                 <div class="package-add">
                                                     <p class="package-addon1">Additional-Deals</p>

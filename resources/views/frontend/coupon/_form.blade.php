@@ -42,30 +42,26 @@
                                 <!--<div class="validity"> <div class="coupon_end_date">{{ !isset($end_date_converted) ? 'XX XXX XXXX': Carbon\Carbon::parse($end_date_converted)->format(\Config::get('constants.DATE_FORMAT')) }}  </div> </div> -->
                                     <div class="validity">
                                         <div class="v-days">
-                                            <span class="boxbg">0</span>
-                                            <span class="boxbg">3</span>
+                                            <span class="boxbg" id="getdays">0</span>
                                             <span class="boxdetail">Days</span>
                                         </div>
                                         <div class="colon">
                                             <span>:</span>
                                         </div>
                                         <div class="v-hours">
-                                            <span class="boxbg">1</span>
-                                            <span class="boxbg">2</span>
+                                            <span class="boxbg" id="gethours">1</span>
                                             <span class="boxdetail">Hours</span>
                                         </div>
                                         <div class="colon">
                                             <span>:</span>
                                         </div>
                                         <div class="v-mints">
-                                            <span class="boxbg">1</span>
-                                            <span class="boxbg">7</span>
+                                            <span class="boxbg" id="getminutes">1</span>
                                             <span class="boxdetail">Minutes</span>
                                         </div>
                                     </div>
                                     <div class="leftcoupen">
-                                        <span class="boxbg">1</span>
-                                        <span class="boxbg">0</span>
+                                        <span class="boxbg" id="couponleft">{{  (isset($coupon))?$coupon->coupon_redeem_limit -$coupon->coupon_total_redeem:0 }}</span>
                                         <span class="boxdetail">Coupons Left</span>
                                     </div>
                                     <div class="pricebox">
@@ -114,7 +110,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
-                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$user_access['geolocationtotal'],'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider']) }}
+                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$total_location,'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider']) }}
                             <p class="extra-miles"> <span>(in miles)</span> <button type="button" class="btn pull-right btn-sm btn-info btn-fill btn-wd btn-create" data-toggle="modal" data-target="#buyextramiles">Buy Extra Miles</button></p>
                         </div>
 

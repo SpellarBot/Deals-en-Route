@@ -252,6 +252,13 @@ $(document).on("focus", ".datepicker", function () {
         }
     }).on('dp.change', function (e) {
         var date = $('.datepicker').data('date');
+        var enddate = new Date(date);
+        var currentdate = new Date();
+       
+        $('#gethours').text(enddate.getHours());
+         $('#getminutes').text(enddate.getMinutes());
+        var end= datediff(currentdate,enddate);
+        $('#getdays').text(end);
         $("#coupon_end_date").val(date);
         //show in last tab
         $(".coupon_end_date").text(date);
@@ -259,6 +266,15 @@ $(document).on("focus", ".datepicker", function () {
     });
 });
 
+function datediff(startDay,endDay){
+        from = moment(startDay, 'YYYY-MM-DD'); 
+
+	to = moment(endDay, 'YYYY-MM-DD'); 
+	
+	/* using diff */
+	duration = to.diff(from, 'days');
+        return duration
+}
 
 //create coupon
 $('#create2').on("click", ".next-step", function (event) {

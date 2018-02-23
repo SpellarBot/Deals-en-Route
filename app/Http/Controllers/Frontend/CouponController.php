@@ -126,13 +126,19 @@ class CouponController extends Controller {
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
         $user_access = $vendor_detail->userSubscription;
-
+        $user_access_plan = $this->userAccess();
+        $additional = new \App\AdditionalCost();
+        $total_additional_fencing_left =  $additional->getAdditionalFencing();
+        $total_additional_location_left =  $additional->getAdditionalLocation();
+        $total_geofencing= $total_additional_fencing_left + $user_access_plan['basicgeofencing'];
+        $total_location= $total_additional_location_left + $user_access_plan['basicgeolocation'];
         $coupon = Coupon::where('coupon_id', $id)->first();
         $start_date = $coupon->convertDateInUserTZ($coupon->coupon_start_date);
         $end_date = $coupon->convertDateInUserTZ($coupon->coupon_end_date);
         return view('frontend.coupon.edit')->with(['coupon' => $coupon,
                     'coupon_lists' => $coupon_lists, 'vendor_detail' => $vendor_detail,
                     'start_date_converted' => $start_date, 'end_date_converted' => $end_date,
+                    'total_geofencing'=>$total_geofencing,'total_location'=>$total_location,
                     'user_access' => $user_access[0]]);
     }
 

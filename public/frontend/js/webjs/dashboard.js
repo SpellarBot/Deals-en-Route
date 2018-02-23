@@ -260,7 +260,7 @@ $(document).ready(function () {
             // <!--================Redeemption Pie Chart=============================-->
             //total coupon redeemed
             $('#charttotal').data('easyPieChart').update(total_coupon_reedemed);
-            $('span', $('#charttotal')).text(total_coupon_reedemed + "%");
+            $('span', $('#charttotal')).text(total_coupon_reedemed);
             //remaining deals in package
             $('#dealtotal').data('easyPieChart').update(deals_percent);
             $('span', $('#dealtotal')).text(deals_left);

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Auth;
 
 class PlanAddOns extends Model {
 
@@ -31,7 +32,18 @@ class PlanAddOns extends Model {
                     'enddate' => $data['enddate'],
                     'is_active' => self::IS_TRUE
         ]);
+        self::addLeftLocation($data['quantity'], $data['addon_type']);
         return $addon;
+    }
+    public static function addLeftLocation($quantity,$type){
+        $vendordetail= \App\VendorDetail::where('user_id', Auth::id())->first();
+        if($type == 'geolocation') {  
+         $vendordetail->additional_geo_location_total= $quantity + $vendordetail->additional_geo_location_total; 
+        }else{
+         $vendordetail->additional_geo_fencing_total= $quantity + $vendordetail->additional_geo_fencing_total;   
+        }
+        
+         $vendordetail->save();
     }
 
 }
