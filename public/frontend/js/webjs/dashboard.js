@@ -151,7 +151,7 @@ $(document).ready(function () {
         })
 
     });
-    $('#geofencing1').easyPieChart({
+    $('#geofencingtotal').easyPieChart({
         lineWidth: 7,
         size: 130,
         scaleColor: false,
@@ -176,7 +176,7 @@ $(document).ready(function () {
         })
 
     });
-    $('#geofencing2').easyPieChart({
+    $('#geolocationtotal').easyPieChart({
         lineWidth: 7,
         size: 130,
         scaleColor: false,
@@ -207,7 +207,14 @@ $(document).ready(function () {
             var redeem_by_above_50 = data.data.redeem_by_above_50;
             var deals_left = data.data.deals_left;
             var deals_percent = data.data.deals_percent;
-
+            var redeem_by_male=data.data.redeem_by_male;
+            var redeem_by_female=data.data.redeem_by_female;
+            var redeem_by_male_total=data.data.redeem_by_male_total;
+            var redeem_by_female_total=data.data.redeem_by_female_total;
+            var additionalgeofencing=data.data.total_additional_fencing_left;
+            var additionalgeofencing_percent=data.data.total_additional_fencing_left_per;
+             var additionalgeolocation=data.data.total_additional_location_left;
+            var additionalgeolocation_percent=data.data.total_additional_location_left_per;
             // <!--=============================Bar Chart=============================-->
             // total redeeem monthly 
             $.each(data.data.total_redeem_monthly, function (index, value) {
@@ -253,7 +260,7 @@ $(document).ready(function () {
             // <!--================Redeemption Pie Chart=============================-->
             //total coupon redeemed
             $('#charttotal').data('easyPieChart').update(total_coupon_reedemed);
-            $('span', $('#charttotal')).text(total_coupon_reedemed + "%");
+            $('span', $('#charttotal')).text(total_coupon_reedemed);
             //remaining deals in package
             $('#dealtotal').data('easyPieChart').update(deals_percent);
             $('span', $('#dealtotal')).text(deals_left);
@@ -273,6 +280,24 @@ $(document).ready(function () {
             // above 50
             $('#chartabove50').data('easyPieChart').update(redeem_by_above_50_per);
             $('span', $('#chartabove50')).text(redeem_by_above_50_per + "%");
+            
+            // male 
+             $('#chartmale').data('easyPieChart').update(redeem_by_male);
+            $('span', $('#chartmale')).text(redeem_by_male + "%");
+            $('.coupon-redemption5').text(redeem_by_male_total);
+            // female 
+             $('#chartfemale').data('easyPieChart').update(redeem_by_female);
+            $('span', $('#chartfemale')).text(redeem_by_female + "%");
+            $('.coupon-redemption6').text(redeem_by_female_total);
+            
+            //geofencing 
+           $('#geofencingtotal').data('easyPieChart').update(additionalgeofencing_percent);
+            $('span', $('#geofencingtotal')).text(additionalgeofencing);
+            
+            //geolocation 
+           $('#geolocationtotal').data('easyPieChart').update(additionalgeolocation_percent);
+            $('span', $('#geolocationtotal')).text(additionalgeolocation);
+            
             $('.coupon-redemption4').text(redeem_by_above_50);
             redeem_monthly.update({labels: monthlabels, series: [total_redeem_monthly]})
             redeem_weekly.update({labels: weekslabels, series: [total_redeem_weekly]})

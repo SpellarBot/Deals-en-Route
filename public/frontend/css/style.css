@@ -80,7 +80,7 @@ header.staticpage {
 }*/
 
 header .logo img {
-    height: 100px;
+    height: 80px;
     padding: 5px 0px;
 }
 
@@ -400,7 +400,7 @@ textarea {
 .box a span {
     display: block;
     font-size: 20px;
-    color: #395999;
+    color: #333;
     z-index: 1;
     position: relative;
 }
@@ -476,6 +476,7 @@ textarea {
     border-radius: 15px;
     -webkit-border-radius: 15px;
     border: none;
+    overflow: hidden;
 }
 
 .modal-body {
@@ -638,16 +639,17 @@ input[type=date]::-webkit-outer-spin-button {
 
 .price-page {
     background-image: url(../img/bg-price.jpg);
-    background-size: cover;
+    background-size: auto;
+    background-position: 50%;
 }
 
 .price-page .header {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #ffffff;
     display: inline-block;
-    width: 150px;
-    height: 140px;
+    width: 120px;
+    height: 120px;
     padding: 3px 21px;
-    border-bottom-right-radius: 140px;
+    border-bottom-right-radius: 80%;
     transition: 1s;
 }
 
@@ -661,7 +663,7 @@ input[type=date]::-webkit-outer-spin-button {
     margin-bottom: 30px;
     border-radius: 30px;
     box-shadow: 0 15px 73px rgba(0, 0, 0, 0.1);
-    background-image: url(../img/logo-price.png);
+    /*background-image: url(../img/logo-price.png);*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: 70%;
@@ -674,7 +676,7 @@ input[type=date]::-webkit-outer-spin-button {
     border-radius: 30px;
     box-shadow: 0 15px 73px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    background-image: url(../img/logo-price.png);
+    /*background-image: url(../img/logo-price.png);*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: 70%;
@@ -692,7 +694,7 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 .prices .head {
-    font-size: 20px;
+    font-size: 18px;
     color: #555555;
     font-weight: bold;
     text-align: center;
@@ -705,6 +707,11 @@ input[type=date]::-webkit-outer-spin-button {
     font-weight: bold;
     text-align: center;
     margin-bottom: -10px;
+}
+.prices .price > sub{
+    top: -13px;
+    right: 4px;
+    font-size: 70%;
 }
 
 .prices .cardm .price {
@@ -725,8 +732,8 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 .prices .deals {
-    font-size: 13px;
-    line-height: 15px;
+    font-size: 12px;
+    line-height: 14px;
     color: #5b5b5b;
     text-align: center;
 }
@@ -784,7 +791,7 @@ input[type=date]::-webkit-outer-spin-button {
         margin-bottom: 50px;
         border-radius: 50px;
         box-shadow: 0 15px 73px rgba(0, 0, 0, 0.1);
-        background-image: url(../img/logo-price.png);
+        /*background-image: url(../img/logo-price.png);*/
         background-position: center;
         background-repeat: no-repeat;
         background-size: 70%;
@@ -796,7 +803,7 @@ input[type=date]::-webkit-outer-spin-button {
         border-radius: 50px;
         box-shadow: 0 15px 73px rgba(0, 0, 0, 0.1);
         z-index: 10;
-        background-image: url(../img/logo-price.png);
+        /*background-image: url(../img/logo-price.png);*/
         background-position: center;
         background-repeat: no-repeat;
         background-size: 70%;
@@ -811,36 +818,42 @@ input[type=date]::-webkit-outer-spin-button {
         order: 3;
     }
     .prices .head {
-        font-size: 25px;
+        font-size: 20px;
         color: #555555;
         font-weight: bold;
         text-align: center;
         margin-bottom: 10px;
     }
     .prices .price {
-        font-size: 65px;
+        font-size: 60px;
         color: #395999;
         font-weight: bold;
         text-align: center;
         margin-bottom: -20px;
     }
+    .prices .price > sup{
+        font-size: 70%;
+        top: -.35em;
+        right: 4px;
+    }
     .prices .cardm .price {
         color: #4bb96d;
     }
     .prices .price-pm {
-        font-size: 23px;
+        font-size: 18px;
         color: #395999;
         font-weight: bold;
         text-align: center;
-        padding-bottom: 20px;
+        padding-bottom: 10px;
+        padding-top: 8px;
     }
     .prices .cardm .price-pm {
         color: #4bb96d;
         padding-bottom: 20px;
     }
     .prices .deals {
-        font-size: 17px;
-        line-height: 19px;
+        font-size: 14px;
+        line-height: 16px;
         color: #5b5b5b;
         text-align: center;
     }
@@ -850,7 +863,7 @@ input[type=date]::-webkit-outer-spin-button {
         color: #5b5b5b;
         text-align: center;
         font-weight: bold;
-        padding-top: 25px;
+        padding-top: 20px;
     }
     .prices .discl {
         font-size: 14px;
@@ -2380,7 +2393,10 @@ footer ul.social span {
 
 @media (min-width: 1200px) {
     .prices {
-        margin: -50px auto 20px;
+        /*margin: -50px auto 20px;*/
+        align-items: center;
+        display: flex;
+        height: calc(100vh - 150px);
     }
 }
 
@@ -2452,7 +2468,7 @@ footer ul.social span {
         display: block;
     }
     .prices {
-        margin: 0 auto 35px;
+        margin: 15px auto 35px;
     }
 
 }
@@ -2620,17 +2636,40 @@ footer ul.social span {
 }
 
 .alert {
-    border-radius: 15px;
+    border-radius: 10px;
     margin-bottom: 0px;
+    padding-right: 15px;
 }
 
 .errorpopup .alert-dismissable .close,
 .errorpopup .alert-dismissible .close {
     position: absolute;
+    /*top: 50%;*/
+    top: -10px;
+    /*right: 7px;*/
+    right: -10px;
+    color: #fff;
+    text-shadow: none;
+    font-size: 24px;
+    line-height: 24px;
+    width: 24px;
+    height: 24px;
+    background: #3a5899;
+    border-radius: 50%;
+    box-shadow: 0 0 7px #000;
+    opacity: 1;
+    /*transform: translateY(-50%);*/
+}
+.errorpopup .alert-dismissable .close:hover,
+.errorpopup .alert-dismissible .close:hover {
+    background: #153167;
+}
+.errorpopup .alert-dismissable .close > span,
+.errorpopup .alert-dismissible .close > span{
     top: 50%;
-    right: 7px;
-    color: inherit;
-    transform: translateY(-50%);
+    left: 50%;
+    position: absolute;
+    transform: translate(-45%, -53%);
 }
 
 .vendorlogo .help-block {
@@ -2647,7 +2686,7 @@ footer ul.social span {
 }
 
 .slider.slider-horizontal {
-    width: 520px !important;
+    width: calc(100% - 310px) !important;
     max-width: 100%;
 }
 
@@ -2726,6 +2765,14 @@ div#googlegeofencing {width: calc(100% - 60px) !important;max-width: 1100px !imp
 #step2 .list-inline.pad-top{margin-left: 0px;}
 #step2 .list-inline.pad-top li{width: 25%;}
 #step2 .list-inline.pad-top li .btn-create{width: 100%;}
+
+.modal-header .close {color: #fff;margin: 0;top: 4px;right: 15px;opacity: 1;}
+.extra-miles{position: absolute;top: 15px;right:0px;display: flex;align-items: center;width: 296px;justify-content: flex-end;}
+.extra-miles > button{margin-left: 10px;}
+.btn-priamry.btn-save{box-shadow: none;}
+.btn-priamry.btn-save:hover{top: 0px;background-color: #25385f;border-color: #25385f;transition: all linear 0.3s;}
+.prices .container{max-width: 1050px;}
+
 @media only screen and (min-width: 1200px) {
     .tab-pane .col-lg-8.col-md-12.col-sm-12{width: calc(100% - 460px);}
     .tab-pane .col-lg-4.col-md-12.col-sm-12{width: 460px;}
@@ -2737,6 +2784,9 @@ div#googlegeofencing {width: calc(100% - 60px) !important;max-width: 1100px !imp
 @media only screen and (max-width: 767px) {
     #step2 > .col-sm-10.col-sm-offset-1{padding: 0px;}
     div#googlegeofencing {width: calc(100% - 40px) !important;}
+    .slider.slider-horizontal{width: 100% !important;}
+    .extra-miles{position: static;margin-top: 10px;width: 100%;display: inline-block;}
+    .extra-miles > span{}
 }
 @media only screen and (max-width: 550px) {
     #step2 .list-inline.pad-top li{width: 100%;}

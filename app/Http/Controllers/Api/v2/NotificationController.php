@@ -72,7 +72,7 @@ class NotificationController extends Controller {
                                 'type' => 'geonotification',
                                 'notification_message' => $nMessage,
                                 'message' => $fMessage,
-                                'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
+                                 'image' => (!empty($coupon->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupon->vendorDetail->vendor_logo : "",
                                 'coupon_id' => $coupon->coupon_id,
                             ]));
                         }
@@ -102,7 +102,7 @@ class NotificationController extends Controller {
                     'type' => 'favexpire',
                     'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE'),
                     'message' => $fMessage,
-                    'image' => (!empty($coupondetail->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupondetail->coupon_logo : "",
+                    'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",       
                     'coupon_id' => $couponlists['coupon_id']
                 ]));
             }
@@ -126,11 +126,23 @@ class NotificationController extends Controller {
                     'type' => 'favleft',
                     'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
                     'message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
-                    'image' => (!empty($couponlists['coupon_logo'])) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $couponlists['coupon_logo'] : "",
+                    'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",       
+                  
                     'coupon_id' => $couponlists['coupon_id']
                 ]));
             }
         }
+    }
+
+    public function testnoti() {
+        Notification::send(Auth::user(), new FcmNotification([
+            'type' => 'geonotification',
+            'notification_message' => "testnotification",
+            'message' => "testnotification",
+            'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
+            'coupon_id' => '2',
+            'is_reedem' => true
+        ]));
     }
 
 }

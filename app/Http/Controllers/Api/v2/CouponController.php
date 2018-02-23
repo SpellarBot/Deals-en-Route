@@ -289,13 +289,14 @@ class CouponController extends Controller {
             foreach ($couponlist as $couponlists) {
                 $checkUserNotifyNewOffer = $this->getUserNotificationOffer($newcouponusers->id, $couponlists->coupon_id, 'newoffer');
                 if ($checkUserNotifyNewOffer <= 0) {
+                     $coupondetail = \App\Coupon::find($couponlists->coupon_id);
 // send notification
                     Notification::send($newcouponusers, new FcmNotification([
                         'type' => 'newoffer',
                         'notification_message' => 'Hey {{to_name}}, you have new  deal on {{coupon_name}} !!',
                         'message' => 'Hey ' . $newcouponusers->first_name . ' ' . $newcouponusers->last_name . ' Your have new  deal on ' . $couponlists->coupon_name,
                         'name' => $newcouponusers->first_name . ' ' . $newcouponusers->last_name,
-                        'image' => (!empty($couponlists->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/profile_pic') . '/' . $couponlists->vendorDetail->vendor_logo : "",
+                        'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",
                         'coupon_id' => $couponlists->coupon_id
                     ]));
                 }
@@ -355,7 +356,7 @@ class CouponController extends Controller {
                     'type' => 'redeemfailure',
                     'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
                     'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                    'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                    'image' => (!empty($getCoupondetails->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $getCoupondetails->vendorDetail->vendor_logo : "",
                     'coupon_id' => $getCoupondetails->coupon_id
                 ]));
                 return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
@@ -367,7 +368,7 @@ class CouponController extends Controller {
                     'type' => 'redeemsuccess',
                     'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
                     'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                    'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                    'image' => (!empty($getCoupondetails->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $getCoupondetails->vendorDetail->vendor_logo : "",
                     'coupon_id' => $getCoupondetails->coupon_id,
                     'is_reedem' => 1
                 ]));
@@ -522,21 +523,21 @@ class CouponController extends Controller {
     }
 
     public function addComment(Request $request) {
-        DB::beginTransaction();
+
         try {
 
             $data = $request->all();
             $commentDeal = DealComments::addComment($data);
-
+       
+     
             // save the user
         } catch (\Exception $e) {
-            DB::rollback();
-              throw $e;
+
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
-        // If we reach here, then// data is valid and working.//
-        DB::commit();
-        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200);
+
+        return $this->responseJson('success', \Config::get('constants.COMMENT_ADD'), 200, $commentDeal);
     }
 
     public function addCommentLike(Request $request) {
@@ -550,7 +551,7 @@ class CouponController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-            throw $e;
+            //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -566,16 +567,20 @@ class CouponController extends Controller {
             //find comments
             $coupondetail = \App\Coupon::getCouponDetail($data);
             if (count($coupondetail) > 0) {
+                if (array_key_exists('limit', $data)) {
+                    $limit = $data['limit'];
+                } else {
+                    $limit = 5;
+                }
                 if ($data['page'] == 1) {
                     $offset = 0;
                 } else {
-                    $offset = (($data['page'] - 1) * 5);
+                    $offset = (($data['page'] - 1) * $limit);
                 }
                 $data['current_page'] = $data['page'];
                 $data['coupon_details'] = (new CouponTransformer)->transformDetail($coupondetail);
-                $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, 5);
-
-                if (count($getComments) < 5) {
+                $getComments = DealComments::getCommentsByCoupon($data['coupon_id'], $offset, $limit);
+                if (count($getComments) < (int) $limit) {
                     $data['hasMorePages'] = false;
                 } else {
                     $data['hasMorePages'] = true;
@@ -586,7 +591,7 @@ class CouponController extends Controller {
                     $getUser = \App\UserDetail::where('user_id', $com->comment_by)->first();
 
                     $comment_details['comment_id'] = $com->id;
-                    $comment_details['user_id'] = $getUser->user_id;
+                    $comment_details['user_id'] = (empty($getUser->user_id)) ? '' : $getUser->user_id;
                     $comment_details['comment_by'] = $getUser->first_name . ' ' . $getUser->last_name;
                     $comment_details['profile_pic'] = ($getUser->profile_pic ? asset('storage/app/public/profile_pic/' . $getUser->profile_pic) : asset('storage/app/public/profile_pic/'));
                     if ($com->liked_by === auth()->id() && $com->is_like === 1) {
@@ -623,7 +628,7 @@ class CouponController extends Controller {
 
                                 $tagsreply[$key1]['user_id'] = (int) $val1;
                                 $tagsreply[$key1]['full_name'] = '@' . $detailreply->first_name . " " . $detailreply->last_name;
-                                $tagsreply[$key1]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detail->profile_pic : "";
+                                $tagsreply[$key1]['profile_pic'] = (!empty($detailreply->profile_pic)) ? URL::to('/storage/app/public/profile_pic') . '/' . $detailreply->profile_pic : "";
                             }
                         }
 
@@ -666,15 +671,13 @@ class CouponController extends Controller {
 
     public function editComment(Request $request) {
         $data = $request->all();
+
         $editcommentDeal = DealComments::editComment($data);
-        return $this->responseJson('success', 'Comment Edit Successfully. ', 200);
+
+        return $this->responseJson('success', 'Comment Edit Successfully. ', 200, $editcommentDeal);
     }
     
-    public function deleteComment(Request $request) {
-        $id = $request->id;
-        $editcommentDeal = DealComments::deleteDealComment($id);
-        return $this->responseJson('success', 'Comment deleted Successfully. ', 200);
-    }
+   
 
     public function getDistance($lat, $long, $coupon_lat, $coupon_long) {
 
@@ -721,6 +724,12 @@ class CouponController extends Controller {
 //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
+    }
+
+    public function deleteComment(Request $request) {
+        $id = $request->id;
+        $editcommentDeal = DealComments::deleteDealComment($id);
+        return $this->responseJson('success', 'Comment deleted Successfully. ', 200);
     }
 
 }

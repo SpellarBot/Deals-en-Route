@@ -32,7 +32,8 @@
                                         
                                             {{ csrf_field() }}
                                             @include("frontend/coupon/_form",['vendor_detail'=>$vendor_detail,
-                                            'start_date_converted'=>$start_date_converted,'end_date_converted'=>$end_date_converted])
+                                            'start_date_converted'=>$start_date_converted,'end_date_converted'=>$end_date_converted,
+                                            'total_geofencing'=>$total_geofencing])
 
                                             {{ Form::close() }}
 

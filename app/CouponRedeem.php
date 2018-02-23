@@ -122,6 +122,8 @@ class CouponRedeem extends Model {
         $data['redeem_by_above_50'] = $redeem_by_above_50;
         $data['redeem_by_male'] = strval(($redeem_by_male != 0) ? number_format(($redeem_by_male / $total_coupon) * 100, 2) : 0);
         $data['redeem_by_female'] = strval(($redeem_by_female != 0) ? number_format(($redeem_by_female / $total_coupon) * 100, 2) : 0);
+        $data['redeem_by_male_total'] = strval($redeem_by_male);
+        $data['redeem_by_female_total'] = strval($redeem_by_female);
         return $data;
     }
 

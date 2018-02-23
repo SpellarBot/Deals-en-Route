@@ -42,7 +42,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('/register/create', 'Auth\RegisterController@create');
     Route::post('register/update', 'VendorController@update');
     Route::post('/register/subcription', 'Auth\RegisterController@subscribe');
-
+    Route::post('/vendor/requestCategory', 'Auth\RegisterController@requestCategory');
     //vendor help pages
 
     Route::get('/terms_condition', 'Auth\LoginController@terms')->name('termscondition');
@@ -82,6 +82,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::any('/vendor/changesubscription', array('as' => 'changesubscription', 'uses' => 'HomeController@changeSubscription'));
     Route::any('/vendor/cancelSubscription', array('as' => 'cancelsub', 'uses' => 'StripeController@cancelSubscription'));
     Route::post('/vendor/updatesubscription', 'StripeController@changeSubscription');
+    Route::post('/vendor/hoursOfOperation', 'HomeController@hoursOfOperation');
 
     // coupon dashboard
     Route::get('/vendor/dashboard', 'HomeController@dashboard');
@@ -90,6 +91,8 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('/vendor/purchaseDeals', 'StripeAddOnsController@purchaseDeals');
     Route::post('/vendor/contact', 'HomeController@sendContact')->name('vendor.submitcontact');
     Route::post('/vendor/couponredeem', 'CouponController@CouponRedemption');
+
+    Route::post('coupon/additonalcost', 'CouponController@additionalCost')->name('vendor.additionalcost');
 });
 // Admin routes
 Route::group(['namespace' => 'Admin'], function () {
@@ -127,26 +130,28 @@ Route::group(['namespace' => 'Admin'], function () {
     Route::get('admin/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('admin/register', 'Auth\RegisterController@register');
     Route::get('admin/home', 'HomeController@index');
-    
+
     //admin panel userlist
     Route::get('admin/userlist', 'AdminController@userlist');
     Route::get('admin/user-detail/{id}', 'AdminController@userDetail');
     Route::get('admin/disable-user/{id}/{type}', 'AdminController@disableUser');
     Route::get('admin/active-user/{id}/{type}', 'AdminController@activeUser');
     Route::get('admin/offerlist-pdf/{id}', 'AdminController@offerlistPdf');
-    
+
     Route::get('admin/vendorlist', 'AdminController@vendorlist');
     Route::get('admin/vendor-detail/{id}', 'AdminController@vendorDetail');
     Route::get('admin/business-detail-pdf/{id}', 'AdminController@businessDetailPdf');
-    
+
     Route::get('admin/reported-content', 'AdminController@reportedContent');
-    
-   Route::get('admin/city', 'AdminController@citylist');
-   Route::get('admin/activeCity', 'AdminController@activeCity');
-   Route::get('admin/deactiveCity/{id}', 'AdminController@deactiveCity');
+
+    Route::get('admin/city', 'AdminController@citylist');
+    Route::get('admin/activeCity', 'AdminController@activeCity');
+    Route::get('admin/deactiveCity/{id}', 'AdminController@deactiveCity');
     Route::get('admin/payments', 'AdminController@payment');
     Route::get('admin/Resend', 'AdminController@resendInvoice');
     Route::get('admin/categories', 'AdminController@categories');
+
     Route::post('admin/categotyStatus', 'AdminController@categotyStatus');
     Route::get('admin/deactiveCategory/{id}', 'AdminController@deactiveCategory');
+
 });

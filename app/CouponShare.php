@@ -152,7 +152,7 @@ class CouponShare extends Model {
                 select(DB::raw('coupon.coupon_id,coupon_lat,coupon_long,coupon_original_price,coupon_total_discount,'
                                 . 'coupon_share.coupon_id,coupon_start_date,'
                                 . 'coupon_end_date,coupon_detail,'
-                                . 'coupon_name,coupon_logo,created_bycoupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat))))) as distance'))
+                                . 'coupon_name,coupon_logo,created_by,coupon_category_id,((' . $circle_radius . ' * acos(cos(radians(' . $lat . ')) * cos(radians(coupon_lat)) * cos(radians(coupon_long) - radians(' . $lng . ')) + sin(radians(' . $lat . ')) * sin(radians(coupon_lat))))) as distance'))
                 ->leftJoin('coupon', 'coupon_share.coupon_id', '=', 'coupon.coupon_id')
                 ->where('share_friend_id', Auth::id())
                 ->where('is_active', self::IS_TRUE)

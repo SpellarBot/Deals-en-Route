@@ -165,6 +165,15 @@ class Coupon extends Model {
         return $query;
     }
 
+    public static function getCouponDetailById($id) {
+
+
+        $query = Coupon::where('coupon_id', $id)
+                ->first();
+
+        return $query;
+    }
+
     public static function getCouponDetailByCode($data) {
 
         $query = Coupon::active()->deleted()
@@ -206,11 +215,59 @@ class Coupon extends Model {
         $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
         // $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
         if ($coupon->save()) {
-            self::getNotificationUsers($coupon);
+            $vendordetail = VendorDetail::where('user_id', Auth::id())->first();
+            if ($data['totalprice'] == '0.00') {
+                self::getUsedGeo($vendordetail, $data['totalgeolocationadditionalleft'], $data['totalgeofenceadditionalleft']);
+                self::getNotificationUsers($coupon);
+            } else {
+
+                $payment = self::makePayment($data, $coupon);
+                if ($payment) {
+                    self::getUsedGeo($vendordetail, $data['totalgeolocationadditionalleft'], $data['totalgeofenceadditionalleft']);
+                    self::getNotificationUsers($coupon);
+                }
+            }
+
+
 
             return $coupon;
         }
         return false;
+    }
+
+    public static function getUsedGeo($vendordetail, $totallocationleft, $totalgeofenceleft) {
+        // geo location
+        if (($vendordetail->additional_geo_location_used + $totallocationleft) >= $vendordetail->additional_geo_location_total) {
+            $vendordetail->additional_geo_location_used  = 0;
+            $vendordetail->additional_geo_location_total =0;
+        } else {
+            $vendordetail->additional_geo_location_used = $vendordetail->additional_geo_location_used + $totallocationleft;
+        }
+        // geo fencing
+        if (($vendordetail->additional_geo_fencing_used + $totalgeofenceleft) >= $vendordetail->additional_geo_fencing_total) {
+            $vendordetail->additional_geo_fencing_used = 0;
+             $vendordetail->additional_geo_fencing_total = 0;
+        } else {
+            $vendordetail->additional_geo_fencing_used = $vendordetail->additional_geo_fencing_used + $totalgeofenceleft;
+        }
+        $vendordetail->save();
+    }
+
+    public static function makePayment($data, $coupon) {
+        $details = ['vendor_id' => Auth::id(), 'amount' => $data['totalprice'], 'item_name' => 'Additional cost'];
+        app('App\Http\Controllers\Frontend\StripeAddOnsController')->makePayment($details);
+        $user = Subscription::where('user_id', Auth::id())->first();
+        $user_details = $user->getAttributes();
+        $adoninsert = ['user_id' => Auth::id(),
+            'coupon_id' => $coupon->coupon_id,
+            'is_particular_coupon' => 1,
+            'startdate' => $user_details['startdate'],
+            'total_geofence_buy' => $data['total_geofence_buy'],
+            'total_geolocation_buy' => $data['total_geolocation_buy'],
+            'enddate' => $user_details['enddate']];
+        $add_ons = AdditionalCost::insert($adoninsert);
+
+        return $add_ons;
     }
 
     public static function getNotificationUsers($coupon) {

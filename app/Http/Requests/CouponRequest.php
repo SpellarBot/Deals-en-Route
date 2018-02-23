@@ -81,7 +81,7 @@ class CouponRequest extends FormRequest {
                 // step 1
                 'coupon_code' => 'required|unique:coupon',
                 //step 2
-                'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe['geofencingtotal'],
+              //  'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe['geofencingtotal'],
                 'coupon_notification_point' => 'required',
                      
             ];
@@ -92,7 +92,7 @@ class CouponRequest extends FormRequest {
                 // step 1
                 'coupon_code' => 'required|unique:coupon',
                 //step 2
-               'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe['geofencingtotal'],
+              // 'coupon_notification_sqfeet' => 'required|numeric|max:'.$this->stripe['geofencingtotal'],
                 'coupon_notification_point' => 'required',
                 // step 3
                 'agree' => 'required'

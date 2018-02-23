@@ -126,13 +126,19 @@ class CouponController extends Controller {
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
         $user_access = $vendor_detail->userSubscription;
-
+        $user_access_plan = $this->userAccess();
+        $additional = new \App\AdditionalCost();
+        $total_additional_fencing_left =  $additional->getAdditionalFencing();
+        $total_additional_location_left =  $additional->getAdditionalLocation();
+        $total_geofencing= $total_additional_fencing_left + $user_access_plan['basicgeofencing'];
+        $total_location= $total_additional_location_left + $user_access_plan['basicgeolocation'];
         $coupon = Coupon::where('coupon_id', $id)->first();
         $start_date = $coupon->convertDateInUserTZ($coupon->coupon_start_date);
         $end_date = $coupon->convertDateInUserTZ($coupon->coupon_end_date);
         return view('frontend.coupon.edit')->with(['coupon' => $coupon,
                     'coupon_lists' => $coupon_lists, 'vendor_detail' => $vendor_detail,
                     'start_date_converted' => $start_date, 'end_date_converted' => $end_date,
+                    'total_geofencing'=>$total_geofencing,'total_location'=>$total_location,
                     'user_access' => $user_access[0]]);
     }
 
@@ -223,7 +229,8 @@ class CouponController extends Controller {
                             'type' => 'redeemfailure',
                             'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
                             'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                            'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                           'image' => (!empty($getCoupondetails->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $getCoupondetails->vendorDetail->vendor_logo : "",       
+                  
                             'coupon_id' => $getCoupondetails->coupon_id,
                         ]));
                         return response()->json(['status' => 0, 'message' => 'Maximum Coupon Redeemption Limit Reached'], 200);
@@ -235,8 +242,8 @@ class CouponController extends Controller {
                             'type' => 'redeemsuccess',
                             'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
                             'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                            'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                            'coupon_id' => $getCoupondetails->coupon_id,
+                             'image' => (!empty($getCoupondetails->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $getCoupondetails->vendorDetail->vendor_logo : "",       
+                             'coupon_id' => $getCoupondetails->coupon_id,
                         ]));
 
                         if ($this->getCouponShareWebCount($getCoupondetails->coupon_id, $data['user_id']) > 0) {
@@ -259,6 +266,7 @@ class CouponController extends Controller {
             return response()->json(['status' => 0, 'message' => 'Invalid redemption code'], 200);
         }
     }
+    
 
     public function generateCouponCode() {
 
@@ -282,6 +290,23 @@ class CouponController extends Controller {
             $randstr .= $chars[$random];
         }
         return $randstr;
+    }
+    
+    public function additionalCost(Request $request){
+       try{
+           $request=$request->all();
+          
+         $additional=  \App\AdditionalCost::getAdditionalCost($request); 
+         if($additional){
+             return $additional;
+         }
+            
+        } catch (\Exception $ex) {
+          //  throw $ex;
+            return 'false';
+        }
+    
+        
     }
 
 }

@@ -60,29 +60,29 @@ use RegistersUsers;
      * @return \App\User
      */
     public function create(RegisterFormRequest $request) {
-       DB::beginTransaction();
+        DB::beginTransaction();
         try {
-        // process the store
-        $data = $request->all();
+            // process the store
+            $data = $request->all();
 //        print_r($data);die;
 //        $category = CouponCategory::orWhere('category_id', $data['vendor_category'])
 //                ->orWhere('category_name', 'like', '%' . $data['vendor_category'] . '%')
 //                ->get();
 //        print_r(count($category));
 //        die;
-        $user_detail = \App\VendorDetail::createVendorFront($data);
-        $file = Input::file('vendor_logo');
+            $user_detail = \App\VendorDetail::createVendorFront($data);
+            $file = Input::file('vendor_logo');
 
-        //store image
-        if (!empty($file)) {
-            $this->addImageWeb($file, $user_detail, 'vendor_logo');
-        }
-        if ($user_detail) {
-            //stripe payment
-            $stripeuser = \App\StripeUser::createStripeUser($user_detail->user_id);
-            $stripeuser->createToken($data);
-            Session::flash('success', \Config::get('constants.USER_EMAIL_VERIFICATION'));
-        }
+            //store image
+            if (!empty($file)) {
+                $this->addImageWeb($file, $user_detail, 'vendor_logo');
+            }
+            if ($user_detail) {
+                //stripe payment
+                $stripeuser = \App\StripeUser::createStripeUser($user_detail->user_id);
+                $stripeuser->createToken($data);
+                Session::flash('success', \Config::get('constants.USER_EMAIL_VERIFICATION'));
+            }
         } catch (\Cartalyst\Stripe\Exception\CardErrorException $e) {
 
             \App\StripeUser::findCustomer($data['email']);
@@ -126,7 +126,7 @@ use RegistersUsers;
      */
     public function showCategoryForm() {
         $company_logo = $this->showLogoImage();
-        $category_images = \App\WebCouponCategory::categoryList();
+        $category_images = \App\CouponCategory::categoryList();
         $signup_category_images = \App\CouponCategory::categoryListWeb();
         $country_list = \App\Country::countryList();
 
@@ -177,6 +177,19 @@ use RegistersUsers;
             return response()->json(['status' => 0], 422);
         }
         // If we reach here, then// data is valid and working.//
+    }
+
+    public function requestCategory(Request $request) {
+        $data = $request->all();
+        $cat_request = [];
+        $cat_request['request_email'] = $data['request_email'];
+        $cat_request['category_name'] = $data['category'];
+        $addCat = CouponCategory::addCategory($cat_request);
+        if ($addCat) {
+            return response()->json(['status' => 'success', 'message' => 'Category Request has been Sent Successfully!!'], 200);
+        } else {
+            return response()->json(['status' => '0', 'message' => 'Something went wrong, please try again later.'], 200);
+        }
     }
 
 }

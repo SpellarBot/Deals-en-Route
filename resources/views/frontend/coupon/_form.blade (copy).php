@@ -5,13 +5,13 @@
             <?php $coupon_id = isset($coupon) ? $coupon->coupon_id : ''; ?>
             {{ Form::hidden('steps', 1, ['class' => 'stepsincrement']) }}
             {{ Form::hidden('coupon_id',$coupon_id, ['class' => 'coupon_id']) }}
-            
+
             {{ Form::hidden('validationcheck', 0, ['class' => 'validationcheck']) }}
             {{ Form::hidden('vendor_lat', $vendor_detail->vendor_lat, ['class' => 'vendor_lat']) }}
             {{ Form::hidden('vendor_long', $vendor_detail->vendor_long, ['class' => 'vendor_long']) }}
             {{ Form::hidden('coupon_start_date', old('coupon_start_date'), ['id' => 'couponstartdate']) }}
             {{ Form::hidden('couponenddate', isset($end_date_converted)?$end_date_converted:'', ['id' => 'couponenddate']) }}
-            <div class="geofencing" style="display:none">{{ $total_geofencing }}</div>
+            <div class="geofencing" style="display:none">{{ $user_access['geofencingtotal'] }}</div>
 
             <div class="tab-pane active" role="tabpanel" id="step1">
                 <h3>Coupon Details</h3>
@@ -42,26 +42,30 @@
                                 <!--<div class="validity"> <div class="coupon_end_date">{{ !isset($end_date_converted) ? 'XX XXX XXXX': Carbon\Carbon::parse($end_date_converted)->format(\Config::get('constants.DATE_FORMAT')) }}  </div> </div> -->
                                     <div class="validity">
                                         <div class="v-days">
-                                            <span class="boxbg" id="getdays">0</span>
+                                            <span class="boxbg">0</span>
+                                            <span class="boxbg">3</span>
                                             <span class="boxdetail">Days</span>
                                         </div>
                                         <div class="colon">
                                             <span>:</span>
                                         </div>
                                         <div class="v-hours">
-                                            <span class="boxbg" id="gethours">1</span>
+                                            <span class="boxbg">1</span>
+                                            <span class="boxbg">2</span>
                                             <span class="boxdetail">Hours</span>
                                         </div>
                                         <div class="colon">
                                             <span>:</span>
                                         </div>
                                         <div class="v-mints">
-                                            <span class="boxbg" id="getminutes">1</span>
+                                            <span class="boxbg">1</span>
+                                            <span class="boxbg">7</span>
                                             <span class="boxdetail">Minutes</span>
                                         </div>
                                     </div>
                                     <div class="leftcoupen">
-                                        <span class="boxbg" id="couponleft">{{  (isset($coupon))?$coupon->coupon_redeem_limit -$coupon->coupon_total_redeem:0 }}</span>
+                                        <span class="boxbg">1</span>
+                                        <span class="boxbg">0</span>
                                         <span class="boxdetail">Coupons Left</span>
                                     </div>
                                     <div class="pricebox">
@@ -106,12 +110,12 @@
                         <div class="form-group">
                             {{ Form::label('coupon_code', 'Coupon Code:') }}
                     
-                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code','readonly'=>false]) }}
+                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code']) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
-                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$total_location,'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider']) }}
-                            <p class="extra-miles"> <span>(in miles)</span> <button type="button" class="btn pull-right btn-sm btn-info btn-fill btn-wd btn-create" data-toggle="modal" data-target="#buyextramiles">Buy Extra Miles</button></p>
+                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$user_access['geolocationtotal'],'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider']) }}
+                            <p> (in miles)   <button type="button" class="btn pull-right btn-sm btn-info btn-fill btn-wd btn-create" data-toggle="modal" data-target="#buyextramiles">Buy Extra Miles</button></p>
                         </div>
 
                         <div class="form-group">

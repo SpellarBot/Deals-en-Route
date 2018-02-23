@@ -12418,6 +12418,7 @@ a {
   max-width: 650px;
   margin: 0 auto;
   width: 100%;
+  padding-right: 100px;
 }
 
 @media screen and (max-width: 991px) {
@@ -13200,4 +13201,7 @@ a {
   .roommate-form .normal-button-container {
     min-width: 100%;
   }
+}
+@media screen and (max-width: 1023px) {
+  #scene7 img{padding-right: 0px;}
 }

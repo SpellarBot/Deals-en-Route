@@ -15,7 +15,6 @@ class CouponCategory extends Model {
      */
     public $table = 'coupon_category';
 
-
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -25,7 +24,8 @@ class CouponCategory extends Model {
     const IS_FALSE = 0;
 
     protected $fillable = [
-        'category_id', 'category_name', 'category_image', 'is_active', 'is_delete', 'reject_reason', 'request_email', 'is_requested'
+        'category_id', 'category_name', 'category_image', 'is_active', 'is_delete', 'created_at',
+        'updated_at'
     ];
 
     public function scopeActive($query) {
@@ -70,13 +70,7 @@ class CouponCategory extends Model {
     }
 
     public static function addCategory($data) {
-        $cat = CouponCategory::create(['category_name' => $data['category_name'],
-                    'request_email' => $data['request_email'],
-                    'is_requested' => self::IS_TRUE,
-                    'is_active' => self::IS_FALSE,
-                    'is_delete' => self::IS_FALSE,
-        ]);
-        return $cat;
+//        CouponCategory::create([])
     }
 
 }
