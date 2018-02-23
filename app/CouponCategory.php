@@ -15,8 +15,8 @@ class CouponCategory extends Model {
      */
     public $table = 'coupon_category';
 
-    const CREATED_AT = 'createddate';
-    const UPDATED_AT = 'updateddate';
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 
     public $primaryKey = 'category_id';
 

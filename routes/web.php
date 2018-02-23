@@ -147,5 +147,6 @@ Route::group(['namespace' => 'Admin'], function () {
     Route::get('admin/payments', 'AdminController@payment');
     Route::get('admin/Resend', 'AdminController@resendInvoice');
     Route::get('admin/categories', 'AdminController@categories');
-    
+    Route::post('admin/categotyStatus', 'AdminController@categotyStatus');
+    Route::get('admin/deactiveCategory/{id}', 'AdminController@deactiveCategory');
 });

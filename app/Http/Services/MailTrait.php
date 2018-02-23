@@ -19,6 +19,9 @@ use App\Mail\SubscriptionDowngradeFailed;
 use App\Mail\SubscriptionDowngradeSuccess;
 use App\Mail\AdditionFeaturePurchaseSuccess;
 use App\Mail\AdditionFeaturePurchaseFailed;
+use App\Mail\ResendInvoice;
+use App\Mail\CategoryAccept;
+use App\Mail\CategoryReject;
 
 trait MailTrait {
 
@@ -56,6 +59,12 @@ trait MailTrait {
             Mail::to($array_mail['to'])->send(new AdditionFeaturePurchaseSuccess($array_mail['data']));
         } else if ($array_mail['type'] == 'additional_feature_purchase_failed') {
             Mail::to($array_mail['to'])->send(new AdditionFeaturePurchaseFailed($array_mail['data']));
+        } else if ($array_mail['type'] == 'resend_mail') {
+            Mail::to($array_mail['to'])->send(new ResendInvoice($array_mail['data'], $array_mail['invoice']));
+        }else if ($array_mail['type'] == 'category_accept') {
+            Mail::to($array_mail['to'])->send(new CategoryAccept($array_mail['data']));
+        }else if ($array_mail['type'] == 'category_reject') {
+            Mail::to($array_mail['to'])->send(new CategoryReject($array_mail['data']));
         }
     }
 
