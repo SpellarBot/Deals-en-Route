@@ -66,7 +66,7 @@
                                 <div class="col-sm-12">
                                     <label>Add Category:</label>
                                     <div class="form-group">
-                                        <input type="text" placeholder="Add Category" name="category" required=""> 
+                                        <input type="text" placeholder="Add Category" name="category" pattern="[a-zA-Z\s]+"required=""> 
                                     </div>
                                     <label>Email Address:</label>
                                     <div class="form-group">
@@ -74,7 +74,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 text-center">
-                                    <button type="submit" class="btn btn-priamry btn-save">Save</button>    
+                                    <button type="submit" class="btn btn-priamry btn-save">Submit</button>    
                                 </div>
                             </div>
                         </form>
