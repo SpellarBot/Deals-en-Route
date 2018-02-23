@@ -400,7 +400,7 @@ textarea {
 .box a span {
     display: block;
     font-size: 20px;
-    color: #395999;
+    color: #333;
     z-index: 1;
     position: relative;
 }
