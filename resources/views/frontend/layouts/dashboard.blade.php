@@ -24,19 +24,21 @@
     </head>
 
     <body>
+        @if($hoursmsg == true)
+        <div class="hoursofoperationalert">
+            <div class="errormessage">Please Add Hours Of Operations</div>
+            <div class="errobuttons">
+                <a class="btn btn-sm btn-create" id="addhours">Add Now</a>
+                <a class="btn btn-sm btn-create "id="remindmelater">Remind Me Later</a>
+            </div>
+        </div>   
+        @endif
         <input type="hidden" name="hidAbsUrl" id="hidAbsUrl" value="{{URL::to('/')}}" />
         <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
 
         <div class="wrapper">
 
             <div class="errorpopup">
-                @if($hoursmsg == true)
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close hoursofoperationalert" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <div class="errormessage">Please Add Hours Of Operations</div>
-                    <a id="addhours">Addnow</a>
-                </div>   
-                @endif
                 <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <div class="successmessage"> </div>
