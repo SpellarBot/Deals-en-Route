@@ -126,7 +126,7 @@ use RegistersUsers;
      */
     public function showCategoryForm() {
         $company_logo = $this->showLogoImage();
-        $category_images = \App\WebCouponCategory::categoryList();
+        $category_images = \App\CouponCategory::categoryList();
         $signup_category_images = \App\CouponCategory::categoryListWeb();
         $country_list = \App\Country::countryList();
 

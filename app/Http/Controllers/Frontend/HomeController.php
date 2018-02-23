@@ -18,83 +18,90 @@ use Carbon\Carbon;
 
 class HomeController extends Controller {
 
-    use CouponTrait;
-    use ResponseTrait;
-    use UserTrait;
-    use MailTrait;
+use CouponTrait;
+use ResponseTrait;
+use UserTrait;
+use MailTrait;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        $this->middleware('auth.vendor');
-    }
+/**
+ * Create a new controller instance.
+ *
+ * @return void
+ */
+public function __construct() {
+$this->middleware('auth.vendor');
+}
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index() {
+/**
+ * Show the application dashboard.
+ *
+ * @return \Illuminate\Http\Response
+ */
+public function index() {
 
-        $coupon_lists = \App\Coupon::couponList();
-        $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
-                ->where('vendor_detail.user_id', Auth::id())
-                ->first();
-        $user_access = $this->userAccess();
-        $hoursofoperation = VendorHours::getHoursOfOperations(Auth::id());
-        $hours_of_operations = [];
-        $hoursflage = false;
-        if (count($hoursofoperation) > 0) {
-            foreach ($hoursofoperation as $hours) {
-                $hour = $hours->getAttributes();
-                $dt1 = new Carbon($hour['open_time']);
-                $dt2 = new Carbon($hour['close_time']);
-                $hours_of_operations[$hour['days']]['day'] = $hour['days'];
-                $hours_of_operations[$hour['days']]['open_time'] = $dt1->format('h:i A');
-                $hours_of_operations[$hour['days']]['close_time'] = $dt2->format('h:i A');
+$coupon_lists = \App\Coupon::couponList();
+$vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+->where('vendor_detail.user_id', Auth::id())
+->first();
+$user_access = $this->userAccess();
+$hoursofoperation = VendorHours::getHoursOfOperations(Auth::id());
+$hours_of_operations = [];
+$hoursflage = false;
+if (count($hoursofoperation) > 0) {
+foreach ($hoursofoperation as $hours) {
+$hour = $hours->getAttributes();
+$dt1 = new Carbon($hour['open_time']);
+$dt2 = new Carbon($hour['close_time']);
+$hours_of_operations[$hour['days']]['day'] = $hour['days'];
+$hours_of_operations[$hour['days']]['open_time'] = $dt1->format('h:i A');
+$hours_of_operations[$hour['days']]['close_time'] = $dt2->format('h:i A');
 //                array_push($hours_of_operations, $dataVendorHour);
-            }
-        } else {
-            $hoursflage = true;
-        }
+}
+} else {
+$hoursflage = true;
+}
 //        echo '<pre>';
 //        print_r($hours_of_operations);die;
-        $user = \App\Subscription::where('user_id', Auth::id())->first();
-        if ($user) {
-            $deals_left = $user->getRenewalCoupon($user_access);
-        }
-        $country_list = \App\Country::countryList();
-        $date = \Carbon\Carbon::now();
-        $currenttime = $this->convertDateInUserTZ($date);
-        $year = $this->getLastYear();
-        $sub_details = Subscription::select('*')->where('user_id', Auth::id())->first();
-        $subscription = $sub_details->getAttributes();
+
+$additional = new \App\AdditionalCost();
+$used_plan = $additional->usedCouponTotal();
+$total_additional_fencing_left = $additional->getAdditionalFencing($used_plan, $user_access);
+$total_geofencing = $total_additional_fencing_left + $user_access['basicgeofencing'];
+$user = \App\Subscription::where('user_id', Auth::id())->first();
+if ($user) {
+$deals_left = $user->getRenewalCoupon($user_access);
+}
+$country_list = \App\Country::countryList();
+$date = \Carbon\Carbon::now();
+$currenttime = $this->convertDateInUserTZ($date);
+$year = $this->getLastYear();
+$sub_details = Subscription::select('*')->where('user_id', Auth::id())->first();
+$subscription = $sub_details->getAttributes();
 //        print_r($subscription);
 //        die;
 
-        return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
-                    'vendor_detail' => $vendor_detail, 'country_list' => $country_list,
-                    'currenttime' => $currenttime, 'year' => $year, 'user_access' => $user_access,
-                    'deals_left' => $deals_left, 'subscription' => $subscription, 'hoursofoperation' => $hours_of_operations, 'hoursmsg' => $hoursflage]);
-    }
+return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
+ 'vendor_detail' => $vendor_detail, 'country_list' => $country_list,
+ 'currenttime' => $currenttime, 'year' => $year, 'user_access' => $user_access,
+ 'deals_left' => $deals_left, 'subscription' => $subscription, 'hoursofoperation' => $hours_of_operations, 'hoursmsg' => $hoursflage, 'total_geofencing' => $total_geofencing,
+]);
+}
 
-    public function dashboard(Request $request) {
-        $request = $request->all();
-        $year = (isset($request) && !empty($request['year'])) ? $request['year'] : date('Y');
-        $month = (isset($request) && !empty($request['month'])) ? $request['month'] : date('m');
-        $data = [];
-        $additional = new \App\AdditionalCost();
-        $user_access = $additional->userAccess();
-        $used_plan = $additional->usedCouponTotal();
-        $vendor_detail = \App\VendorDetail::getStripeVendor();
-        $total_redeem_monthly = Coupon::getReedemCouponMonthly($year);
-        $total_redeem_weekly = Coupon::getReedemCouponWeekly($year, $month);
-        $total_coupon_monthly = Coupon::getTotalCouponMonthly();
-        $total_active_coupon_monthly = Coupon::getTotalActiveCouponMonthly();
-        $total_age_wise_redeem = \App\CouponRedeem::getAgeWiseReddemCoupon();
+public function dashboard(Request $request) {
+$request = $request->all();
+$year = (isset($request) &&!empty($request['year'])) ? $request['year'] : date('Y');
+$month = (isset($request) &&!empty($request['month'])) ? $request['month'] : date('m');
+$data = [];
+$additional = new \App\AdditionalCost();
+$user_access = $additional->userAccess();
+$used_plan = $additional->usedCouponTotal();
+$vendor_detail = \App\VendorDetail::getStripeVendor();
+$total_redeem_monthly = Coupon::getReedemCouponMonthly($year);
+$total_redeem_weekly = Coupon::getReedemCouponWeekly($year, $month);
+$total_coupon_monthly = Coupon::getTotalCouponMonthly();
+$total_active_coupon_monthly = Coupon::getTotalActiveCouponMonthly();
+$total_age_wise_redeem = \App\CouponRedeem::getAgeWiseReddemCoupon();
+
         $total_additional_fencing_left = $additional->getAdditionalFencing($used_plan, $user_access);
         $total_additional_location_left = $additional->getAdditionalLocation($used_plan, $user_access);
         $data['total_additional_fencing_left_per'] = ($total_additional_fencing_left != 0) ? number_format(($total_additional_fencing_left / $user_access['additionalgeofencing']) * 100, 2) : 0;

@@ -21,7 +21,7 @@
                                 {{ Form::open([ 'id' => 'create-coupon','file'=>true]) }}
                                 {{ csrf_field() }}
                                 @include("frontend/coupon/_form",['vendor_detail'=>$vendor_detail,'user_access'=>$user_access,
-                                'currenttime'=>$currenttime])
+                                'currenttime'=>$currenttime,'total_geofencing'=>$total_geofencing])
 
                                 {{ Form::close() }}
 

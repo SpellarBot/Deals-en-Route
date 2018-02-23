@@ -11,7 +11,7 @@
             {{ Form::hidden('vendor_long', $vendor_detail->vendor_long, ['class' => 'vendor_long']) }}
             {{ Form::hidden('coupon_start_date', old('coupon_start_date'), ['id' => 'couponstartdate']) }}
             {{ Form::hidden('couponenddate', isset($end_date_converted)?$end_date_converted:'', ['id' => 'couponenddate']) }}
-            <div class="geofencing" style="display:none">{{ $user_access['geofencingtotal'] }}</div>
+            <div class="geofencing" style="display:none">{{ $total_geofencing }}</div>
 
             <div class="tab-pane active" role="tabpanel" id="step1">
                 <h3>Coupon Details</h3>
@@ -110,7 +110,7 @@
                         <div class="form-group">
                             {{ Form::label('coupon_code', 'Coupon Code:') }}
                     
-                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code','readonly'=>true]) }}
+                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code','readonly'=>false]) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>

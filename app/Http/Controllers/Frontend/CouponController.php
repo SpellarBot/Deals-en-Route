@@ -223,7 +223,8 @@ class CouponController extends Controller {
                             'type' => 'redeemfailure',
                             'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
                             'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                            'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                           'image' => (!empty($getCoupondetails->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $getCoupondetails->vendorDetail->vendor_logo : "",       
+                  
                             'coupon_id' => $getCoupondetails->coupon_id,
                         ]));
                         return response()->json(['status' => 0, 'message' => 'Maximum Coupon Redeemption Limit Reached'], 200);
@@ -235,8 +236,8 @@ class CouponController extends Controller {
                             'type' => 'redeemsuccess',
                             'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
                             'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                            'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
-                            'coupon_id' => $getCoupondetails->coupon_id,
+                             'image' => (!empty($getCoupondetails->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $getCoupondetails->vendorDetail->vendor_logo : "",       
+                             'coupon_id' => $getCoupondetails->coupon_id,
                         ]));
 
                         if ($this->getCouponShareWebCount($getCoupondetails->coupon_id, $data['user_id']) > 0) {
@@ -295,7 +296,7 @@ class CouponController extends Controller {
          }
             
         } catch (\Exception $ex) {
-            throw $ex;
+          //  throw $ex;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     
