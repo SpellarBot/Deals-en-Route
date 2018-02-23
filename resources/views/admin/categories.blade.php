@@ -88,7 +88,7 @@
                                                                              </a>-->
                                             <a href="{{ url('/admin/logout') }}" class="list-group-item"
                                                onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
+                                                   document.getElementById('logout-form').submit();">
                                                 <i class="fa fa-sign-out"></i>  Logout
                                             </a>
 
@@ -137,7 +137,7 @@
                                     <span>Businesses</span>
                                 </a>
                             </li>
-                            <li class="">
+                            <li class="active">
                                 <a href="{{ asset('admin/categories') }}" title="Packages">
                                     <em class="fa fa-inbox"></em>
                                     <span>Categories</span>
@@ -149,7 +149,7 @@
                                     <span>Reported Content</span>
                                 </a>
                             </li>
-                            <li class="active">
+                            <li class="">
                                 <a href="{{ asset('admin/city') }}" title="Cities">
                                     <em class="fa fa-building-o"></em>
                                     <span>Cities</span>
@@ -194,28 +194,6 @@
                             <div id="activeCities" role="tabpanel" class="tab-pane active">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div class="row">
-                                            <div class="panel panel-default">
-                                                <form method="get" action="{{ asset('admin/activeCity')}}">
-                                                    <div class="panel-body">
-                                                        <div class="form-group clearfix">
-                                                            <label class="col-sm-2 control-label">Add Cities</label>
-                                                            <div class="col-sm-10">
-                                                                <select multiple name="active_city[]" class="chosen-select form-control" value="Select Cities or City">
-                                                                    @foreach($city_list_inactive as $row)
-                                                                    <option value="{{$row->id}}">{{$row->name}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group mb-0 clearfix">
-                                                            <div class="col-sm-10 col-sm-offset-2">
-                                                                <button type="submit" class="btn btn-oval btn-primary btn-lg btn-min-w-100">Save</button>
-                                                            </div>
-                                                        </div>
-                                                    </div></form>
-                                            </div>
-                                        </div>
                                         <!-- START DATATABLE 1-->
                                         <div class="row">
                                             <div class="col-lg-12">
@@ -227,20 +205,21 @@
                                                                     <table id="users" class="table table-striped table-hover">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th>City Name</th>
+                                                                                <th>Category Name</th>
                                                                                 <th class="text-center">Action</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            @foreach($city_list_active as $row)
+                                                                            @foreach($category_list_active as $row)
                                                                             <tr>
-                                                                                <td>{{$row->name}}</td>
-                                                                                <td class="text-center"><a href="{{ url('/admin/deactiveCity/'.$row->id) }}" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
+                                                                                <td>{{$row->category_name}}</td>
+                                                                                <td class="text-center"><a href="{{ url('/admin/deactiveCategory/'.$row->category_id) }}" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
                                                                             </tr>
                                                                             @endforeach
 
                                                                         </tbody>
                                                                     </table>
+                                                                    {{ $category_list_active->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -262,8 +241,9 @@
                                                     <table id="table4" class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th>User Requested</th>
-                                                                <th>City Requested</th>
+                                                                <th>Requested Category</th>
+                                                                <th>Requested by</th>
+                                                                <th>#</th>
                                                                 <th>#</th>
                                                             </tr>
                                                         </thead>
@@ -272,7 +252,8 @@
                                                             <tr>
                                                                 <td>{{$row->category_name}}</td>
                                                                 <td>{{$row->request_email}}</td>
-                                                                <td onclick="action()">Action</td>
+                                                                <td onclick="action('{{$row->category_id}}','{{$row->category_name}}',1)" style="color:blue;cursor: pointer;">Accept</td>
+                                                                <td onclick="action('{{$row->category_id}}','{{$row->category_name}}',0)" style="color:red;cursor: pointer;">Reject</td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
@@ -284,8 +265,8 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
+
+
                     </div>
                 </div>
             </section>
@@ -293,7 +274,7 @@
             <footer>
                 <span>&copy; 2018 - DealsEnRoute</span>
             </footer>
-            
+
         </div>
         <!-- =============== VENDOR SCRIPTS ===============-->
         <!-- MODERNIZR-->
@@ -353,34 +334,67 @@
         <script src="{{ asset('js/admin/app.js') }}"></script>
         <!--<script src="{{ asset('js/admin//cusom.js') }}"></script>-->
         <script>
-                                                  $(document).ready(function () {
-                                                      
-                                                      $('.chosen-select').chosen({
-                                                          placeholder_text_multiple: "Select Cities or City"
-                                                      });
-                                                  });
-                                                  function action(){
-                                                      $('#myModal').modal('show'); 
-                                                  }
+                                                                    $(document).ready(function () {
+
+                                                                    $('.chosen-select').chosen({
+                                                                    placeholder_text_multiple: "Select Cities or City"
+                                                                    });
+                                                                    });
+                                                                    function action(id, name,status) {
+                                                                    $('#cat_id').val(id);
+                                                                    $('#cat_name').html(name);
+                                                                    $('#name').val(name);
+                                                                    $('#myModal').modal('show');
+                                                                        if(status == 0){
+                                                                            $('#comment').show();
+                                                                            $('#reject').show();
+                                                                            $('#logo').hide();
+                                                                            $('#accept').hide();
+                                                                        }else{
+                                                                            $('#comment').hide();
+                                                                            $('#reject').hide();
+                                                                            $('#logo').show();
+                                                                            $('#accept').show();
+                                                                        }
+                                                                    }
+                                                                    function category(status){
+                                                                        $('#status').val(status);
+                                                                        $('#category').submit();
+                                                                    }
+
         </script>
         <div class="modal fade" id="myModal" role="dialog">
-                            <div class="modal-dialog">
+            <div class="modal-dialog">
 
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Modal Header</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Some text in the modal.</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Category: <span id="cat_name"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" id="category" action="{{ url('/admin/categotyStatus') }}" enctype="multipart/form-data">
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                            <input type="hidden" id="cat_id" name="cat_id">
+                             <input type="hidden" id="name" name="cat_name">
+                            <div class="form-group" id="comment">
+                                <label for="pwd">Comment:</label>
+                                <textarea  name="comment" class="form-control"></textarea>
                             </div>
-                        </div>
+                            <div class="form-group" id="logo">
+                                <label for="pwd">Category Logo:</label>
+                                <input  name="logo" type="file" class="form-control">
+                            </div>
+                            <input type="hidden" name="status" id="status">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger pull-right" onclick="category('0')" id="reject" type="button" style="margin-left: 10px;">Reject</button>
+                        <button class="btn btn-primary pull-right" onclick="category('1')" id="accept" type="button" >Accept</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </body>
 </html>

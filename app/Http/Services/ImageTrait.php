@@ -72,6 +72,17 @@ trait ImageTrait {
         $model->$attribute = $fileName;
         $model->save();
     }
+    
+    public function categoryImageWeb($imagedata, $attribute, $id) {
+
+        $fileName = $id . '.' . $imagedata->getClientOriginalExtension();
+
+        $imagePath = $imagedata->storeAs('public/' . $attribute, $fileName);
+        $imageresizePath = $imagedata->storeAs('public/' . $attribute . '/tmp', $fileName);
+
+        $img = \Image::make(storage_path() . '/app/' . $imagePath);
+        return 'success';
+    }
 
     public function updateImageWeb($filename, $model, $attribute) {
 
