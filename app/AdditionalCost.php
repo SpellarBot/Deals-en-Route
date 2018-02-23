@@ -83,10 +83,12 @@ class AdditionalCost extends Model {
 //        }
         $id=(!empty($id))?$id:Auth::id();
         $vendordetail = VendorDetail::where('user_id', $id)->first();
-        if ($vendordetail) {
+     
+        if ($vendordetail) { 
             $additonal_left = $vendordetail->additional_geo_fencing_total - $vendordetail->additional_geo_fencing_used;
+            return $additonal_left;
         }
-        return $additonal_left;
+     
     }
 
     public static function getAdditionalFencingCost($used_plan, $user_access, $data) {
@@ -125,9 +127,10 @@ class AdditionalCost extends Model {
         $id=(!empty($id))?$id:Auth::id();
         $vendordetail = VendorDetail::where('user_id', $id)->first();
         if ($vendordetail) {
-            $additonal_left = $vendordetail->additional_geo_location_total - $vendordetail->additional_geo_location_used;
-        }
-        return $additonal_left;
+          $additonal_left = $vendordetail->additional_geo_location_total - $vendordetail->additional_geo_location_used;
+          return $additonal_left;
+         }
+        
     }
 
     public static function getAdditionalLocationCost($used_plan, $user_access, $data) {
