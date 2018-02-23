@@ -94,13 +94,10 @@ class AdditionalCost extends Model {
     public static function getAdditionalFencingCost($used_plan, $user_access, $data) {
 
         //get geofence left
-        $additonal_left = self::getAdditionalFencing($used_plan, $user_access);
+        $additonal_left = self::getAdditionalFencing();
 
         // geo fence addtional drawn
         $totalleftfenced = $user_access['basicgeofencing'] + $additonal_left;
-
-
-
 
         if ($data['totaldrawn'] >= $totalleftfenced) {
             $additional_geo_fence = $data['totaldrawn'] - $totalleftfenced;
@@ -135,7 +132,7 @@ class AdditionalCost extends Model {
 
     public static function getAdditionalLocationCost($used_plan, $user_access, $data) {
         //get geofence left
-        $additonal_left_location = self::getAdditionalLocation($used_plan, $user_access);
+        $additonal_left_location = self::getAdditionalLocation();
 
         // geo fence addtional drawn
         $totalleftlocation = ($user_access['basicgeolocation']) + $additonal_left_location;
