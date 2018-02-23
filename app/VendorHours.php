@@ -19,7 +19,7 @@ class VendorHours extends Model {
 
     public static function addHoursOfOperations($data) {
         $addHours = VendorHours::updateOrCreate(
-                        ['vendor_id' => auth()->id()], [
+                        ['vendor_id' => auth()->id(), 'days' => $data['day']], [
                     'vendor_id' => auth()->id(),
                     'days' => $data['day'],
                     'open_time' => $data['open_time'],

@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" />
         <link href="{{ asset('frontend/css/jasny-bootstrap.css')}}" rel="stylesheet">
         <link href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css')}}" rel="stylesheet">
-        
+
 
     </head>
 
@@ -30,6 +30,14 @@
         <div class="wrapper">
 
             <div class="errorpopup">
+                {{url()->current()}}
+                @if($hoursmsg == true)
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close hoursofoperationalert" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="errormessage">Please Add Hours Of Operations</div>
+                    <a id="addhours">Addnow</a>
+                </div>   
+                @endif
                 <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <div class="successmessage"> </div>
@@ -43,7 +51,7 @@
             @include('frontend/sidebar/sidebar')
             @yield('content')   
             @include('frontend/modal/createcoupon')
-            
+
         </div>
         <!--=============================Core JS Files=============================-->
 
