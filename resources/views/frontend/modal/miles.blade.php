@@ -12,11 +12,11 @@
                     <div class="package-add">
                         <p class="package-addon1">Additional-Miles</p>
                         <p class="package-addon2">Additional-Miles - $4.99/mile</p>
-                        <form class="additional_miles">
+                        <form class="additional_miles_coupon">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <select class="form-control" name="extra_miles">
+                                        <select class="form-control" name="extra_miles" id="extra_miles">
                                             <option value="">Select Miles</option>
                                             @for($i=1;$i<=100;$i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
@@ -30,7 +30,7 @@
                             </div>
 
                         </form>
-                        <p class="package-addon3">Available Miles - {!! number_format($user_access['geolocationtotal']) !!} Miles</p>    
+                        <p class="package-addon3">Available Miles - {!! number_format($total_location) !!} Miles</p>    
                     </div>
                 </div>
             </div>

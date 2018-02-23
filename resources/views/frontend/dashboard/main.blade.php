@@ -205,7 +205,7 @@
                                                                 <div class="form-group">
                                                                     <select class="form-control" name="extra_miles">
                                                                         <option value="">Select Miles</option>
-                                                                        @for($i=1;$i<=10;$i++)
+                                                                        @for($i=1;$i<=30;$i++)
                                                                         <option value="{{ $i }}">{{ $i }}</option>
                                                                         @endfor
                                                                     </select>
@@ -241,7 +241,7 @@
                                                         </div>
 
                                                     </form>
-                                                    <p class="package-addon3">Available geo fencing -{!! number_format($total_geofencing) !!} sq.ft</p>
+                                                    <p class="package-addon3">Available geo fencing -{!! number_format($total_geofencing,2) !!} sq.ft</p>
                                                 </div>
                                                 <div class="package-add">
                                                     <p class="package-addon1">Additional-Deals</p>

@@ -87,7 +87,7 @@ class HomeController extends Controller {
                     'currenttime' => $currenttime, 'year' => $year, 'user_access' => $user_access,
                      'total_geofencing'=>$total_geofencing,'total_location'=>$total_location,
                     'deals_left' => $deals_left, 'subscription' => $subscription,
- 'hoursofoperation' => $hours_of_operations, 'hoursmsg' => $hoursflage]);
+                    'hoursofoperation' => $hours_of_operations, 'hoursmsg' => $hoursflage]);
     }
 
     public function dashboard(Request $request) {

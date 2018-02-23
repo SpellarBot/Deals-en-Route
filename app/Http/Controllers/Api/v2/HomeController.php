@@ -102,11 +102,15 @@ class HomeController extends Controller {
         $data['redeem_by_female_total'] = strval($redeem_by_female);
         $data['reemaining_deal'] = strval($vendor_detail['deals_left']);
         $data['total_coupons'] = strval($total_coupon);
-        $data['additional_geo_location_total'] = $user_access['additionalgeolocation'];
-        $data['additional_geo_fencing_total'] = $user_access['additionalgeofencing'];
-        $data['additional_geo_location_percent'] =  strval(($user_access['additionalgeolocation'] != 0) ? number_format(($user_access['additionalgeolocation'] / $user_access['geolocationtotal']) * 100, 2) : 0);
-        $data['additional_geo_fencing_percent'] =  strval(($user_access['additionalgeofencing'] != 0) ? number_format(($user_access['additionalgeofencing'] / $user_access['geofencingtotal']) * 100, 2) : 0);
-        $data['total_coupons_remaining'] = strval(($total_coupon - $total_coupon_reedem));
+        $vendor_detail_geo= \App\VendorDetail::where('user_id',Auth::id())->first();
+        $total_additional_fencing_left =  $additional->getAdditionalFencing();
+        $total_additional_location_left =  $additional->getAdditionalLocation();
+        $data['additional_geo_fencing_percent'] = ($total_additional_fencing_left != 0) ? number_format(($total_additional_fencing_left / $vendor_detail_geo->additional_geo_fencing_total) * 100, 2) : 0;
+        $data['additional_geo_location_percent'] = ($total_additional_location_left != 0) ? number_format(($total_additional_location_left / $vendor_detail_geo->additional_geo_location_total) * 100, 2) : 0;   
+        $data['additional_geo_fencing_total'] = $total_additional_fencing_left;
+        $data['additional_geo_location_total'] = $total_additional_location_left;
+        
+       $data['total_coupons_remaining'] = strval(($total_coupon - $total_coupon_reedem));
         $data['total_deals_created_count'] = strval(count($coupons));
         $data['total_deals_can_create_count'] = strval(($totaladdon + $totaldeals));
         $data['total_deals_remaining_count'] = strval(($data['total_deals_can_create_count'] - $data['total_deals_created_count']));

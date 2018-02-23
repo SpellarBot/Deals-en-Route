@@ -49,6 +49,7 @@ $(document).ready(function () {
 
 // slider
     $('#couponslider').slider({
+     
         formatter: function (value) {
             $('.total_miles').text(value);
             return 'Radius miles: ' + value;
@@ -300,6 +301,11 @@ $(document).on("submit", "#update-coupon", function (event) {
 
         if ($("#update-coupon").hasClass("has-error") == false) {
             formData.append('validationcheck', '1');
+             formData.append('totalprice', totalprice);
+            formData.append('total_geofence_buy', additionalCost.total_geo_fence_buy);
+            formData.append('total_geolocation_buy', additionalCost.total_geo_location_buy);
+           formData.append('totalgeofenceadditionalleft', additionalCost.totalgeofenceadditionalleft);
+           formData.append('totalgeolocationadditionalleft', additionalCost.totalgeolocationadditionalleft);
         }
     }
 
@@ -885,3 +891,21 @@ $(document).on('click', '.getextracost', function (e) {
       
     });
 });
+
+$(document).on("submit", ".additional_miles_coupon", function (event) {
+         event.preventDefault();
+         var miles= parseInt($('#extra_miles').val());
+         var additional= parseInt($('#couponslider').data('sliderMax'));
+         var total= miles + additional;
+            $('#couponslider').slider({
+                max:total,
+        formatter: function (total) {
+            $('.total_miles').text(total);
+            return 'Radius miles: ' + total;
+        }
+            });
+            $('#couponslider').slider('setValue', total, true);
+          $('#couponslider').slider('disable');
+         $('#buyextramiles').modal('hide'); 
+       
+  });
