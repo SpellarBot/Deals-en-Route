@@ -18,9 +18,14 @@ use App\ReportContent;
 use App\City;
 use App\CityRequest;
 use App\CouponCategory;
+use Storage;
+use App\Http\Services\ImageTrait;
+use App\Http\Controllers\Frontend\HomeController;
 
 class AdminController extends Controller {
 
+    use ImageTrait;
+    use HomeController;
     //
     public function userlist()
     {
@@ -295,6 +300,7 @@ class AdminController extends Controller {
 
     public function reportedContent()
     {
+
         $data['is_activity'] = 0;
         if (Input::get('is_activity') == 0)
         {
@@ -324,10 +330,10 @@ class AdminController extends Controller {
     {
         if (Input::get('email') != '' && Input::get('invoice') != '')
         {
-            $array_mail = ['to' => 'nilay@solulab.com',
-                'type' => 'payment_success',
+            $array_mail = ['to' => 'nilay@solulab.com', //Input::get('email'),
+                'type' => 'resend_mail',
                 'data' => ['confirmation_code' => 'Test'],
-                'invoice' => storage_path('app/pdf/1512709812_Invoice.pdf')
+                'invoice' => storage_path('app/pdf/1512709812_Invoice.pdf')//.Input::get('invoice'))
             ];
             $this->sendMail($array_mail);
             $data[] = 'success';
@@ -341,11 +347,47 @@ class AdminController extends Controller {
     {
         $data['requested_list'] = CouponCategory::where('is_requested', 1)->where('is_active', 0)->get();
         //echo '<pre>';print_r($data['requested_list']);exit;
-        $data['city_list_inactive'] = City::where('is_active', 0)->get();
-        $data['city_list_active'] = City::where('is_active', 1)->paginate(10);
-        $data['city_request'] = CityRequest::leftjoin('user_detail', 'user_detail.user_id', 'city_request.requested_by')->leftjoin('city', 'city.id', 'city_request.city_request_id')->get(['first_name', 'last_name', 'name']);
-        //echo '<pre>';print_r($data['city_request']);exit;
+        $data['category_list_active'] = CouponCategory::where('is_active', 1)->where('is_delete', 0)->paginate(10);
+        //echo '<pre>';print_r($data['category_list_active']);exit;
         return view('admin.categories', $data);
+    }
+
+    public function deactiveCategory($id)
+    {
+        if ($id)
+        {
+            CouponCategory::where('category_id', $id)->update(['is_active' => 0]);
+            return redirect('admin/categories');
+        }
+    }
+
+    public function categotyStatus(request $request)
+    {
+        if (Input::get('cat_id') != '' && Input::get('status') != '')
+        {
+            if (Input::get('status') == 0)
+            {
+                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 0, 'reject_reason' => Input::get('comment'), 'is_delete' => '1']);
+                $array_mail = ['to' => 'nilay@solulab.com',
+                    'type' => 'category_reject',
+                    'data' => ['reason' => Input::get('comment'),'name' => Input::get('cat_name')]
+                ];
+                $this->sendMail($array_mail);
+            } else
+            {
+                if ($request->file('logo'))
+                {
+                    $upload = $this->categoryImageWeb($request->file('logo'), 'category_image', $request->input('cat_id'));
+                }
+                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 1]);
+                $array_mail = ['to' => 'nilay@solulab.com',
+                    'type' => 'category_accept',
+                    'data' => ['name' => Input::get('cat_name')]
+                ];
+                $this->sendMail($array_mail);
+            }
+            return redirect('admin/categories');
+        }
     }
 
 }

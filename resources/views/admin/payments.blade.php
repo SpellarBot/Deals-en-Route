@@ -287,10 +287,10 @@
                 <span>&copy; 2018 - DealsEnRoute</span>
             </footer>
         </div>
-        <form id="resend_form" action="" method="get">
+<!--        <form id="resend_form" action="" method="get">
             <input type="text" id="invoice" name="invoice">
             <input type="text" id="email" name="email">
-        </form>
+        </form>-->
         <script>
             function resend(inv, mail){
                 $.ajax({

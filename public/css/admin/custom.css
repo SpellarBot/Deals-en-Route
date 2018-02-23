@@ -51,7 +51,7 @@ div#surveyTakenByUser_info {position: absolute;bottom: 50px;}
 
 .date-rang label{width: auto;float: left; line-height: 32px;padding-right: 15px;}
 .date-rang .date{width: 200px;float: left;}
-.date-rang .date.first{padding-right: 20px;}
+.date-rang .date.first{padding-right: 0px;}
 
 .dataTables_wrapper > .row:nth-child(2) > div {width: 100%;overflow-x: auto;}
 .panel .dataTable{min-width: 700px !important;}
@@ -62,6 +62,13 @@ table td span.active {color: #27c24c;}
 table td span.notactive {color: #f15050;}
 .well .business-img > img{max-width: 200px;margin: 0px auto;}
 .well .business-intro p > strong > i{min-width: 25px;}
+
+.custom-radio{display: inline-block;margin-right: 15px;}
+.custom-radio input[type="radio"], .custom-radio input[type="checkbox"]{display: inline-block;vertical-align: middle;margin-top: 0;margin-right: 6px;}
+.custom-radio > span{display: inline-block; vertical-align: middle;}
+
+.input-group .form-control{border-radius: 25px !important;}
+
 
 @media only screen and (min-width: 768px){
 	.wrapper > .aside .aside-inner {padding-top: 135px;}

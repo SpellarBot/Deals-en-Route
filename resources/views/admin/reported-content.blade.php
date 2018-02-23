@@ -205,8 +205,8 @@
                                                                                 </div>-->
                                         <form method="get" id="report_filter">
                                             <div class="col-xs-6">
-                                                <input type="radio" name="is_activity" value="0" onclick="document.getElementById('report_filter').submit();" @if($is_activity == 0)checked @endif><span>Activity Comment</span>
-                                                <input type="radio" name="is_activity" value="1" onclick="document.getElementById('report_filter').submit();" @if($is_activity == 1)checked @endif><span>Deal comment</span>
+                                                <div class="custom-radio"><input type="radio" name="is_activity" value="0" onclick="document.getElementById('report_filter').submit();" @if($is_activity == 0)checked @endif><span>Activity Comment</span></div>
+                                                <div class="custom-radio"><input type="radio" name="is_activity" value="1" onclick="document.getElementById('report_filter').submit();" @if($is_activity == 1)checked @endif><span>Deal comment</span></div>
                                             </div>
                                             <div class="col-xs-6 text-right">
                                                 <button onclick="pdf()" type="button" class="btn btn-primary btn-oval">Export PDF</button>
