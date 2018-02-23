@@ -67,6 +67,7 @@
                                     <label>Add Category:</label>
                                     <div class="form-group">
                                         <input type="text" placeholder="Add Category" name="category" pattern="[a-zA-Z\s]+"required=""> 
+                                        <span style="font-weight: 600;color: gray;font-size: 10px;">( only character allowed with/without space )</span>
                                     </div>
                                     <label>Email Address:</label>
                                     <div class="form-group">
