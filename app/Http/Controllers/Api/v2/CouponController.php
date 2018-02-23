@@ -289,13 +289,14 @@ class CouponController extends Controller {
             foreach ($couponlist as $couponlists) {
                 $checkUserNotifyNewOffer = $this->getUserNotificationOffer($newcouponusers->id, $couponlists->coupon_id, 'newoffer');
                 if ($checkUserNotifyNewOffer <= 0) {
+                     $coupondetail = \App\Coupon::find($couponlists->coupon_id);
 // send notification
                     Notification::send($newcouponusers, new FcmNotification([
                         'type' => 'newoffer',
                         'notification_message' => 'Hey {{to_name}}, you have new  deal on {{coupon_name}} !!',
                         'message' => 'Hey ' . $newcouponusers->first_name . ' ' . $newcouponusers->last_name . ' Your have new  deal on ' . $couponlists->coupon_name,
                         'name' => $newcouponusers->first_name . ' ' . $newcouponusers->last_name,
-                        'image' => (!empty($couponlists->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/profile_pic') . '/' . $couponlists->vendorDetail->vendor_logo : "",
+                        'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",
                         'coupon_id' => $couponlists->coupon_id
                     ]));
                 }
@@ -355,7 +356,7 @@ class CouponController extends Controller {
                     'type' => 'redeemfailure',
                     'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
                     'message' => \Config::get('constants.NOTIFY_REDEEMPTION_FAILED'),
-                    'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                    'image' => (!empty($getCoupondetails->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $getCoupondetails->vendorDetail->vendor_logo : "",
                     'coupon_id' => $getCoupondetails->coupon_id
                 ]));
                 return $this->responseJson('error', 'Maximum Coupon Redeemption Limit Reached', 400);
@@ -367,7 +368,7 @@ class CouponController extends Controller {
                     'type' => 'redeemsuccess',
                     'notification_message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
                     'message' => \Config::get('constants.NOTIFY_REDEEMPTION'),
-                    'image' => (!empty($getCoupondetails->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $getCoupondetails->coupon_logo : "",
+                    'image' => (!empty($getCoupondetails->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $getCoupondetails->vendorDetail->vendor_logo : "",
                     'coupon_id' => $getCoupondetails->coupon_id,
                     'is_reedem' => 1
                 ]));
