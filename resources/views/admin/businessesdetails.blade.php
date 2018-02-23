@@ -278,7 +278,11 @@
                                  <div class="panel-body">
                                     <div class="col-xs-12">
                                        <h4 class="mb-20">Remaining Deals</h4>
+                                       @if($used_deal > 0)
                                        <canvas id="remainingDeals" style="max-width: 200px; margin: 0px auto;"></canvas>
+                                       @else
+                                       This Vendor has no remaining Deals
+                                       @endif
                                     </div>
                                  </div>
                               </div>
@@ -289,7 +293,11 @@
                                  <div class="panel-body">
                                     <div class="col-xs-12">
                                        <h4 class="mb-20">Remaining Miles</h4>
+                                       @if($used_mile > 0)
                                        <canvas id="remainingMiles" style="max-width: 200px; margin: 0px auto;"></canvas>
+                                       @else
+                                       This Vendor has no remaining Miles
+                                       @endif
                                     </div>
                                  </div>
                               </div>
@@ -300,7 +308,11 @@
                                  <div class="panel-body">
                                     <div class="col-xs-12">
                                        <h4 class="mb-20">Remaining Geofencing</h4>
+                                       @if($used_geo > 0)
                                        <canvas id="remainingGeofencing" style="max-width: 200px; margin: 0px auto;"></canvas>
+                                       @else
+                                       This Vendor has no remaining Geofancing
+                                       @endif
                                     </div>
                                  </div>
                               </div>
@@ -345,10 +357,10 @@
               var remainingDeals = {
                   labels: [
                       'Remaining',
-                      'Completed'
+                      'Used'
                   ],
                   datasets: [{
-                      data: [100, 50],
+                      data: ['{{$used_deal}}', '{{$total_deal}}'],
                       backgroundColor: [
                           '#4bba6d',
                           '#3b5898'
@@ -375,10 +387,10 @@
               var remainingMiles = {
                   labels: [
                       'Remaining',
-                      'Completed'
+                      'Used'
                   ],
                   datasets: [{
-                      data: [100, 30],
+                      data: [{{$total_mile?:'0'}}, {{$used_mile?:'0'}}],
                       backgroundColor: [
                           '#4bba6d',
                           '#3b5898'
@@ -405,10 +417,10 @@
               var remainingGeofencing = {
                   labels: [
                       'Remaining',
-                      'Completed'
+                      'Used'
                   ],
                   datasets: [{
-                      data: [100, 75],
+                      data: [{{$total_geo?:'0'}}, {{$used_geo?:'0'}}],
                       backgroundColor: [
                           '#4bba6d',
                           '#3b5898'
