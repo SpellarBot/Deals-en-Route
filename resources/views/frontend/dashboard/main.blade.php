@@ -309,7 +309,7 @@
                             <div class="content">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        {{ Form::open([ 'id' => 'updatePassword']) }}
+                                        {{ Form::open([ 'id' => 'hoursOfOperation']) }}
                                         <div class="row">
                                             <div class="col-sm-4 pb-15"><label>Days</label></div>
                                             <div class="col-sm-4 text-center pb-15"><label>From</label></div>
@@ -317,94 +317,192 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-4"><p class="package-addon1">Sunday</p></div>
+                                            <input type="hidden" name="sunday[]" value="7"/>
+                                            @if ($hoursofoperation && is_array($hoursofoperation) && array_key_exists('7',$hoursofoperation))
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="fromtimepicker1" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="fromtimepicker1" type="text" name="sunday[]" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[7]['open_time']}}">
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="totimepicker1" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="totimepicker1" type="text" name="sunday[]" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[7]['close_time']}}">
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker1" type="text" name="sunday[]" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="totimepicker1" type="text" name="sunday[]" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-4"><p class="package-addon1">Monday</p></div>
+                                            <input type="hidden" name="monday[]" value="1"/>
+                                            @if ($hoursofoperation && is_array($hoursofoperation) && array_key_exists('1',$hoursofoperation))
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="fromtimepicker2" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="fromtimepicker2" name="monday[]" type="text" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[1]['open_time']}}">
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="totimepicker2" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="totimepicker2" name="monday[]" type="text" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[1]['close_time']}}">
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker2" name="monday[]" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="totimepicker2" name="monday[]" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-4"><p class="package-addon1">Tuesday</p></div>
+                                            <input type="hidden" name="tuesday[]" value="2"/>
+                                            @if ($hoursofoperation && is_array($hoursofoperation) && array_key_exists('2',$hoursofoperation))
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="fromtimepicker3" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="fromtimepicker3" name="tuesday[]" type="text" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[2]['open_time']}}">
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="totimepicker3" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="totimepicker3" name="tuesday[]" type="text" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[2]['close_time']}}">
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker3" name="tuesday[]" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="totimepicker3" name="tuesday[]" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-4"><p class="package-addon1">Wednesday</p></div>
+                                            <input type="hidden" name="wednesday[]" value="3"/>
+                                            @if ($hoursofoperation && is_array($hoursofoperation) && array_key_exists('3',$hoursofoperation))
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="fromtimepicker4" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="fromtimepicker4" type="text" name="wednesday[]" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[3]['open_time']}}">
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="totimepicker4" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="totimepicker4" type="text" name="wednesday[]" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[3]['close_time']}}">
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker4" type="text" name="wednesday[]" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="totimepicker4" type="text" name="wednesday[]" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-4"><p class="package-addon1">Thursday</p></div>
+                                            <input type="hidden" name="thursday[]" value="4"/>
+                                            @if ($hoursofoperation && is_array($hoursofoperation) && array_key_exists('4',$hoursofoperation))
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="fromtimepicker5" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="fromtimepicker5" type="text" name="thursday[]" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[4]['open_time']}}">
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="totimepicker5" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="totimepicker5" type="text" name="thursday[]" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[4]['close_time']}}">
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker5" type="text" name="thursday[]" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="totimepicker5" type="text" name="thursday[]" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-4"><p class="package-addon1">Friday</p></div>
+                                            <input type="hidden" name="friday[]" value="5"/>
+                                            @if ($hoursofoperation && is_array($hoursofoperation) && array_key_exists('5',$hoursofoperation))
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="fromtimepicker6" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="fromtimepicker6" type="text" name="friday[]" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[5]['open_time']}}">
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="totimepicker6" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="totimepicker6" type="text" name="friday[]" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[5]['close_time']}}">
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker6" type="text" name="friday[]" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="totimepicker6" type="text" name="friday[]" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-4"><p class="package-addon1">Saturday</p></div>
+                                            <input type="hidden" name="saturday[]" value="6"/>
+                                            @if ($hoursofoperation && is_array($hoursofoperation) && array_key_exists('6',$hoursofoperation))
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="fromtimepicker7" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="fromtimepicker7" type="text" name="saturday[]" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[6]['open_time']}}">
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <input id="totimepicker7" type="text" placeholder="00:00 AM" class="form-control timepicker">
+                                                    <input id="totimepicker7" type="text" name="saturday[]" placeholder="00:00 AM" class="form-control timepicker" value="{{$hoursofoperation[6]['close_time']}}">
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="fromtimepicker7" type="text" name="saturday[]" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input id="totimepicker7" type="text" name="saturday[]" placeholder="00:00 AM" class="form-control timepicker">
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                         <ul class="list-inline pad-top pull-right">
                                             <li>
