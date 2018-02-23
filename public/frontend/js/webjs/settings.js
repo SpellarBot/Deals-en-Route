@@ -169,6 +169,8 @@ $(document).ready(function () {
 
                 if (data.status == 'success') {
                     setDashboardNotification(data);
+                } else {
+                    setDashboardNotification(data);
                 }
             },
             beforeSend: function () {
