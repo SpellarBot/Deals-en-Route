@@ -19,13 +19,13 @@ $(document).ready(function () {
         $(".help-block").html('');
         $('.alert-danger').hide();
     });
-    
-    
-$('#changepackage').on('click', function(e) {
-    var hash = '#settings';
-    $('#myModal').modal('hide');
-     $('#groupTab li a[href='+hash+']').tab('show');
-});
+
+
+    $('#changepackage').on('click', function (e) {
+        var hash = '#settings';
+        $('#myModal').modal('hide');
+        $('#groupTab li a[href=' + hash + ']').tab('show');
+    });
 
 });
 
@@ -78,13 +78,13 @@ $(window).load(function () {
 
 // for jquery response json notification
 function setErrorNoti(message) {
-   
-        $('.alert-danger').show();
-        setTimeout(function () {
-            $('.alert-danger').fadeOut('slow');
-        }, 10000);
-        $('.errormessage').html(message);
-    
+
+    $('.alert-danger').show();
+    setTimeout(function () {
+        $('.alert-danger').fadeOut('slow');
+    }, 10000);
+    $('.errormessage').html(message);
+
 }
 
 // for jquery response json notification
@@ -126,15 +126,15 @@ function setFlashErrorNotification() {
 function setDashboardNotification(response) {
 
     if (response.status == 0) {
-        
+
         $('.alert-danger').show();
         setTimeout(function () {
             $('.alert-danger').fadeOut('slow');
         }, 10000);
-     
+
         $('.errormessage').html(response.message);
     } else {
-           clearFormData();
+        clearFormData();
         $('.alert-success').show();
         setTimeout(function () {
             $('.alert-success').fadeOut('slow');
@@ -146,3 +146,7 @@ function setDashboardNotification(response) {
 
 }
 
+$(document).on('click', '#addhours', function () {
+    $('.hoursofoperationalert').click();
+    $('a[href=#settings]').click();
+});
