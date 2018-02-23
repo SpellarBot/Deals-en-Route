@@ -146,7 +146,7 @@
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js') }}"></script>
         <script type="text/javascript" src="{{ asset('frontend/js/jasny-bootstrap.js')}}"></script>
         <script type="text/javascript" src="{{ asset('frontend/js/webjs/couponlist.js') }}"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing&callback=Maps"
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing,places&callback=initCallback"
         async defer></script>
         @yield('scripts')
     </body>
