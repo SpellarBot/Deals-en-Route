@@ -42,7 +42,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('/register/create', 'Auth\RegisterController@create');
     Route::post('register/update', 'VendorController@update');
     Route::post('/register/subcription', 'Auth\RegisterController@subscribe');
-
+    Route::post('/vendor/requestCategory', 'Auth\RegisterController@requestCategory');
     //vendor help pages
 
     Route::get('/terms_condition', 'Auth\LoginController@terms')->name('termscondition');

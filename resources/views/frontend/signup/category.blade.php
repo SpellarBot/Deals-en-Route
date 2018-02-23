@@ -8,7 +8,16 @@
         </div>
     </div>
 </header>
-
+<div class="errorpopup">
+    <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="successmessage"> </div>
+    </div>  
+    <div class="alert alert-danger alert-dismissible" role="alert" style="display: none">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="errormessage"> </div>
+    </div>  
+</div>
 <section class="registerPage">
     <div class="container">
         <h1>Register Your Business</h1>
@@ -51,13 +60,17 @@
             </div>
             <div class="modal-body">
                 <div class="col-sm-12"><br>
-                    <h5 class="package-title">Add Category:</h5>
                     <div class="package-add">
-                        <form>
+                        <form id="requestCategory">
                             <div class="row">
                                 <div class="col-sm-12">
+                                    <label>Add Category:</label>
                                     <div class="form-group">
-                                        <input type="text" placeholder="Add Category">
+                                        <input type="text" placeholder="Add Category" name="category" required=""> 
+                                    </div>
+                                    <label>Email Address:</label>
+                                    <div class="form-group">
+                                        <input type="email" placeholder="Email Address" name="request_email" required="">
                                     </div>
                                 </div>
                                 <div class="col-xs-12 text-center">
