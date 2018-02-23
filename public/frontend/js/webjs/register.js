@@ -101,7 +101,54 @@ $(document).ready(function () {
         });
     });
 // add custom rules for credit card validating
+    $('#requestCategory').on('submit', function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            url: $('#hidAbsUrl').val() + "/vendor/requestCategory",
+            type: 'POST',
+            data: formData,
+            success: function (data) {
+                console.log(data);
+                $(".form-group").removeClass('has-error');
+                $(".input-group").removeClass('has-error');
+                $(".help-block").html('');
 
+                if (data.status == 'success') {
+                    $('#otherCategoryModal .close').click();
+                    setDashboardNotification(data);
+                    setTimeout(function () {
+                        window.location.href = $('#hidAbsUrl').val() + '/index';
+                    }, 3000);
+                } else {
+                    $('#otherCategoryModal .close').click();
+                    setDashboardNotification(data);
+                    setTimeout(function () {
+                        window.location.href = $('#hidAbsUrl').val() + '/index';
+                    }, 3000);
+                }
+            },
+            beforeSend: function () {
+                $('#loadingDiv').show();
+            },
+            complete: function () {
+                $('#loadingDiv').hide();
+            },
+            error: function (data) {
+                $(".form-group").removeClass('has-error');
+                $(".input-group").removeClass('has-error');
+                $(".help-block").html('');
+                if (data.responseJSON != '') {
+                    var errors = data.responseJSON.message;
+                    $.each(errors, function (key, value) {
+                        var inputname = $("input[name=" + key + "]").parent();
+                        inputname.addClass('has-error');
+                        inputname.append('<span class="help-block"> <strong>' + value[0] + '</strong> </span>'); //showing only the first error.
+                    });
+                }
+            }
+        });
+    });
 
 
     new Cleave('.cardNumber', {
