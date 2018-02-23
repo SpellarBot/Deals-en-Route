@@ -19,7 +19,9 @@ use App\City;
 use App\CityRequest;
 use App\CouponCategory;
 use Storage;
+use DB;
 use App\Http\Services\ImageTrait;
+use App\VendorDetail;
 
 class AdminController extends Controller {
 
@@ -112,7 +114,37 @@ class AdminController extends Controller {
 
     public function vendorDetail($id)
     {
+        $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+                ->where('vendor_detail.user_id', $id)
+                ->first();
+        $user_access = $vendor_detail->userAccess();
+        $user = \App\Subscription::where('user_id', $id)->first();
+        if ($user) {
+            $deals_left = $user->getRenewalCoupon($user_access);
+            
+             $deals_left;
+        }
+        $additional = new \App\AdditionalCost();
+        $total_additional_fencing_left =  $additional->getAdditionalFencing($id);
+        $total_additional_location_left =  $additional->getAdditionalLocation($id);
+        $total_geofencing = $total_additional_fencing_left + $user_access['basicgeofencing'];
+        $total_location = $total_additional_location_left + $user_access['basicgeolocation'];
+        
+
+        
         $data = [];
+        $data['total_deal']  = $user_access['dealstotal'] - $deals_left;
+        $data['used_deal'] = $user_access['dealstotal'];
+        
+        $geo = VendorDetail::where('user_id', $id)->first();  //echo '<pre> ';     print_r($geo);exit;
+        $data['total_geo']  = (int) $geo->additional_geo_fencing_total - $geo->additional_geo_location_used;
+        $data['used_geo'] =   (int) $geo->additional_geo_location_used;
+        
+        $data['total_mile'] = (int)$geo->additional_geo_location_total - $geo->additional_geo_fencing_used;
+        $data['used_mile'] =  (int)$geo->additional_geo_fencing_used;
+        
+//        exit;
+       
         $data['vendor_list'] = User::where('users.is_delete', '0')->where('users.id', $id)->leftjoin('vendor_detail', 'vendor_detail.user_id', 'users.id')->leftjoin('subscriptions', 'users.id', 'subscriptions.user_id')->get();
         $data['active_list'] = Coupon::where('created_by', $id)->where('is_active', '1')->paginate(10);
         foreach ($data['active_list'] as $row)
@@ -214,7 +246,7 @@ class AdminController extends Controller {
             $pdf = PDF::loadView('admin.businesses_pdf', $data);
             return $pdf->download('Business_pdf.pdf');
         }
-        $data['business_list'] = $data['business_list']->paginate(10);
+        $data['business_list'] = $data['business_list']->select(['*','users.id as id'])->paginate(10);
         //echo '<pre>';print_r($data['user_list']);exit;
         return view('admin.businesses', $data);
     }
@@ -329,10 +361,10 @@ class AdminController extends Controller {
     {
         if (Input::get('email') != '' && Input::get('invoice') != '')
         {
-            $array_mail = ['to' => 'nilay@solulab.com', //Input::get('email'),
+            $array_mail = ['to' => Input::get('email'), //Input::get('email'),
                 'type' => 'resend_mail',
                 'data' => ['confirmation_code' => 'Test'],
-                'invoice' => storage_path('app/pdf/1512709812_Invoice.pdf')//.Input::get('invoice'))
+                'invoice' => storage_path('app/pdf/'.Input::get('invoice'))
             ];
             $this->sendMail($array_mail);
             $data[] = 'success';
@@ -344,7 +376,7 @@ class AdminController extends Controller {
 
     public function categories()
     {
-        $data['requested_list'] = CouponCategory::where('is_requested', 1)->where('is_active', 0)->get();
+        $data['requested_list'] = CouponCategory::where('is_requested', 1)->where('is_active', 0)->where('is_delete', 0)->get();
         //echo '<pre>';print_r($data['requested_list']);exit;
         $data['category_list_active'] = CouponCategory::where('is_active', 1)->where('is_delete', 0)->paginate(10);
         //echo '<pre>';print_r($data['category_list_active']);exit;
