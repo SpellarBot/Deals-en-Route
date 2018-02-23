@@ -217,25 +217,40 @@ class Coupon extends Model {
         if ($coupon->save()) {
             $vendordetail = VendorDetail::where('user_id', Auth::id())->first();
             if ($data['totalprice'] == '0.00') {
-                $vendordetail->additional_geo_fencing_used = $vendordetail->additional_geo_fencing_used + $data['totalgeofenceadditionalleft'];
-                $vendordetail->additional_geo_location_used = $vendordetail->additional_geo_location_used + $data['totalgeolocationadditionalleft'];
-
+                self::getUsedGeo($vendordetail, $data['totalgeolocationadditionalleft'], $data['totalgeofenceadditionalleft']);
                 self::getNotificationUsers($coupon);
             } else {
 
                 $payment = self::makePayment($data, $coupon);
                 if ($payment) {
-
-                    $vendordetail->additional_geo_fencing_used = $vendordetail->additional_geo_fencing_used + $data['totalgeofenceadditionalleft'];
-                    $vendordetail->additional_geo_location_used = $vendordetail->additional_geo_location_used + $data['totalgeolocationadditionalleft'];
-
+                    self::getUsedGeo($vendordetail, $data['totalgeolocationadditionalleft'], $data['totalgeofenceadditionalleft']);
                     self::getNotificationUsers($coupon);
                 }
             }
-            $vendordetail->save();
+
+
+
             return $coupon;
         }
         return false;
+    }
+
+    public static function getUsedGeo($vendordetail, $totallocationleft, $totalgeofenceleft) {
+        // geo location
+        if (($vendordetail->additional_geo_location_used + $totallocationleft) >= $vendordetail->additional_geo_location_total) {
+            $vendordetail->additional_geo_location_used  = 0;
+            $vendordetail->additional_geo_location_total =0;
+        } else {
+            $vendordetail->additional_geo_location_used = $vendordetail->additional_geo_location_used + $totallocationleft;
+        }
+        // geo fencing
+        if (($vendordetail->additional_geo_fencing_used + $totalgeofenceleft) >= $vendordetail->additional_geo_fencing_total) {
+            $vendordetail->additional_geo_fencing_used = 0;
+             $vendordetail->additional_geo_fencing_total = 0;
+        } else {
+            $vendordetail->additional_geo_fencing_used = $vendordetail->additional_geo_fencing_used + $totalgeofenceleft;
+        }
+        $vendordetail->save();
     }
 
     public static function makePayment($data, $coupon) {

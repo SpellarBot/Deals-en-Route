@@ -296,7 +296,7 @@ class CouponController extends Controller {
          }
             
         } catch (\Exception $ex) {
-            throw $ex;
+          //  throw $ex;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     

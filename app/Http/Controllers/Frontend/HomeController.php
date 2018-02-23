@@ -42,7 +42,10 @@ class HomeController extends Controller {
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
         $user_access = $this->userAccess();
-
+        $additional = new \App\AdditionalCost();
+        $used_plan = $additional->usedCouponTotal();
+        $total_additional_fencing_left =  $additional->getAdditionalFencing($used_plan,$user_access);
+        $total_geofencing= $total_additional_fencing_left + $user_access['basicgeofencing'];
         $user = \App\Subscription::where('user_id', Auth::id())->first();
         if ($user) {
             $deals_left = $user->getRenewalCoupon($user_access);
@@ -59,6 +62,7 @@ class HomeController extends Controller {
         return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
                     'vendor_detail' => $vendor_detail, 'country_list' => $country_list,
                     'currenttime' => $currenttime, 'year' => $year, 'user_access' => $user_access,
+                     'total_geofencing'=>$total_geofencing,
                     'deals_left' => $deals_left, 'subscription' => $subscription]);
     }
 
@@ -77,6 +81,7 @@ class HomeController extends Controller {
         $total_active_coupon_monthly = Coupon::getTotalActiveCouponMonthly();
         $total_age_wise_redeem = \App\CouponRedeem::getAgeWiseReddemCoupon();
         $total_additional_fencing_left =  $additional->getAdditionalFencing($used_plan,$user_access);
+       
         $total_additional_location_left =  $additional->getAdditionalLocation($used_plan,$user_access);
         $data['total_additional_fencing_left_per'] = ($total_additional_fencing_left != 0) ? number_format(($total_additional_fencing_left / $user_access['additionalgeofencing']) * 100, 2) : 0;
         $data['total_additional_location_left_per'] = ($total_additional_location_left != 0) ? number_format(($total_additional_location_left / $user_access['additionalgeolocation']) * 100, 2) : 0;   

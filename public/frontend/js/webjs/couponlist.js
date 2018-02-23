@@ -743,12 +743,14 @@ function getSquareFeet(radius) {
         showSecMap.setMap(null);
     }
     b = parseInt(geofencing).toFixed(2);
+  
     totalSqFeetDrawn=sqnumfixed
-    if ((sqfeet) > (b)) {
-       
-    
-    } 
-    selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
+     if ((sqfeet) < (b)) {
+        selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
+    } else {
+        selectedShape.setOptions({'fillColor': '#ff0000', strokeColor: '#ff0000', strokeWeight: 0});
+    }
+
     setPolygonSecMapShape();
 }
 
