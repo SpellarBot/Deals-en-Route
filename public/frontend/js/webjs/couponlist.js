@@ -148,6 +148,7 @@ $(document).ready(function () {
 
     //select row input
     $(".row input[type=text],.row input[type=number] ").keyup(function () {
+        
         id = $(this).attr('id');
         value = $(this).val();
         if (id == 'original_price') {
