@@ -970,11 +970,15 @@ $(document).on("submit", ".additional_fencing_coupon", function (event) {
         var total_left = b - totalSqFeetDrawn;
         $('.total_left_used').html("<label> Remaining Left : </label>" + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
         selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
+        showSecMap.setMap(null);
+          setPolygonSecMapShapeOnCreate(1);
     } else {
         var total_left = totalSqFeetDrawn - b;
         $('.total_left_used').html("<label> Additional Fence Used : </label>" + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
 
         selectedShape.setOptions({'fillColor': '#ff0000', strokeColor: '#ff0000', strokeWeight: 0});
+         showSecMap.setMap(null);
+         setPolygonSecMapShapeOnCreate(0);
     }
     $('#extra_fence').val('');
     $('#buygeofencearea').modal('hide');
