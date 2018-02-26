@@ -148,6 +148,7 @@ $(document).ready(function () {
 
     //select row input
     $(".row input[type=text],.row input[type=number] ").keyup(function () {
+        
         id = $(this).attr('id');
         value = $(this).val();
         if (id == 'original_price') {
@@ -858,8 +859,9 @@ $(document).on('click', '.createcoupon', function (e) {
         url: $('#hidAbsUrl').val() + "/coupon/generateCouponCode",
         type: 'GET',
         success: function (data) {
-            $('.coupon_code_textbox').val(data.message);
+           
             $('.coupon_code').text(data.message);
+             $('.coupon_code_textbox').val(data.message);
         },
         beforeSend: function () {
             $('#loadingDiv').show();
