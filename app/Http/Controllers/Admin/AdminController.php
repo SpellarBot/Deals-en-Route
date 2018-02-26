@@ -26,7 +26,6 @@ use App\VendorDetail;
 class AdminController extends Controller {
 
     use ImageTrait;
-   
 
     //
     public function userlist()
@@ -38,23 +37,7 @@ class AdminController extends Controller {
         $data['user_search'] = '';
 
         $data['user_list'] = User::where('is_delete', '0')->where('role', 'user')->leftjoin('user_detail', 'users.id', 'user_detail.user_id');
-        if (Input::get('signuptype') != '')
-        {
-            $data['signuptype'] = Input::get('signuptype');
-            if ($data['signuptype'] == 'facebook')
-            {
-                $data['user_list'] = $data['user_list']->where('fb_token', '!=', '');
-            } else if ($data['signuptype'] == 'google')
-            {
-                $data['user_list'] = $data['user_list']->where('google_token', '!=', '');
-            } else if ($data['signuptype'] == 'twitter')
-            {
-                $data['user_list'] = $data['user_list']->where('twitter_token', '!=', '');
-            } else
-            {
-                $data['user_list'] = $data['user_list']->where('twitter_token', '=', null)->where('google_token', '=', null)->where('fb_token', '=', null);
-            }
-        }
+
         if (Input::get('userstatus') != '')
         {
             $data['userstatus'] = Input::get('userstatus');
@@ -63,15 +46,35 @@ class AdminController extends Controller {
         if (Input::get('user_search') != '')
         {
             $data['user_search'] = Input::get('user_search');
-            $data['user_list'] = $data['user_list']->where('first_name', 'LIKE', '%' . $data['user_search'] . '%')->orwhere('last_name', 'LIKE', '%' . $data['user_search'] . '%');
+            $data['user_list'] = $data['user_list']->where(function($q) {
+                $q->where('first_name', 'LIKE', '%' . Input::get('user_search') . '%')->orwhere('last_name', 'LIKE', '%' . Input::get('user_search') . '%');
+            });
+        }
+        if (Input::get('signuptype') != '')
+        {
+            $data['signuptype'] = Input::get('signuptype');
+            if ($data['signuptype'] == 'facebook')
+            {
+                $data['user_list'] = $data['user_list']->where('user_detail.fb_token', '!=', '');
+            } else if ($data['signuptype'] == 'google')
+            {
+                $data['user_list'] = $data['user_list']->where('user_detail.google_token', '!=', '');
+            } else if ($data['signuptype'] == 'twitter')
+            {
+                $data['user_list'] = $data['user_list']->where('user_detail.twitter_token', '!=', '');
+            } else
+            {
+                $data['user_list'] = $data['user_list']->where('user_detail.twitter_token', '=', null)->where('user_detail.google_token', '=', null)->where('user_detail.fb_token', '=', null);
+            }
         }
         if (Input::get('is_pdf') != '' && Input::get('is_pdf') > 0)
         {
-            $data['user_list'] = $data['user_list']->get();
+            $data['user_list'] = $data['user_list']->orderby('users.id', 'DESC')->get();
         } else
         {
-            $data['user_list'] = $data['user_list']->paginate(10);
+            $data['user_list'] = $data['user_list']->orderby('users.id', 'DESC')->paginate(10);
         }
+
         foreach ($data['user_list'] as $row)
         {
             $row->coupons = CouponRedeem::where('user_id', $row->id)->count();
@@ -266,11 +269,11 @@ class AdminController extends Controller {
 
         if (Input::get('is_pdf') != '' && Input::get('is_pdf') > 0)
         {
-            $data['business_list'] = $data['business_list']->get();
+            $data['business_list'] = $data['business_list']->orderby('users.id', 'DESC')->get();
             $pdf = PDF::loadView('admin.businesses_pdf', $data);
             return $pdf->download('Business_pdf.pdf');
         }
-        $data['business_list'] = $data['business_list']->select(['*', 'users.id as id'])->paginate(10);
+        $data['business_list'] = $data['business_list']->select(['*', 'users.id as id'])->orderby('users.id', 'DESC')->paginate(10);
         //echo '<pre>';print_r($data['user_list']);exit;
         return view('admin.businesses', $data);
     }
@@ -337,7 +340,7 @@ class AdminController extends Controller {
         {
             $start_date = date('Y-m-d H:i:s', strtotime(Input::get('date_start')));
             $end_date = date('Y-m-d H:i:s', strtotime(Input::get('date_end')));
-            $data['paylist'] = $data['paylist']->whereBetween('created_at', [$start_date, $end_date]);
+            $data['paylist'] = $data['paylist']->whereBetween('paymentinfo.created_at', [$start_date, $end_date]);
             $data['date_start_val'] = Input::get('date_start');
             $data['date_end_val'] = Input::get('date_end');
         }
@@ -402,7 +405,7 @@ class AdminController extends Controller {
     {
         $data['requested_list'] = CouponCategory::where('is_requested', 1)->where('is_active', 0)->where('is_delete', 0)->get();
         //echo '<pre>';print_r($data['requested_list']);exit;
-        $data['category_list_active'] = CouponCategory::where('is_active', 1)->where('is_delete', 0)->paginate(10);
+        $data['category_list_active'] = CouponCategory::where('is_active', 1)->where('is_delete', 0)->orderby('category_id', 'DESC')->paginate(10);
         //echo '<pre>';print_r($data['category_list_active']);exit;
         return view('admin.categories', $data);
     }

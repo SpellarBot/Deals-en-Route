@@ -57,8 +57,13 @@ class Notifications extends Model {
         ];
 //       print_r($data);
 //        die;
+       
         if (!empty($tokens)) {
-            self::sendAPNSNotificaiton($tokens->device_token, '', $data);
+             $tokenexplode=explode(':',$tokens->device_token);
+     
+             if(empty($tokenexplode)){
+               self::sendAPNSNotificaiton($tokens->device_token, '', $data);
+             }
         }
 
 //        $optionBuiler = new OptionsBuilder();

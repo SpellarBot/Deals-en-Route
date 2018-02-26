@@ -89,13 +89,13 @@ class CouponShare extends Model {
             ]));
 
             // send notification to yourself
-            Notification::send($creator_id, new FcmNotification([
-                'type' => 'sharedcoupon',
-                'notification_message' => \Config::get('constants.NOTIFY_SHARE_COUPON'),
-                'message' => \Config::get('constants.NOTIFY_SHARE_COUPON'),
-                'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
-                'coupon_id' => $coupon->coupon_id
-            ]));
+//            Notification::send($creator_id, new FcmNotification([
+//                'type' => 'sharedcoupon',
+//                'notification_message' => \Config::get('constants.NOTIFY_SHARE_COUPON'),
+//                'message' => \Config::get('constants.NOTIFY_SHARE_COUPON'),
+//                'image' => (!empty($coupon->coupon_logo)) ? URL::to('/storage/app/public/coupon_logo/tmp') . '/' . $coupon->coupon_logo : "",
+//                'coupon_id' => $coupon->coupon_id
+//            ]));
 
 
             if (CouponShare::insert($datafb)) {

@@ -64,7 +64,7 @@ class NotificationController extends Controller {
                         if ($isPolygon) {
                                 
                             $coupon = Coupon::where('coupon_id', $value['coupon_id'])->first();
-                            $rand = rand(0, 3);
+                            $rand = 0;
                             $nMessage = \Config::get('constants.NOTIFY_GEO')[$rand];
                             $fMessage = $coupon->finalNotifyMessage(Auth::id(), Auth::id(), $coupon, $nMessage);
                             // send notification
@@ -99,14 +99,14 @@ class NotificationController extends Controller {
             if ($checkUserNotify <= 0) {
             $fMessage = $coupondetail->finalNotifyMessage(Auth::id(), Auth::id(), $coupondetail,  \Config::get('constants.NOTIFY_FAV_EXPIRE'));
                 // send notification
-                Notification::send($to_id, new FcmNotification([
-                    'type' => 'favexpire',
-                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE') ,
-                    'message' => $fMessage,
-                    'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",
-                              
-                   'coupon_id' => $couponlists['coupon_id']
-                ]));
+//                Notification::send($to_id, new FcmNotification([
+//                    'type' => 'favexpire',
+//                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE') ,
+//                    'message' => $fMessage,
+//                    'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",
+//                              
+//                   'coupon_id' => $couponlists['coupon_id']
+//                ]));
             }
         }
         
@@ -127,14 +127,14 @@ class NotificationController extends Controller {
 
             if ($checkUserNotify <= 0) {
 
-                // send notification
-                Notification::send($to_id, new FcmNotification([
-                    'type' => 'favleft',
-                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
-                    'message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
-                   'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",
-                   'coupon_id' => $couponlists['coupon_id']
-                ]));
+//                // send notification
+//                Notification::send($to_id, new FcmNotification([
+//                    'type' => 'favleft',
+//                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
+//                    'message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
+//                   'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",
+//                   'coupon_id' => $couponlists['coupon_id']
+//                ]));
             }
         }
     }

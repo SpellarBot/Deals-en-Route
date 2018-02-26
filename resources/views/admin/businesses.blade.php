@@ -211,6 +211,7 @@
                                   <button type="button" class="btn btn-primary btn-oval" onclick="pdf()">Export PDF</button>
                               </div>
                               <div class="col-xs-12 mt-15">
+                                  @if(count($business_list) > 0)
                                  <div class="table-responsive user-management">
                                     <table class="table table-striped table-hover">
                                        <thead>
@@ -238,6 +239,9 @@
                                     </table>
                                      {{ $business_list->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                  </div>
+                                   @else
+                                   <span style="color: red;">No Data Found</span>
+                                   @endif
                               </div>
                            </div>
                         </div>
