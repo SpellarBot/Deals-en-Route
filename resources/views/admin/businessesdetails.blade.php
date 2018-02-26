@@ -166,7 +166,7 @@
                         <div class="well clearfix">
                            @foreach($vendor_list as $row)
                            <div class="col-lg-3 col-md-6 col-xs-12 business-img">
-                              <img src="{{ asset('img/admin/'.$row->vendor_logo) }}" alt="" class="img-responsive">
+                              <img src="{{ asset('storage/app/public/profile_pic/'.$row->vendor_logo)}}" alt="" class="img-responsive">
                            </div>
                             
                            <div class="col-lg-5 col-md-6 col-xs-12 business-intro">
@@ -344,7 +344,7 @@
       <script src="{{ asset('vendor/admin/datatables-buttons/js/buttons.print.js')}}"></script>
       <script src="{{ asset('vendor/admin/datatables-responsive/js/dataTables.responsive.js')}}"></script>
       <script src="{{ asset('vendor/admin/datatables-responsive/js/responsive.bootstrap.js')}}"></script>
-      <script src="{{ asset('vendor/admin/chart.js/dist/Chart.js')}}"></script>
+      <script src="{{ asset('vendor/admin/Chart.js/dist/Chart.js')}}"></script>
 
       <!-- =============== APP SCRIPTS ===============-->
       <script src="{{ asset('js/admin/app.js')}}"></script>
