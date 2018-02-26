@@ -880,7 +880,7 @@ function getCouponcode() {
             
             $('input[name=coupon_code]').val(data.message);
             $('.coupon_code').text(data.message);
-            $('#create-coupon').find("input[type=text],input[type=number],input[type=hidden]").not('input[name=_token],input[name=coupon_code]').val("");
+            
         },
         beforeSend: function () {
             $('#loadingDiv').show();
