@@ -130,6 +130,7 @@ class CouponController extends Controller {
         $additional = new \App\AdditionalCost();
         $total_additional_fencing_left =  $additional->getAdditionalFencing();
         $total_additional_location_left =  $additional->getAdditionalLocation();
+        $total_additional_cost= $additional->getParticularCouponAdditionalCost($id);
         $total_geofencing= $total_additional_fencing_left + $user_access_plan['basicgeofencing'];
         $total_location= $total_additional_location_left + $user_access_plan['basicgeolocation'];
         $coupon = Coupon::where('coupon_id', $id)->first();
@@ -139,6 +140,7 @@ class CouponController extends Controller {
                     'coupon_lists' => $coupon_lists, 'vendor_detail' => $vendor_detail,
                     'start_date_converted' => $start_date, 'end_date_converted' => $end_date,
                     'total_geofencing'=>$total_geofencing,'total_location'=>$total_location,
+                    'total_additional_cost'=>$total_additional_cost,
                     'user_access' => $user_access[0]]);
     }
 

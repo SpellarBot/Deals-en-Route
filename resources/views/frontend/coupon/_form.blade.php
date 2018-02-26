@@ -12,7 +12,7 @@
             {{ Form::hidden('coupon_start_date', old('coupon_start_date'), ['id' => 'couponstartdate']) }}
             {{ Form::hidden('couponenddate', isset($end_date_converted)?$end_date_converted:'', ['id' => 'couponenddate']) }}
             <div class="geofencing" style="display:none">{{ $total_geofencing }}</div>
-
+            <div class="geofencingshow" style="display:none">{{ $total_geofencing }}</div>
             <div class="tab-pane active" role="tabpanel" id="step1">
                 <h3>Coupon Details</h3>
                 <div class="row" >
@@ -49,19 +49,19 @@
                                             <span>:</span>
                                         </div>
                                         <div class="v-hours">
-                                            <span class="boxbg" id="gethours">1</span>
+                                            <span class="boxbg" id="gethours">0</span>
                                             <span class="boxdetail">Hours</span>
                                         </div>
                                         <div class="colon">
                                             <span>:</span>
                                         </div>
                                         <div class="v-mints">
-                                            <span class="boxbg" id="getminutes">1</span>
+                                            <span class="boxbg" id="getminutes">0</span>
                                             <span class="boxdetail">Minutes</span>
                                         </div>
                                     </div>
                                     <div class="leftcoupen">
-                                        <span class="boxbg" class="coupon_redeem_limit" id="couponleft">{{  (isset($coupon))?$coupon->coupon_redeem_limit -$coupon->coupon_total_redeem:0 }}</span>
+                                        <span class="boxbg coupon_redeem_limit"  id="couponleft">{{  (isset($coupon))?$coupon->coupon_redeem_limit -$coupon->coupon_total_redeem:0 }}</span>
                                         <span class="boxdetail">Coupons Left</span>
                                     </div>
                                     <div class="pricebox">
@@ -108,12 +108,19 @@
                     
                             {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control coupon_code_textbox','id'=>'coupon_code','readonly'=>true]) }}
                         </div>
-                        <div class="form-group">
+                          @if(!isset($coupon)) 
+                            <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
                             {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$total_location,'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider']) }}
                             <p class="extra-miles"> <span>(in miles)</span> <button type="button" class="btn pull-right btn-sm btn-info btn-fill btn-wd btn-create" data-toggle="modal" data-target="#buyextramiles">Buy Extra Miles</button></p>
                         </div>
-
+                          @else
+                        <div class="form-group">
+                            {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
+                            {{ Form::text('coupon_radius','', ['data-slider-id'=>'ex1Slider','data-slider-min'=>0,'data-slider-max'=>$total_location,'data-slider-step'=>1,'data-slider-value'=>(isset($coupon))?$coupon->coupon_radius:"0",'id'=>'couponslider','data-slider-enabled'=>'false']) }}
+                            
+                        </div>
+                            @endif
                         <div class="form-group">
                             {{ Form::label('coupon_original_price', 'Original Price:') }}
                             {{ Form::text('coupon_original_price', old('coupon_original_price'), ['placeholder'=>'Enter Your Coupon Original Price ','class'=>'form-control','min'=>1,'id'=>'original_price']) }}
@@ -179,10 +186,10 @@
                 <h3>Geofence</h3>
 
                 <div class="row">
-<input id="pac-input" class="col-sm-10 col-sm-offset-1 form-group" type="text" placeholder="Search Box">
+                    <input id="pac-input" class="col-sm-10 col-sm-offset-1 form-group" type="text" placeholder="Search Box">
 
                     <div class="col-sm-10 col-sm-offset-1 form-group">
-                        <div class="total_geofencing_covered"> <label> Total Geofencing : </label>{!! $total_geofencing.' ft²' !!} </div>
+                        <div class="total_geofencing_covered"> <label> Total Geofencing : </label>{!! number_format($total_geofencing,2).' ft²' !!} </div>
                         <div class="total_left_used"> </div>
                         <div id="info">{!! !isset($coupon->coupon_notification_sqfeet) ? '': '<label> Area Sqft Covered : </label>'.' '.number_format($coupon->coupon_notification_sqfeet,2).' ft²' !!} </div></div>
                     <div  class="col-sm-10 col-sm-offset-1" id="googlegeofencing" style="height: 400px;max-width: 980px;"></div> 
@@ -194,10 +201,11 @@
                         <li class="pull-left">
                             <button type="button" class="btn btn-create prev-step">Previous</button>
                         </li>
+                        @if(!isset($coupon)) 
                         <li class="pull-left">
                             <button type="button" class="btn pull-right btn-sm btn-info btn-fill btn-wd btn-create" data-toggle="modal" data-target="#buygeofencearea">Buy Geofence Area</button>
                         </li>
-                        @if(!isset($coupon)) 
+                        
                         <li>
                             <button type="button" id="resetfence" onclick="onClickEvent()" class="btn btn-create">Draw Fence</button>
                         </li>
@@ -257,7 +265,7 @@
                             <tfoot>
                                 <tr>
                                     <td>Total:</td>
-                                    <td><div class="totalextra"> </div></td>
+                                    <td><div class="totalextra">  {{ isset($coupon)?$total_additional_cost:'' }} $</div></td>
                                 </tr>
                             </tfoot>
                         </table>

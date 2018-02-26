@@ -27,6 +27,7 @@ var date = new Date();
 var markershow;
 var showArray = [];
 var totalprice;
+var b;
 
 $(document).ready(function () {
     if (localStorage.getItem("NewCoupon"))
@@ -296,6 +297,7 @@ $(document).on("submit", "#update-coupon", function (event) {
     var id = $('.coupon_id').val();
     formData = new FormData($(this)[0]);
     formData.append('coupon_id', id);
+    
     //if value =4 i.e last step then
     value = parseInt($('.stepsincrement').val()) + 1;
 
@@ -303,11 +305,8 @@ $(document).on("submit", "#update-coupon", function (event) {
 
         if ($("#update-coupon").hasClass("has-error") == false) {
             formData.append('validationcheck', '1');
-            formData.append('totalprice', totalprice);
-            formData.append('total_geofence_buy', additionalCost.total_geo_fence_buy);
-            formData.append('total_geolocation_buy', additionalCost.total_geo_location_buy);
-            formData.append('totalgeofenceadditionalleft', additionalCost.totalgeofenceadditionalleft);
-            formData.append('totalgeolocationadditionalleft', additionalCost.totalgeolocationadditionalleft);
+             formData.append('totalprice', totalprice);
+          
         }
     }
 
@@ -762,25 +761,27 @@ function getSquareFeet(radius) {
     $('.couponsqft').text(sqnum + ' ft²');
     $('#coupon_notification_sqfeet').val(JSON.stringify(sqnumfixed));
     $('#coupon_notification_point').val(JSON.stringify(showArray));
-    var geofencing = $('.geofencing').text();
+    var geofencing = $('.geofencingshow').text();
     if (showSecMap != '') {
         showSecMap.setMap(null);
     }
     b = parseInt(geofencing).toFixed(2);
 
     totalSqFeetDrawn = sqnumfixed
-    if ((sqfeet) < (b)) {
+    if ((totalSqFeetDrawn) < (b)) {
         var total_left = b - sqfeet;
-        $('.total_left_used').html("<label> Remaining Left : </label>" + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
+        $('.total_left_used').html("<label> Remaining Left : </label> " + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
         selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
+         setPolygonSecMapShapeOnCreate(1);
     } else {
         var total_left = sqfeet - b;
-        $('.total_left_used').html("<label> Additional Fence Used : </label>" + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
+        $('.total_left_used').html("<label> Additional Fence Used : </label> " + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
 
         selectedShape.setOptions({'fillColor': '#ff0000', strokeColor: '#ff0000', strokeWeight: 0});
+         setPolygonSecMapShapeOnCreate(0);
     }
 
-    setPolygonSecMapShape();
+  
 }
 
 
@@ -792,6 +793,22 @@ function setPolygonFirstMapShape() {
     showFirstMap = new google.maps.Polygon((options));
     showFirstMap.setMap(map);
 
+
+}
+
+// set polygon shape for second map 
+function setPolygonSecMapShapeOnCreate(flag) {
+    if(flag==1){
+// show polygon   
+    var options = $.extend(polyOptions_valid, {'paths': showArray}, {editable: false});
+    showSecMap = new google.maps.Polygon((options));
+    showSecMap.setMap(mapshow);
+    }else{
+        // show polygon   
+    var options = $.extend(polyOptions_invalid, {'paths': showArray}, {editable: false});
+    showSecMap = new google.maps.Polygon((options));
+    showSecMap.setMap(mapshow);
+    }
 
 }
 
@@ -860,9 +877,10 @@ function getCouponcode() {
         url: $('#hidAbsUrl').val() + "/coupon/generateCouponCode",
         type: 'GET',
         success: function (data) {
-            console.log(data);
+            
             $('input[name=coupon_code]').val(data.message);
             $('.coupon_code').text(data.message);
+            $('#create-coupon').find("input[type=text],input[type=number],input[type=hidden]").not('input[name=_token],input[name=coupon_code]').val("");
         },
         beforeSend: function () {
             $('#loadingDiv').show();
@@ -899,6 +917,8 @@ function getCouponcode() {
 $(document).on('click', '.getextracost', function (e) {
 
     e.preventDefault();
+     var coupon_id= ($('.coupon_id').val()); 
+    if(coupon_id==""){
     var geofencing = $('.geofencing').text();
     b = parseInt(geofencing).toFixed(2);
     $.ajax({
@@ -917,6 +937,7 @@ $(document).on('click', '.getextracost', function (e) {
         }
 
     });
+    }
 });
 
 $(document).on("submit", ".additional_miles_coupon", function (event) {
@@ -933,6 +954,29 @@ $(document).on("submit", ".additional_miles_coupon", function (event) {
     });
     $('#couponslider').slider('setValue', total, true);
     $('#couponslider').slider('disable');
+    $('#extra_miles').val('');
     $('#buyextramiles').modal('hide');
+
+});
+
+$(document).on("submit", ".additional_fencing_coupon", function (event) {
+    event.preventDefault();
+    var fence = parseInt($('#extra_fence').val());
+    var additional =parseInt(b);
+     b = fence + additional;
+    $('.geofencingshow').text(b);
+    $('.total_geofencing_covered').html("<label>Total Geofencing : </label> "+ Number((b).toFixed(2)).toLocaleString('en') + ' ft²');
+    if ((totalSqFeetDrawn) < (b)) {
+        var total_left = b - totalSqFeetDrawn;
+        $('.total_left_used').html("<label> Remaining Left : </label>" + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
+        selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
+    } else {
+        var total_left = totalSqFeetDrawn - b;
+        $('.total_left_used').html("<label> Additional Fence Used : </label>" + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
+
+        selectedShape.setOptions({'fillColor': '#ff0000', strokeColor: '#ff0000', strokeWeight: 0});
+    }
+    $('#extra_fence').val('');
+    $('#buygeofencearea').modal('hide');
 
 });
