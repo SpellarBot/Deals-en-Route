@@ -41,6 +41,7 @@ class HomeController extends Controller {
         } else {
             $data['total_coupon_reedemed'] = number_format(($total_coupon_reedem / $total_coupon) * 100, 2);
         }
+         $additional = new \App\AdditionalCost();
         $allreedemcoupons = CouponRedeem::getRedeemCoupon();
         $redeem_by_18_below = 0;
         $redeem_by_male = 0;
