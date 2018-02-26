@@ -880,7 +880,7 @@ function getCouponcode() {
             
             $('input[name=coupon_code]').val(data.message);
             $('.coupon_code').text(data.message);
-            
+         
         },
         beforeSend: function () {
             $('#loadingDiv').show();
