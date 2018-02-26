@@ -18,15 +18,7 @@
         <link rel="stylesheet" href="{{ asset('css/admin/bootstrap.css')}}" id="bscss">
         <link rel="stylesheet" href="{{ asset('css/admin/app.css')}}" id="maincss">
         <link rel="stylesheet" href="{{ asset('css/admin/custom.css')}}">
-         <script type="text/javascript">
-            $(document).ready(function () {
-                $(".datepicker").datepicker();
-                $("#success-alert").hide();
-                });
-                function setZindex() {
-                $("#ui-datepicker-div").css("z-index", "9999");
-            }
-        </script>
+         
     </head>
     <body>
         <div class="wrapper">
@@ -267,7 +259,7 @@
                                                             <td>{{$row->payment_type}}</td>
                                                             <td>{{$row->transaction_id}}</td>
                                                             <td><span class="text-success">{{$row->payment_status}}</span></td>
-                                                            <td onclick="resend('{{$row->invoice}}','{{$row->email}}')">Resend Invoice</td>
+                                                            <td style="cursor: pointer;" onclick="resend('{{$row->invoice}}','{{$row->email}}')">Resend Invoice</td>
                                                         </tr>
                                                         @endforeach
                                                     </tbody>
@@ -328,6 +320,14 @@
         <script src="{{ asset('js/admin/app.js')}}"></script>
         <script src="{{ asset('js/admin/cusom.js')}}"></script>
        
-
+<script type="text/javascript">
+            $(document).ready(function () {
+                $(".datepicker").datepicker();
+                $("#success-alert").hide();
+                });
+                function setZindex() {
+                $("#ui-datepicker-div").css("z-index", "9999");
+            }
+        </script>
     </body>
 </html>
