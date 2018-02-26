@@ -61,7 +61,7 @@
                                         </div>
                                     </div>
                                     <div class="leftcoupen">
-                                        <span class="boxbg" id="couponleft">{{  (isset($coupon))?$coupon->coupon_redeem_limit -$coupon->coupon_total_redeem:0 }}</span>
+                                        <span class="boxbg coupon_redeem_limit" id="couponleft">{{  (isset($coupon))?$coupon->coupon_redeem_limit -$coupon->coupon_total_redeem:0 }}</span>
                                         <span class="boxdetail">Coupons Left</span>
                                     </div>
                                     <div class="pricebox">
@@ -106,7 +106,7 @@
                         <div class="form-group">
                             {{ Form::label('coupon_code', 'Coupon Code:') }}
                     
-                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code','readonly'=>true]) }}
+                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code','readonly'=>false]) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
@@ -181,7 +181,10 @@
                 <div class="row">
 <input id="pac-input" class="col-sm-10 col-sm-offset-1 form-group" type="text" placeholder="Search Box">
 
-                    <div class="col-sm-10 col-sm-offset-1 form-group"> <div id="info">{!! !isset($coupon->coupon_notification_sqfeet) ? '': '<label> Area Sqft Covered : </label>'.' '.number_format($coupon->coupon_notification_sqfeet,2).' ft²' !!} </div></div>
+                    <div class="col-sm-10 col-sm-offset-1 form-group">
+                        <div class="total_geofencing_covered"> <label> Total Geofencing : </label>{!! $total_geofencing.' ft²' !!} </div>
+                        <div class="total_left_used"> </div>
+                        <div id="info">{!! !isset($coupon->coupon_notification_sqfeet) ? '': '<label> Area Sqft Covered : </label>'.' '.number_format($coupon->coupon_notification_sqfeet,2).' ft²' !!} </div></div>
                     <div  class="col-sm-10 col-sm-offset-1" id="googlegeofencing" style="height: 400px;max-width: 980px;"></div> 
 
                 </div>
