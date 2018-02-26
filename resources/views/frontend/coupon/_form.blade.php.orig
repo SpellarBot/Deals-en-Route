@@ -61,7 +61,7 @@
                                         </div>
                                     </div>
                                     <div class="leftcoupen">
-                                        <span class="boxbg" id="couponleft">{{  (isset($coupon))?$coupon->coupon_redeem_limit -$coupon->coupon_total_redeem:0 }}</span>
+                                        <span class="boxbg coupon_redeem_limit" id="couponleft">{{  (isset($coupon))?$coupon->coupon_redeem_limit -$coupon->coupon_total_redeem:0 }}</span>
                                         <span class="boxdetail">Coupons Left</span>
                                     </div>
                                     <div class="pricebox">
@@ -106,7 +106,11 @@
                         <div class="form-group">
                             {{ Form::label('coupon_code', 'Coupon Code:') }}
                     
+<<<<<<< HEAD
+                            {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control','id'=>'coupon_code','readonly'=>false]) }}
+=======
                             {{ Form::text('coupon_code',old('coupon_code'), ['placeholder'=>'Enter Your Coupon Code','class'=>'form-control coupon_code_textbox','id'=>'coupon_code','readonly'=>true]) }}
+>>>>>>> refs/remotes/origin/master
                         </div>
                         <div class="form-group">
                             {{ Form::label('coupon_radius', 'Coupon Radius:') }} <br>
