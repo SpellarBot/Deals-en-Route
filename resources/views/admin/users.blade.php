@@ -214,8 +214,10 @@
                                   <button type="button" class="btn btn-primary btn-oval" value='export' onclick="pdf()">Export PDF</button>
                               </div>
                               <div class="col-xs-12 mt-15">
+                                   @if(count($user_list) > 0)
                                  <div class="table-responsive user-management">
                                     <table class="table table-striped table-hover">
+                                       
                                        <thead>
                                           <tr>
                                              <th>Name</th>
@@ -245,6 +247,9 @@
                                     </table>
                                      {{ $user_list->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                  </div>
+                                   @else
+                                   <span style="color: red;">No Data Found</span>
+                                   @endif
                               </div>
                            </div>
                         </div>

@@ -195,24 +195,36 @@
                            <div class="col-lg-12">
                                <div class="row">
                                    <div class="panel panel-default">
-                                       <form method="get" action="{{ asset('admin/activeCity')}}">
+                                       <form id="city_data" method="get" action="{{ asset('admin/activeCity')}}">
                                            <div class="panel-body">
                                                <div class="form-group clearfix">
                                                    <label class="col-sm-2 control-label">Add Cities</label>
                                                    <div class="col-sm-10">
-                                                       <select multiple name="active_city[]" class="chosen-select form-control" value="Select Cities or City">
+                                                       <select style="display: none;" id="city" multiple name="active_city[]" class="chosen-select form-control" value="Select Cities or City">
                                                            @foreach($city_list_inactive as $row)
                                                            <option value="{{$row->id}}">{{$row->name}}</option>
                                                            @endforeach
                                                        </select>
+                                                   <span id="city_error" style="color: red;display: none;">Please select any city name</span>
                                                    </div>
+                                                   
                                                </div>
                                                <div class="form-group mb-0 clearfix">
                                                    <div class="col-sm-10 col-sm-offset-2">
-                                                       <button type="submit" class="btn btn-oval btn-primary btn-lg btn-min-w-100">Save</button>
+                                                       <button type="button" onclick="savecity()" class="btn btn-oval btn-primary btn-lg btn-min-w-100">Save</button>
                                                    </div>
                                                </div>
                                            </div></form>
+                                       <script type="text/javascript">
+                                           function savecity(){
+                                               if($('#city').val()){
+                                                   $('#city_data').submit();
+                                               }else{
+                                                  
+                                                  $("#city_error").css("display", "block");
+                                               }
+                                           }
+                                           </script>
                                    </div>
                                </div>
                               <!-- START DATATABLE 1-->
@@ -349,8 +361,9 @@
       <!--<script src="{{ asset('js/admin//cusom.js') }}"></script>-->
       <script>
       $(document).ready(function() {
+         
       $('.chosen-select').chosen({
-      placeholder_text_multiple: "Select Cities or City"
+        placeholder_text_multiple: "Select Cities or City"
       });
       });
       </script>
