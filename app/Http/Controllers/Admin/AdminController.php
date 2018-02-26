@@ -26,6 +26,7 @@ use App\VendorDetail;
 class AdminController extends Controller {
 
     use ImageTrait;
+   
 
     //
     public function userlist()
@@ -115,36 +116,59 @@ class AdminController extends Controller {
     public function vendorDetail($id)
     {
         $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+                ->join('subscriptions', 'subscriptions.stripe_id', 'stripe_users.stripe_id')
+                ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
+                ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
                 ->where('vendor_detail.user_id', $id)
                 ->first();
-        $user_access = $vendor_detail->userAccess();
-        $user = \App\Subscription::where('user_id', $id)->first();
-        if ($user) {
-            $deals_left = $user->getRenewalCoupon($user_access);
-            
-             $deals_left;
-        }
-        $additional = new \App\AdditionalCost();
-        $total_additional_fencing_left =  $additional->getAdditionalFencing($id);
-        $total_additional_location_left =  $additional->getAdditionalLocation($id);
-        $total_geofencing = $total_additional_fencing_left + $user_access['basicgeofencing'];
-        $total_location = $total_additional_location_left + $user_access['basicgeolocation'];
-        
 
-        
-        $data = [];
-        $data['total_deal']  = $user_access['dealstotal'] - $deals_left;
-        $data['used_deal'] = $user_access['dealstotal'];
-        
-        $geo = VendorDetail::where('user_id', $id)->first();  //echo '<pre> ';     print_r($geo);exit;
-        $data['total_geo']  = (int) $geo->additional_geo_fencing_total - $geo->additional_geo_location_used;
-        $data['used_geo'] =   (int) $geo->additional_geo_location_used;
-        
-        $data['total_mile'] = (int)$geo->additional_geo_location_total - $geo->additional_geo_fencing_used;
-        $data['used_mile'] =  (int)$geo->additional_geo_fencing_used;
-        
+        $add_ons = \App\PlanAddOns::select(DB::raw('SUM(case when addon_type="geolocation" then quantity else 0 end) as geolocationtotal,
+                 SUM(case when addon_type="geofencing" then quantity else 0 end) as geofencingtotal,
+                 SUM(case when addon_type="deals" then quantity else 0 end) as dealstotal,startdate,enddate,user_id'))
+                ->where('user_id', $id)
+                ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
+                ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
+                ->get();
+        if (empty($vendor_detail))
+        {
+            $array['geolocationtotal'] = 0;
+            $array['geofencingtotal'] = 0;
+            $array['dealstotal'] = 0;
+        } else
+        {
+            $currentpackagedeal = $vendor_detail->userSubscription[0]->deals + $add_ons[0]->dealstotal;
+            $previousleftdeal = $vendor_detail->deals_used;
+            $totaldealsleft = $currentpackagedeal - $previousleftdeal;
+            $array['geolocationtotal'] = $add_ons[0]->geolocationtotal + $vendor_detail->userSubscription[0]->geolocation;
+            $array['geofencingtotal'] = $add_ons[0]->geofencingtotal + $vendor_detail->userSubscription[0]->geofencing;
+            $array['dealstotal'] = $totaldealsleft;
+            $array['additionalgeolocation'] = $add_ons[0]->geolocationtotal;
+            $array['additionalgeofencing'] = $add_ons[0]->geofencingtotal;
+            $array['basicgeolocation'] = $vendor_detail->userSubscription[0]->geolocation;
+            $array['basicgeofencing'] = $vendor_detail->userSubscription[0]->geofencing;
+        }
+
+        $user = \App\Subscription::where('user_id', $id)->first();
+        if ($user)
+        {
+            $deals_left = $user->getRenewalCoupon($array);
+        }
+//        echo '<pre>';
+//        print_r($array);
 //        exit;
-       
+        $data = [];
+        $data['total_deal'] = $array['dealstotal'] - $deals_left;
+        $data['used_deal'] = $array['dealstotal'];
+
+        $geo = VendorDetail::where('user_id', $id)->first();  //echo '<pre> ';     print_r($geo);exit;
+        $data['total_geo'] = (int) $geo->additional_geo_fencing_total - $geo->additional_geo_location_used;
+        $data['used_geo'] = (int) $geo->additional_geo_location_used;
+
+        $data['total_mile'] = (int) $geo->additional_geo_location_total - $geo->additional_geo_fencing_used;
+        $data['used_mile'] = (int) $geo->additional_geo_fencing_used;
+
+//        exit;
+
         $data['vendor_list'] = User::where('users.is_delete', '0')->where('users.id', $id)->leftjoin('vendor_detail', 'vendor_detail.user_id', 'users.id')->leftjoin('subscriptions', 'users.id', 'subscriptions.user_id')->get();
         $data['active_list'] = Coupon::where('created_by', $id)->where('is_active', '1')->paginate(10);
         foreach ($data['active_list'] as $row)
@@ -246,7 +270,7 @@ class AdminController extends Controller {
             $pdf = PDF::loadView('admin.businesses_pdf', $data);
             return $pdf->download('Business_pdf.pdf');
         }
-        $data['business_list'] = $data['business_list']->select(['*','users.id as id'])->paginate(10);
+        $data['business_list'] = $data['business_list']->select(['*', 'users.id as id'])->paginate(10);
         //echo '<pre>';print_r($data['user_list']);exit;
         return view('admin.businesses', $data);
     }
@@ -364,7 +388,7 @@ class AdminController extends Controller {
             $array_mail = ['to' => Input::get('email'), //Input::get('email'),
                 'type' => 'resend_mail',
                 'data' => ['confirmation_code' => 'Test'],
-                'invoice' => storage_path('app/pdf/'.Input::get('invoice'))
+                'invoice' => storage_path('app/pdf/' . Input::get('invoice'))
             ];
             $this->sendMail($array_mail);
             $data[] = 'success';
@@ -401,7 +425,7 @@ class AdminController extends Controller {
                 $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 0, 'reject_reason' => Input::get('comment'), 'is_delete' => '1']);
                 $array_mail = ['to' => 'nilay@solulab.com',
                     'type' => 'category_reject',
-                    'data' => ['reason' => Input::get('comment'),'name' => Input::get('cat_name')]
+                    'data' => ['reason' => Input::get('comment'), 'name' => Input::get('cat_name')]
                 ];
                 $this->sendMail($array_mail);
             } else
