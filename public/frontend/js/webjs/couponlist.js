@@ -26,7 +26,7 @@ var polyOptions_valid = {
 var date = new Date();
 var markershow;
 var showArray = [];
-var totalprice ;
+var totalprice;
 
 $(document).ready(function () {
     if (localStorage.getItem("NewCoupon"))
@@ -49,7 +49,7 @@ $(document).ready(function () {
 
 // slider
     $('#couponslider').slider({
-     
+
         formatter: function (value) {
             $('.total_miles').text(value);
             return 'Radius miles: ' + value;
@@ -150,13 +150,13 @@ $(document).ready(function () {
     $(".row input[type=text]").keyup(function () {
         id = $(this).attr('id');
         value = $(this).val();
-        if(id=='original_price'){
-           $("." + id).text("$"+value);
-       
-        }else{
-        
-        $("." + id).text(value);
-    }
+        if (id == 'original_price') {
+            $("." + id).text("$" + value);
+
+        } else {
+
+            $("." + id).text(value);
+        }
     });
 
     // change percentage value  
@@ -185,7 +185,7 @@ $(document).ready(function () {
         }
         if (finalvalue == 0 || finalvalue != '') {
             $('#final_value').val((finalvalue).toFixed(2));
-            $('.new-price').text("$"+$('#final_value').val());
+            $('.new-price').text("$" + $('#final_value').val());
         }
     });
 
@@ -255,10 +255,10 @@ $(document).on("focus", ".datepicker", function () {
         var date = $('.datepicker').data('date');
         var enddate = new Date(date);
         var currentdate = new Date();
-       
+
         $('#gethours').text(enddate.getHours());
-         $('#getminutes').text(enddate.getMinutes());
-        var end= datediff(currentdate,enddate);
+        $('#getminutes').text(enddate.getMinutes());
+        var end = datediff(currentdate, enddate);
         $('#getdays').text(end);
         $("#coupon_end_date").val(date);
         //show in last tab
@@ -267,14 +267,14 @@ $(document).on("focus", ".datepicker", function () {
     });
 });
 
-function datediff(startDay,endDay){
-        from = moment(startDay, 'YYYY-MM-DD'); 
+function datediff(startDay, endDay) {
+    from = moment(startDay, 'YYYY-MM-DD');
 
-	to = moment(endDay, 'YYYY-MM-DD'); 
-	
-	/* using diff */
-	duration = to.diff(from, 'days');
-        return duration
+    to = moment(endDay, 'YYYY-MM-DD');
+
+    /* using diff */
+    duration = to.diff(from, 'days');
+    return duration
 }
 
 //create coupon
@@ -301,11 +301,11 @@ $(document).on("submit", "#update-coupon", function (event) {
 
         if ($("#update-coupon").hasClass("has-error") == false) {
             formData.append('validationcheck', '1');
-             formData.append('totalprice', totalprice);
+            formData.append('totalprice', totalprice);
             formData.append('total_geofence_buy', additionalCost.total_geo_fence_buy);
             formData.append('total_geolocation_buy', additionalCost.total_geo_location_buy);
-           formData.append('totalgeofenceadditionalleft', additionalCost.totalgeofenceadditionalleft);
-           formData.append('totalgeolocationadditionalleft', additionalCost.totalgeolocationadditionalleft);
+            formData.append('totalgeofenceadditionalleft', additionalCost.totalgeofenceadditionalleft);
+            formData.append('totalgeolocationadditionalleft', additionalCost.totalgeolocationadditionalleft);
         }
     }
 
@@ -378,8 +378,8 @@ $(document).on("submit", "#create-coupon", function (event) {
             formData.append('totalprice', totalprice);
             formData.append('total_geofence_buy', additionalCost.total_geo_fence_buy);
             formData.append('total_geolocation_buy', additionalCost.total_geo_location_buy);
-           formData.append('totalgeofenceadditionalleft', additionalCost.totalgeofenceadditionalleft);
-           formData.append('totalgeolocationadditionalleft', additionalCost.totalgeolocationadditionalleft);
+            formData.append('totalgeofenceadditionalleft', additionalCost.totalgeofenceadditionalleft);
+            formData.append('totalgeolocationadditionalleft', additionalCost.totalgeolocationadditionalleft);
         }
     }
     $.ajax({
@@ -521,52 +521,52 @@ function Maps() {
         streetViewControl: false,
         mapTypeControl: false,
     });
-    
-   
-        // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function() {
-          searchBox.setBounds(map.getBounds());
-        });
 
-       
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
-        searchBox.addListener('places_changed', function() {
-          var places = searchBox.getPlaces();
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-          if (places.length == 0) {
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function () {
+        searchBox.setBounds(map.getBounds());
+    });
+
+
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function () {
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
             return;
-          }
+        }
 
-      
 
-          // For each place, get the icon, name and location.
-          var bounds = new google.maps.LatLngBounds();
-          places.forEach(function(place) {
+
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function (place) {
             if (!place.geometry) {
-              console.log("Returned place contains no geometry");
-              return;
+                console.log("Returned place contains no geometry");
+                return;
             }
-          
 
-            
+
+
 
             if (place.geometry.viewport) {
-              // Only geocodes have viewport.
-              bounds.union(place.geometry.viewport);
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
             } else {
-              bounds.extend(place.geometry.location);
+                bounds.extend(place.geometry.location);
             }
-          });
-          map.fitBounds(bounds);
         });
-    
-    
+        map.fitBounds(bounds);
+    });
+
+
     // add marker for map 1
     marker = new google.maps.Marker({
         position: position,
@@ -765,9 +765,9 @@ function getSquareFeet(radius) {
         showSecMap.setMap(null);
     }
     b = parseInt(geofencing).toFixed(2);
-  
-    totalSqFeetDrawn=sqnumfixed
-     if ((sqfeet) < (b)) {
+
+    totalSqFeetDrawn = sqnumfixed
+    if ((sqfeet) < (b)) {
         selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
     } else {
         selectedShape.setOptions({'fillColor': '#ff0000', strokeColor: '#ff0000', strokeWeight: 0});
@@ -810,7 +810,7 @@ var componentForm = {
 
 // auto complete of google search
 function initAutocomplete() {
-     
+
 
     // Create the autocomplete object, restricting the search to geographical
     // location types.
@@ -849,10 +849,9 @@ function initCallback() {
 }
 
 $(document).on('click', '.createcoupon', function (e) {
-   
     $.ajax({
         url: $('#hidAbsUrl').val() + "/coupon/generateCouponCode",
-        type: 'POST',
+        type: 'GET',
         success: function (data) {
             $('#coupon_code').val(data.message);
             $('.coupon_code').text(data.message);
@@ -870,42 +869,42 @@ $(document).on('click', '.createcoupon', function (e) {
     });
 });
 $(document).on('click', '.getextracost', function (e) {
-  
+
     e.preventDefault();
     var geofencing = $('.geofencing').text();
     b = parseInt(geofencing).toFixed(2);
     $.ajax({
         url: $('#hidAbsUrl').val() + "/coupon/additonalcost",
         type: 'POST',
-        data:{'totaldrawn':totalSqFeetDrawn,'totalcovered':b, 'totalgeomilesselected':$('.total_miles').text() },
+        data: {'totaldrawn': totalSqFeetDrawn, 'totalcovered': b, 'totalgeomilesselected': $('.total_miles').text()},
         success: function (data) {
-            additionalCost=data;
-            totalprice=data.total_rs;
-            $('.totalextra').text(data.total_rs+"$");
-      
+            additionalCost = data;
+            totalprice = data.total_rs;
+            $('.totalextra').text(data.total_rs + "$");
+
         }, error: function (data) {
 
             $('.totalextra').text(data);
-      
+
         }
-      
+
     });
 });
 
 $(document).on("submit", ".additional_miles_coupon", function (event) {
-         event.preventDefault();
-         var miles= parseInt($('#extra_miles').val());
-         var additional= parseInt($('#couponslider').data('sliderMax'));
-         var total= miles + additional;
-            $('#couponslider').slider({
-                max:total,
+    event.preventDefault();
+    var miles = parseInt($('#extra_miles').val());
+    var additional = parseInt($('#couponslider').data('sliderMax'));
+    var total = miles + additional;
+    $('#couponslider').slider({
+        max: total,
         formatter: function (total) {
             $('.total_miles').text(total);
             return 'Radius miles: ' + total;
         }
-            });
-            $('#couponslider').slider('setValue', total, true);
-          $('#couponslider').slider('disable');
-         $('#buyextramiles').modal('hide'); 
-       
-  });
+    });
+    $('#couponslider').slider('setValue', total, true);
+    $('#couponslider').slider('disable');
+    $('#buyextramiles').modal('hide');
+
+});
