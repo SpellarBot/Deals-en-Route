@@ -164,11 +164,11 @@
                      <div class="col-lg-12">
                         <!-- User Details -->
                         <div class="well clearfix">
-                           
+                           @foreach($vendor_list as $row)
                            <div class="col-lg-3 col-md-6 col-xs-12 business-img">
-                              <img src="{{ asset('img/admin/dominos_pizza_logo.png') }}" alt="" class="img-responsive">
+                              <img src="{{ asset('/storage/app/public/profile_pic/'.$row->vendor_logo) }}" alt="" class="img-responsive">
                            </div>
-                            @foreach($vendor_list as $row)
+                            
                            <div class="col-lg-5 col-md-6 col-xs-12 business-intro">
                               <h2 class="mt-0 mb-20"><strong>{{$row->vendor_name}}</strong></h2>
                               <p><strong><i class="fa fa-location-arrow"></i></strong> {{$row->vendor_address}}</p>
@@ -277,7 +277,7 @@
                               <div class="panel panel-default">
                                  <div class="panel-body">
                                     <div class="col-xs-12">
-                                       <h4 class="mb-20">Remaining Deals</h4>
+                                       <h4 class="mb-20">Remaining Deals ({{$used_deal}})</h4>
                                        @if($used_deal > 0)
                                        <canvas id="remainingDeals" style="max-width: 200px; margin: 0px auto;"></canvas>
                                        @else
@@ -292,7 +292,7 @@
                               <div class="panel panel-default">
                                  <div class="panel-body">
                                     <div class="col-xs-12">
-                                       <h4 class="mb-20">Remaining Miles</h4>
+                                       <h4 class="mb-20">Remaining Miles ({{$used_mile}})</h4>
                                        @if($used_mile > 0)
                                        <canvas id="remainingMiles" style="max-width: 200px; margin: 0px auto;"></canvas>
                                        @else
@@ -307,7 +307,7 @@
                               <div class="panel panel-default">
                                  <div class="panel-body">
                                     <div class="col-xs-12">
-                                       <h4 class="mb-20">Remaining Geofencing</h4>
+                                       <h4 class="mb-20">Remaining Geofencing  ({{$used_geo}})</h4>
                                        @if($used_geo > 0)
                                        <canvas id="remainingGeofencing" style="max-width: 200px; margin: 0px auto;"></canvas>
                                        @else
@@ -344,7 +344,7 @@
       <script src="{{ asset('vendor/admin/datatables-buttons/js/buttons.print.js')}}"></script>
       <script src="{{ asset('vendor/admin/datatables-responsive/js/dataTables.responsive.js')}}"></script>
       <script src="{{ asset('vendor/admin/datatables-responsive/js/responsive.bootstrap.js')}}"></script>
-      <script src="{{ asset('vendor/admin/chart.js/dist/Chart.js')}}"></script>
+      <script src="{{ asset('vendor/admin/Chart.js/dist/Chart.js')}}"></script>
 
       <!-- =============== APP SCRIPTS ===============-->
       <script src="{{ asset('js/admin/app.js')}}"></script>
