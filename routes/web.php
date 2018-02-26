@@ -78,7 +78,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/coupon/edit/{id}', 'CouponController@edit');
     Route::post('/coupon/update', 'CouponController@update')->name('front.coupon.update');
     Route::post('/coupon/store', 'CouponController@store');
-    Route::post('/coupon/generateCouponCode', 'CouponController@generateCouponCode');
+    Route::get('/coupon/generateCouponCode', 'CouponController@generateCouponCode');
     Route::any('/vendor/changesubscription', array('as' => 'changesubscription', 'uses' => 'HomeController@changeSubscription'));
     Route::any('/vendor/cancelSubscription', array('as' => 'cancelsub', 'uses' => 'StripeController@cancelSubscription'));
     Route::post('/vendor/updatesubscription', 'StripeController@changeSubscription');
