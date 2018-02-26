@@ -423,7 +423,7 @@ class AdminController extends Controller {
             if (Input::get('status') == 0)
             {
                 $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 0, 'reject_reason' => Input::get('comment'), 'is_delete' => '1']);
-                $array_mail = ['to' => 'nilay@solulab.com',
+                $array_mail = ['to' => Input::get('email'),
                     'type' => 'category_reject',
                     'data' => ['reason' => Input::get('comment'), 'name' => Input::get('cat_name')]
                 ];
@@ -435,7 +435,7 @@ class AdminController extends Controller {
                     $upload = $this->categoryImageWeb($request->file('logo'), 'category_image', $request->input('cat_id'));
                 }
                 $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 1]);
-                $array_mail = ['to' => 'nilay@solulab.com',
+                $array_mail = ['to' => Input::get('email'),
                     'type' => 'category_accept',
                     'data' => ['name' => Input::get('cat_name')]
                 ];
