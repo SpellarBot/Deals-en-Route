@@ -853,7 +853,7 @@ $(document).on('click', '.createcoupon', function (e) {
         url: $('#hidAbsUrl').val() + "/coupon/generateCouponCode",
         type: 'GET',
         success: function (data) {
-            $('#coupon_code').val(data.message);
+            $('.coupon_code_textbox').val(data.message);
             $('.coupon_code').text(data.message);
         },
         beforeSend: function () {
