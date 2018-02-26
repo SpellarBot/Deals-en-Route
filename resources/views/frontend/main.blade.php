@@ -14,7 +14,7 @@
             </div>
             <!--next section container-->
             <!-- <nav class="arrow-section-container hidden-sm hidden-xs"><a class="go-to-next" href="#"><i class="icon icon-arrow-down"></i></a></nav> -->
-            <nav class="arrow-section-container visible-sm visible-xs"><a href="#content" class="scrollTo"><i class="icon icon-arrow-down"></i></a></nav>
+            <nav class="arrow-section-container"><a href="#content" class="scrollTo"><i class="icon icon-arrow-down"></i></a></nav>
             <div class="landing scene" id="demo-slider">
                 <div class="slides video-slide active" id="content">
                     <div class="absolute-full-container hidden-xs hidden-sm">
