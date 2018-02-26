@@ -16,7 +16,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <select class="form-control" name="extra_fensing_area">
+                                        <select class="form-control" name="extra_fensing_area" id="extra_fence">
                                             <option value="">Select Fencing</option>
                                             <option value="20000">20,000</option>
                                             <option value="40000">40,000</option>
@@ -31,7 +31,7 @@
                             </div>
 
                         </form>
-                        <p class="package-addon3">Available geo fencing -{!! number_format($user_access['geofencingtotal']) !!} sq.ft</p>
+                        <p class="package-addon3">Available geo fencing - {!! number_format($total_geofencing,2) !!} sq.ft</p>
                     </div>
                 </div>
             </div>

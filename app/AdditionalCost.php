@@ -174,5 +174,24 @@ class AdditionalCost extends Model {
                 ->toArray();
         return $addditonal_plan;
     }
+    
+    public function getParticularCouponAdditionalCost($couponid){
+              $addditonal_plan = AdditionalCost::select(DB::raw('total_geofence_buy,total_geolocation_buy,
+                 startdate,enddate,user_id'))
+                ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
+                ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
+                ->where('coupon_id', $couponid)
+                ->where('user_id', Auth::id())
+                ->get()
+                ->toArray();
+  
+              if(!empty($addditonal_plan)){
+                  $total=$addditonal_plan[0]['total_geofence_buy']   + $addditonal_plan[0]['total_geolocation_buy'];
+              }else{
+                  $total='0.00';
+              }
+           return $total;
+        
+    }
 
 }

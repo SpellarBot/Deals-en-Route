@@ -240,6 +240,7 @@ $(document).ready(function () {
         });
     });
     $('.geo_fencing').submit(function (e) {
+        
         e.preventDefault();
         var formData = $(this).serialize();
         $.ajax({
