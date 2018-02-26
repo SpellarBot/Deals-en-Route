@@ -292,7 +292,7 @@ $(document).ready(function () {
             
             //geofencing 
            $('#geofencingtotal').data('easyPieChart').update(additionalgeofencing_percent);
-            $('span', $('#geofencingtotal')).text(additionalgeofencing);
+            $('span', $('#geofencingtotal')).text(Number(additionalgeofencing).toFixed(2));
             
             //geolocation 
            $('#geolocationtotal').data('easyPieChart').update(additionalgeolocation_percent);

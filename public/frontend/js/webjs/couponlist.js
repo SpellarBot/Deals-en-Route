@@ -147,7 +147,7 @@ $(document).ready(function () {
     });
 
     //select row input
-    $(".row input[type=text]").keyup(function () {
+    $(".row input[type=text],.row input[type=number] ").keyup(function () {
         id = $(this).attr('id');
         value = $(this).val();
         if (id == 'original_price') {
@@ -766,10 +766,15 @@ function getSquareFeet(radius) {
     }
     b = parseInt(geofencing).toFixed(2);
 
-    totalSqFeetDrawn = sqnumfixed
-    if ((sqfeet) < (b)) {
+    totalSqFeetDrawn=sqnumfixed
+     if ((sqfeet) < (b)) {
+         var total_left=b - sqfeet;
+          $('.total_left_used').html("<label> Remaining Left : </label>"+Number((total_left).toFixed(2)).toLocaleString('en')+ ' ft²');
         selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
     } else {
+          var total_left=sqfeet - b;
+           $('.total_left_used').html("<label> Additional Fence Used : </label>"+Number((total_left).toFixed(2)).toLocaleString('en')+ ' ft²');
+      
         selectedShape.setOptions({'fillColor': '#ff0000', strokeColor: '#ff0000', strokeWeight: 0});
     }
 
