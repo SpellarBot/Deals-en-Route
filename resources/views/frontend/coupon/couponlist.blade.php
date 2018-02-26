@@ -56,7 +56,7 @@
                                 <div class="row create-btn1"> <a href="#myModal" data-toggle="modal" class="btn btn-info btn-fill btn-wd btn-create createcoupon">Create Now</a> </div>
 
                                 @else
-                                <div class="row create-btn1"> <a href="#create2" data-toggle="tab" class="btn btn-info btn-fill btn-wd btn-create createcoupon">Create Now</a> </div>
+                                <div class="row create-btn1"> <a href="#create2" data-toggle="tab" class="btn btn-info btn-fill btn-wd btn-create createcoupon" onclick="getCouponcode()">Create Now</a> </div>
                                 @endif
                             </div>
                         </div>
