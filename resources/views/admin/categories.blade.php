@@ -252,8 +252,8 @@
                                                             <tr>
                                                                 <td>{{$row->category_name}}</td>
                                                                 <td>{{$row->request_email}}</td>
-                                                                <td onclick="action('{{$row->category_id}}','{{$row->category_name}}',1)" style="color:blue;cursor: pointer;">Accept</td>
-                                                                <td onclick="action('{{$row->category_id}}','{{$row->category_name}}',0)" style="color:red;cursor: pointer;">Reject</td>
+                                                                <td onclick="action('{{$row->category_id}}','{{$row->category_name}}',1,'{{$row->request_email}}')" style="color:blue;cursor: pointer;">Accept</td>
+                                                                <td onclick="action('{{$row->category_id}}','{{$row->category_name}}',0, '{{$row->request_email}}')" style="color:red;cursor: pointer;">Reject</td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
@@ -340,10 +340,11 @@
                                                                     placeholder_text_multiple: "Select Cities or City"
                                                                     });
                                                                     });
-                                                                    function action(id, name,status) {
+                                                                    function action(id, name,status,email) {
                                                                     $('#cat_id').val(id);
                                                                     $('#cat_name').html(name);
                                                                     $('#name').val(name);
+                                                                    $('#email').val(email);
                                                                     $('#myModal').modal('show');
                                                                         if(status == 0){
                                                                             $('#comment').show();
@@ -377,6 +378,7 @@
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <input type="hidden" id="cat_id" name="cat_id">
                              <input type="hidden" id="name" name="cat_name">
+                             <input type="hidden" id="email" name="email">
                             <div class="form-group" id="comment">
                                 <label for="pwd">Comment:</label>
                                 <textarea  name="comment" class="form-control"></textarea>
