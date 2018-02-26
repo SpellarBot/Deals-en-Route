@@ -150,6 +150,7 @@ $(document).ready(function () {
     $(".row input[type=text],.row input[type=number] ").keyup(function () {
         
         id = $(this).attr('id');
+          $("." + id).html('');
         value = $(this).val();
         if (id == 'original_price') {
             $("." + id).text("$" + value);
@@ -256,7 +257,7 @@ $(document).on("focus", ".datepicker", function () {
         var date = $('.datepicker').data('date');
         var enddate = new Date(date);
         var currentdate = new Date();
-
+     
         $('#gethours').text(enddate.getHours());
         $('#getminutes').text(enddate.getMinutes());
         var end = datediff(currentdate, enddate);
