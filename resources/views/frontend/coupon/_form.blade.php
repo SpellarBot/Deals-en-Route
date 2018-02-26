@@ -61,7 +61,7 @@
                                         </div>
                                     </div>
                                     <div class="leftcoupen">
-                                        <span class="boxbg" id="couponleft">{{  (isset($coupon))?$coupon->coupon_redeem_limit -$coupon->coupon_total_redeem:0 }}</span>
+                                        <span class="boxbg" class="coupon_redeem_limit" id="couponleft">{{  (isset($coupon))?$coupon->coupon_redeem_limit -$coupon->coupon_total_redeem:0 }}</span>
                                         <span class="boxdetail">Coupons Left</span>
                                     </div>
                                     <div class="pricebox">
