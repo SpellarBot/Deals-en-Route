@@ -12,17 +12,17 @@
                     <div class="package-add">
                         <p class="package-addon1">Geo-Fencing</p>
                         <p class="package-addon2">Geo-Fencing - $4.99/20,000 sq.ft.</p>
-                        <form class="geo_fencing">
+                        <form class="additional_fencing_coupon">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <select class="form-control" name="extra_fensing_area">
                                             <option value="">Select Fencing</option>
-                                            <option value="20000">20000</option>
-                                            <option value="40000">40000</option>
-                                            <option value="60000">60000</option>
-                                            <option value="80000">80000</option>
-                                            <option value="100000">100000</option>
+                                            <option value="20000">20,000</option>
+                                            <option value="40000">40,000</option>
+                                            <option value="60000">60,000</option>
+                                            <option value="80000">80,000</option>
+                                            <option value="100000">1,00,000</option>
                                         </select>
                                     </div>
                                 </div>
