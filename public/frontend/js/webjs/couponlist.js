@@ -858,7 +858,8 @@ function getCouponcode() {
         url: $('#hidAbsUrl').val() + "/coupon/generateCouponCode",
         type: 'GET',
         success: function (data) {
-            $('.coupon_code_textbox').val(data.message);
+            console.log(data);
+            $('input[name=coupon_code]').val(data.message);
             $('.coupon_code').text(data.message);
         },
         beforeSend: function () {
