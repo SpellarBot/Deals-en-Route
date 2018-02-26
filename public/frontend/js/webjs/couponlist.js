@@ -767,15 +767,15 @@ function getSquareFeet(radius) {
     }
     b = parseInt(geofencing).toFixed(2);
 
-    totalSqFeetDrawn=sqnumfixed
-     if ((sqfeet) < (b)) {
-         var total_left=b - sqfeet;
-          $('.total_left_used').html("<label> Remaining Left : </label>"+Number((total_left).toFixed(2)).toLocaleString('en')+ ' ft²');
+    totalSqFeetDrawn = sqnumfixed
+    if ((sqfeet) < (b)) {
+        var total_left = b - sqfeet;
+        $('.total_left_used').html("<label> Remaining Left : </label>" + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
         selectedShape.setOptions({'fillColor': '#008000', strokeColor: '#008000', strokeWeight: 0});
     } else {
-          var total_left=sqfeet - b;
-           $('.total_left_used').html("<label> Additional Fence Used : </label>"+Number((total_left).toFixed(2)).toLocaleString('en')+ ' ft²');
-      
+        var total_left = sqfeet - b;
+        $('.total_left_used').html("<label> Additional Fence Used : </label>" + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
+
         selectedShape.setOptions({'fillColor': '#ff0000', strokeColor: '#ff0000', strokeWeight: 0});
     }
 
@@ -854,7 +854,7 @@ function initCallback() {
     Maps();
 }
 
-$(document).on('click', '.createcoupon', function (e) {
+function getCouponcode() {
     $.ajax({
         url: $('#hidAbsUrl').val() + "/coupon/generateCouponCode",
         type: 'GET',
@@ -874,7 +874,27 @@ $(document).on('click', '.createcoupon', function (e) {
             $('#coupon_code').removeAttr('readonly');
         }
     });
-});
+}
+//$(document).on('click', '.createcoupon', function (e) {
+//    $.ajax({
+//        url: $('#hidAbsUrl').val() + "/coupon/generateCouponCode",
+//        type: 'GET',
+//        success: function (data) {
+//            $('.coupon_code_textbox').val(data.message);
+//            $('.coupon_code').text(data.message);
+//        },
+//        beforeSend: function () {
+//            $('#loadingDiv').show();
+//        },
+//        complete: function () {
+//            $('#loadingDiv').hide();
+//        },
+//        error: function (data) {
+//            $('#loadingDiv').hide();
+//            $('#coupon_code').removeAttr('readonly');
+//        }
+//    });
+//});
 $(document).on('click', '.getextracost', function (e) {
 
     e.preventDefault();
