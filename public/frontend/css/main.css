@@ -9795,7 +9795,8 @@ a:hover {
   transition: opacity 400ms ease-in;
 }
 .arrow-section-container > a {
-  background: #0063e2;
+  display: none;
+    background: #0063e2;
   display: inline-block;
   width: 38px;
   height: 38px;

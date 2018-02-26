@@ -65,8 +65,8 @@
                                         <span class="boxdetail">Coupons Left</span>
                                     </div>
                                     <div class="pricebox">
-                                        <span class="old-price original_price" >$0</span>
-                                        <span class="new-price">$0</span>
+                                        <span class="old-price original_price" >{{ isset($coupon)?$coupon->coupon_original_price:'$0'}}</span>
+                                        <span class="new-price">{{ isset($coupon)?$coupon->coupon_total_discount:'$0'}}</span>
                                     </div>
                                 </div>
                             </div>

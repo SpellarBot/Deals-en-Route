@@ -97,14 +97,14 @@ class NotificationController extends Controller {
 
             if ($checkUserNotify <= 0) {
                 $fMessage = $coupondetail->finalNotifyMessage(Auth::id(), Auth::id(), $coupondetail, \Config::get('constants.NOTIFY_FAV_EXPIRE'));
-                // send notification
-                Notification::send($to_id, new FcmNotification([
-                    'type' => 'favexpire',
-                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE'),
-                    'message' => $fMessage,
-                    'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",       
-                    'coupon_id' => $couponlists['coupon_id']
-                ]));
+//                // send notification
+//                Notification::send($to_id, new FcmNotification([
+//                    'type' => 'favexpire',
+//                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE'),
+//                    'message' => $fMessage,
+//                    'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",       
+//                    'coupon_id' => $couponlists['coupon_id']
+//                ]));
             }
         }
     }
@@ -121,15 +121,15 @@ class NotificationController extends Controller {
 
             if ($checkUserNotify <= 0) {
 
-                // send notification
-                Notification::send($to_id, new FcmNotification([
-                    'type' => 'favleft',
-                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
-                    'message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
-                    'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",       
-                  
-                    'coupon_id' => $couponlists['coupon_id']
-                ]));
+//                // send notification
+//                Notification::send($to_id, new FcmNotification([
+//                    'type' => 'favleft',
+//                    'notification_message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
+//                    'message' => \Config::get('constants.NOTIFY_FAV_EXPIRE_5'),
+//                    'image' => (!empty($coupondetail->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupondetail->vendorDetail->vendor_logo : "",       
+//                  
+//                    'coupon_id' => $couponlists['coupon_id']
+//                ]));
             }
         }
     }

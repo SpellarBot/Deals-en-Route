@@ -66,6 +66,7 @@ $(document).ready(function () {
         },
         'click .edit': function (e, value, row, index) {
             $('#loadingDiv').hide();
+            
             window.location.href = $('#hidAbsUrl').val() + '/coupon/edit/' + btoa(row._id);
 
         },
