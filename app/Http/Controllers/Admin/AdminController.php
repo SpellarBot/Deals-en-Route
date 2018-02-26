@@ -176,7 +176,7 @@ class AdminController extends Controller {
             $row->redeemed = CouponRedeem::where('coupon_id', $row->coupon_id)->count();
         }
         $data['additional_list'] = PlanAddOns::where('user_id', $id)->get();
-        //echo'<pre>';print_r($data['active_list']);
+        //echo'<pre>';print_r($data['vendor_list']);
         return view('admin.businessesdetails', $data);
     }
 

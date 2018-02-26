@@ -164,11 +164,11 @@
                      <div class="col-lg-12">
                         <!-- User Details -->
                         <div class="well clearfix">
-                           
+                           @foreach($vendor_list as $row)
                            <div class="col-lg-3 col-md-6 col-xs-12 business-img">
-                              <img src="{{ asset('img/admin/dominos_pizza_logo.png') }}" alt="" class="img-responsive">
+                              <img src="{{ asset('img/admin/'.$row->vendor_logo) }}" alt="" class="img-responsive">
                            </div>
-                            @foreach($vendor_list as $row)
+                            
                            <div class="col-lg-5 col-md-6 col-xs-12 business-intro">
                               <h2 class="mt-0 mb-20"><strong>{{$row->vendor_name}}</strong></h2>
                               <p><strong><i class="fa fa-location-arrow"></i></strong> {{$row->vendor_address}}</p>
