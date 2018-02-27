@@ -248,7 +248,7 @@
                                      {{ $user_list->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                  </div>
                                    @else
-                                   <span style="color: red;">No Data Found</span>
+                                   <span style="color: red;margin-left: 42%;">No Record Found</span>
                                    @endif
                               </div>
                            </div>
