@@ -312,7 +312,7 @@ class AdminController extends Controller {
         }
     }
 
-    public function payment()
+    public function payment() 
     {
         $data['vendor_val'] = '';
         $data['payment_type_val'] = '';
@@ -350,7 +350,7 @@ class AdminController extends Controller {
         }
         if (Input::get('is_pdf') != '' && Input::get('is_pdf') > 0)
         {
-            $data['paylist'] = $data['paylist']->orderby('paymentinfo.created_at','DESC')->get();
+            $data['paylist'] = $data['paylist']->select(['*','paymentinfo.created_at as created_at'])->orderby('paymentinfo.created_at','DESC')->get();
             $pdf = PDF::loadView('admin.payments-pdf', $data);
             return $pdf->download('payment-list.pdf');
         }
