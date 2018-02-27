@@ -260,12 +260,13 @@
                                     <td class="couponsqft">{{ !isset($coupon->coupon_notification_sqfeet) ? '': number_format($coupon->coupon_notification_sqfeet,2) }} ft² </td>
                                 </tr>
                                 <tr>
+                                    
                                     <td>Total Cost for Geofence:</td>
-                                    <td class="costfgeofence">$ {{ isset($coupon)?$total_additional_cost['total_geofence_buy']:'0.00' }} </td>
+                                    <td class="costfgeofence">$ {{ (isset($coupon) && !empty($total_additional_cost) && isset($total_additional_cost['total_geofence_buy']))?$total_additional_cost['total_geofence_buy']:'0.00' }} </td>
                                 </tr>
                                  <tr>
                                     <td>Total Cost for Geolocation:</td>
-                                    <td class="costgeolocation"> $ {{ isset($coupon)?$total_additional_cost['total_geolocation_buy']:'0.00' }}  </td>
+                                    <td class="costgeolocation"> $ {{ (isset($coupon) && !empty($total_additional_cost) && isset($total_additional_cost['total_geolocation_buy']))?$total_additional_cost['total_geolocation_buy']:'0.00' }}  </td>
                                 </tr>
                                 
                                 {{ Form::hidden('coupon_notification_sqfeet', old('coupon_notification_sqfeet'), ['id' => 'coupon_notification_sqfeet']) }}
@@ -275,7 +276,7 @@
 
                                 <tr>
                                     <td>Total:</td>
-                                    <td><div class="totalextra">$ {{ isset($coupon)?$total_additional_cost['total_buy']:'' }} </div></td>
+                                    <td><div class="totalextra">$ {{ (isset($coupon) && !empty($total_additional_cost) && isset($total_additional_cost['total_buy']))?$total_additional_cost['total_buy']:'0.00' }} </div></td>
                                 </tr>
                             </tfoot>
                         </table>
