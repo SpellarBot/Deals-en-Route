@@ -88,13 +88,25 @@ class CouponController extends Controller {
             }
 //find nearby coupon
             $coupondetail = \App\Coupon::getCouponDetail($data);
+            
             if (count($coupondetail) > 0) {
+                    
+                    $getlikes = CouponFavourite::getLikes($coupondetail->coupon_id);
+                    $getUserslike = CouponFavourite::getUserLike($coupondetail->coupon_id, auth()->id());
+                    $getComments = DealComments::getComments($coupondetail->coupon_id);
+                    $getvendorRating = VendorRating::getRatings($coupondetail->created_by);
+                    $coupondetail->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
+                    $coupondetail->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
+                    $coupondetail->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                    $coupondetail->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
+                
+                 
                 $data = (new CouponTransformer)->transformDetail($coupondetail);
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_DEAL'), 200);
         } catch (\Exception $e) {
-//     throw $e;
+    throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }

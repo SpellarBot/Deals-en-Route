@@ -159,7 +159,11 @@ class Coupon extends Model {
     public static function getCouponDetail($data) {
 
 
-        $query = Coupon::where('coupon_id', $data['coupon_id'])
+        $query = Coupon::select(DB::raw('coupon.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,(coupon_redeem_limit - coupon_total_redeem) as remaining_coupons,coupon_code,coupon_end_date,'
+                                . 'coupon_name,coupon_logo,created_by,coupon_lat,coupon_original_price,coupon_total_discount,'
+                                . 'coupon_long,coupon_category_id'))
+                
+                ->where('coupon_id', $data['coupon_id'])
                 ->first();
 
         return $query;
