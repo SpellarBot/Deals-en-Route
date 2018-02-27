@@ -39,8 +39,8 @@ class PlanAddOns extends Model {
         $vendordetail= \App\VendorDetail::where('user_id', Auth::id())->first();
         if($type == 'geolocation') {  
          $vendordetail->additional_geo_location_total= $quantity + $vendordetail->additional_geo_location_total; 
-        }else{
-         $vendordetail->additional_geo_fencing_total= $quantity + $vendordetail->additional_geo_fencing_total;   
+        }else if($type == 'geofencing') {  
+         $vendordetail->additional_geo_fencing_total= $quantity + $vendordetail->additional_geo_fencing_total; 
         }
         
          $vendordetail->save();
