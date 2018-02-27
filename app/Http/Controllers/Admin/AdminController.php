@@ -280,6 +280,10 @@ class AdminController extends Controller {
 
     public function citylist()
     {
+        $data['msg'] = '';
+        if(Input::get('msg')){
+           $data['msg'] = Input::get('msg');
+        }
         $data['city_list_inactive'] = City::where('is_active', 0)->get();
         $data['city_list_active'] = City::where('is_active', 1)->paginate(10);
         $data['city_request'] = CityRequest::leftjoin('user_detail', 'user_detail.user_id', 'city_request.requested_by')->leftjoin('city', 'city.id', 'city_request.city_request_id')->get(['first_name', 'last_name', 'name']);
@@ -295,7 +299,7 @@ class AdminController extends Controller {
             {
                 $data = City::where('id', $row)->update(['is_active' => 1]);
             }
-            return redirect('admin/city');
+            return redirect('admin/city?msg=Added Sucessfully');
         }
     }
 
@@ -304,7 +308,7 @@ class AdminController extends Controller {
         if ($id)
         {
             City::where('id', $id)->update(['is_active' => 0]);
-            return redirect('admin/city');
+            return redirect('admin/city?msg=Removed Successfully');
         }
     }
 
@@ -403,6 +407,10 @@ class AdminController extends Controller {
 
     public function categories()
     {
+        $data['msg'] = '';
+        if(Input::get('msg')){
+          $data['msg']  = Input::get('msg');
+        }
         $data['requested_list'] = CouponCategory::where('is_requested', 1)->where('is_active', 0)->where('is_delete', 0)->get();
         //echo '<pre>';print_r($data['requested_list']);exit;
         $data['category_list_active'] = CouponCategory::where('is_active', 1)->where('is_delete', 0)->orderby('category_id', 'DESC')->paginate(10);
@@ -414,8 +422,9 @@ class AdminController extends Controller {
     {
         if ($id)
         {
-            CouponCategory::where('category_id', $id)->update(['is_active' => 0]);
-            return redirect('admin/categories');
+            CouponCategory::where('category_id', $id)->update(['is_active' => 0,'is_delete' => 1]);
+            $msg = 'Category Deleted Successfully';
+            return redirect('admin/categories?msg='.$msg);
         }
     }
 
@@ -431,6 +440,7 @@ class AdminController extends Controller {
                     'data' => ['reason' => Input::get('comment'), 'name' => Input::get('cat_name')]
                 ];
                 $this->sendMail($array_mail);
+                $msg = 'Category Rejected Successfully';
             } else
             {
                 if ($request->file('logo'))
@@ -443,8 +453,9 @@ class AdminController extends Controller {
                     'data' => ['name' => Input::get('cat_name')]
                 ];
                 $this->sendMail($array_mail);
+                $msg = 'Category Added Successfully';
             }
-            return redirect('admin/categories');
+            return redirect('admin/categories?msg='.$msg);
         }
     }
 

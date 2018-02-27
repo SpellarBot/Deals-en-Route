@@ -173,7 +173,13 @@
             <div class="content-wrapper">
                <h3>
                Cities
-               <small class="sub-title"></small>
+               <small class="sub-title">
+                @if($msg != '')
+                    <div id="success-alert" style="margin-top: -28px; display: none;" class="pull-right alert alert-success" >
+                         <strong>Success!</strong> {{$msg}}
+                     </div>
+                @endif
+               </small>
                
                </h3>
                <div class="container-fluid cities-content-wrapper">
@@ -211,7 +217,7 @@
                                                </div>
                                                <div class="form-group mb-0 clearfix">
                                                    <div class="col-sm-10 col-sm-offset-2">
-                                                       <button type="button" onclick="savecity()" class="btn btn-oval btn-primary btn-lg btn-min-w-100">Save</button>
+                                                       <button type="button" onclick="savecity()" class="btn btn-oval btn-primary btn-lg btn-min-w-100">Save</button>                                                        
                                                    </div>
                                                </div>
                                            </div></form>
@@ -246,10 +252,10 @@
                                                       @foreach($city_list_active as $row)
                                                          <tr>
                                                              <td>{{$row->name}}</td>
-                                                            <td class="text-center"><a href="{{ url('/admin/deactiveCity/'.$row->id) }}" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
+                                                             <td class="text-center"><a onclick="delete_city('{{$row->id}}','{{$row->name}}');" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
                                                          </tr>
                                                       @endforeach
-                                                         
+                                                      
                                                       </tbody>
                                                    </table>
                                                 </div>
@@ -365,7 +371,37 @@
       $('.chosen-select').chosen({
         placeholder_text_multiple: "Select Cities or City"
       });
+      
+      $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+                            $("#success-alert").slideUp(500);
+                        });
       });
       </script>
+      
+      <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Do you really want to delete city :  <span id="city_name"></span> ?</h4>
+                    </div>
+                   
+                    <div class="modal-footer">
+                        <button class="btn btn-danger pull-right" onclick="$('#myModal').modal('hide');" id="reject" type="button" style="margin-left: 10px;">No</button>
+                        <a style="text-decoration: none;" id="accept"><button class="btn btn-primary pull-right"  type="button" >Yes</button></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+      <script type="text/javascript">
+        function delete_city(id,name){
+            $('#myModal').modal('show');
+            $('#city_name').html(name);
+            $("#accept").attr("href","{{ url('/admin/deactiveCity') }}" + "/" +id);
+        }
+        </script>
    </body>
 </html>

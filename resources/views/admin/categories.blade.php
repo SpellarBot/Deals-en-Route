@@ -174,7 +174,13 @@
                 <div class="content-wrapper">
                     <h3>
                         Categories
-                        <small class="sub-title"></small>
+                        <small class="sub-title">
+                            @if($msg)
+                             <div id="success-alert" style="margin-top: -28px; display: none;" class="pull-right alert alert-success" >
+                                        <strong>Success!</strong> {{$msg}}
+                                    </div>
+                            @endif
+                        </small>
 
                     </h3>
                     <div class="container-fluid cities-content-wrapper">
@@ -183,7 +189,7 @@
                             <div class="col-lg-12 mb-30">
                                 <ul role="tablist" class="nav nav-tabs">
                                     <li role="presentation" class="active"><a href="#activeCities" aria-controls="home" role="tab" data-toggle="tab">Active Categories</a></li>
-                                    <li role="presentation"><a href="#cityRequests" aria-controls="profile" role="tab" data-toggle="tab">Categories Requests</a></li>
+                                    <li role="presentation"><a href="#cityRequests" aria-controls="profile" role="tab" data-toggle="tab">Categories Requests</a></li>                                   
                                 </ul>
                             </div>
                         </div>
@@ -213,12 +219,19 @@
                                                                             @foreach($category_list_active as $row)
                                                                             <tr>
                                                                                 <td>{{$row->category_name}}</td>
-                                                                                <td class="text-center"><a href="{{ url('/admin/deactiveCategory/'.$row->category_id) }}" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
+                                                                                <td class="text-center"><a onclick="delete_city('{{$row->category_id}}','{{$row->category_name}}');" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
                                                                             </tr>
                                                                             @endforeach
 
                                                                         </tbody>
                                                                     </table>
+                                                                    <script type="text/javascript">
+                                                                        function delete_city(id,name){
+                                                                            $('#myModal1').modal('show');
+                                                                            $('#city_name').html(name);
+                                                                            $("#accept1").attr("href","{{ url('/admin/deactiveCategory') }}" + "/" +id);
+                                                                        }
+                                                                    </script>
                                                                     {{ $category_list_active->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                                                 </div>
                                                             </div>
@@ -238,6 +251,7 @@
                                         <div class="panel-body">
                                             <div class="col-xs-12">
                                                 <div class="table-responsive user-management">
+                                                    @if(count($requested_list) > 0)
                                                     <table id="table4" class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
@@ -258,6 +272,9 @@
                                                             @endforeach
                                                         </tbody>
                                                     </table>
+                                                    @else
+                                                    No request found
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -359,9 +376,16 @@
                                                                         }
                                                                     }
                                                                     function category(status){
-                                                                        $('#status').val(status);
-                                                                        $('#category').submit();
+                                                                        if($('#file_img').val() == '' && status == '1'){
+                                                                            $('#file_error').css('display','block');
+                                                                        }else{                                                                            
+                                                                            $('#status').val(status);
+                                                                            $('#category').submit();
+                                                                        }
                                                                     }
+                                                                     $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+                                                                        $("#success-alert").slideUp(500);
+                                                                    });
 
         </script>
         <div class="modal fade" id="myModal" role="dialog">
@@ -385,7 +409,9 @@
                             </div>
                             <div class="form-group" id="logo">
                                 <label for="pwd">Category Logo:</label>
-                                <input  name="logo" type="file" class="form-control">
+                                <input id="file_img"  name="logo" type="file" class="form-control">
+                                
+                                <span id="file_error"  style="display: none;color: red;">Please Select Image</span>
                             </div>
                             <input type="hidden" name="status" id="status">
                         </form>
@@ -393,6 +419,25 @@
                     <div class="modal-footer">
                         <button class="btn btn-danger pull-right" onclick="category('0')" id="reject" type="button" style="margin-left: 10px;">Reject</button>
                         <button class="btn btn-primary pull-right" onclick="category('1')" id="accept" type="button" >Accept</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+          <div class="modal fade" id="myModal1" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Do you really want to delete category :  <span id="city_name"></span> ?</h4>
+                    </div>
+                   
+                    <div class="modal-footer">
+                        <button class="btn btn-danger pull-right" onclick="$('#myModal1').modal('hide');" id="reject" type="button" style="margin-left: 10px;">No</button>
+                        <a style="text-decoration: none;" id="accept1"><button class="btn btn-primary pull-right" type="button" >Yes</button></a>
                     </div>
                 </div>
 

@@ -108,9 +108,12 @@ class CouponController extends Controller {
         }
         // If we reach here, then// data is valid and working.//
         DB::commit();
-        if (isset($coupon) && $coupon == true) {
-            return response()->json(['status' => 1, 'message' => \Config::get('constants.COUPON_CREATE')], 200);
+        if (isset($coupon) && $coupon == 'paymentsuccess') {
+             return response()->json(['status' => 1, 'message' => 'Extra geolocation/geofencing added to your plan. Thank you!'], 200);
         }
+        else if (isset($coupon) && $coupon == true) {
+            return response()->json(['status' => 1, 'message' => \Config::get('constants.COUPON_CREATE')], 200);
+        } 
     }
 
     /**
@@ -130,6 +133,7 @@ class CouponController extends Controller {
         $additional = new \App\AdditionalCost();
         $total_additional_fencing_left =  $additional->getAdditionalFencing();
         $total_additional_location_left =  $additional->getAdditionalLocation();
+        $total_additional_cost= $additional->getParticularCouponAdditionalCost($id);
         $total_additional_cost= $additional->getParticularCouponAdditionalCost($id);
         $total_geofencing= $total_additional_fencing_left + $user_access_plan['basicgeofencing'];
         $total_location= $total_additional_location_left + $user_access_plan['basicgeolocation'];

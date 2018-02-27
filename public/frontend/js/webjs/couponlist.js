@@ -536,38 +536,6 @@ function Maps() {
     });
 
 
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener('places_changed', function () {
-        var places = searchBox.getPlaces();
-
-        if (places.length == 0) {
-            return;
-        }
-
-
-
-        // For each place, get the icon, name and location.
-        var bounds = new google.maps.LatLngBounds();
-        places.forEach(function (place) {
-            if (!place.geometry) {
-                console.log("Returned place contains no geometry");
-                return;
-            }
-
-
-
-
-            if (place.geometry.viewport) {
-                // Only geocodes have viewport.
-                bounds.union(place.geometry.viewport);
-            } else {
-                bounds.extend(place.geometry.location);
-            }
-        });
-        map.fitBounds(bounds);
-    });
-
 
     // add marker for map 1
     marker = new google.maps.Marker({
@@ -592,6 +560,53 @@ function Maps() {
         setPolygonSecMapShape();
     }
 
+
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function () {
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+            return;
+        }
+ // Clear out the old markers.
+        
+     
+          
+          
+          
+        
+
+
+
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function (place) {
+            if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+            }
+
+            marker.setMap(null);
+          
+
+            // Create a marker for each place.
+            marker = new google.maps.Marker({
+       position: place.geometry.location,
+       title: place.name,
+        map: map
+    });
+
+
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+        });
+        map.fitBounds(bounds);
+    });
 
 
 //    var centerControlDiv = document.createElement('div');
@@ -929,7 +944,9 @@ $(document).on('click', '.getextracost', function (e) {
         success: function (data) {
             additionalCost = data;
             totalprice = data.total_rs;
-            $('.totalextra').text(data.total_rs + "$");
+            $('.costfgeofence').text("$"+data.total_geo_location_buy);
+            $('.costgeolocation').text("$"+data.total_geo_fence_buy);
+            $('.totalextra').text("$"+data.total_rs);
 
         }, error: function (data) {
 

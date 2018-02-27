@@ -184,10 +184,15 @@ class AdditionalCost extends Model {
                 ->where('user_id', Auth::id())
                 ->get()
                 ->toArray();
-  
+                $total=[];
               if(!empty($addditonal_plan)){
-                  $total=$addditonal_plan[0]['total_geofence_buy']   + $addditonal_plan[0]['total_geolocation_buy'];
+                  $total['total_buy']=$addditonal_plan[0]['total_geofence_buy']   + $addditonal_plan[0]['total_geolocation_buy'];
+                  $total['total_geofence_buy']=$addditonal_plan[0]['total_geofence_buy'];
+                  $total['total_geolocation_buy']=$addditonal_plan[0]['total_geolocation_buy'];
               }else{
+                  $total['total_buy']='0.00';
+                  $total['total_geofence_buy']='0.00';
+                  $total['total_geolocation_buy']='0.00';
                   $total='0.00';
               }
            return $total;
