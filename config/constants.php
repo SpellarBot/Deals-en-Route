@@ -70,30 +70,28 @@ return [
     'ACTVITY_FRIEND_MESSAGE' => '{{created_by}} shared a {{coupon_name}} coupon with you ',
     'ACTVITY_FRIEND_REDEEM' => 'Your friend {{created_by}} has redeemed coupon {{coupon_name}}',
     'ACTIVITY_LIKE' => '{{like_friend}} liked the coupon {{coupon_name}} shared by you.',
+   
     'ACTIVITY_COMMENT' => '{{comment_friend}} posted a comment on the coupon {{coupon_name}} shared by you.',
     'SHARE_ACTIVITY' => 'shared activity successfully.',
     //notification message
     //-- geo notification
-    'NOTIFY_GEO' => [0 => "We have a, {{coupon_name}} at {{vendor_name}} just for you!",
-        1 => 'You have to check out this deal from {{vendor_name}}.',
-        2 => 'We think you’d like this deal from {{vendor_name}}.',
-        //    3 => ' Your friends have been redeeming this deal. Check to see what’s inside.',
-        3 => 'This was the most popular deal in your area today, check it out.',
+    'NOTIFY_GEO' => [0 => 'We got a deal for you from {{vendor_name}}. Check it out!.',
     ],
     //-- coupon expire in fav(favorites only, do not notify about coupons expiring that are not favorited)
     'NOTIFY_FAV_EXPIRE' => '{{coupon_name}} is about to expire at {{vendor_name}}! Don’t miss the chance to save.',
     //-- 5 coupons left in the deal (only notify if deal is in favorites)
     'NOTIFY_FAV_EXPIRE_5' => 'Hurry, there are only 5 coupons left for this deal!',
     //-- Coupon redemption:
-    'NOTIFY_REDEEMPTION' => 'Successful redemption! Your wallet thanks you kindly!',
+    'NOTIFY_REDEEMPTION' => 'Congrats! Your redemption was successful!',
     //-- Coupon redemption failed:
     'NOTIFY_REDEEMPTION_FAILED' => 'Oh no! Something went wrong. Don’t worry we give second chances. Try again.',
     //-- You shared a Coupon:
     'NOTIFY_SHARE_COUPON' => 'Sharing is caring! Keep sharing to make your wallet and friends happy by helping them save!',
     //-- Friend shared coupon with you
-    'NOTIFY_SHARED_COUPON' => '{{from_id}} shared a deal with you. Check out the deal to see what’s inside!',
+    'NOTIFY_SHARED_COUPON' => '{{from_id}} just shared a deal with you.',
+    'COMMENT_LIKE' => '{{like_friend}} liked your comment.',
     
-    'NOTIFY_TAG_MESSAGE'=>'{{from_id}} has tagged you in their comment.',
+    'NOTIFY_TAG_MESSAGE'=>'{{from_id}} mentioned you in a comment.',
     //user
     'USER_NOT_FOUND' => 'we could not find user with that email.',
     'TOKEN_EXPIRED' => 'your token has expired.',
@@ -123,7 +121,4 @@ return [
     'APNS_HOST'=>'gateway.sandbox.push.apple.com',
     'APNS_PASSWORD'=>'123456'
 ];
-
-
-
 
