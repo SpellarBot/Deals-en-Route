@@ -9787,6 +9787,8 @@ a:hover {
   text-align: center;
   opacity: 1;
   transition: opacity 400ms ease-in, visibility 400ms ease-in;
+
+  display: none !important;
 }
 .arrow-section-container > p {
   font-size: 12px;
