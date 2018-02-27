@@ -172,7 +172,7 @@ class AdminController extends Controller {
 
 //        exit;
 
-        $data['vendor_list'] = User::where('users.is_delete', '0')->where('users.id', $id)->leftjoin('vendor_detail', 'vendor_detail.user_id', 'users.id')->leftjoin('subscriptions', 'users.id', 'subscriptions.user_id')->get();
+        $data['vendor_list'] = User::select(['*', 'users.id as id'])->where('users.is_delete', '0')->where('users.id', $id)->leftjoin('vendor_detail', 'vendor_detail.user_id', 'users.id')->leftjoin('subscriptions', 'users.id', 'subscriptions.user_id')->get();
         $data['active_list'] = Coupon::where('created_by', $id)->where('is_active', '1')->paginate(10);
         foreach ($data['active_list'] as $row)
         {
@@ -193,7 +193,7 @@ class AdminController extends Controller {
             $row->redeemed = CouponRedeem::where('coupon_id', $row->coupon_id)->count();
         }
         $data['additional_list'] = PlanAddOns::where('user_id', $id)->get();
-        //echo'<pre>';print_r($data['active_list']);
+        //echo'<pre>';print_r($data);exit;
         $pdf = PDF::loadView('admin.business-detail-pdf', $data);
         return $pdf->download('business_details.pdf');
     }
@@ -286,7 +286,7 @@ class AdminController extends Controller {
         }
         $data['city_list_inactive'] = City::where('is_active', 0)->get();
         $data['city_list_active'] = City::where('is_active', 1)->paginate(10);
-        $data['city_request'] = CityRequest::leftjoin('user_detail', 'user_detail.user_id', 'city_request.requested_by')->leftjoin('city', 'city.id', 'city_request.city_request_id')->get(['first_name', 'last_name', 'name']);
+        $data['city_request'] = CityRequest::leftjoin('user_detail', 'user_detail.user_id', 'city_request.requested_by')->leftjoin('city', 'city.id', 'city_request.city_request_id')->orderby('city_request.id','desc')->select(['first_name', 'last_name', 'name'])->paginate(10);
         //echo '<pre>';print_r($data['city_request']);exit;
         return view('admin.cities', $data);
     }
@@ -319,7 +319,7 @@ class AdminController extends Controller {
         $data['payment_status_val'] = '';
         $data['date_start_val'] = '';
         $data['date_end_val'] = '';
-        $data['paylist'] = PaymentInfo::leftjoin('vendor_detail', 'vendor_detail.vendor_id', 'paymentinfo.vendor_id')->leftjoin('users', 'users.id', 'paymentinfo.vendor_id');
+        $data['paylist'] = PaymentInfo::leftjoin('vendor_detail', 'vendor_detail.user_id', 'paymentinfo.vendor_id')->leftjoin('users', 'users.id', 'paymentinfo.vendor_id');
         $data['payment_type'] = PaymentInfo::distinct()->get(['payment_type']);
         $data['payment_status'] = PaymentInfo::distinct()->get(['payment_status']);
         $data['vendor_list'] = User::where('role', 'vendor')->leftjoin('vendor_detail', 'vendor_detail.user_id', 'users.id')->get();
