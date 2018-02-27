@@ -32,7 +32,7 @@
                               <p><strong><i class="fa fa-envelope"></i></strong> {{$row->email}}</p>
                               <p><strong><i class="fa fa-phone"></i></strong> <span>{{$row->vendor_phone}}</span></p>
                               <p><strong>Currently Subscribed Pakage :</strong> <span>{{$row->stripe_plan}}</span></p>
-                              <p><strong>Renews On :</strong> <span>{{$row->trial_ends_at}}</span></p>
+                              <p><strong>Renews On :</strong> <span>{{date("m-d-Y", strtotime($row->trial_ends_at))}}</span></p>
                            </div>
                            
                             @endforeach
@@ -61,7 +61,7 @@
                     <td>{{$row->redeemed}}</td>
                     <td>{{$row->coupon_redeem_limit - $row->redeemed}}</td>
                     <td>{{$row->coupon_end_date}}</td>
-                    <td>{{$row->coupon_radius}}</td>
+                    <td>{{date("m-d-Y", strtotime($row->coupon_radius))}}</td>
                     <td>{{$row->coupon_notification_sqfeet}}</td>
                 </tr>
                 @endforeach
@@ -81,7 +81,7 @@
             <tbody>
                 @foreach($additional_list as $row)
                 <tr>
-                    <td>{{$row->created_at}}</td>
+                    <td>{{date("m-d-Y", strtotime($row->created_at))}}</td>
                     <td>{{$row->addon_type }}</td>
                     <td>{{$row->quantity}}</td>
                     <td>$ {{$row->quantity * 4.99}}</td>
