@@ -22,6 +22,20 @@
         </style>
     </head>
     <body>
+        
+        @foreach($vendor_list as $row)
+                           
+                            
+                           <div class="col-lg-5 col-md-6 col-xs-12 business-intro">
+                              <h2 class="mt-0 mb-20"><strong>{{$row->vendor_name}}</strong></h2>
+                              <p><strong><i class="fa fa-location-arrow"></i></strong> {{$row->vendor_address}}</p>
+                              <p><strong><i class="fa fa-envelope"></i></strong> {{$row->email}}</p>
+                              <p><strong><i class="fa fa-phone"></i></strong> <span>{{$row->vendor_phone}}</span></p>
+                              <p><strong>Currently Subscribed Pakage :</strong> <span>{{$row->stripe_plan}}</span></p>
+                              <p><strong>Renews On :</strong> <span>{{$row->trial_ends_at}}</span></p>
+                           </div>
+                           
+                            @endforeach
 
         <h2>Currently Active Offer</h2>
 
