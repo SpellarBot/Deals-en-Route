@@ -17,7 +17,7 @@ $(document).ready(function () {
         $(".form-group").removeClass('has-error');
         $(".input-group").removeClass('has-error');
         $(".help-block").html('');
-        $('.alert-danger').hide();
+       
     });
 
 
@@ -145,6 +145,10 @@ function setDashboardNotification(response) {
 
 
 }
+$(document).on('click', '.closepopup', function () {
+    $('.alert-danger').hide();
+     $('.alert-success').hide();
+});
 
 $(document).on('click', '#addhours', function () {
     $('.hoursofoperationalert').remove();

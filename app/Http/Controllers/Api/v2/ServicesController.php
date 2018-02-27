@@ -73,7 +73,8 @@ class ServicesController extends Controller {
             $data = $request->all();
 
             if (isset($data['city_request_id']) && !empty(isset($data['city_request_id']))) {
-                \App\CityRequest::cityRequest($data['city_request_id']);
+                $cityid=$data['city_request_id'];
+                \App\CityRequest::cityRequest($cityid);
                 return $this->responseJson('success', \Config::get('constants.CITY_ADD_REQUEST'), 200);
             } else {
                 //list city
@@ -81,7 +82,7 @@ class ServicesController extends Controller {
                 return $this->responseJson('success', \Config::get('constants.CITY_LIST'), 200, $citylist);
             }
         } catch (\Exception $e) {
-          //  throw $e;
+            throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
