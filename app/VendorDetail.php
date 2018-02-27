@@ -74,7 +74,10 @@ class VendorDetail extends Model {
         }
         $vendor_detail = VendorDetail::firstOrNew(["user_id" => $user_id]);
         $vendor_detail->user_id = $user_id;
-
+        $vendor_detail->additional_geo_fencing_total=0;
+        $vendor_detail->additional_geo_location_used=0;
+        $vendor_detail->additional_geo_fencing_used=0;
+        $vendor_detail->additional_geo_location_total=0;
         $vendor_detail->fill($data);
         $vendor_detail->save();
 
