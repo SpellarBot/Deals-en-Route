@@ -253,7 +253,7 @@
                                                     <tbody>
                                                         @foreach($paylist as $row)
                                                         <tr>
-                                                            <td><a href="">{{$row->vendor_name}}</a></td>
+                                                            <td>{{$row->vendor_name}}</td>
                                                             <td>{{$row->created_at}}</td>
                                                             <td>$ {{$row->payment_amount}}</td>
                                                             <td>{{$row->payment_type}}</td>
