@@ -225,6 +225,7 @@ class Coupon extends Model {
                 if ($payment) {
                     self::getUsedGeo($vendordetail, $data['totalgeolocationadditionalleft'], $data['totalgeofenceadditionalleft']);
                     self::getNotificationUsers($coupon);
+                    return 'paymentsuccess';
                 }
             }
 

@@ -89,7 +89,7 @@ return [
     'NOTIFY_SHARE_COUPON' => 'Sharing is caring! Keep sharing to make your wallet and friends happy by helping them save!',
     //-- Friend shared coupon with you
     'NOTIFY_SHARED_COUPON' => '{{from_id}} just shared a deal with you.',
-    'COMMENT_LIKE' => '{{like_friend}} liked your comment.',
+    'COMMENT_LIKE' => '{{from_id}} liked your comment.',
     
     'NOTIFY_TAG_MESSAGE'=>'{{from_id}} mentioned you in a comment.',
     //user
