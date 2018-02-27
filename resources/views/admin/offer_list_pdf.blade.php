@@ -55,7 +55,7 @@
                     <td>{{$row->coupon_name}}</td>
                     <td>{{$row->coupon_detail}}</td>
                     <td>{{$row->coupon_code}}</td>
-                    <td>{{$row->created_at}}</td>
+                    <td>{{date("m-d-Y", strtotime($row->created_at))}}</td>
                 </tr>
                 @endforeach
             </tbody>
