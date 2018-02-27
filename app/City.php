@@ -16,7 +16,7 @@ class City extends Model
    
     public static function cityListRequest(){
         
-        return City::select('id','name')
+        return City::select('id','name')->Where("is_active",self::IS_NOT_CONFIRMED)
          ->get();
         
     }
