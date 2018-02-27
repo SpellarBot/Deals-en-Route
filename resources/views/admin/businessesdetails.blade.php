@@ -166,7 +166,7 @@
                         <div class="well clearfix">
                            @foreach($vendor_list as $row)
                            <div class="col-lg-3 col-md-6 col-xs-12 business-img">
-                              <img src="{{ asset('storage/app/public/profile_pic/'.$row->vendor_logo)}}" alt="" class="img-responsive">
+                              <img src="{{ asset('storage/app/public/vendor_logo/'.$row->vendor_logo)}}" alt="" class="img-responsive">
                            </div>
                             
                            <div class="col-lg-5 col-md-6 col-xs-12 business-intro">
