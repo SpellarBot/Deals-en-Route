@@ -40,7 +40,7 @@
                 @foreach($paylist as $row)
                 <tr>
                     <td>{{$row->vendor_name}}</td>
-                    <td>{{$row->created_at}}</td>
+                    <td style="width:100px;">{{date("m-d-Y", strtotime($row->created_at))}}</td>
                     <td>$ {{$row->payment_amount}}</td>
                     <td>{{$row->payment_type}}</td>
                     <td>{{$row->transaction_id}}</td>
