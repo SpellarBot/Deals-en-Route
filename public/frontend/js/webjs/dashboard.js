@@ -260,7 +260,7 @@ $(document).ready(function () {
             // <!--================Redeemption Pie Chart=============================-->
             //total coupon redeemed
             $('#charttotal').data('easyPieChart').update(total_coupon_reedemed);
-            $('span', $('#charttotal')).text(total_coupon_reedemed);
+            $('span', $('#charttotal')).text(total_coupon_reedemed + "%");
             //remaining deals in package
             $('#dealtotal').data('easyPieChart').update(deals_percent);
             $('span', $('#dealtotal')).text(deals_left);
@@ -448,7 +448,14 @@ $(document).on("submit", "#sendcontact", function (event) {
     });
 
 });
+$(document).on("keypress", "#coupon_reddem", function (event) {
 
+   
+     if(event.which == 13) {
+          event.preventDefault();
+       $('.redeemnow').trigger('click');
+     }
+});
 // update contact submit
 $(document).on("click", ".redeemnow", function (event) {
     event.preventDefault();

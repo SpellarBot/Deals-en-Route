@@ -22,7 +22,7 @@
                                          {{ Form::open([ 'id' => 'redeemcoupon']) }}
                                                         {{ csrf_field() }}
                                         <div class="form-group coupon-code-val">
-                                             {{ Form::text('coupon','') }}
+                                             {{ Form::text('coupon','',['id'=>'coupon_reddem']) }}
                                         </div>
                                         <a href="" class="btn btn-info btn-fill btn-wd btn-create redeemnow">Redeem Now</a>
                                           {{ Form::close() }}
