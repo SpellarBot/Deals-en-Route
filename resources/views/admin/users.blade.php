@@ -239,7 +239,7 @@
                                              <td>{{$row->gender ?:'-'}}</td>
                                              <td>{{$row->coupons ?:'-'}}</td>
                                              <td>{{($row->fb_token != '') ?'facebook':''}}{{($row->google_token!= '') ?'google':''}}{{($row->twitter_token != '') ?'twitter':''}}</td>
-                                             <td><span class="active">{{($row->status == 0) ?'Active':'InActive'}}</span></td>
+                                             <td><span class="active">{{($row->is_active == 0) ?'InActive':'Active'}}</span></td>
                                              <td><a href="{{ asset('admin/user-detail/'.$row->id)}}">View Details</a></td>
                                           </tr>
                                          @endforeach

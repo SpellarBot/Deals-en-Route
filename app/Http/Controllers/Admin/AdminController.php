@@ -274,7 +274,7 @@ class AdminController extends Controller {
             return $pdf->download('Business_pdf.pdf');
         }
         $data['business_list'] = $data['business_list']->select(['*', 'users.id as id'])->orderby('users.id', 'DESC')->paginate(10);
-        //echo '<pre>';print_r($data['user_list']);exit;
+        //echo '<pre>';print_r($data['business_list']);exit;
         return view('admin.businesses', $data);
     }
 

@@ -231,7 +231,7 @@
                                               <td>{{$row->email}}</td>
                                               <td>{{$row->vendor_phone}}</td>
                                               <td>{{$row->stripe_plan}}</td>
-                                              <td>{{($row->is_activeActive == 1) ? 'Not Active' : 'Active'}}</td>
+                                              <td>{{($row->is_active == 1) ? 'Active' : 'InActive'}}</td>
                                               <td><a href="{{ asset('admin/vendor-detail/'.$row->id)}}">View Details</a></td>
                                           </tr>
                                          @endforeach
