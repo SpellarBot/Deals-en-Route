@@ -292,6 +292,7 @@
                                              @endforeach
                                           </tbody>
                                        </table>
+                                        {{ $city_request->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                     </div>
                                  </div>
                               </div>

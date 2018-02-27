@@ -238,6 +238,7 @@
                                         </form>
                                         <div class="col-xs-12 mt-15">
                                             <div class="table-responsive user-management">
+                                                @if(count($paylist) > 0)
                                                 <table class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
@@ -265,6 +266,9 @@
                                                     </tbody>
                                                 </table>
                                                 {{ $paylist->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+                                                @else
+                                                <span>No data Found</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
