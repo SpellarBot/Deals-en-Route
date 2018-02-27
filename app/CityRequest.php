@@ -21,11 +21,12 @@ class CityRequest extends Model {
 
     public static function cityRequest($cityid) {
 
-        $cityrequest = CityRequest::updateOrCreate(
-                        ['requested_by' => Auth::id()],
-                        ['city_request_id' => $cityid]
-        );
-        return $cityrequest;
+        
+        $city= new CityRequest();
+        $city->city_request_id=$cityid;
+         $city->requested_by=Auth::id();
+         $city->save();
+        return $city;
     }
 
 }
