@@ -150,7 +150,7 @@ class AdminController extends Controller {
             $array['basicgeolocation'] = $vendor_detail->userSubscription[0]->geolocation;
             $array['basicgeofencing'] = $vendor_detail->userSubscription[0]->geofencing;
         }
-
+        $deals_left = 0;
         $user = \App\Subscription::where('user_id', $id)->first();
         if ($user)
         {
