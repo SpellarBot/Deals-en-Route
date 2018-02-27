@@ -2814,3 +2814,6 @@ div#googlegeofencing {width: calc(100% - 60px) !important;max-width: 1100px !imp
 .hoursofoperationalert a{
     margin: 0 5px;
 }
+#pac-input {
+    border-radius: 20px !important;
+}

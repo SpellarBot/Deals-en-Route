@@ -52,7 +52,7 @@ class DealCommentLikes extends Model {
             'notification_message' => $message,
             'message' => $fMessage,
             'comment_id' => $data['comment_id'] ?? '',
-             'activity_id'=> $data->comment->activity_id ??'',   
+             'coupon_id'=> $data->comment->coupon_id ??'',   
         ]));
     
     }
