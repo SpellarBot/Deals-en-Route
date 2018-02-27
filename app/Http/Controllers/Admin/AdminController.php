@@ -344,7 +344,7 @@ class AdminController extends Controller {
         {
             $start_date = date('Y-m-d H:i:s', strtotime(Input::get('date_start')));
             $end_date = date('Y-m-d H:i:s', strtotime(Input::get('date_end')));
-            $data['paylist'] = $data['paylist']->where(\DB::raw('TIMESTAMP(paymentinfo.created_at)'), '>=', '$start_date')->where(\DB::raw('TIMESTAMP(paymentinfo.created_at)'), '<=', '$end_date');//whereBetween('paymentinfo.created_at', [$start_date, $end_date]);
+            $data['paylist'] = $data['paylist']->where(\DB::raw('TIMESTAMP(paymentinfo.created_at)'), '>=', "$start_date")->where(\DB::raw('TIMESTAMP(paymentinfo.created_at)'), '<=', "$end_date");//whereBetween('paymentinfo.created_at', [$start_date, $end_date]);
             
             
             
