@@ -344,7 +344,10 @@ class AdminController extends Controller {
         {
             $start_date = date('Y-m-d H:i:s', strtotime(Input::get('date_start')));
             $end_date = date('Y-m-d H:i:s', strtotime(Input::get('date_end')));
-            $data['paylist'] = $data['paylist']->whereBetween('paymentinfo.created_at', [$start_date, $end_date]);
+            $data['paylist'] = $data['paylist']->where(\DB::raw('TIMESTAMP(paymentinfo.created_at1)'), '>=', '$start_date')->where(\DB::raw('TIMESTAMP(paymentinfo.created_at)'), '<=', '$end_date');//whereBetween('paymentinfo.created_at', [$start_date, $end_date]);
+            
+            
+            
             $data['date_start_val'] = Input::get('date_start');
             $data['date_end_val'] = Input::get('date_end');
         }
@@ -429,7 +432,8 @@ class AdminController extends Controller {
     }
 
     public function categotyStatus(request $request)
-    {
+    {     
+    
         if (Input::get('cat_id') != '' && Input::get('status') != '')
         {
             if (Input::get('status') == 0)
@@ -445,9 +449,10 @@ class AdminController extends Controller {
             {
                 if ($request->file('logo'))
                 {
+                    $ex = $request->file('logo')->getClientOriginalExtension();
                     $upload = $this->categoryImageWeb($request->file('logo'), 'category_image', $request->input('cat_id'));
                 }
-                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 1]);
+                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 1,'category_logo_image'=>$request->input('cat_id').'.'.$ex,'category_image'=>$request->input('cat_id').'.'.$ex]);
                 $array_mail = ['to' => Input::get('email'),
                     'type' => 'category_accept',
                     'data' => ['name' => Input::get('cat_name')]
