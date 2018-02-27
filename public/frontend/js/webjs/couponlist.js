@@ -7,7 +7,7 @@ var showSecMap = '';
 var selectedShape;
 var marker;
 var count = 1;
-var totalSqFeetDrawn;
+var totalSqFeetDrawn = 1;
 var additionalCost;
 var polyOptions_invalid = {
     strokeWeight: 0,
@@ -27,7 +27,7 @@ var date = new Date();
 var markershow;
 var showArray = [];
 var totalprice;
-var b;
+var b = '';
 
 $(document).ready(function () {
     if (localStorage.getItem("NewCoupon"))
@@ -944,9 +944,9 @@ $(document).on('click', '.getextracost', function (e) {
         success: function (data) {
             additionalCost = data;
             totalprice = data.total_rs;
-            $('.costfgeofence').text("$"+data.total_geo_location_buy);
-            $('.costgeolocation').text("$"+data.total_geo_fence_buy);
-            $('.totalextra').text("$"+data.total_rs);
+            $('.costfgeofence').text("$ "+data.total_geo_fence_buy);
+            $('.costgeolocation').text("$ "+data.total_geo_location_buy);
+            $('.totalextra').text("$ "+data.total_rs);
 
         }, error: function (data) {
 
@@ -979,11 +979,22 @@ $(document).on("submit", ".additional_miles_coupon", function (event) {
 
 $(document).on("submit", ".additional_fencing_coupon", function (event) {
     event.preventDefault();
+
     var fence = parseInt($('#extra_fence').val());
     var additional =parseInt(b);
-     b = fence + additional;
+        if(b=='NaN' || b ==''){
+       var geofencing = $('.geofencingshow').text();
+  
+     var additional = parseInt(geofencing);
+     
+        }else{
+     var additional =parseInt(b);
+     }
+      b = fence + additional;
     $('.geofencingshow').text(b);
     $('.total_geofencing_covered').html("<label>Total Geofencing : </label> "+ Number((b).toFixed(2)).toLocaleString('en') + ' ft²');
+  
+    if(totalSqFeetDrawn != 1){
     if ((totalSqFeetDrawn) < (b)) {
         var total_left = b - totalSqFeetDrawn;
         $('.total_left_used').html("<label> Remaining Left : </label>" + Number((total_left).toFixed(2)).toLocaleString('en') + ' ft²');
@@ -998,6 +1009,7 @@ $(document).on("submit", ".additional_fencing_coupon", function (event) {
          showSecMap.setMap(null);
          setPolygonSecMapShapeOnCreate(0);
     }
+  }
     $('#extra_fence').val('');
     $('#buygeofencearea').modal('hide');
 
