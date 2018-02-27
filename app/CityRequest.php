@@ -8,7 +8,7 @@ use Auth;
 class CityRequest extends Model {
 
     protected $table = 'city_request';
-    protected $dateFormat = 'Y-m-d';
+   // protected $dateFormat = 'Y-m-d';
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -21,11 +21,16 @@ class CityRequest extends Model {
 
     public static function cityRequest($cityid) {
 
-        
+        $cityre=CityRequest::where('requested_by',Auth::id())->first();
+        if(!empty($cityre)){
+           $city=CityRequest::where('requested_by',Auth::id())->first();  
+        }else {
         $city= new CityRequest();
+        
+        }
         $city->city_request_id=$cityid;
-         $city->requested_by=Auth::id();
-         $city->save();
+       $city->requested_by=Auth::id();
+       $city->save();
         return $city;
     }
 

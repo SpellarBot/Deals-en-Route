@@ -267,7 +267,7 @@
                                                 </table>
                                                 {{ $paylist->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                                 @else
-                                                <span>No data Found</span>
+                                                <span style="color: red;margin-left: 42%;">No Record Found</span>
                                                 @endif
                                             </div>
                                         </div>
