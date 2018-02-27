@@ -350,12 +350,12 @@ class AdminController extends Controller {
         }
         if (Input::get('is_pdf') != '' && Input::get('is_pdf') > 0)
         {
-            $data['paylist'] = $data['paylist']->get();
+            $data['paylist'] = $data['paylist']->orderby('paymentinfo.created_at','DESC')->get();
             $pdf = PDF::loadView('admin.payments-pdf', $data);
             return $pdf->download('payment-list.pdf');
         }
 
-        $data['paylist'] = $data['paylist']->paginate(10);
+        $data['paylist'] = $data['paylist']->orderby('paymentinfo.created_at','DESC')->paginate(10);
         //echo '<pre>';print_r($data['paylist']);exit;
         return view('admin.payments', $data);
     }
