@@ -342,9 +342,9 @@ class AdminController extends Controller {
 
         if (Input::get('date_start') != '')
         {
-            $start_date = date('Y-m-d H:i:s', strtotime(Input::get('date_start')));
-            $end_date = date('Y-m-d H:i:s', strtotime(Input::get('date_end')));
-            $data['paylist'] = $data['paylist']->where(\DB::raw('TIMESTAMP(paymentinfo.created_at)'), '>=', "$start_date")->where(\DB::raw('TIMESTAMP(paymentinfo.created_at)'), '<=', "$end_date");//whereBetween('paymentinfo.created_at', [$start_date, $end_date]);
+            $start_date = date('Y-m-d', strtotime(Input::get('date_start')));
+            $end_date = date('Y-m-d', strtotime(Input::get('date_end')));
+            $data['paylist'] = $data['paylist']->where(\DB::raw('DATE(paymentinfo.created_at)'), '>=', $start_date)->where(\DB::raw('DATE(paymentinfo.created_at)'), '<=', $end_date);//whereBetween('paymentinfo.created_at', [$start_date, $end_date]);
             
             
             
@@ -358,7 +358,7 @@ class AdminController extends Controller {
             return $pdf->download('payment-list.pdf');
         }
 
-        $data['paylist'] = $data['paylist']->orderby('paymentinfo.created_at','DESC')->paginate(10);
+        $data['paylist'] = $data['paylist']->select(['*','paymentinfo.created_at as created_at'])->orderby('paymentinfo.created_at','DESC')->paginate(10);
         //echo '<pre>';print_r($data['paylist']);exit;
         return view('admin.payments', $data);
     }
