@@ -186,7 +186,7 @@
                 <h3>Geofence</h3>
 
                 <div class="row">
-                    <input id="pac-input" class="col-sm-10 col-sm-offset-1 form-group" type="text" placeholder="Search Box">
+                    <input id="pac-input" class="col-sm-10 col-sm-offset-1 form-group" type="text" placeholder="Address">
 
                     <div class="col-sm-10 col-sm-offset-1 form-group">
                         <div class="total_geofencing_covered"> <label> Total Geofencing : </label>{!! number_format($total_geofencing,2).' ft²' !!} </div>
@@ -259,13 +259,23 @@
                                     <td>Area Covered(sq feet):</td>
                                     <td class="couponsqft">{{ !isset($coupon->coupon_notification_sqfeet) ? '': number_format($coupon->coupon_notification_sqfeet,2) }} ft² </td>
                                 </tr>
+                                <tr>
+                                    <td>Total Cost for Geofence:</td>
+                                    <td class="costfgeofence">$ {{ isset($coupon)?$total_additional_cost['total_geofence_buy']:'0.00' }} </td>
+                                </tr>
+                                 <tr>
+                                    <td>Total Cost for Geolocation:</td>
+                                    <td class="costgeolocation"> $ {{ isset($coupon)?$total_additional_cost['total_geolocation_buy']:'0.00' }}  </td>
+                                </tr>
+                                
                                 {{ Form::hidden('coupon_notification_sqfeet', old('coupon_notification_sqfeet'), ['id' => 'coupon_notification_sqfeet']) }}
 
                             </tbody>
                             <tfoot>
+
                                 <tr>
                                     <td>Total:</td>
-                                    <td><div class="totalextra">  {{ isset($coupon)?$total_additional_cost:'' }} $</div></td>
+                                    <td><div class="totalextra">$ {{ isset($coupon)?$total_additional_cost['total_buy']:'' }} </div></td>
                                 </tr>
                             </tfoot>
                         </table>
