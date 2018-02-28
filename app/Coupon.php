@@ -322,7 +322,7 @@ class Coupon extends Model {
          Notification::send($device, new FcmNotification([
             'type' => 'newcoupon',
             'notification_message' => 'We got a deal for you from {{vendor_name}}. Check it out!',
-            'message' => 'We got a deal for you from {{vendor_name}}. Check it out!',
+            'message' =>$message,
             'coupon_id' => $coupon->coupon_id
         ]));
       
