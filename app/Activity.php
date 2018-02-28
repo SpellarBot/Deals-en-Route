@@ -100,18 +100,17 @@ class Activity extends Model {
         CouponShare::addRedeemCoupon($array_unique, $data->coupon_id, $activity);
         return $activity;
     }
-
+ 
     public static function getActivityDetails($data) {
+        $idsArr=Activity::where('activity_id', $data['activity_id'])->first();
         $activity = Activity::select(['activity.activity_id', 'share_friend_id', 'total_like', 'total_share', 'activity_name_friends',
                             'activity.created_by', 'total_comment', 'count_fb_friend', 'activity_name_creator', 'activity.coupon_id',
-                            \DB::raw('(if(created_by != "' . Auth::id() . '",activity_name_friends,activity_name_creator )) as activity_message')])
+                            \DB::raw('(if(activity.created_by != "' . Auth::id() . '",activity_name_friends,activity_name_creator )) as activity_message')])
                         ->leftJoin('coupon_share', 'coupon_share.activity_id', '=', 'activity.activity_id')
+                      ->leftJoin('comment', 'comment.activity_id', '=', 'activity.activity_id')
                         ->havingRaw('activity_message != "" ')
                         ->where('activity.activity_id', $data['activity_id'])
-                        ->where(function($q) {
-                            $q->where('created_by', Auth::id())
-                            ->orWhere('share_friend_id', Auth::id());
-                        })->first();
+                        ->first();
         return $activity;
     }
     

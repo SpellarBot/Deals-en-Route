@@ -34,7 +34,7 @@ class DealCommentLikes extends Model {
                         ]
         );
         if ($addlike) {
-            self::sendLikeNotification($addlike, 'commentlike', \Config::get('constants.COMMENT_LIKE'));
+            self::sendLikeNotification($addlike, 'dealcommentlike', \Config::get('constants.COMMENT_LIKE'));
         }
         return $addlike;
     }
