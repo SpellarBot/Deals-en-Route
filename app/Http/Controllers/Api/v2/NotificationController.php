@@ -65,7 +65,7 @@ class NotificationController extends Controller {
 
                             $coupon = Coupon::where('coupon_id', $value['coupon_id'])->first();
                             $rand = rand(0, 3);
-                            $nMessage = \Config::get('constants.NOTIFY_GEO')[$rand];
+                            $nMessage = \Config::get('constants.NOTIFY_GEO')[0];
                             $fMessage = $coupon->finalNotifyMessage(Auth::id(), Auth::id(), $coupon, $nMessage);
                             // send notification
                             Notification::send(Auth::user(), new FcmNotification([
