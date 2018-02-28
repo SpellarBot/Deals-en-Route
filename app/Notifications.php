@@ -48,7 +48,8 @@ class Notifications extends Model {
                 "alert" => [
                     "title" => "DealsEnRoute",
                     "message"=>$messagedata->message,
-                    "body" => $messagedata ,
+                    "body" => $messagedata,
+                    "subtitle"=>$messagedata->message,
                     "badge" => $unread
                 ],
                 "mutable-content" => "1",
