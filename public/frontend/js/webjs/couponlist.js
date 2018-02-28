@@ -264,11 +264,16 @@ $(document).on("focus", ".datepicker", function() {
                 //day 86400000 = second = 1000,minute = second * 60,hour = minute * 60,day = hour * 24, to get day
                 days = Math.floor(timediff / 86400000);
             }
+            if(days < 0){
+                totaldays =0;
+            }else{
+                totaldays=days;
+            }
 
         $('#gethours').text(new Date(end).getHours());
         $('#getminutes').text(new Date(end).getMinutes());
         var end = datediff(currentdate, enddatemomment);
-        $('#getdays').text(days);
+        $('#getdays').text(totaldays);
         $("#coupon_end_date").val(enddatemomment);
         //show in last tab
         $(".coupon_end_date").text(enddatemomment);
