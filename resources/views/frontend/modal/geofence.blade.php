@@ -31,7 +31,7 @@
                                              <option value="700000">700,000</option>
                                              <option value="800000">800,000</option>
                                              <option value="900000">900,000</option>
-                                             <option value="1000000">1000,000</option>
+                                             <option value="1,000000">1000,000</option>
                                         </select>
                                     </div>
                                 </div>
