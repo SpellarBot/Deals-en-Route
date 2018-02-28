@@ -32,7 +32,7 @@ class VendorRating extends Model {
     }
 
     public static function getRatings($id) {
-        $getRatings = VendorRating::select(\DB::raw('sum(rating) as total_ratings'))
+        $getRatings = VendorRating::select(\DB::raw('sum(rating) as total_ratings,count(id) as total_users'))
                 ->where('vendor_id', $id)
                 ->first();
         if ($getRatings) {

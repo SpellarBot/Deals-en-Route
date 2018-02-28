@@ -63,7 +63,7 @@ class CouponController extends Controller {
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / $getvendorRating['total_users']), 1));
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformList($couponlist);
@@ -143,7 +143,7 @@ class CouponController extends Controller {
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / $getvendorRating['total_users']), 1));
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformFavSearchList($coupondetail);
@@ -173,7 +173,7 @@ class CouponController extends Controller {
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / $getvendorRating['total_users']), 1));
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformFavSearchList($coupondetail);
@@ -201,7 +201,7 @@ class CouponController extends Controller {
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / $getvendorRating['total_users']), 1));
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformShareList($couponlist);
@@ -230,7 +230,7 @@ class CouponController extends Controller {
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / $getvendorRating['total_users']), 1));
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformShareList($couponlist);
@@ -724,7 +724,7 @@ class CouponController extends Controller {
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                    $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / $getvendorRating['total_users']), 1));
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformList($couponlist);
