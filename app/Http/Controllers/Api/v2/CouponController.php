@@ -63,7 +63,11 @@ class CouponController extends Controller {
                     $getvendorRating = VendorRating::getRatings($coupons->created_by);
                     $coupons->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupons->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
+                    if($getvendorRating['total_users'] == 0){
+                        $coupons->vendor_ratings=0;
+                    }else {
                     $coupons->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / $getvendorRating['total_users']), 1));
+                    }
                     $coupons->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 }
                 $data = (new CouponTransformer)->transformList($couponlist);
@@ -95,17 +99,21 @@ class CouponController extends Controller {
                     $getUserslike = CouponFavourite::getUserLike($coupondetail->coupon_id, auth()->id());
                     $getComments = DealComments::getComments($coupondetail->coupon_id);
                     $getvendorRating = VendorRating::getRatings($coupondetail->created_by);
-                 
+           
                     $coupondetail->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupondetail->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
+                    if($getvendorRating['total_users'] == 0){
+                        $coupondetail->vendor_ratings=0;
+                    }else {
                     $coupondetail->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / $getvendorRating['total_users']), 1));
+                    }
                     $coupondetail->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
                 $data = (new CouponTransformer)->transformDetail($coupondetail);
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }
             return $this->responseJson('success', \Config::get('constants.NO_DEAL'), 200);
         } catch (\Exception $e) {
-    throw $e;
+  //  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
