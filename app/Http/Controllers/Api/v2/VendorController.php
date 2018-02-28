@@ -56,7 +56,9 @@ class VendorController extends Controller {
             $data['vendor_details'] = (new VendorTransformer())->transformvendorData($vendorDetails->getAttributes());
             $data['ratings'] = [];
             $rates = 0;
+            $users = 0;
             foreach ($vendorRatings as $rating) {
+                $users++;
                 $userdetails = $rating->getAttributes();
                 $dt = new Carbon($userdetails['updated_at']);
                 $ratingdetails['user_name'] = $userdetails['first_name'] . ' ' . $userdetails['last_name'];
@@ -67,7 +69,7 @@ class VendorController extends Controller {
                 $rates = $rates + $userdetails['rating'];
                 array_push($data['ratings'], $ratingdetails);
             }
-            $data['vendor_details']['total_ratings'] = ($rates == 0 ? 0 : number_format($rates / 5, 1));
+            $data['vendor_details']['total_ratings'] = ($rates == 0 ? 0 : number_format($rates / $users, 1));
             $hoursofOperations = VendorHours::getHoursOfOperations($data['vendor_id']);
             $data['vendor_details']['hours_of_operations'] = [];
             foreach ($hoursofOperations as $hours) {
