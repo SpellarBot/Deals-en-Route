@@ -313,23 +313,19 @@ class Coupon extends Model {
     }
 
     public static function sendNotification($device, $coupon) {
-//  $userfrom=User::find(Auth::id());
-//        $fromid = (!empty($userfrom) ? $userfrom->userDetail->first_name . " " . $userfrom->userDetail->last_name : '');
-//        $find = ['{{vendor_name}}'];
-//        $replace = [$fromid];
-//         $message = str_replace($find, $replace, $message);
-//         Notification::send($device, new FcmNotification([
-//            'type' => 'newcoupon',
-//            'notification_message' => 'We got a deal for you from {{vendor_name}}. Check it out!',
-//            'message' => 'We got a deal for you from {{vendor_name}}. Check it out!',
-//            'coupon_id' => $coupon->coupon_id
-//        ]));
-        Notification::send($device, new FcmNotification([
+        $userfrom=User::find(Auth::id());
+        $fromid = (!empty($userfrom) ? $userfrom->vendorDetail->first_name . " " . $userfrom->vendorDetail->last_name : '');
+        $find = ['{{vendor_name}}'];
+        $replace = [$fromid];
+        $message = 'We got a deal for you from {{vendor_name}}. Check it out!';
+         $message = str_replace($find, $replace, $message);
+         Notification::send($device, new FcmNotification([
             'type' => 'newcoupon',
             'notification_message' => 'We got a deal for you from {{vendor_name}}. Check it out!',
             'message' => 'We got a deal for you from {{vendor_name}}. Check it out!',
             'coupon_id' => $coupon->coupon_id
         ]));
+      
     }
 
     public static function updateCoupon($data, $id) {
