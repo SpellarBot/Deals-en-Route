@@ -168,9 +168,18 @@ $(document).ready(function () {
                 $(".help-block").html('');
 
                 if (data.status == 'success') {
-                    setDashboardNotification(data);
+                    $('.alert-success').show();
+                    setTimeout(function () {
+                        $('.alert-success').fadeOut('slow');
+                    }, 10000);
+                    $('.successmessage').html(response.message);
                 } else {
-                    setDashboardNotification(data);
+                    $('.alert-danger').show();
+                    setTimeout(function () {
+                        $('.alert-danger').fadeOut('slow');
+                    }, 10000);
+
+                    $('.errormessage').html(response.message);
                 }
             },
             beforeSend: function () {
@@ -240,7 +249,7 @@ $(document).ready(function () {
         });
     });
     $('.geo_fencing').submit(function (e) {
-        
+
         e.preventDefault();
         var formData = $(this).serialize();
         $.ajax({
