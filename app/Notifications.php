@@ -47,7 +47,6 @@ class Notifications extends Model {
             "aps" => [
                 "alert" => [
                     "title" => "DealsEnRoute",
-                    "message"=>$messagedata->message,
                     "body" => $messagedata,
                     "subtitle"=>$messagedata->message,
                     "badge" => $unread
