@@ -47,10 +47,10 @@ class Notifications extends Model {
             "aps" => [
                 "alert" => [
                     "title" => "DealsEnRoute",
-                    "body" => $messagedata,
-                    "subtitle"=>$messagedata->message,
+                    "body" => $messagedata->message,
                     "badge" => $unread
                 ],
+                 "data"=>$messagedata,
                 "mutable-content" => "1",
              
             ],
