@@ -314,15 +314,17 @@ class Coupon extends Model {
 
     public static function sendNotification($device, $coupon) {
         $userfrom=User::find(Auth::id());
-        $fromid = (!empty($userfrom) ? $userfrom->vendorDetail->first_name . " " . $userfrom->vendorDetail->last_name : '');
+        
+        $fromid = (!empty($userfrom) ? $userfrom->vendorDetail->vendor_name : '');
+      
         $find = ['{{vendor_name}}'];
         $replace = [$fromid];
         $message = 'We got a deal for you from {{vendor_name}}. Check it out!';
-         $message = str_replace($find, $replace, $message);
+         $fnmessage = str_replace($find, $replace, $message);
          Notification::send($device, new FcmNotification([
             'type' => 'newcoupon',
             'notification_message' => 'We got a deal for you from {{vendor_name}}. Check it out!',
-            'message' =>$message,
+            'message' =>$fnmessage,
             'coupon_id' => $coupon->coupon_id
         ]));
       
