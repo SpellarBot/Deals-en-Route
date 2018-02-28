@@ -46,7 +46,7 @@ class Notifications extends Model {
         $data = [
             "aps" => [
                 "alert" => [
-                    "title" => '',
+                    "title" => $messagedata->message,
                     "body" => $messagedata ,
                     "badge" => $unread
                 ],
