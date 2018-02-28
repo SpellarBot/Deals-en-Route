@@ -95,12 +95,11 @@ class CouponController extends Controller {
                     $getUserslike = CouponFavourite::getUserLike($coupondetail->coupon_id, auth()->id());
                     $getComments = DealComments::getComments($coupondetail->coupon_id);
                     $getvendorRating = VendorRating::getRatings($coupondetail->created_by);
+                 
                     $coupondetail->total_likes = ($getlikes == 0 ? 0 : $getlikes['total_likes']);
                     $coupondetail->total_comments = ($getComments == 0 ? 0 : $getComments['total_comments']);
-                    $coupondetail->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / 5), 1));
+                    $coupondetail->vendor_ratings = ($getvendorRating == 0 ? 0 : number_format(($getvendorRating['total_ratings'] / $getvendorRating['total_users']), 1));
                     $coupondetail->is_liked = ($getUserslike == 0 ? 0 : $getUserslike);
-                
-                 
                 $data = (new CouponTransformer)->transformDetail($coupondetail);
                 return $this->responseJson('success', \Config::get('constants.COUPON_DETAIL'), 200, $data);
             }

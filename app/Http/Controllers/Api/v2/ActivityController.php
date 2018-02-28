@@ -118,10 +118,11 @@ class ActivityController extends Controller {
                 $comment->save();
                 $activity = \App\Activity::where('activity_id', $data['activity_id'])->first();
                 $activity->total_comment = $this->getCommentCount($data['activity_id']);
-                $activity->save();
-                if ($activity->save() && $activity->created_by != Auth::id()) {
-                    \App\ActivityShare::sendActivityNotification($activity, 'activitycomment', \Config::get('constants.ACTIVITY_COMMENT'), $comment);
+                $activity->save(); 
+                if ($activity->save()) {
+                   // \App\ActivityShare::sendActivityNotification($activity, 'activitycomment', \Config::get('constants.ACTIVITY_COMMENT'), $comment);
                     if (isset($data['tag_user_id']) && !empty($data['tag_user_id'])) {
+               
                         $ids_arr = explode(',', $data['tag_user_id']);
                         \App\DealComments::sendTagActivityCommentNotification($ids_arr, $comment);
                     }
@@ -327,7 +328,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_DEAL'), 200);
         } catch (\Exception $e) {
-            // throw $e;
+             throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
