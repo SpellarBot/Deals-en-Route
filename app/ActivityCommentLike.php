@@ -36,7 +36,7 @@ class ActivityCommentLike extends Model {
                         ]
         );
         if ($addlike &&  $addlike->is_like==1) {
-            self::sendLikeNotification($addlike, 'commentlike', \Config::get('constants.COMMENT_LIKE'));
+            self::sendLikeNotification($addlike, 'activitycommentlike', \Config::get('constants.COMMENT_LIKE'));
         }
         return $addlike;
     }
