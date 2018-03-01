@@ -119,8 +119,11 @@ trait CouponTrait {
 
         return \App\Notifications::where('notifiable_id', $toid)
                         ->where('coupon_id', $couponid)
-                        ->where('type', $type)
                         ->where(\DB::raw('date_format(created_at,"%Y-%m-%d")'), date('Y-m-d'))
+                        ->where(function($q) {
+                                $q->where(['type' => 'newcoupon'])
+                                ->orWhere('type', 'geonotification');
+                            })
                         ->count();
     }
 

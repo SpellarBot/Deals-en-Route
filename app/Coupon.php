@@ -100,7 +100,11 @@ class Coupon extends Model {
         $lat = $user->latitude;
         $lng = $user->longitude;
         $id = $user->category_id;
+        if(empty($id)){
+            $idsArr='';
+        }else{
         $idsArr = explode(',', $id);
+        }
         $couponlist = Coupon::active()->deleted()
                         ->select('coupon_notification_point', 'coupon_start_date', 'coupon_id', 'coupon_end_date')
                         ->where(\DB::raw('TIMESTAMP(`coupon_start_date`)'), '<=', date('Y-m-d H:i:s'))
@@ -137,10 +141,14 @@ class Coupon extends Model {
                 ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
                 ->havingRaw('( coupon_radius >= distance or coupon_id in ( ' . $ex . ' ) )');
         if (isset($data['category_id'])) {
-            $query->where('coupon_category_id', $data['category_id']);
+              if(!empty($idsArr)){
+            $query->where('coupon_category_id', $idsArr);
+              }
         } else if (isset($data['search'])) {
             $keyword = $data['search'];
+             if(!empty($idsArr)){
             $query->whereIn('coupon_category_id', $idsArr);
+             }
             $query->where(function($q) use ($idsArr, $keyword) {
                 $q->where(DB::raw("CONCAT(coupon_name,' ',coupon_detail)"), "LIKE", "%$keyword%")
                         ->orWhere(DB::raw("CONCAT(coupon_name,'',coupon_detail)"), "LIKE", "%$keyword%")
@@ -148,7 +156,9 @@ class Coupon extends Model {
                         ->orWhere("coupon_detail", "LIKE", "%$keyword%");
             });
         } else {
+            if(!empty($idsArr)){
             $query->whereIn('coupon_category_id', $idsArr);
+            }
         }
 
         $result = $query->groupBy('coupon_id')->orderBy('distance', 'asc')->orderBy('coupon_id', 'desc')->simplePaginate(\Config::get('constants.PAGINATE'));
