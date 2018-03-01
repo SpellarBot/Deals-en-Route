@@ -40,13 +40,24 @@ class UserDetail extends Model {
     public static function formatDob($value) {
         return Carbon::parse($value)->format('m/d/Y');
     }
+    public static function saveUserDetaillatlong($data, $user_id) {
+
+        
+        
+        $user_detail = UserDetail::firstOrNew(["user_id" => $user_id]);
+        $user_detail->latitude = $data['latitude'];
+        $user_detail->longitude = $data['longitude'];
+        $user_detail->save();
+        return $user_detail;
+    }
+
     
     public static function saveUserDetail($data, $user_id) {
 
         if (isset($data['profile_pic'])) {
             unset($data['profile_pic']);
         }
-
+        
         if (isset($data['token']) && $data['type'] == 1) {
             $data['fb_token'] = ($data['token']);
         }if (isset($data['token']) && $data['type'] == 2) {
