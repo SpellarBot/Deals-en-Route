@@ -2743,6 +2743,7 @@ a.btn.btn-info.btn-fill.btn-wd.btn-create.redeemnow{width: 100%;max-width: 380px
 .mdtp__wrapper[data-theme='blue'] .mdtp__button{color:#3a5899;}
 .form-control[readonly]{background-color: #ffffff;cursor: pointer;}
 
+.no-margin{margin: 0px;}
 .pt-20{padding-top: 20px !important;}
 .pb-15{padding-bottom: 15px !important;}
 .pb-20{padding-bottom: 20px !important;}
@@ -2772,6 +2773,11 @@ div#googlegeofencing {width: calc(100% - 60px) !important;max-width: 1100px !imp
 .btn-priamry.btn-save{box-shadow: none;}
 .btn-priamry.btn-save:hover{top: 0px;background-color: #25385f;border-color: #25385f;transition: all linear 0.3s;}
 .prices .container{max-width: 1050px;}
+.horizontal-bar-chart{padding-top: 10px;}
+.horizontal-bar-chart .h-label{font-size: 10px;display: inline-block;vertical-align: middle;}
+.horizontal-bar-chart .h-label:first-child{width: 32px;}
+.horizontal-bar-chart .h-label:last-child{width: 42px;text-align: right;}
+.horizontal-bar-chart .progress{display: inline-block;width: calc(100% - 82px);}
 
 @media only screen and (min-width: 1200px) {
     .tab-pane .col-lg-8.col-md-12.col-sm-12{width: calc(100% - 460px);}

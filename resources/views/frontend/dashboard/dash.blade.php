@@ -1,6 +1,7 @@
 <div id="dashboard" class="tab-pane fade in active">
     <div class="container-fluid">
         <div class="row">
+          <?php  //print_R($total_age_wise_redeem['redeem_by_18_below_male']); exit;?>
             <div class="col-lg-8 col-md-12 col-sm-12">
                 <div class="row">
                     <div class="col-lg-12 col-xs-12">
@@ -102,7 +103,8 @@
                 <div class="card">
                     <div class="header head-coupons">
                         <h5>Redemption for ages:
-                            <span class="age-right">&lt;18</span></h5>
+                            <span class="age-right">&lt;18</span>
+                        </h5>
                     </div>
                     <div class="card-content card-content1">
                         <div class="row">
@@ -112,6 +114,18 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chartunder18" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+                            <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>{{ $total_age_wise_redeem['redeem_by_18_below_male'] }}%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{$total_age_wise_redeem['redeem_by_18_below_male']}}%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:{{$total_age_wise_redeem['redeem_by_18_below_female']}}%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>{{ $total_age_wise_redeem['redeem_by_18_below_female'] }}%</span>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -130,6 +144,18 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chart18-34" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+                            <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>{{ $total_age_wise_redeem['redeem_by_18_34_per_male'] }}%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{$total_age_wise_redeem['redeem_by_18_34_per_male']}}%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:{{ $total_age_wise_redeem['redeem_by_18_34_per_female'] }}%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>{{ $total_age_wise_redeem['redeem_by_18_34_per_female'] }}%</span>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -148,6 +174,18 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chart35-50" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+                             <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>{{ $total_age_wise_redeem['redeem_by_35_50_male'] }}%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{$total_age_wise_redeem['redeem_by_35_50_male']}}%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:{{ $total_age_wise_redeem['redeem_by_35_50_female'] }}%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>{{ $total_age_wise_redeem['redeem_by_35_50_female'] }}%</span>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -166,6 +204,18 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chartabove50" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+                         <div class="col-xs-12 horizontal-bar-chart">
+                              <div class="h-label">
+                                    male <span>{{$total_age_wise_redeem['redeem_by_above_50_male']}}%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{$total_age_wise_redeem['redeem_by_above_50_male']}}%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:{{$total_age_wise_redeem['redeem_by_above_50_female']}}%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>{{$total_age_wise_redeem['redeem_by_above_50_female']}}%</span>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
