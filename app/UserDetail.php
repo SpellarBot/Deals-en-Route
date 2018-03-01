@@ -45,8 +45,12 @@ class UserDetail extends Model {
         
         
         $user_detail = UserDetail::firstOrNew(["user_id" => $user_id]);
+        if(isset( $data['latitude']) && !empty($data['latitude'])){
         $user_detail->latitude = $data['latitude'];
+        }
+          if(isset( $data['longitude']) && !empty($data['longitude'])){
         $user_detail->longitude = $data['longitude'];
+          }
         $user_detail->save();
         return $user_detail;
     }
