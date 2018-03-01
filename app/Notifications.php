@@ -41,6 +41,7 @@ class Notifications extends Model {
 //        die;
         $messagedata = json_decode($notificaitondata['data']);
         $user = User::find($returnvalue->notifiable_id);
+     
         $unread = $user->unreadNotifications->count();
         $tokens = DeviceDetail::where('user_id', $notificaitondata['notifiable_id'])->first();
         $data = [
@@ -60,9 +61,11 @@ class Notifications extends Model {
 //        die;
        
         if (!empty($tokens)) {
-             //$tokenexplode=explode(':',$tokens->device_token);
-     
+             $tokenexplode=explode(':',$tokens->device_token);
+        
+               if(count($tokenexplode) == 1){
                self::sendAPNSNotificaiton($tokens->device_token, '', $data);
+               }
              
         }
 

@@ -21,7 +21,7 @@ class ActivityShare extends Model {
     const IS_FALSE = 0;
 
     protected $fillable = [
-        'share_id', 'activity_id', 'user_id', 'is_like'
+        'share_id', 'activity_id', 'user_id', 'is_like','sharetext'
     ];
 
     public static function addLike($data) {

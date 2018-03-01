@@ -26,7 +26,8 @@ class CouponShare extends Model {
     const IS_FALSE = 0;
 
     protected $fillable = [
-        'activity_id', 'share_id', 'share_friend_id', 'share_token_id', 'user_id'
+        'activity_id', 'share_id', 'share_friend_id', 'share_token_id', 'user_id',
+        
     ];
 
     /**
@@ -47,7 +48,7 @@ class CouponShare extends Model {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/coupon_logo/' . $value))) ? URL::to('/storage/app/public/coupon_logo') . '/' . $value : "";
     }
 
-    public static function addShareCoupon($data, $couponid, $activity) {
+    public static function addShareCoupon($data, $couponid, $activity,$sharecoupondata='') {
 
         if (isset($data) && !empty($data)) {
 
@@ -68,7 +69,9 @@ class CouponShare extends Model {
                     'user_id' => $creator_id->id,
                     'share_token_id' => $v,
                     'share_friend_id' => $fbfriend->getFbFriendId($v),
-                    'activity_id' => $activity->activity_id
+                    'activity_id' => $activity->activity_id,
+                    'coupon_id' => $couponid,
+                  //  'sharetext'=>(isset($sharecoupondata['sharetext'])?$sharecoupondata['sharetext']:'')
                 ];
             }
             $user = User::leftJoin('user_detail', 'user_detail.user_id', '=', 'users.id')
@@ -76,6 +79,7 @@ class CouponShare extends Model {
                     ->get();
 
             $coupon = Coupon::find($couponid);
+    
             $fMessage = $coupon->finalNotifyMessage(Auth::id(), '', $coupon, \Config::get('constants.NOTIFY_SHARED_COUPON'));
 
             // send notification to your friends
