@@ -13,12 +13,9 @@
     <body>
          <!--navbar-->
            <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="logo-container hidden-sm hidden-xs">
+            <div class="logo-container">
             	<div class="static-logo"></div>
             </div>
-            <div class="logo-container mobile visible-sm visible-xs">
-        		<div class="static-logo black"></div>
-        	</div>
         	<div class="social-show-container">
         		<a class="social-open" href="#">
         			<span class="hidden-xs">FOLLOW US</span> 
