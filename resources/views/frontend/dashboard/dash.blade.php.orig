@@ -114,6 +114,7 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chartunder18" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+<<<<<<< HEAD
                             <div class="col-xs-12 horizontal-bar-chart">
                                 <div class="h-label">
                                     male <span>{{ $total_age_wise_redeem['redeem_by_18_below_male'] }}%</span>
@@ -126,6 +127,20 @@
                                     Female <span>{{ $total_age_wise_redeem['redeem_by_18_below_female'] }}%</span>
                                 </div>
                             </div> 
+=======
+                            <!-- <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>40%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:60%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>60%</span>
+                                </div>
+                            </div> -->
+>>>>>>> refs/remotes/origin/master
                         </div>
                     </div>
                 </div>
@@ -144,6 +159,7 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chart18-34" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+<<<<<<< HEAD
                             <div class="col-xs-12 horizontal-bar-chart">
                                 <div class="h-label">
                                     male <span>{{ $total_age_wise_redeem['redeem_by_18_34_per_male'] }}%</span>
@@ -156,6 +172,20 @@
                                     Female <span>{{ $total_age_wise_redeem['redeem_by_18_34_per_female'] }}%</span>
                                 </div>
                             </div> 
+=======
+                            <!-- <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>40%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:60%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>60%</span>
+                                </div>
+                            </div> -->
+>>>>>>> refs/remotes/origin/master
                         </div>
                     </div>
                 </div>
@@ -174,6 +204,7 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chart35-50" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+<<<<<<< HEAD
                              <div class="col-xs-12 horizontal-bar-chart">
                                 <div class="h-label">
                                     male <span>{{ $total_age_wise_redeem['redeem_by_35_50_male'] }}%</span>
@@ -186,6 +217,20 @@
                                     Female <span>{{ $total_age_wise_redeem['redeem_by_35_50_female'] }}%</span>
                                 </div>
                             </div> 
+=======
+                            <!-- <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>40%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:60%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>60%</span>
+                                </div>
+                            </div> -->
+>>>>>>> refs/remotes/origin/master
                         </div>
                     </div>
                 </div>
@@ -204,6 +249,7 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chartabove50" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+<<<<<<< HEAD
                          <div class="col-xs-12 horizontal-bar-chart">
                               <div class="h-label">
                                     male <span>{{$total_age_wise_redeem['redeem_by_above_50_male']}}%</span>
@@ -216,6 +262,20 @@
                                     Female <span>{{$total_age_wise_redeem['redeem_by_above_50_female']}}%</span>
                                 </div>
                             </div> 
+=======
+                            <!-- <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>40%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:60%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>60%</span>
+                                </div>
+                            </div> -->
+>>>>>>> refs/remotes/origin/master
                         </div>
                     </div>
                 </div>
