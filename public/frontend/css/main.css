@@ -13208,3 +13208,17 @@ a {
 @media screen and (max-width: 1023px) {
   #scene7 img{padding-right: 0px;}
 }
+
+/*Added on 28-02-2012*/
+@media screen and (max-width: 1023px) {
+  .gif-container.toshow{display: block !important;}
+  .absolute-full-container{display: none !important;}
+  .landing .gif-container{padding:0px;}
+  .landing .gif-container > img{width: 100%;max-width: 100%;min-height: 500px;object-fit: cover;}
+  .wrapper{padding-top: 0px;}
+  .slides.video-slide{background: #e0e5e9 !important;padding-top:80px !important;}
+}
+@media screen and (max-width: 767px) {
+  .slides.video-slide{padding-top: 30px !important;}
+  .navbar-default.navbar-fixed-top .logo-container .static-logo {height: 59px;margin-top: -15px;background-size: 40px;background-repeat: no-repeat;background-position: 50%;}
+}

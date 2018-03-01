@@ -102,7 +102,8 @@
                 <div class="card">
                     <div class="header head-coupons">
                         <h5>Redemption for ages:
-                            <span class="age-right">&lt;18</span></h5>
+                            <span class="age-right">&lt;18</span>
+                        </h5>
                     </div>
                     <div class="card-content card-content1">
                         <div class="row">
@@ -112,6 +113,18 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chartunder18" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+                            <!-- <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>40%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:60%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>60%</span>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -130,6 +143,18 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chart18-34" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+                            <!-- <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>40%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:60%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>60%</span>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -148,6 +173,18 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chart35-50" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+                            <!-- <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>40%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:60%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>60%</span>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -166,6 +203,18 @@
                             <div class="col-xs-6" align="right">
                                 <div id="chartabove50" class="chart-circle1" data-percent="0"><span>0%</span></div>
                             </div>
+                            <!-- <div class="col-xs-12 horizontal-bar-chart">
+                                <div class="h-label">
+                                    male <span>40%</span>
+                                </div>
+                                <div class="progress no-margin">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%"></div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:60%"></div>
+                                </div>
+                                <div class="h-label">
+                                    Female <span>60%</span>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
