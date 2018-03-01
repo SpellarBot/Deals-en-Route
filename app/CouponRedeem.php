@@ -92,10 +92,20 @@ class CouponRedeem extends Model {
         $redeem_by_18_34 = 0;
         $redeem_by_35_50 = 0;
         $redeem_by_above_50 = 0;
+         $redeem_by_18_below_male = 0;
+        $redeem_by_18_34_male = 0;
+        $redeem_by_35_50_male = 0;
+        $redeem_by_above_50_male = 0;
+         $redeem_by_18_below_female = 0;
+        $redeem_by_18_34_female = 0;
+        $redeem_by_35_50_female = 0;
+        $redeem_by_above_50_female = 0;
+        
         $redeem_by_male = 0;
         $redeem_by_female = 0;
         foreach ($allreedemcoupons as $redeemcoupon) {
             $redeem = $redeemcoupon->getAttributes();
+          
             if ($redeem['age'] < 18) {
                 $redeem_by_18_below = $redeem_by_18_below + 1;
             } elseif ($redeem['age'] < 35 && $redeem['age'] >= 18) {
@@ -105,6 +115,24 @@ class CouponRedeem extends Model {
             } elseif ($redeem['age'] >= 50) {
                 $redeem_by_above_50 = $redeem_by_above_50 + 1;
             }
+            if ($redeem['age'] < 18 && $redeem['gender'] =='male') {
+                $redeem_by_18_below_male = $redeem_by_18_below_male + 1;
+            } elseif ($redeem['age'] < 35 && $redeem['age'] >= 18 && $redeem['gender'] =='male' ) {
+                $redeem_by_18_34_male = $redeem_by_18_34_male + 1;
+            } elseif ($redeem['age'] >= 35 && $redeem['age'] < 50 && $redeem['gender'] =='male') {
+                $redeem_by_35_50_male = $redeem_by_35_50_male + 1;
+            } elseif ($redeem['age'] >= 50 && $redeem['gender'] =='male') {
+                $redeem_by_above_50_male = $redeem_by_above_50_male + 1;
+            }
+              if ($redeem['age'] < 18 && $redeem['gender'] =='female') {
+                $redeem_by_18_below_female = $redeem_by_18_below_female + 1;
+            } elseif ($redeem['age'] < 35 && $redeem['age'] >= 18 && $redeem['gender'] =='female' ) {
+                $redeem_by_18_34_female = $redeem_by_18_34_female + 1;
+            } elseif ($redeem['age'] >= 35 && $redeem['age'] < 50 && $redeem['gender'] =='female') {
+                $redeem_by_35_50_female = $redeem_by_35_50_female + 1;
+            } elseif ($redeem['age'] >= 50 && $redeem['gender'] =='female') {
+                $redeem_by_above_50_female = $redeem_by_above_50_female + 1;
+            }
             if ($redeem['gender'] == 'male') {
                 $redeem_by_male ++;
             } else if ($redeem['gender'] == 'female') {
@@ -112,6 +140,17 @@ class CouponRedeem extends Model {
             }
         }
 
+        //male redeem
+       $data['redeem_by_18_below_male'] = ($redeem_by_18_below_male != 0) ? number_format(($redeem_by_18_below_male / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_18_34_per_male'] = ($redeem_by_18_34_male != 0) ? number_format(($redeem_by_18_34_male / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_35_50_male'] = ($redeem_by_35_50_male != 0) ? number_format(($redeem_by_35_50_male / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_above_50_male'] = ($redeem_by_above_50_male != 0) ? number_format(($redeem_by_above_50_male / $total_coupon) * 100, 2) : 0;
+        //female redeem
+       $data['redeem_by_18_below_female'] = ($redeem_by_18_below_female != 0) ? number_format(($redeem_by_18_below_female / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_18_34_per_female'] = ($redeem_by_18_34_female != 0) ? number_format(($redeem_by_18_34_female / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_35_50_female'] = ($redeem_by_35_50_female != 0) ? number_format(($redeem_by_35_50_female / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_above_50_female'] = ($redeem_by_above_50_female != 0) ? number_format(($redeem_by_above_50_female / $total_coupon) * 100, 2) : 0;
+      
         $data['redeem_by_18_below_per'] = ($redeem_by_18_below != 0) ? number_format(($redeem_by_18_below / $total_coupon) * 100, 2) : 0;
         $data['redeem_by_18_34_per'] = ($redeem_by_18_34 != 0) ? number_format(($redeem_by_18_34 / $total_coupon) * 100, 2) : 0;
         $data['redeem_by_35_50_per'] = ($redeem_by_35_50 != 0) ? number_format(($redeem_by_35_50 / $total_coupon) * 100, 2) : 0;

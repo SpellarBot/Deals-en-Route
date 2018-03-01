@@ -37,7 +37,7 @@
     <div class="content">
 
         <div class="tab-content">
-            @include('frontend/dashboard/dash',['year'=>$year])
+            @include('frontend/dashboard/dash',['year'=>$year,'total_age_wise_redeem'=>$total_age_wise_redeem])
             @include("frontend/coupon/couponlist",['coupon_lists'=>$coupon_lists])
             @include("frontend/coupon/create",['currenttime'=>$currenttime,'user_access'=>$user_access])
             <div id="settings" class="tab-pane fade in">

@@ -81,12 +81,13 @@ class HomeController extends Controller {
         $subscription = $sub_details->getAttributes();
 //        print_r($subscription);
 //        die;
-
+                $total_age_wise_redeem = \App\CouponRedeem::getAgeWiseReddemCoupon();
         return view('frontend.dashboard.main')->with(['coupon_lists' => $coupon_lists,
                     'vendor_detail' => $vendor_detail, 'country_list' => $country_list,
                     'currenttime' => $currenttime, 'year' => $year, 'user_access' => $user_access,
                     'total_geofencing' => $total_geofencing, 'total_location' => $total_location,
                     'deals_left' => $deals_left, 'subscription' => $subscription,
+                     'total_age_wise_redeem'=>$total_age_wise_redeem,
                     'hoursofoperation' => $hours_of_operations, 'hoursmsg' => $hoursflage]);
     }
 

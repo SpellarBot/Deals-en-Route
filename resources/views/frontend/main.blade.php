@@ -17,14 +17,13 @@
             <!--<nav class="arrow-section-container"><a href="#content" class="scrollTo"><i class="icon icon-arrow-down"></i></a></nav>-->
             <div class="landing scene" id="demo-slider">
                 <div class="slides video-slide active" id="content">
-                    <div class="absolute-full-container hidden-xs hidden-sm">
-                        <div class="iphone-video-container visible-lg" id="scene2">
+                    <div class="absolute-full-container hidden-sm hidden-xs">
+                        <div class="iphone-video-container" id="scene2">
                             <!-- <video class="composizione" loop muted>
                                 <source src="images/video/finale-white.mp4" type='video/mp4'>
                             </video> -->
                             <img class="composizione" src="<?php echo \Config::get('app.url') . '/public/frontend/img/images/homebanner.jpg' ?> ">
                         </div>
-                        <div class="static-video-container visible-md" id="scene5" style="background-image:url('<?php echo \Config::get('app.url') . '/public/frontend/img/images/banner.jpg' ?>')"></div>
                     </div>
                     <div class="col-left padding-bottom-mobile toshow" id="scene1">
                         <h2 class="primary-col">Deals en Route wants to bring YOU closer to your local businesses.</h2>
@@ -43,7 +42,7 @@
                         </div>
                     </div>
                     <div class="gif-container toshow visible-sm visible-xs">
-                        <img class="img-responsive" src="<?php echo \Config::get('app.url') . '/public/frontend/img/images/homebanner.jpg' ?>">
+                        <img class="img-responsive" src="<?php echo \Config::get('app.url') . '/public/frontend/img/images/homebanner1.jpg' ?>">
                     </div>
                 </div>
                 <!--second slide-->
