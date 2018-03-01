@@ -65,9 +65,9 @@ return [
     //client mail
     'CLIENT_MAIL' => 'support@dealsenroute.com',
     //activity message
-    'ACTVITY_CREATOR_MESSAGE_1' => '{{created_by}} shared {{coupon_name}} coupon with {{shared_name}}',
-    'ACTVITY_CREATOR_MESSAGE' => '{{created_by}} shared {{coupon_name}} coupon with {{shared_name}} and {{count}} others',
-    'ACTVITY_FRIEND_MESSAGE' => '{{created_by}} shared a {{coupon_name}} coupon with you ',
+    'ACTVITY_CREATOR_MESSAGE_1' => '{{created_by}} shared a deal with {{shared_name}}',
+    'ACTVITY_CREATOR_MESSAGE' => '{{created_by}} shared a deal with {{shared_name}} and {{count}} others',
+    'ACTVITY_FRIEND_MESSAGE' => '{{created_by}} shared a deal with you ',
     'ACTVITY_FRIEND_REDEEM' => 'Your friend {{created_by}} has redeemed coupon {{coupon_name}}',
     'ACTIVITY_LIKE' => '{{like_friend}} liked the coupon {{coupon_name}} shared by you.',
    
