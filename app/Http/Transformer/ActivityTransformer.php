@@ -39,6 +39,11 @@ class ActivityTransformer {
                 $count = $item->count_fb_friend - 1;
                 $count = (string) $count . " others";
             }
+            $couponshare=\App\CouponShare::where('coupon_id',$item->coupon_id)
+                    ->where('user_id',Auth::id())
+                     ->where('activity_id',$item->activity_id)
+                    ->first();
+           
             $var[] = [
                 'activity_id' => $item->activity_id ?? '',
                 'activity_name' => $fmessage,
@@ -50,7 +55,9 @@ class ActivityTransformer {
                 'creator_name' => $name,
                 'share_name' => $sharename ?? '',
                 'image' => $image,
-                'count' => $count
+                'count' => $count,
+               'sharetext'=>$item->sharetext??''
+             
             ];
         }
 

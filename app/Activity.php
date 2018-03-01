@@ -31,7 +31,7 @@ class Activity extends Model {
 
     protected $fillable = [
         'activity_id', 'coupon_id', 'activity_name_creator', 'activity_name_friends', 'total_like',
-        'total_share', 'total_comment', 'created_by'
+        'total_share', 'total_comment', 'created_by','sharetext'
     ];
 
     /**
@@ -55,6 +55,7 @@ class Activity extends Model {
         $activity->activity_name_creator = \Config::get('constants.ACTVITY_CREATOR_MESSAGE');
         $activity->activity_name_friends = \Config::get('constants.ACTVITY_FRIEND_MESSAGE');
         $activity->coupon_id = $data['coupon_id'];
+        $activity->sharetext = $data['sharetext'];
         $activity->created_by = $userid;
         $activity->save();
         return $activity;
@@ -64,7 +65,7 @@ class Activity extends Model {
 
         $userid = Auth::id();
 
-        $activity = Activity::select(['activity.activity_id', 'share_friend_id', 'total_like', 'total_share', 'activity_name_friends',
+        $activity = Activity::select(['activity.activity_id', 'share_friend_id','activity.sharetext', 'total_like', 'total_share', 'activity_name_friends',
                     'activity.created_by', 'total_comment', 'count_fb_friend', 'activity_name_creator', 'activity.coupon_id',
                     \DB::raw('(if(created_by != "' . $userid . '",activity_name_friends,activity_name_creator )) as activity_message')])
                 ->leftJoin('coupon_share', 'coupon_share.activity_id', '=', 'activity.activity_id')
@@ -102,8 +103,14 @@ class Activity extends Model {
     }
  
     public static function getActivityDetails($data) {
-      //  $idsArr=Activity::where('activity_id', $data['activity_id'])->first();
-        $activity = Activity::where('activity_id', $data['activity_id'])->first();
+        $idsArr=Activity::where('activity_id', $data['activity_id'])->first();
+        $activity = Activity::select(['activity.activity_id', 'share_friend_id', 'total_like', 'total_share', 'activity_name_friends',
+                            'activity.created_by', 'total_comment', 'count_fb_friend', 'activity_name_creator', 'activity.coupon_id',
+                            \DB::raw('(if(activity.created_by != "' . Auth::id() . '",activity_name_friends,activity_name_creator )) as activity_message')])
+                        ->leftJoin('coupon_share', 'coupon_share.activity_id', '=', 'activity.activity_id')
+        
+                        ->where('activity.activity_id', $data['activity_id'])
+                        ->first();
         return $activity;
     }
     

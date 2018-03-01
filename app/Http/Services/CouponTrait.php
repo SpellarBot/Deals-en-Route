@@ -72,7 +72,8 @@ trait CouponTrait {
         $share_friend = $this->getUserDetail($item->share_friend_id);
         $find = ['{{coupon_name}}', '{{count}}', '{{created_by}}', '{{shared_name}}'];
         if (empty($share_friend)) {
-            $replace = [$item->coupon->coupon_name, $count, $item->user->first_name . " " . $item->user->last_name
+        
+            $replace = [(!empty($item->coupon)?$item->coupon->coupon_name:'') , $count, $item->user->first_name . " " . $item->user->last_name
             ];
         } else {
             $replace = [$item->coupon->coupon_name, $count, $item->user->first_name . " " . $item->user->last_name,
@@ -118,8 +119,11 @@ trait CouponTrait {
 
         return \App\Notifications::where('notifiable_id', $toid)
                         ->where('coupon_id', $couponid)
-                        ->where('type', $type)
                         ->where(\DB::raw('date_format(created_at,"%Y-%m-%d")'), date('Y-m-d'))
+                        ->where(function($q) {
+                                $q->where(['type' => 'newcoupon'])
+                                ->orWhere('type', 'geonotification');
+                            })
                         ->count();
     }
 

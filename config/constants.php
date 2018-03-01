@@ -75,7 +75,7 @@ return [
     'SHARE_ACTIVITY' => 'shared activity successfully.',
     //notification message
     //-- geo notification
-    'NOTIFY_GEO' => [0 => 'We got a deal for you from {{vendor_name}}. Check it out!.',
+    'NOTIFY_GEO' => [0 => 'We got a deal for you from {{vendor_name}}. Check it out!',
     ],
     //-- coupon expire in fav(favorites only, do not notify about coupons expiring that are not favorited)
     'NOTIFY_FAV_EXPIRE' => '{{coupon_name}} is about to expire at {{vendor_name}}! Don’t miss the chance to save.',

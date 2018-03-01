@@ -16,7 +16,7 @@ class ActivityCommentLike extends Model {
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-    public $primaryKey = 'comment_id';
+    public $primaryKey = 'id';
     protected $fillable = [
         'id', 'comment_id', 'created_at', 'updated_at', 'is_like', 'liked_by'
     ];
@@ -35,7 +35,7 @@ class ActivityCommentLike extends Model {
                     'comment_id' => $data['comment_id']
                         ]
         );
-        if ($addlike &&  $addlike->is_like==1) {
+        if ($addlike &&  $addlike->is_like==1 &&  $addlike->comment->created_by != Auth::id() ) {
             self::sendLikeNotification($addlike, 'activitycommentlike', \Config::get('constants.COMMENT_LIKE'));
         }
         return $addlike;

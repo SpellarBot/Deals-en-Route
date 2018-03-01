@@ -201,7 +201,7 @@ class AdminController extends Controller {
     public function disableUser($id, $type)
     {
 
-        $data = User::where('id', $id)->update(['is_active' => 0]);
+        $data = User::where('id', $id)->update(['is_active' => 0,'api_token' => '']);
         if ($type == 'user')
         {
             return redirect('admin/user-detail/' . $id);
