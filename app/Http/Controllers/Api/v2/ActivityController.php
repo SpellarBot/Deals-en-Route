@@ -35,7 +35,7 @@ class ActivityController extends Controller {
             $activity = \App\Activity::addActivity($data, $user);
             $fbfriend = $data['fb_friend'];
             $exp = explode(',', $fbfriend);
-            \App\CouponShare::addShareCoupon($exp, $data['coupon_id'], $activity);
+            \App\CouponShare::addShareCoupon($exp, $data['coupon_id'], $activity,$data);
             return $this->responseJson('success', \Config::get('constants.ADD_FB_FRIEND'), 200);
         } catch (\Exception $e) {
             //throw $e;
@@ -60,7 +60,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.NO_RECORDS'), 200);
         } catch (\Exception $e) {
-            // throw $e;
+             throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -76,7 +76,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-            throw $e;
+           // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -101,7 +101,7 @@ class ActivityController extends Controller {
         try {
             // get the request
             $data = $request->all();
-
+           $flag=0;
             //add comment
             $comment = new \App\Comment();
             $comment->created_by = Auth::id();
@@ -109,9 +109,12 @@ class ActivityController extends Controller {
 
             if ($comment->save()) {
                 if (array_key_exists('parent_id', $data) && !empty($data['parent_id'])) {
+                   $flag=1;
                     $comment->parent_id = $data['parent_id'];
                     $commentid = $data['parent_id'];
+                  
                 } else {
+                     $flag=0;
                     $comment->parent_id = $comment->comment_id;
                     $commentid = $comment->comment_id;
                 }
@@ -120,7 +123,12 @@ class ActivityController extends Controller {
                 $activity->total_comment = $this->getCommentCount($data['activity_id']);
                 $activity->save(); 
                 if ($activity->save()) {
-                   // \App\ActivityShare::sendActivityNotification($activity, 'activitycomment', \Config::get('constants.ACTIVITY_COMMENT'), $comment);
+                    if($flag==1){
+                           $activitycomment= \App\Comment::find($comment->parent_id);
+                           if($activitycomment->created_by != Auth::id()){
+                           \App\DealComments::sendReplyCommentNotification($activitycomment->created_by,$comment,'activitylike');
+                           }
+                    }
                     if (isset($data['tag_user_id']) && !empty($data['tag_user_id'])) {
                
                         $ids_arr = explode(',', $data['tag_user_id']);
@@ -132,7 +140,7 @@ class ActivityController extends Controller {
             }
             return $this->responseJson('success', \Config::get('constants.APP_ERROR'), 400);
         } catch (\Exception $e) {
-            throw $e;
+           // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
     }
@@ -159,6 +167,15 @@ class ActivityController extends Controller {
     public function shareActivity(Request $request) {
         $data = $request->all();
         \App\Activity::where('activity_id', $data['activity_id'])->increment('total_share');
+//            $addlike = ActivityShare::updateOrCreate([
+//                    'activity_id' => $data['activity_id'],
+//                    'user_id' => Auth::id()
+//                        ], [
+//                    'activity_id' => $data['activity_id'],
+//                    'user_id' => Auth::id(),
+//                     'sharetext'=> $data['sharetext']      
+//                        ]
+//        );
         return $this->responseJson('success', \Config::get('constants.SHARE_ACTIVITY'), 200);
     }
 
@@ -190,6 +207,7 @@ class ActivityController extends Controller {
             $comment->fill($data);
 
             if ($comment->save()) {
+                
                 if (isset($data['tag_user_id']) && !empty($data['tag_user_id'])) {
                     $ids_arr = explode(',', $data['tag_user_id']);
                     \App\DealComments::sendTagActivityCommentNotification($ids_arr, $comment);
@@ -198,7 +216,12 @@ class ActivityController extends Controller {
 //                        ->update(['total_comment' => $this->getCommentCount($data['activity_id'])]);
 
                 $commentid = ($comment->parent_id == $comment->comment_id) ? $comment->comment_id : $comment->parent_id;
-
+if($comment->parent_id != $comment->comment_id){
+                           $activitycomment= \App\Comment::find($comment->parent_id);
+                           if($activitycomment->created_by != Auth::id()){
+                           \App\DealComments::sendReplyCommentNotification($activitycomment->created_by,$comment,'activitylike');
+                           }
+                    }
                 $commentresponse = $comment->getActivityComment($comment->activity_id, $commentid);
                 return $this->responseJson('success', \Config::get('constants.COMMENT_UPDATE'), 200, $commentresponse);
             }

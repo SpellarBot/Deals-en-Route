@@ -45,6 +45,12 @@ class DealComments extends Model {
         if (array_key_exists('parent_id', $data) && !empty($data['parent_id'])) {
             $addComment->parent_id = $data['parent_id'];
             $commentid = $data['parent_id'];
+            
+            $activitycomment= \App\DealComments::find($commentid);
+            if($activitycomment->comment_by != Auth::id()){
+            \App\DealComments::sendReplyCommentNotification($activitycomment->comment_by,$addComment,'dealcommentlike');
+            }
+     
         } else {
             $addComment->parent_id = $addComment->id;
             $commentid = $addComment->id;
@@ -64,9 +70,16 @@ class DealComments extends Model {
             $ids_arr = explode(',', $data['tag_user_id']);
             self::sendTagDealCommentNotification($ids_arr, $editComment->coupon_id, $editComment);
         }
+        
         if ($editComment->save()) {
             $commentid = ($editComment->parent_id == $editComment->id) ? $editComment->id : $editComment->parent_id;
-
+            if($editComment->parent_id != $editComment->id) {
+            $activitycomment= \App\DealComments::find($editComment->parent_id);
+            if($activitycomment->comment_by != Auth::id()){
+            \App\DealComments::sendReplyCommentNotification($activitycomment->comment_by,$editComment,'dealcommentlike');
+            }
+            }
+            
             return self::getDealListById($editComment->coupon_id, $commentid);
         }
     }
@@ -141,6 +154,23 @@ class DealComments extends Model {
             'image' => $activity->showImage($userfromnotify->userdetail->profile_pic, 'profile_pic'),
             'comment_id' => $activity->comment_id,
             'activity_id' => $activity->activity_id
+        ]));
+    }
+    
+    
+     public static function sendReplyCommentNotification($toid,$activity,$type) {
+          $userfromnotify = User::find(Auth::id());
+        $usertonotifiy = User::where('id', $toid)->first();
+
+        $message = \Config::get('constants.NOTIFY_TAG_MESSAGE');
+        Notification::send($usertonotifiy, new FcmNotification([
+            'type' => $type,
+            'notification_message' => $message,
+            'message' => $activity->finalTagMessage($userfromnotify, '', '', $message),
+            'image' => $activity->showImage($userfromnotify->userdetail->profile_pic, 'profile_pic'),
+            'comment_id' => $activity->comment_id ?? '',
+            'activity_id' => $activity->activity_id ?? '',
+            'coupon_id'=>$activity->coupon_id ?? ''
         ]));
     }
 
