@@ -163,6 +163,10 @@ trait CouponTrait {
             $array['geolocationtotal'] = 0;
             $array['geofencingtotal'] = 0;
             $array['dealstotal'] = 0;
+            $array['additionalgeolocation']=0;
+           $array['additionalgeofencing']=0;
+            $array['basicgeolocation']=0;
+           $array['basicgeofencing']=0;
         } else {
             $currentpackagedeal = $vendor_detail->userSubscription[0]->deals + $add_ons[0]->dealstotal;
             $previousleftdeal = $vendor_detail->deals_used;
