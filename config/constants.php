@@ -110,6 +110,8 @@ return [
     //stripe keys
     'STRIPE_KEY' => 'pk_test_dvnwoMABEgschsRqPZRuGJrp',
     'STRIPE_SECRET' => 'sk_test_ZBNhTnKmE3hEkk26awNMDdcc',
+//    'STRIPE_KEY' => 'pk_live_MvsCVfHKvkZSPymAkYRhPTjA',
+//    'STRIPE_SECRET' => 'sk_live_ToUALteP5Y8K2zFhxFYbUf9Z',
     'STRIPE_VERSION' => '2017-08-15',
     'DATE_FORMAT' => 'n/j/y - g:00 A',
     'SETTINGS' => 'Settings Page Details!',
