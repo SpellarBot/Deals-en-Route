@@ -45,7 +45,7 @@ return [
       | your application so that it is used when running Artisan tasks.
       |
      */
-    'url' => 'http://dealsenroute.com/',
+    'url' => 'https://dealsenroute.com/',
     /*
       |--------------------------------------------------------------------------
       | Application Timezone
