@@ -140,9 +140,9 @@ class Coupon extends Model {
                 ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
                 ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
                 ->havingRaw('( coupon_radius >= distance or coupon_id in ( ' . $ex . ' ) )');
-        if (isset($data['category_id'])) {
+        if (isset($data['category_id']) && !empty($data['category_id'])) {
               if(!empty($idsArr)){
-            $query->where('coupon_category_id', $idsArr);
+            $query->where('coupon_category_id', $data['category_id']);
               }
         } else if (isset($data['search'])) {
             $keyword = $data['search'];
