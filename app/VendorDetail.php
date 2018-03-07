@@ -147,7 +147,12 @@ class VendorDetail extends Model {
         $response1 = json_decode($response);
         
         $streetaddress="";
-        foreach($response1->results[0]->address_components as $element){
+        
+    
+     
+       // $response1->results[0]->route
+        if ($response1->status != 'ZERO_RESULTS') {
+             foreach($response1->results[0]->address_components as $element){
 
        if(($element->types[0]=='street_number')){
             $streetaddress .=$element->long_name. ",";
@@ -160,11 +165,7 @@ class VendorDetail extends Model {
             $streetaddress .=$element->long_name.",";
         }
         }
-        
-       $streetaddress=  substr($streetaddress, 0, -1);
-     
-       // $response1->results[0]->route
-        if ($response1->status != 'ZERO_RESULTS') {
+           $streetaddress=  substr($streetaddress, 0, -1);
             $model->vendor_street_address=$streetaddress;
             $model->vendor_lat = $response1->results[0]->geometry->location->lat;
             $model->vendor_long = $response1->results[0]->geometry->location->lng;
