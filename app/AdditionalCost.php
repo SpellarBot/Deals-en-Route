@@ -93,6 +93,7 @@ class AdditionalCost extends Model {
             $additonal_left = $vendordetail->additional_geo_fencing_total - $vendordetail->additional_geo_fencing_used;
             return $additonal_left;
         }
+        return 0;
      
     }
 
@@ -127,7 +128,7 @@ class AdditionalCost extends Model {
 //        }
 //        return $additonal_left_location;
         $id=(!empty($id))?$id:Auth::id();
-        $vendordetail = VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+        $vendordetail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
                 ->join('subscriptions', 'subscriptions.stripe_id', 'stripe_users.stripe_id')
                 ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
                 ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
@@ -137,7 +138,7 @@ class AdditionalCost extends Model {
           $additonal_left = $vendordetail->additional_geo_location_total - $vendordetail->additional_geo_location_used;
           return $additonal_left;
          }
-        
+        return 0; 
     }
 
     public static function getAdditionalLocationCost($used_plan, $user_access, $data) {
