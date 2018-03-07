@@ -141,9 +141,9 @@ class Coupon extends Model {
                 ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
                 ->havingRaw('( coupon_radius >= distance or coupon_id in ( ' . $ex . ' ) )');
         if (isset($data['category_id']) && !empty($data['category_id'])) {
-              if(!empty($idsArr)){
-            $query->where('coupon_category_id', $data['category_id']);
-              }
+             
+            $query->where('coupon_category_id','=', $data['category_id']);
+              
         } else if (isset($data['search'])) {
             $keyword = $data['search'];
              if(!empty($idsArr)){
