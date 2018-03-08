@@ -20,18 +20,13 @@ class CityRequest extends Model {
     ];
 
     public static function cityRequest($cityid) {
-
-        $cityre=CityRequest::where('requested_by',Auth::id())->first();
-        if(!empty($cityre)){
-           $city=CityRequest::where('requested_by',Auth::id())->first();  
-        }else {
-        $city= new CityRequest();
-        
-        }
-        $city->city_request_id=$cityid;
-       $city->requested_by=Auth::id();
-       $city->save();
-        return $city;
+   $cityrequest = CityRequest::updateOrCreate(
+                        ['requested_by' => Auth::id()],
+                        ['city_request_id' => $cityid]
+        );
+   
+    
+        return $cityrequest;
     }
 
 }

@@ -121,7 +121,7 @@ return [
     
     // set apns param
     
-//    'APNS_HOST'=>'gateway.sandbox.push.apple.com',
+    //'APNS_HOST'=>'gateway.sandbox.push.apple.com',
     'APNS_HOST'=>'gateway.push.apple.com',
     'APNS_PASSWORD'=>'123456'
 ];
