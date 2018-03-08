@@ -206,11 +206,9 @@
                                                <div class="form-group clearfix">
                                                    <label class="col-sm-2 control-label">Add Cities</label>
                                                    <div class="col-sm-10">
-                                                       <select style="display: none;" id="city" multiple name="active_city[]" class="chosen-select form-control" value="Select Cities or City">
-                                                           @foreach($city_list_inactive as $row)
-                                                           <option value="{{$row->id}}">{{$row->name}}</option>
-                                                           @endforeach
-                                                       </select>
+                                                       <input name="active_city" class="form-control" id="autocomplete" placeholder="Enter your address" accept="" type="text"></input>
+                                                       <input name="state" id="administrative_area_level_1" placeholder="Enter your address" type="hidden">
+                                                       <input name="country"  id="country" placeholder="Enter your address" type="hidden">
                                                    <span id="city_error" style="color: red;display: none;">Please select any city name</span>
                                                    </div>
                                                    
@@ -223,7 +221,7 @@
                                            </div></form>
                                        <script type="text/javascript">
                                            function savecity(){
-                                               if($('#city').val()){
+                                               if($('#autocomplete').val()){
                                                    $('#city_data').submit();
                                                }else{
                                                   
@@ -404,5 +402,55 @@
             $("#accept").attr("href","{{ url('/admin/deactiveCity') }}" + "/" +id);
         }
         </script>
+        <script>
+      // This example displays an address form, using the autocomplete feature
+      // of the Google Places API to help users fill in the information.
+
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+var placeSearch, autocomplete;
+      var componentForm = {
+        administrative_area_level_1: 'long_name',
+        country: 'long_name',
+
+      };
+
+      function initAutocomplete() {
+var options = {
+  types: ['(cities)'],
+
+ };
+
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+            options);
+
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+        autocomplete.addListener('place_changed', fillInAddress);
+      }
+
+      function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+
+        // Get each component of the address from the place details
+        // and fill the corresponding field on the form.
+
+        for (var i = 0; i < place.address_components.length; i++) {
+          var addressType = place.address_components[i].types[0];
+          if (componentForm[addressType]) {
+            var val = place.address_components[i][componentForm[addressType]];
+           document.getElementById(addressType).value = val;
+
+          }
+        }
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1hYf7GbkkdcPKVxJ_6SS34XOdMQNCyp4&libraries=places&callback=initAutocomplete"
+        async defer></script>
    </body>
 </html>
