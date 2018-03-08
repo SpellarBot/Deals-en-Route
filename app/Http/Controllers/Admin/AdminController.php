@@ -286,7 +286,7 @@ class AdminController extends Controller {
         }
         $data['city_list_inactive'] = City::where('is_active', 0)->get();
         $data['city_list_active'] = City::where('is_active', 1)->paginate(10);
-        $data['city_request'] = CityRequest::leftjoin('user_detail', 'user_detail.user_id', 'city_request.requested_by')->leftjoin('city', 'city.id', 'city_request.city_request_id')->orderby('city_request.id','desc')->select(['first_name', 'last_name', 'name'])->paginate(10);
+        $data['city_request'] = CityRequest::leftjoin('user_detail', 'user_detail.user_id', 'city_request.requested_by')->select(['first_name', 'last_name', 'city_request_id AS name'])->orderby('city_request.id','DESC')->paginate(10);
         //echo '<pre>';print_r($data['city_request']);exit;
         return view('admin.cities', $data);
     }
@@ -295,19 +295,17 @@ class AdminController extends Controller {
     {
         if (Input::get('active_city') != '')
         {
-            foreach (Input::get('active_city') as $row)
-            {
-                $data = City::where('id', $row)->update(['is_active' => 1]);
-            }
+            $name = explode(",", Input::get('active_city'));
+            $iQuery = City::insert(['name' => $name[0], 'county' => Input::get("country"), 'state' => Input::get("state"), 'is_active' => 1]);
             return redirect('admin/city?msg=Added Sucessfully');
         }
     }
 
     public function deactiveCity($id)
     {
-        if ($id)
+        if ($id > 0)
         {
-            City::where('id', $id)->update(['is_active' => 0]);
+            City::where('id', $id)->delete();
             return redirect('admin/city?msg=Removed Successfully');
         }
     }
