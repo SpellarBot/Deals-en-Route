@@ -175,8 +175,8 @@
                Cities
                <small class="sub-title">
                 @if($msg != '')
-                    <div id="success-alert" style="margin-top: -28px; display: none;" class="pull-right alert alert-success" >
-                         <strong>Success!</strong> {{$msg}}
+                    <div id="success-alert" style="margin-top: -28px; display: none;" class="pull-right alert  {{$_GET['class']}}" >
+                          {{$msg}}
                      </div>
                 @endif
                </small>
@@ -371,7 +371,7 @@
         placeholder_text_multiple: "Select Cities or City"
       });
       
-      $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+      $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
                             $("#success-alert").slideUp(500);
                         });
       });
@@ -419,7 +419,7 @@ var placeSearch, autocomplete;
       function initAutocomplete() {
 var options = {
   types: ['(cities)'],
-
+  componentRestrictions: {country: "us"}
  };
 
         // Create the autocomplete object, restricting the search to geographical

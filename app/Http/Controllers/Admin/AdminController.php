@@ -281,6 +281,7 @@ class AdminController extends Controller {
     public function citylist()
     {
         $data['msg'] = '';
+        $data['class'] = '';
         if(Input::get('msg')){
            $data['msg'] = Input::get('msg');
         }
@@ -296,8 +297,14 @@ class AdminController extends Controller {
         if (Input::get('active_city') != '')
         {
             $name = explode(",", Input::get('active_city'));
-            $iQuery = City::insert(['name' => $name[0], 'county' => Input::get("country"), 'state' => Input::get("state"), 'is_active' => 1]);
-            return redirect('admin/city?msg=Added Sucessfully');
+            $check = City::where('name',$name[0])->get();
+            if(count($check) > 0){
+                return redirect('admin/city?msg=Already Active !&class=alert-warning');  
+            }else{
+                $iQuery = City::insert(['name' => $name[0], 'county' => Input::get("country"), 'state' => Input::get("state"), 'is_active' => 1]);
+                return redirect('admin/city?msg=Added Sucessfully !&class=alert-success');  
+            }
+            
         }
     }
 
@@ -306,7 +313,7 @@ class AdminController extends Controller {
         if ($id > 0)
         {
             City::where('id', $id)->delete();
-            return redirect('admin/city?msg=Removed Successfully');
+            return redirect('admin/city?msg=Removed Successfully !&class=alert-danger');
         }
     }
 
