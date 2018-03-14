@@ -297,9 +297,9 @@ class AdminController extends Controller {
         if (Input::get('active_city') != '')
         {
             $name = explode(",", Input::get('active_city'));
-            $check = City::where('name',$name[0])->get();
+            $check = City::where('name',$name[0])->where('state',Input::get("state"))->where('county',Input::get("country"))->get();
             if(count($check) > 0){
-                return redirect('admin/city?msg=Already Active !&class=alert-warning');  
+                return redirect('admin/city?msg=City Already Exist !&class=alert-warning');  
             }else{
                 $iQuery = City::insert(['name' => $name[0], 'county' => Input::get("country"), 'state' => Input::get("state"), 'is_active' => 1]);
                 return redirect('admin/city?msg=Added Sucessfully !&class=alert-success');  

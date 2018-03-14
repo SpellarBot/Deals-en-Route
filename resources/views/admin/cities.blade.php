@@ -243,6 +243,8 @@
                                                       <thead>
                                                          <tr>
                                                             <th>City Name</th>
+                                                            <th>State</th>
+                                                            <th>country</th>
                                                             <th class="text-center">Action</th>
                                                          </tr>
                                                       </thead>
@@ -250,6 +252,8 @@
                                                       @foreach($city_list_active as $row)
                                                          <tr>
                                                              <td>{{$row->name}}</td>
+                                                             <td>{{$row->state}}</td>
+                                                             <td>{{$row->county}}</td>
                                                              <td class="text-center"><a onclick="delete_city('{{$row->id}}','{{$row->name}}');" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
                                                          </tr>
                                                       @endforeach
@@ -363,10 +367,15 @@
       <script src="{{ asset('vendor/admin/chosen_v1.2.0/chosen.jquery.min.js') }}"></script>
       <!-- =============== APP SCRIPTS ===============-->
       <script src="{{ asset('js/admin/app.js') }}"></script>
-      <!--<script src="{{ asset('js/admin//cusom.js') }}"></script>-->
+<!--      <script src="{{ asset('js/admin//cusom.js') }}"></script>-->
       <script>
       $(document).ready(function() {
-         
+        $(window).keydown(function(event){
+         if(event.keyCode == 13) {
+           event.preventDefault();
+           return false;
+         }
+       });
       $('.chosen-select').chosen({
         placeholder_text_multiple: "Select Cities or City"
       });
