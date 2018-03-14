@@ -162,7 +162,7 @@ $(document).ready(function () {
             type: 'POST',
             data: formData,
             success: function (data) {
-                console.log(data);
+             
                 $(".form-group").removeClass('has-error');
                 $(".input-group").removeClass('has-error');
                 $(".help-block").html('');
@@ -172,14 +172,14 @@ $(document).ready(function () {
                     setTimeout(function () {
                         $('.alert-success').fadeOut('slow');
                     }, 10000);
-                    $('.successmessage').html(response.message);
+                    $('.successmessage').html(data.message);
                 } else {
                     $('.alert-danger').show();
                     setTimeout(function () {
                         $('.alert-danger').fadeOut('slow');
                     }, 10000);
 
-                    $('.errormessage').html(response.message);
+                    $('.errormessage').html(data.message);
                 }
             },
             beforeSend: function () {
