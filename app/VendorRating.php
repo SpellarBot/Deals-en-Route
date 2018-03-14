@@ -24,7 +24,7 @@ class VendorRating extends Model {
                     'vendor_id' => $data['vendor_id'],
                     'user_id' => auth()->id()], ['user_id' => auth()->id(),
                     'vendor_id' => $data['vendor_id'],
-                    'rating' => (int) $data['rating'],
+                    'rating' => $data['rating'],
                     'comments' => $data['comment']
                         ]
         );

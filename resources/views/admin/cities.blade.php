@@ -419,7 +419,7 @@ var placeSearch, autocomplete;
       function initAutocomplete() {
 var options = {
   types: ['(cities)'],
-  componentRestrictions: {country: "us"}
+  //componentRestrictions: {country: "us"}
  };
 
         // Create the autocomplete object, restricting the search to geographical
