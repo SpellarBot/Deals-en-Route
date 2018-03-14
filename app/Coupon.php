@@ -112,7 +112,10 @@ class Coupon extends Model {
                         ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
                         //->havingRaw('coupon_radius >= distance')
                         ->groupBy('coupon_id')->get()->toArray();
+   
         foreach ($couponlist as $couponlists) {
+              $xAxis = [];
+              $yAxis = [];
             $jsonDecode = json_decode($couponlists['coupon_notification_point']);
 
             foreach ($jsonDecode as $keyJson => $valueJson) {
@@ -132,6 +135,7 @@ class Coupon extends Model {
                 $coupontotal[] = $couponlists['coupon_id'];
             }
         }
+     
         $ex = (!empty($coupontotal) ? implode(',', $coupontotal) : 0);
         $query = Coupon::active()->deleted()->select(DB::raw('coupon.coupon_id,coupon_radius,coupon_start_date,coupon_end_date,coupon_detail,(coupon_redeem_limit - coupon_total_redeem) as remaining_coupons,coupon_code,coupon_end_date,'
                                 . 'coupon_name,coupon_logo,created_by,coupon_lat,coupon_original_price,coupon_total_discount,'
@@ -140,6 +144,7 @@ class Coupon extends Model {
                 ->where(\DB::raw('TIMESTAMP(`coupon_end_date`)'), '>=', date('Y-m-d H:i:s'))
                 ->whereColumn('coupon_total_redeem', '<', 'coupon_redeem_limit')
                 ->havingRaw('( coupon_radius >= distance or coupon_id in ( ' . $ex . ' ) )');
+         
         if (isset($data['category_id']) && !empty($data['category_id'])) {
              
             $query->where('coupon_category_id','=', $data['category_id']);

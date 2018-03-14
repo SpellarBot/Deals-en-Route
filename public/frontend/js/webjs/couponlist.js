@@ -221,7 +221,11 @@ $(document).ready(function() {
 // date picker
 $(document).on("focus", ".datepicker", function() {
     var date = new Date();
+    curentdateaddhours=date.setHours(new Date().getHours()+1);
+    MyDate = new Date(curentdateaddhours); 
+    addhours = moment(MyDate, 'M/D/YY - h:00 A');
     var currentdate = $("#couponenddate").val();
+    currentdate= (currentdate =='')?addhours:currentdate;
     var startdate = $('#couponstartdate').val();
     var start = new Date(date.getTime());
     if (startdate == '') {
