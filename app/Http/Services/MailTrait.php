@@ -22,6 +22,7 @@ use App\Mail\AdditionFeaturePurchaseFailed;
 use App\Mail\ResendInvoice;
 use App\Mail\CategoryAccept;
 use App\Mail\CategoryReject;
+use App\Mail\Citystatus;
 
 trait MailTrait {
 
@@ -65,6 +66,8 @@ trait MailTrait {
             Mail::to($array_mail['to'])->send(new CategoryAccept($array_mail['data']));
         }else if ($array_mail['type'] == 'category_reject') {
             Mail::to($array_mail['to'])->send(new CategoryReject($array_mail['data']));
+        }else if ($array_mail['type'] == 'city_status') {
+            Mail::to($array_mail['to'])->send(new Citystatus($array_mail['data']));
         }
     }
 
