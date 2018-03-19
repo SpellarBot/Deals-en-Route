@@ -420,7 +420,7 @@ class AdminController extends Controller {
         foreach ($data as $row)
         {
             //echo $row->email;
-            $array_mail = ['to' => 'nilay@solulab.com', //Input::get('email'),
+            $array_mail = ['to' => $row->email, //Input::get('email'),
                 'type' => 'city_status',
                 'data' => ['status' => $status]
             ];
