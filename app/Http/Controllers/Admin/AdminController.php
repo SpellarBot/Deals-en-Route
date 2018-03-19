@@ -26,6 +26,7 @@ use App\VendorDetail;
 class AdminController extends Controller {
 
     use ImageTrait;
+    use \App\Http\Services\MailTrait;
 
     //
     public function userlist()
@@ -201,7 +202,7 @@ class AdminController extends Controller {
     public function disableUser($id, $type)
     {
 
-        $data = User::where('id', $id)->update(['is_active' => 0,'api_token' => '']);
+        $data = User::where('id', $id)->update(['is_active' => 0, 'api_token' => '']);
         if ($type == 'user')
         {
             return redirect('admin/user-detail/' . $id);
@@ -282,29 +283,148 @@ class AdminController extends Controller {
     {
         $data['msg'] = '';
         $data['class'] = '';
-        if(Input::get('msg')){
-           $data['msg'] = Input::get('msg');
+        if (Input::get('msg'))
+        {
+            $data['msg'] = Input::get('msg');
         }
         $data['city_list_inactive'] = City::where('is_active', 0)->get();
+        $data['decline_city'] = City::where('is_active', 0)->where('is_cancel', 1)->get();
+        foreach ($data['decline_city'] as $row)
+        {
+            $row->count = CityRequest::where('city', $row->name)->where('state_code', $row->state_code)->where('country', $row->county)->where('is_review', 1)->count();
+        }
+        //echo '<pre>';print_r($data['decline_city']);exit;
         $data['city_list_active'] = City::where('is_active', 1)->paginate(10);
-        $data['city_request'] = CityRequest::leftjoin('user_detail', 'user_detail.user_id', 'city_request.requested_by')->select(['first_name', 'last_name', 'city_request_id AS name'])->orderby('city_request.id','DESC')->paginate(10);
+        $data['city_request'] = CityRequest::where('is_review', 0)->groupby('city_request_id')->select(['*', DB::raw('COUNT(city_request_id) as count')])->orderby('id', 'DESC')->paginate(10);
         //echo '<pre>';print_r($data['city_request']);exit;
         return view('admin.cities', $data);
+    }
+
+    function getRequestUser()
+    {
+        //print_r( Input::get());exit;
+        $city = '';
+        $state = '';
+        $country = '';
+        $is_review = Input::get('is_review');
+        if (Input::get('city'))
+        {
+            $city = Input::get('city');
+        }
+        if (Input::get('state'))
+        {
+            $state = Input::get('state');
+        }
+        if (Input::get('country'))
+        {
+            $country = Input::get('country');
+        }
+
+        $data = CityRequest::where('city', $city)
+                ->where('state_code', $state)
+                ->where('country', $country)
+                ->where('is_review', $is_review)
+                ->leftjoin('user_detail', 'user_detail.user_id', 'city_request.requested_by')
+                ->select(['first_name', 'last_name', 'city_request_id AS name', DB::raw('DATE_FORMAT(city_request.created_at, "%m-%d-%Y") as date')])
+                ->orderby('city_request.id', 'DESC')
+                ->get();
+        return $data;
     }
 
     public function activeCity()
     {
         if (Input::get('active_city') != '')
         {
-            $name = explode(",", Input::get('active_city'));
-            $check = City::where('name',$name[0])->where('state',Input::get("state"))->where('county',Input::get("country"))->get();
-            if(count($check) > 0){
-                return redirect('admin/city?msg=City Already Exist !&class=alert-warning');  
-            }else{
-                $iQuery = City::insert(['name' => $name[0], 'county' => Input::get("country"), 'state' => Input::get("state"), 'is_active' => 1]);
-                return redirect('admin/city?msg=Added Sucessfully !&class=alert-success');  
+            $response = \GoogleMaps::load('geocoding')
+                    ->setParam(['address' => Input::get('active_city')])
+                    ->get();
+            $data = json_decode($response);
+            //echo '<pre>';
+
+
+            $city = '';
+            $state = '';
+            $state_code = '';
+            $country = '';
+
+            $data = $data->results[0]->address_components;
+            foreach ($data as $row)
+            {
+                if (in_array("locality", $row->types))
+                {
+                    $city = $row->long_name;
+                }
+                if (in_array("administrative_area_level_1", $row->types))
+                {
+                    $state = $row->long_name;
+                    $state_code = $row->short_name;
+                }
+                if (in_array("country", $row->types))
+                {
+                    $country = $row->long_name;
+                }
             }
-            
+
+            $mailuser = CityRequest::where('city', $city)
+                    ->where('state_code', $state_code)
+                    ->where('country', $country)
+                    ->where('is_review', 0)
+                    ->leftjoin('users', 'users.id', 'city_request.requested_by')
+                    ->get(['users.email']);
+
+            if (Input::get('is_cancel'))
+            {
+                $check = City::where('name', $city)->where('state_code', $state_code)->where('county', $country)->get();
+                if (count($check) > 0)
+                {
+                    $this->citymail($mailuser, 'Your request for city <span style="color: red;">`' . $city . '`</span> has been decline.');
+                    CityRequest::where('city', $city)->where('state_code', $state_code)->where('country', $country)->update(['is_review' => 1]);
+
+                    return redirect('admin/city?msg=City Already canceled !&class=alert-warning');
+                } else
+                {
+                    $iQuery = City::insert(['name' => $city, 'state' => $state, 'state_code' => $state_code, 'county' => $country, 'is_active' => 0, 'is_cancel' => 1]);
+
+                    $this->citymail($mailuser, 'Your request for city <span style="color: red;">`' . $city . '`</span> has been decline.');
+                    CityRequest::where('city', $city)->where('state_code', $state_code)->where('country', $country)->update(['is_review' => 1]);
+
+                    return redirect('admin/city?msg=Added Sucessfully !&class=alert-success');
+                }
+            }
+
+            $check = City::where('name', $city)->where('state_code', $state_code)->where('county', $country)->first();
+            if (count($check) > 0)
+            {
+                if ($check->is_cancel == 1)
+                {
+                    $this->citymail($mailuser, 'Your request for city <span style="color: Green;">`' . $city . '`</span> has been accepted.');
+                    CityRequest::where('city', $city)->where('state_code', $state_code)->where('country', $country)->update(['is_review' => 1]);
+                    City::where('name', $city)->where('state_code', $state_code)->where('county', $country)->update(['is_cancel' => 0 ,'is_active' => 1]);
+                    return redirect('admin/city?msg=Added Sucessfully !&class=alert-success');
+                }
+                return redirect('admin/city?msg=City Already Exist !&class=alert-warning');
+            } else
+            {
+                $iQuery = City::insert(['name' => $city, 'state' => $state, 'state_code' => $state_code, 'county' => $country, 'is_active' => 1]);
+                CityRequest::where('city', $city)->where('state_code', $state_code)->where('country', $country)->update(['is_review' => 1]);
+
+                $this->citymail($mailuser, 'Your request for city <span style="color: Green;">`' . $city . '`</span> has been accepted.');
+                return redirect('admin/city?msg=Added Sucessfully !&class=alert-success');
+            }
+        }
+    }
+
+    public function citymail($data, $status)
+    {
+
+        foreach ($data as $row)
+        {
+            //echo $row->email;
+            $array_mail = ['to' => 'nilay@solulab.com', //Input::get('email'),
+                'type' => 'city_status',
+                'data' => ['status' => $status]
+            ];
+            $this->sendMail($array_mail);
         }
     }
 
@@ -317,7 +437,7 @@ class AdminController extends Controller {
         }
     }
 
-    public function payment() 
+    public function payment()
     {
         $data['vendor_val'] = '';
         $data['payment_type_val'] = '';
@@ -349,21 +469,21 @@ class AdminController extends Controller {
         {
             $start_date = date('Y-m-d', strtotime(Input::get('date_start')));
             $end_date = date('Y-m-d', strtotime(Input::get('date_end')));
-            $data['paylist'] = $data['paylist']->where(\DB::raw('DATE(paymentinfo.created_at)'), '>=', $start_date)->where(\DB::raw('DATE(paymentinfo.created_at)'), '<=', $end_date);//whereBetween('paymentinfo.created_at', [$start_date, $end_date]);
-            
-            
-            
+            $data['paylist'] = $data['paylist']->where(\DB::raw('DATE(paymentinfo.created_at)'), '>=', $start_date)->where(\DB::raw('DATE(paymentinfo.created_at)'), '<=', $end_date); //whereBetween('paymentinfo.created_at', [$start_date, $end_date]);
+
+
+
             $data['date_start_val'] = Input::get('date_start');
             $data['date_end_val'] = Input::get('date_end');
         }
         if (Input::get('is_pdf') != '' && Input::get('is_pdf') > 0)
         {
-            $data['paylist'] = $data['paylist']->select(['*','paymentinfo.created_at as created_at'])->orderby('paymentinfo.created_at','DESC')->get();
+            $data['paylist'] = $data['paylist']->select(['*', 'paymentinfo.created_at as created_at'])->orderby('paymentinfo.created_at', 'DESC')->get();
             $pdf = PDF::loadView('admin.payments-pdf', $data);
             return $pdf->download('payment-list.pdf');
         }
 
-        $data['paylist'] = $data['paylist']->select(['*','paymentinfo.created_at as created_at'])->orderby('paymentinfo.created_at','DESC')->paginate(10);
+        $data['paylist'] = $data['paylist']->select(['*', 'paymentinfo.created_at as created_at'])->orderby('paymentinfo.created_at', 'DESC')->paginate(10);
         //echo '<pre>';print_r($data['paylist']);exit;
         return view('admin.payments', $data);
     }
@@ -394,8 +514,6 @@ class AdminController extends Controller {
         return view('admin.reported-content', $data);
     }
 
-    use \App\Http\Services\MailTrait;
-
     public function resendInvoice()
     {
         if (Input::get('email') != '' && Input::get('invoice') != '')
@@ -416,8 +534,9 @@ class AdminController extends Controller {
     public function categories()
     {
         $data['msg'] = '';
-        if(Input::get('msg')){
-          $data['msg']  = Input::get('msg');
+        if (Input::get('msg'))
+        {
+            $data['msg'] = Input::get('msg');
         }
         $data['requested_list'] = CouponCategory::where('is_requested', 1)->where('is_active', 0)->where('is_delete', 0)->get();
         //echo '<pre>';print_r($data['requested_list']);exit;
@@ -430,15 +549,15 @@ class AdminController extends Controller {
     {
         if ($id)
         {
-            CouponCategory::where('category_id', $id)->update(['is_active' => 0,'is_delete' => 1]);
+            CouponCategory::where('category_id', $id)->update(['is_active' => 0, 'is_delete' => 1]);
             $msg = 'Category Deleted Successfully';
-            return redirect('admin/categories?msg='.$msg);
+            return redirect('admin/categories?msg=' . $msg);
         }
     }
 
     public function categotyStatus(request $request)
-    {     
-    
+    {
+
         if (Input::get('cat_id') != '' && Input::get('status') != '')
         {
             if (Input::get('status') == 0)
@@ -457,7 +576,7 @@ class AdminController extends Controller {
                     $ex = $request->file('logo')->getClientOriginalExtension();
                     $upload = $this->categoryImageWeb($request->file('logo'), 'category_image', $request->input('cat_id'));
                 }
-                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 1,'category_logo_image'=>$request->input('cat_id').'.'.$ex,'category_image'=>$request->input('cat_id').'.'.$ex]);
+                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 1, 'category_logo_image' => $request->input('cat_id') . '.' . $ex, 'category_image' => $request->input('cat_id') . '.' . $ex]);
                 $array_mail = ['to' => Input::get('email'),
                     'type' => 'category_accept',
                     'data' => ['name' => Input::get('cat_name')]
@@ -465,7 +584,7 @@ class AdminController extends Controller {
                 $this->sendMail($array_mail);
                 $msg = 'Category Added Successfully';
             }
-            return redirect('admin/categories?msg='.$msg);
+            return redirect('admin/categories?msg=' . $msg);
         }
     }
 
