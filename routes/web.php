@@ -147,6 +147,9 @@ Route::group(['namespace' => 'Admin'], function () {
     Route::get('admin/city', 'AdminController@citylist');
     Route::get('admin/activeCity', 'AdminController@activeCity');
     Route::get('admin/deactiveCity/{id}', 'AdminController@deactiveCity');
+    Route::get('admin/get-request-user', 'AdminController@getRequestUser');
+    
+    
     Route::get('admin/payments', 'AdminController@payment');
     Route::get('admin/Resend', 'AdminController@resendInvoice');
     Route::get('admin/categories', 'AdminController@categories');
