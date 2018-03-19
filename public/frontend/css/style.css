@@ -2843,4 +2843,4 @@ min-height: 100vh;}
 .search-result-wrapper table.search-result-list td .s-address{color: #666666;}
 .search-result-wrapper .continue-btn.call-to-action{border-radius: 10px;line-height: 40px;font-size: 16px;width: auto;}
 
-.search-section .search-footer-bg{background: url(../img/search_footer_bg.png) no-repeat; min-height: 400px;}
+.search-section .search-footer-bg{background: url(../img/search_footer_bg.png) no-repeat; min-height: 600px;margin-top: -30px;}

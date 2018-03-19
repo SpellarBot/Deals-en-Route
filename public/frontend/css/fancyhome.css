@@ -219,13 +219,13 @@
   flex-grow: 4;
   margin-bottom: 220px;
 }
- @media only screen (max-width: 1300px), (max-height: 800px) {
+ /*@media only screen (max-width: 1300px), (max-height: 800px) {
  .banner .banner-background .banner-background-sea .banner-back .banner-back-right {
    background-size: 100%;
    background-repeat: repeat-x;
    margin-bottom: 125px;
   }
-}
+}*/
 .banner .banner-road {
   position: absolute;
   bottom: 0;
@@ -253,11 +253,11 @@
   margin-right: -1px;*/
 }
  
-@media only screen (max-width: 1300px), (max-height: 800px) {
+/*@media only screen (max-width: 1300px), (max-height: 800px) {
  .banner .banner-road .banner-bridge .banner-bridge-center {
    height: 150px;
   }
-}
+}*/
 
 .banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin {
   display: inline-block;
@@ -1616,7 +1616,7 @@
   left: 2515px;
   bottom: 180px;
 }
-@media only screen (max-width: 1300px), (max-height: 800px) {
+/*@media only screen (max-width: 1300px), (max-height: 800px) {
  .banner .banner-road .banner-bridge .banner-wazers .banner-women-wazer,  
  .banner .banner-road .banner-bridge .banner-wazers .banner-women-wazer1,  
  .banner .banner-road .banner-bridge .banner-wazers .banner-smart-wazer,  
@@ -1625,7 +1625,7 @@
  .banner .banner-road .banner-bridge .banner-wazers .banner-smart-aa1 {
    bottom: 130px !important;
   }
-}
+}*/
 
 
 @keyframes banner-wazers-women {
