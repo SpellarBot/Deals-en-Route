@@ -57,6 +57,7 @@
   bottom: 0;
   overflow: hidden;
   transform: translateZ(0);/*z-index: 10;*/
+  z-index: 10;
 }
 .cloud {
   position: absolute;
@@ -109,32 +110,33 @@
   -webkit-animation-timing-function: linear;
   -webkit-animation-direction: forwards;
   -webkit-animation-iteration-count: infinite;
-  -webkit-animation-duration: 8s;
+  -webkit-animation-duration: 15s;
   -moz-animation-name: cloud-movement;
   -moz-animation-timing-function: linear;
   -moz-animation-direction: forwards;
   -moz-animation-iteration-count: infinite;
-  -moz-animation-duration: 8s;
+  -moz-animation-duration: 15s;
   animation-name: cloud-movement;
   animation-timing-function: linear;
   animation-direction: forwards;
   animation-iteration-count: infinite;
-  animation-duration: 8s;
+  animation-duration: 15s;
 }
 .slow {
-  -webkit-animation-duration: 9.2s;
-  -moz-animation-duration: 9.2s;
-  animation-duration: 9.2s;
+  -webkit-animation-duration: 18s;
+  -moz-animation-duration: 18s;
+  animation-duration: 18s;
 }
 .slower {
-  -webkit-animation-duration: 11.2s;
-  -moz-animation-duration: 11.2s;
-  animation-duration: 11.2s;
+  -webkit-animation-duration: 21s;
+  -moz-animation-duration: 21s;
+  animation-duration: 21s;
+  width: 240px;
 }
 .slowest {
-  -webkit-animation-duration: 13.5s;
-  -moz-animation-duration: 13.5s;
-  animation-duration: 13.5s;
+  -webkit-animation-duration: 25s;
+  -moz-animation-duration: 25s;
+  animation-duration: 25s;
 }
 .super-slow {
   -webkit-animation-duration: 20.5s;
@@ -208,14 +210,14 @@
 }
 
 .banner .banner-background .banner-background-sea .banner-back .banner-back-right {
-  background-image: url("../img/banner-back-right.png");
-  height: 493px;
+  background-image: url("../img/bg-img.png");
+  height: calc(100vh - 220px);
   width: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom center;
   flex-grow: 4;
-  margin-bottom: 225px;
+  margin-bottom: 220px;
 }
  @media only screen (max-width: 1300px), (max-height: 800px) {
  .banner .banner-background .banner-background-sea .banner-back .banner-back-right {
@@ -241,11 +243,11 @@
 }
 .banner .banner-road .banner-bridge .banner-bridge-center {
   position: relative;
-  background-image: url("../img/road.png");
+  background-image: url("../img/road1.png");
   background-position: center center;
   background-repeat: no-repeat;
   display: inline-block;
-  height: 261px;
+  height: 280px;
   width: 100%;
   background-size: cover;/*margin-left: -1px;
   margin-right: -1px;*/
@@ -299,10 +301,12 @@
   /*border: 2px solid #000;*/
   font-size: 13px;
   text-align: center;
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
 }
 .banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin .pinheader {
   text-align: left;
-  background: #bbb;
+  background: rgba(187, 187, 187, 0.8);
   color: #333;
   padding: 5px 15px;
   border-radius: 15px 15px 0px 0px;
@@ -319,8 +323,8 @@
 .banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin .pindetails {
   padding: 5px 15px;
   color: #333;
-  background: #FFF;
-  border-radius: 0px 0px 15px 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 0px 0px 10px 10px;
   border: 1px solid #bbb;
 }
 .banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin:before, 
@@ -335,12 +339,12 @@
 }
 .banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin:before {
   bottom: -12px;
-  border-color: #FFF transparent transparent transparent;
+  border-color: rgba(255, 255, 255, 0.8) transparent transparent transparent;
   z-index: 1;
 }
 .banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin:after {
   bottom: -13px;
-  border-color: #bbb transparent transparent transparent;
+  border-color: rgba(187, 187, 187, 0.8) transparent transparent transparent;
 }
 
 @keyframes pin-appear {
@@ -546,7 +550,7 @@
     animation-duration: 110s;
     animation-delay: -3s;
     left: 400px;
-    bottom: 240px;
+    bottom: 144px;
 }
 
 @keyframes banner-smart-aa {
@@ -810,7 +814,7 @@
   animation-duration: 90s;
   animation-delay: -26s;
   left: 1825px;
-  bottom: 240px;
+  bottom: 200px;
 }
 @keyframes banner-smart-wazer {
    0% {
@@ -942,7 +946,7 @@
   animation-duration: 110s;
   animation-delay: -3s;
   left: 400px;
-  bottom: 240px;
+  bottom: 144px;
 }
 
 @keyframes banner-smart-aa1 {
@@ -1208,7 +1212,7 @@
   animation-duration: 90s;
   animation-delay: -26s;
   left: 2025px;
-  bottom: 240px;
+  bottom: 200px;
 }
 @keyframes banner-smart-wazer1 {
    0% {
@@ -1340,7 +1344,7 @@
   animation-duration: 72s;
   animation-delay: -22s;
   left: 700px;
-  bottom: 0px;
+  bottom: 20px;
   z-index: 3;
 }
 
@@ -1475,7 +1479,7 @@
   animation-duration: 72s;
   animation-delay: -22s;
   left: 1000px;
-  bottom: 0px;
+  bottom: 20px;
   z-index: 3;
 }
 
@@ -1610,7 +1614,7 @@
   animation-duration: 144s;
   animation-delay: -17s;
   left: 2515px;
-  bottom: 240px;
+  bottom: 180px;
 }
 @media only screen (max-width: 1300px), (max-height: 800px) {
  .banner .banner-road .banner-bridge .banner-wazers .banner-women-wazer,  
@@ -1771,7 +1775,7 @@
   animation-duration: 144s;
   animation-delay: -17s;
   /*left: 2515px;*/
-  bottom: 240px;
+  bottom: 180px;
 }
 @keyframes banner-wazers-women1 {
    0% {
@@ -1982,4 +1986,110 @@
     filter: contrast(120%) hue-rotate(65deg) saturate(35%) opacity(50%);
     opacity: 1;
   }
+}
+
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-aa1:before,
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-aa:before {
+    content: '';
+    position: absolute;
+    background: url(../img/people-shadow.png) no-repeat;
+    width: 150px;
+    height: 150px;
+    bottom: -120px;
+    left: -30px;
+    z-index: -1;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-women-wazer1:before,
+.banner .banner-road .banner-bridge .banner-wazers .banner-women-wazer:before{
+  content: '';
+    position: absolute;
+    background: url(../img/people-shadow.png) no-repeat;
+    width: 150px;
+    height: 150px;
+    bottom: -112px;
+    left: -30px;
+    z-index: -1;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-wazer1:before,
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-wazer:before{
+  content: '';
+    position: absolute;
+    background: url(../img/people-shadow.png) no-repeat;
+    width: 150px;
+    height: 150px;
+    bottom: -112px;
+    left: -30px;
+    z-index: -1;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-women-pink-wazer1:before,
+.banner .banner-road .banner-bridge .banner-wazers .banner-women-pink-wazer:before{
+  content: '';
+    position: absolute;
+    background: url(../img/people-shadow.png) no-repeat;
+    width: 150px;
+    height: 150px;
+    bottom: -112px;
+    left: -30px;
+    z-index: -1;
+}
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-asian1:before,
+.banner .banner-road .banner-bridge .banner-wazers .banner-smart-asian:before{
+  content: '';
+    position: absolute;
+    background: url(../img/people-shadow.png) no-repeat;
+    width: 150px;
+    height: 150px;
+    bottom: -112px;
+    left: -30px;
+    z-index: -1;
+  }
+
+  .balloon{position: absolute;z-index: 10;top: 121px;background: url(../img/balloon.png) no-repeat;width: 76px;height: 112px;display: inline-block;
+    -webkit-animation-name: balloon-movement;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-direction: forwards;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-duration: 45s;
+    -moz-animation-name: balloon-movement;
+    -moz-animation-timing-function: linear;
+    -moz-animation-direction: forwards;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-duration: 45s;
+    animation-name: balloon-movement;
+    animation-timing-function: linear;
+    animation-direction: forwards;
+    animation-iteration-count: infinite;
+    animation-duration: 45s;
+  }
+  .balloon-sm{position: absolute;z-index: 10;top: 155px;background: url(../img/balloon-small.png) no-repeat;width: 47px;height: 69px;display: inline-block;
+    -webkit-animation-name: balloon-movement;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-direction: forwards;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-duration: 40s;
+    -moz-animation-name: balloon-movement;
+    -moz-animation-timing-function: linear;
+    -moz-animation-direction: forwards;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-duration: 40s;
+    animation-name: balloon-movement;
+    animation-timing-function: linear;
+    animation-direction: forwards;
+    animation-iteration-count: infinite;
+    animation-duration: 40s;
+  }
+
+  @-webkit-keyframes balloon-movement {
+ 0% {
+ -webkit-transform: translateX(-200px);
+ -moz-transform: translateX(-200px);
+ transform: translateX(-200px);
+ top:250px;
+}
+ 100% {
+ -webkit-transform: translateX(1800px);
+ -moz-transform: translateX(1800px);
+ transform: translateX(1800px);
+ top:-100px;
+}
 }

@@ -1,10 +1,10 @@
- <div class="footer-container">
+<!--  <div class="footer-container">
             <div class="footer-world">
                 <div class="footer-sky">
                     <div class="footer-island-right"></div>
                 </div>
             </div>
-            <!-- end of footer-world -->
+            <!-- end of footer-world
 
             <footer>
                 <ul class="social">
@@ -25,6 +25,7 @@
                                 </script> <a href="#">Deals en Route</a>. All Rights Reserved. </p>
             </footer>
         </div>
-        <!-- end of footer-container -->
+        <!-- end of footer-container 
 
     </div>
+ -->

@@ -41,10 +41,10 @@ use AuthenticatesUsers;
         $this->middleware('guest', ['except' => 'logout', 'dashboard']);
     }
 
-    public function index() {
+    public function search() {
         // show logo image
 
-        return view('frontend.main');
+        return view('frontend.search');
     }
 
     public function vendorindex() {
