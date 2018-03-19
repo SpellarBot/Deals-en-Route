@@ -9,6 +9,7 @@
         <title>@yield('title')</title>
         <!-- common css -->
         <link href="{{ asset('frontend/fonts/fontawesome/font-awesome.css') }}" rel="stylesheet">
+        <link href="{{ asset('https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/pages.css') }}" rel="stylesheet">
@@ -46,6 +47,8 @@
             <!-- Mainly scripts -->
             <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js') }}"></script>
             <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
+            <script src="{{ asset('https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js') }}"></script>
+            <script src="{{ asset('https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js')}}"></script>
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/login.js')}}"></script>
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/forget.js')}}"></script>

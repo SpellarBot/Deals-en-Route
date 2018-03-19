@@ -2745,6 +2745,7 @@ a.btn.btn-info.btn-fill.btn-wd.btn-create.redeemnow{width: 100%;max-width: 380px
 
 .no-margin{margin: 0px;}
 .pt-20{padding-top: 20px !important;}
+.pt-90{padding-top: 90px !important;}
 .pb-15{padding-bottom: 15px !important;}
 .pb-20{padding-bottom: 20px !important;}
 .pr-0{padding-right: 0px !important;}
@@ -2823,3 +2824,23 @@ div#googlegeofencing {width: calc(100% - 60px) !important;max-width: 1100px !imp
 #pac-input {
     border-radius: 20px !important;
 }
+
+/*New Design (Search page) added on 19-3-2018*/
+.search-section{background: rgba(128,203,196,1);
+background: -moz-linear-gradient(top, rgba(128,203,196,1) 0%, rgba(223,242,241,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(128,203,196,1)), color-stop(100%, rgba(223,242,241,1)));
+background: -webkit-linear-gradient(top, rgba(128,203,196,1) 0%, rgba(223,242,241,1) 100%);
+background: -o-linear-gradient(top, rgba(128,203,196,1) 0%, rgba(223,242,241,1) 100%);
+background: -ms-linear-gradient(top, rgba(128,203,196,1) 0%, rgba(223,242,241,1) 100%);
+background: linear-gradient(to bottom, rgba(128,203,196,1) 0%, rgba(223,242,241,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80cbc4', endColorstr='#dff2f1', GradientType=0 );
+min-height: 100vh;}
+.search-section h1.index-head{font-family: inherit;text-align: center;}
+.search-result-wrapper {background: #fff; border-radius: 10px; margin-top: 20px; padding: 15px;}
+.search-result-wrapper table.search-result-list tr td:last-child{vertical-align: middle;text-align: right;}
+.search-result-wrapper table.search-result-list td{padding: 25px 0px;}
+.search-result-wrapper table.search-result-list td .s-title{margin-bottom: 15px;margin-top:0px;font-weight: 600;}
+.search-result-wrapper table.search-result-list td .s-address{color: #666666;}
+.search-result-wrapper .continue-btn.call-to-action{border-radius: 10px;line-height: 40px;font-size: 16px;width: auto;}
+
+.search-section .search-footer-bg{background: url(../img/search_footer_bg.png) no-repeat; min-height: 400px;}

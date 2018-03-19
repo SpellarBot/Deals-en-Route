@@ -36,8 +36,8 @@ Route::group(['namespace' => 'Frontend'], function () {
     ]);
 //    Route::get('vendor/updatemembershipdate/','VendorController@updateMembershipDate');
     // vendor   register
-    Route::get('/', 'Auth\LoginController@index')->name('vendormain');
-    Route::get('/index', 'Auth\LoginController@vendorindex')->name('vendorindex');
+    Route::get('/searchvendor', 'Auth\LoginController@search')->name('vendormain');
+    Route::get('/', 'Auth\LoginController@vendorindex')->name('vendorindex');
     Route::get('/register', 'Auth\RegisterController@showCategoryForm')->name('frontend.register');
     Route::post('/register/create', 'Auth\RegisterController@create');
     Route::post('register/update', 'VendorController@update');
