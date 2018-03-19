@@ -16,6 +16,8 @@
         <link href="{{ asset('frontend/css/owl-carousel/owl.theme.default.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/owl-carousel/owl.theme.green.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/css/fancyhome.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/css/pages.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/enhanced.css') }}" rel="stylesheet">
         <link href="{{ asset('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i') }}" rel="stylesheet">
         <!--Dynamic StyleSheets added from a view would be pasted here-->
