@@ -22,7 +22,7 @@
                 </form>
             </div>
 
-            <div class="col-xs-12 search-result-wrapper">
+            <div class="col-xs-12 search-result-wrapper hidden">
             <div>Showing 20 results for Papa Jhon's near Boston, MA</div>
             <table id="example" class="table search-result-list" style="width:100%">
                 <thead></thead>
@@ -33,7 +33,8 @@
                             <span class="s-address">971 Tremont St, <br>Boston, MA 02119</span> 
                         </td>
                         <td>
-                            <a href="" class="continue-btn call-to-action button">Continue</a>
+                           
+                            <a href="#popup" class="continue-btn call-to-action button" data-toggle="modal" >Continue</a>
                         </td>
                     </tr>
 
@@ -306,6 +307,7 @@
                 </div>
             </div>
         </div>
+        @include('frontend/modal/signup');
         <!-- end of  banner -->
         @endsection
         @section('scripts')

@@ -9,6 +9,7 @@
         <title>@yield('title')</title>
         <!-- common css -->
         <link href="{{ asset('frontend/fonts/fontawesome/font-awesome.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/css/jasny-bootstrap.css')}}" rel="stylesheet">
         <link href="{{ asset('https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">

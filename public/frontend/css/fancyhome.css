@@ -182,7 +182,7 @@
   /*position: relative;*/
   z-index: 50;
   /*overflow: hidden;*/
-  min-height: 100vh;
+  min-height: calc(100vh - 20px);
   /*background:#e3f5fb;*/
   background: #86cdc7;
 }
@@ -343,10 +343,12 @@
   bottom: -12px;
   border-color: rgba(255, 255, 255, 0.8) transparent transparent transparent;
   z-index: 1;
+  display: none;
 }
 .banner .banner-road .banner-bridge .banner-wazers .banner-hotdog-pin .pin:after {
   bottom: -13px;
   border-color: rgba(187, 187, 187, 0.8) transparent transparent transparent;
+  display: none;
 }
 
 @keyframes pin-appear {
@@ -474,7 +476,7 @@
 
 .banner .banner-road .banner-bridge .banner-wazers {
   position: absolute;
-  bottom: 0;
+  bottom: 15px;
   left: 50%;
   margin-left: -1350px;
   height: 100px;
@@ -1937,20 +1939,6 @@
   color: #fff;
 }
 
-.footer-container {
-  position: relative;
-  background-color: #fff;
-  padding-top: 65px;
-  padding-bottom: 402px;
-  margin: 0;
-  border: 0;
-  z-index: 50;
-  overflow: hidden;
-  left: 0;
-  right: 0;
-  width: 100%;
-  overflow: hidden;
-}
 .footer-container .footer-world {
   position: absolute;
   bottom: 0;
