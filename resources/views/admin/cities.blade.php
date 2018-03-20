@@ -284,8 +284,8 @@
                                                             <tr>
                                                                 <th>City Requested</th>
                                                                 <th>Number of request</th>
-                                                                <th>#</th>
-                                                                <th>#</th>
+                                                                <th>Action</th>
+                                                                <th>Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -294,7 +294,7 @@
                                                                 <td>{{$row->city_request_id}}</td>
                                                                 <td><span style="cursor: pointer;" data-toggle="modal" data-target="#myModal_users" onclick="getUsers('{{$row->city}}','{{$row->state_code}}','{{$row->country}}', '0')">{{$row->count}}</span></td>
                                                                 <td><a style="color: green; cursor: pointer;" href="{{ asset('admin/activeCity?active_city='.$row->city_request_id)}}">Accept</a></td>
-                                                                <td><span style="color: red;cursor: pointer;" onclick="cancelCity('{{ asset("admin/activeCity?active_city=". $row->city ."&is_cancel=1")}}')" data-toggle="modal" data-target="#myModal_request">Cancel</span></td>
+                                                                <td><span style="color: red;cursor: pointer;" onclick="cancelCity('{{ asset("admin/activeCity?active_city=". $row->city ."&is_cancel=1")}}')" data-toggle="modal" data-target="#myModal_request">Decline</span></td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
@@ -475,7 +475,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Do you really want to Cancel This Request?</h4>
+                        <h4 class="modal-title">Do you really want to Decline This Request?</h4>
                     </div>
 
                     <div class="modal-footer">
@@ -499,7 +499,7 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>City Name</th>
+                                <th>User Name</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
