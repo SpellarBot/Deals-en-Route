@@ -23,32 +23,21 @@
                 {{ Form::close() }}
             </div>
 
-            <div class="col-xs-12 search-result-wrapper hidden">
-            <div>Showing 20 results for Papa Jhon's near Boston, MA</div>
-            <table id="example" class="table search-result-list" style="width:100%">
-                <thead></thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h4 class="s-title">1. Papa Jhan's Pizza</h4>
-                            <span class="s-address">971 Tremont St, <br>Boston, MA 02119</span> 
-                        </td>
-                        <td>
-                           
-                            <a href="#popup" class="continue-btn call-to-action button" data-toggle="modal" >Continue</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <h4 class="s-title">1. Papa Jhan's Pizza</h4>
-                            <span class="s-address">971 Tremont St, <br>Boston, MA 02119</span> 
-                        </td>
-                        <td>
-                            <a href="" class="continue-btn call-to-action button">Continue</a>
-                        </td>
-                    </tr>
-
+            <div class="col-xs-12 search-result-wrapper yelpdata hidden">
+           
+               <table class="table search-result-list" style="width:100%" id="yelpdatatable">
+                            <thead>
+                                <tr>
+                                    <th></th>   
+                                    <th></th>  
+                                </tr>
+                            </thead>
+                              
+                        </table>
+           
+        </div>
+        </div>
+        
         <!-- <a id="main-call-to-action" class="call-to-action button" href="{{route('frontend.register')}}">Sign Up</a> <a href="#login" class="call-to-action button" data-toggle="modal">Login</a>  -->
     </header>
     <div class="banner-background animated parallax" data-parallax-amount="0.1" data-parallax-start="500">
@@ -164,7 +153,7 @@
                                         <h5>Deals en Route</h5>
                                     </div>
                                     <div class="pindetails">
-                                        <p>Taco night at Anderson Creek! We’re shaking up tonight with free tequila shots (21+) from 8-9 only! Bottoms up!</p>
+                                        <p>Taco night at Anderson Creek! Weâ€™re shaking up tonight with free tequila shots (21+) from 8-9 only! Bottoms up!</p>
                                     </div>
                                 </div>
                             </div>

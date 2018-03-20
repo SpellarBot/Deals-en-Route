@@ -93,6 +93,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('/vendor/couponredeem', 'CouponController@CouponRedemption');
 
     Route::post('coupon/additonalcost', 'CouponController@additionalCost')->name('vendor.additionalcost');
+     Route::any('yelp/getlist', 'Auth\RegisterController@yelpGetList')->name('yelp.search');
 });
 // Admin routes
 Route::group(['namespace' => 'Admin'], function () {

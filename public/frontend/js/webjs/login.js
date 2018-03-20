@@ -72,7 +72,7 @@ $(document).ready(function () {
         });
 
     });
-      var table= $('#yelpdatatable').DataTable({
+      $('#yelpdatatable').DataTable({
             processing: true,
              dom: '<"top"i>rt<"bottom"flp><"clear">',
             serverSide: true,
@@ -101,7 +101,7 @@ $('#yelpdatatable_paginate').css("display", "none");
             },
           {
                 mRender: function (data, type, row) {
-                 return '<a href="" class="continue-btn call-to-action button">Continue</a>';
+                 return '<a href="#popup" class="continue-btn call-to-action button" data-toggle="modal" >Continue</a>';
                     
                 },
                 orderable: false,
@@ -114,7 +114,7 @@ $('#yelpdatatable_paginate').css("display", "none");
     $('#yelpform').on('submit', function (event) {
         event.preventDefault();
    
-     
+     $('.yelpdata').removeClass("hidden");
         
     });
 
