@@ -192,4 +192,44 @@ use RegistersUsers;
         }
     }
 
+    public function yelpGetList(Request $request) {
+        try {
+   
+        $data = $request->all();
+        $client = new \Stevenmaguire\Yelp\v3\Client(array(
+            'accessToken' => 'BlDjJypGzmjK1_yvy6UCSBQm0hnY2Ae8ttxAMXp9NOYYE2-KUsZ3yk-LX4lbPUBEkOGTNqbXRSbfmPGJnkoxyQ9ziJ9NHxOrnd6vOnfi00gu1fzB-nPgWWyuPx2qWnYx',
+            'apiHost' => 'api.yelp.com' // Optional, default 'api.yelp.com'
+        ));
+        if((isset($data['vendor_address']) && !empty($data['vendor_address']))
+                && (isset($data['tag_list'])) && (!empty($data['tag_list']))){
+            
+        
+        if(isset($data['start'])){
+            $offset=$data['start']+1;
+        }else {
+            $offset=1;
+        }
+        $parameters = [
+            'term' => isset($data['tag_list']) ? $data['tag_list'] : '',
+            'location' => $data['vendor_address'],
+            'sort_by' => 'best_match',
+            'limit' => 20,
+            'offset' => $offset,
+        ];
+// Perform a request to a public resource
+//$response = $foursquare->GetPublic($endpoint ,$params, $POST=false);
+        $results = $client->getBusinessesSearchResults($parameters);
+//return ((["data"=>[['id'=>1,'name'=>"Dfsdf"],['id'=>2,"name"=>"test"]],"recordsTotal"=>5,"draw"=>1,"recordsFiltered"=>5]));  exit;
+                
+          return  ((["data"=>$results->businesses,"recordsTotal"=>$results->total,"recordsFiltered"=>$results->total])); 
+          }
+            return  ((["data"=>[],"recordsTotal"=>0,"recordsFiltered"=>0])); 
+        
+        }
+        catch (\Stevenmaguire\Yelp\Exception\HttpException $e) {
+    $responseBody = $e->getResponseBody(); // string from Http request
+    $responseBodyObject = json_decode($responseBody);
+}
+    }
+
 }

@@ -1,5 +1,26 @@
 $(document).ready(function () {
 
+
+    var options = {
+        url: function (phrase) {
+            return "yelp/getlist?tag_list=" + phrase + "&vendor_address=" + $('#vendor_address').val();
+        },
+        getValue: function (element) {
+            if (element.length === 0) {
+                return "No results";
+            } else {
+                return element.name;
+            }
+        },
+        template: {
+            type: "custom",
+            method: function (value, item) {
+                return  item.name + " <br> " + item.location.display_address;
+            }
+        }
+    };
+
+    $("#vendor_name").easyAutocomplete(options);
     // sign up form
     $('#loginform').on('submit', function (event) {
         event.preventDefault();
@@ -10,7 +31,7 @@ $(document).ready(function () {
             type: 'POST',
             data: formData,
             success: function (data) {
-                 $('#loadingDiv').hide();
+                $('#loadingDiv').hide();
                 if (data.status == 3) {
                     var decodedString = atob(data.view);
                     $('body').removeClass('modal-open pages pages-homepage').addClass('price-page').removeAttr('style').html(decodedString);
@@ -51,8 +72,65 @@ $(document).ready(function () {
         });
 
     });
+      var table= $('#yelpdatatable').DataTable({
+            processing: true,
+             dom: '<"top"i>rt<"bottom"flp><"clear">',
+            serverSide: true,
+            ordering: false,
+            info: true,
+            searching: false,
+           pageLength: 10,
+           lengthChange:false,
+           fnDrawCallback:function(){
+var oTable = $('#yelpdatatable').DataTable();
+if(oTable.length==0){
+$('#yelpdatatable_paginate').css("display", "none");
+}
+},
+             oLanguage: { sEmptyTable: "No records found" },
+            ajax: "yelp/getlist?tag_list",
+             columns: [
+            {
+                mRender: function (data, type, row) {
+                 return '<h4 class="s-title">'+row.name+'</h4><span class="s-address">'+row.location.display_address+'</span>';
+                    
+                },
+                orderable: false,
+                searchable: false,
+            
+            },
+          {
+                mRender: function (data, type, row) {
+                 return '<a href="" class="continue-btn call-to-action button">Continue</a>';
+                    
+                },
+                orderable: false,
+                searchable: false,
+            
+            },
+             ],
+        });
 
-    $('#example').DataTable();
+    $('#yelpform').on('submit', function (event) {
+        event.preventDefault();
+   
+     
+        
+    });
+
+
+
 });
+// sign up form
 
 
+function initAutocomplete() {
+
+    // Create the autocomplete object, restricting the search to geographical
+    // location types.
+    autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('vendor_address')),
+            {types: ['geocode']});
+
+
+}

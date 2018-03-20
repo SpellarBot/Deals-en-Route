@@ -9,11 +9,15 @@
         <title>@yield('title')</title>
         <!-- common css -->
         <link href="{{ asset('frontend/fonts/fontawesome/font-awesome.css') }}" rel="stylesheet">
-        <link href="{{ asset('https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+             <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
         <link href="{{ asset('frontend/css/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/pages.css') }}" rel="stylesheet">
         <link href="{{ asset('frontend/css/fancyhome.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/css/easy-autocomplete.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/css/easy-autocomplete.min.css.map') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/css/easy-autocomplete.themes.min.css') }}" rel="stylesheet">
+
         <link href="{{ asset('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i') }}" rel="stylesheet">
         <!--Dynamic StyleSheets added from a view would be pasted here-->
         @yield('styles')
@@ -47,11 +51,16 @@
             <!-- Mainly scripts -->
             <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js') }}"></script>
             <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
-            <script src="{{ asset('https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js') }}"></script>
-            <script src="{{ asset('https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js') }}"></script>
+          <!-- DataTables -->
+        <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+                  <script src="{{ asset('frontend/js/jquery.easy-autocomplete.min.js') }}"></script> 
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js')}}"></script>
-            <script type="text/javascript" src="{{ asset('frontend/js/webjs/login.js')}}"></script>
+      
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/forget.js')}}"></script>
+     
+            <script type="text/javascript" src="{{ asset('frontend/js/webjs/login.js')}}"></script>
+            <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=places&callback=initAutocomplete"
+            async defer></script>
             @yield('scripts')
 
 
