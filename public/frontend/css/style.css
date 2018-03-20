@@ -2879,10 +2879,11 @@ min-height: 100vh;}
     .getstart-search .form-inline .form-group{margin-bottom: 10px;}
 }
 @media only screen and (max-width: 767px) {
-    .search-section h1.index-head{font-size: 26px;}
+    .banner h1.index-head{font-size: 26px;}
     .pages-homepage .navbar .wrapper{padding:0px 15px !important;}
     .pages-homepage .navbar .wrapper a.logo{width: 60px !important;height: 72px !important;margin-top: 10px !important;margin-left: 0 !important;}
     .home-login-btn{top: 25px !important;right: 10px !important;}
+    .signup-page img.logo{width: 60px;margin-left: 15px;top: 10px;}
     
 }
 @media only screen and (max-width: 550px) {
