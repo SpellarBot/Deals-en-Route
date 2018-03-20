@@ -175,15 +175,16 @@
 }
 .base-wrapper {
   overflow: hidden;
+  position: relative;
 }
 .banner {
   clear: both;
-  position: relative;
+  /*position: relative;*/
   z-index: 50;
-  overflow: hidden;
-  height: 100vh;
+  /*overflow: hidden;*/
+  min-height: 100vh;
   /*background:#e3f5fb;*/
-  background: #f5f5f5;
+  background: #86cdc7;
 }
 
 .banner .banner-background {
@@ -211,7 +212,8 @@
 
 .banner .banner-background .banner-background-sea .banner-back .banner-back-right {
   background-image: url("../img/bg-img.png");
-  height: calc(100vh - 220px);
+  /*height: calc(100vh - 220px);*/
+  height: 725px;
   width: 100%;
   background-size: cover;
   background-repeat: no-repeat;

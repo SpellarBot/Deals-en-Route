@@ -49,6 +49,7 @@
 	top: 150px;
 	position: relative;
 	z-index: 10;
+	/*margin-bottom: 830px;*/
 }
 
 @media only screen (max-width: 1300px),

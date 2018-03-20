@@ -157,10 +157,10 @@ select,
     background: #395999;
     color: #FFF;
     right: 3px;
-    line-height: 18px;
+    line-height: 13px;
     font-size: 13px;
     text-transform: capitalize;
-    border-radius: 4px !important;
+    border-radius: 10px !important;
     bottom: 3px;
     cursor: pointer;
     position: absolute !important;
@@ -449,21 +449,30 @@ textarea {
     background: #000;
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    background: url("../img/popupbg.png") no-repeat;
+    background: url("../img/signup-popup-bg.png") no-repeat;
     background-size: cover;
     border-radius: 15px 0 0 15px;
     -webkit-border-radius: 15px 0 0 15px;
 }
 
-.popupbg img {
-    max-width: 200px;
+.popupbg img.signup-logo {
+    max-width: 90px;
+    margin-top: 50px;
+}
+.popupbg img.iphonex {
+    max-width: 260px;
+}
+.popupbg img.app-store-logo{
+    max-width: 120px;
+    margin-bottom: 50px;
 }
 
 .signupDEtails {
     flex: 3;
-    padding-top: 26px;
-    padding-bottom: 25px;
+    padding-top: 30px;
+    padding-bottom: 45px;
 }
 
 .signupDEtails1 {
@@ -488,7 +497,7 @@ textarea {
     background-color: #46b96c;
     color: #fff;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 15px;
     padding: 0 30px;
     line-height: 50px;
     display: inline-block;
@@ -516,8 +525,14 @@ input[type="checkbox"] {
 }
 
 .signupDEtails .col-sm-6 h4:nth-of-type(2) {
-    margin-top: 27px;
+    margin-top: 39px;
     margin-bottom: 25px;
+}
+.signupDEtails .col-sm-6 h4:nth-of-type(2) span{
+    display: block;
+    color: #999;
+    font-weight: normal;
+    font-size: 14px;
 }
 
 #login .poplog {
@@ -2835,12 +2850,44 @@ background: -ms-linear-gradient(top, rgba(128,203,196,1) 0%, rgba(223,242,241,1)
 background: linear-gradient(to bottom, rgba(128,203,196,1) 0%, rgba(223,242,241,1) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80cbc4', endColorstr='#dff2f1', GradientType=0 );
 min-height: 100vh;}
-.search-section h1.index-head{font-family: inherit;text-align: center;}
-.search-result-wrapper {background: #fff; border-radius: 10px; margin-top: 20px; padding: 15px;}
+.search-section h1.index-head{font-family: inherit;text-align: center; z-index: 1;position: relative;}
+.search-result-wrapper {background: #fff; border-radius: 10px; margin-top: 20px; padding: 15px;position: relative;z-index: 1;margin-bottom: 800px;text-align: left;}
 .search-result-wrapper table.search-result-list tr td:last-child{vertical-align: middle;text-align: right;}
 .search-result-wrapper table.search-result-list td{padding: 25px 0px;}
 .search-result-wrapper table.search-result-list td .s-title{margin-bottom: 15px;margin-top:0px;font-weight: 600;}
 .search-result-wrapper table.search-result-list td .s-address{color: #666666;}
 .search-result-wrapper .continue-btn.call-to-action{border-radius: 10px;line-height: 40px;font-size: 16px;width: auto;}
+.search-section .getstart-search{z-index: 1;position: relative;}
 
-.search-section .search-footer-bg{background: url(../img/search_footer_bg.png) no-repeat; min-height: 600px;margin-top: -30px;}
+.search-section .search-footer-bg{background: url(../img/search_footer_bg.png) no-repeat; min-height: 600px;margin-top: -30px;position: relative;background-position: center;}
+.search-section .search-footer-bg footer{border: 0px;}
+.search-section .search-footer-bg footer ul.social{margin-bottom: 20px;}
+.search-section .search-footer-bg footer ul.social li{font-size: 18px;height: 45px;line-height: 45px;margin-right: 10px;width: 45px;}
+.search-footer-bg footer, .search-footer-bg footer .links a, .search-footer-bg footer .copyright a{color: #333333;}
+.search-section .search-footer-bg footer .links ul{margin-bottom: 0px;}
+.search-section .search-footer-bg footer p.copyright{margin-top: 5px;}
+.search-footer-bg footer {position: absolute;bottom: 0;width: 100%; margin-bottom: 20px;}
+
+.search-section .clouds-and-balloons {position: absolute;width: 100%;min-height: 500px;overflow: hidden;}
+.search-section .clouds{z-index: 0;}
+.search-section .balloon{z-index: 0;}
+
+.signup-form-wrapper{background: #fff;border-radius: 20px; overflow: hidden; position: relative; z-index: 1;}
+.signup-page img.logo {width: 84px;position: absolute;margin-left: 35px;top: 15px;z-index: 1;}
+.signup-page .form-control, .signup-page input{border: 0px !important;box-shadow: none !important;border-bottom: 1px solid #ccc !important;border-radius: 0px !important;}
+@media only screen and (max-width: 991px) {
+    .getstart-search .form-inline .form-group{margin-bottom: 10px;}
+}
+@media only screen and (max-width: 767px) {
+    .banner h1.index-head{font-size: 26px;}
+    .pages-homepage .navbar .wrapper{padding:0px 15px !important;}
+    .pages-homepage .navbar .wrapper a.logo{width: 60px !important;height: 72px !important;margin-top: 10px !important;margin-left: 0 !important;}
+    .home-login-btn{top: 25px !important;right: 10px !important;}
+    .signup-page img.logo{width: 60px;margin-left: 15px;top: 10px;}
+    
+}
+@media only screen and (max-width: 550px) {
+    .search-result-wrapper table.search-result-list tr td{display: block;}
+    .search-result-wrapper table.search-result-list tr td:last-child{border-top: 0px;padding-top: 0px;text-align: left;margin-left: -5px;}
+    .search-result-wrapper table.search-result-list tr td:last-child a{margin-top: 0px;}
+}
