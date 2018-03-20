@@ -1,6 +1,6 @@
-<div id="popup" class="modal fade" role="dialog">       
+<div id="popup" class="modal fade signup-page" role="dialog">       
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content signup-form-wrapper">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
 
             <div class="modal-body">
@@ -11,7 +11,9 @@
                 <input type="hidden" name="vendor_long">
                 <div class="poplog">
                     <div class="popupbg">
-                        <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/4.png' ?>">
+                        <a href="#"><img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo2.png' ?>" alt="" class="signup-logo"></a>
+                        <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/IPhoneX.png' ?>" alt="" class="iphonex">
+                        <a href="#"><img src="<?php echo \Config::get('app.url') . '/public/frontend/img/app-store-logo.png' ?>" alt="" class="app-store-logo"></a>
                     </div>
 
                     <div class="signupDEtails">
@@ -32,13 +34,9 @@
 
                             <h4>Sign Up Details</h4>
                             <div class="form-group">
-                                {{ Form::select('vendor_category',[''=>'Select Category']+$signup_category_images,$category_image->category_id,
-                                ['class'=>'form-control selectinput','id'=>'vendorcategory'])
+                                {{ Form::select('vendor_category',[''=>'Select Category'],'',['class'=>'form-control selectinput','id'=>'vendorcategory'])
                                 }}
-                                <!--                                {{ Form::select('vendor_category',[''=>'Select Category','other'=>'Other']+$signup_category_images,$category_image->category_id,
-                                                                ['class'=>'form-control selectinput','id'=>'vendorcategory'])
-                                                                }}
-                                {{ Form::text('vendor_category', '', ['placeholder'=>'Category Name','class'=>'form-control hide']) }}-->
+                           
                                 <input name="browser" class="inputtext" style="display:none;" disabled="disabled">
                             </div>
 
@@ -53,7 +51,7 @@
                             </div>
 
                             <div class="form-group">
-                                {{ Form::select('vendor_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput','id'=>'country']) }}
+                                {{ Form::select('vendor_country',[''=>'Select Country'],'',['class'=>'form-control selectinput','id'=>'country']) }}
                             </div>
 
                             <div class="form-group">
@@ -125,7 +123,7 @@
                                 {{ Form::text('card_cvv', '', ['placeholder'=>'CVV','class'=>'form-control cardCvv','maxlength'=>"4"]) }}
 
                             </div>
-                            <h4>Billing Details {{ Form::checkbox('check-address', 'yes','',['id' => 'check-address']) }}(Same As Business Address)</h4>
+                            <h4>Billing Details <span>{{ Form::checkbox('check-address', 'yes','',['id' => 'check-address']) }}(Same As Business Address)</span></h4>
                             <div id="billingdetails">
 
                                 <div class="form-group">
@@ -151,7 +149,7 @@
 
                                 </div>
                                 <div class="form-group">
-                                    {{ Form::select('billing_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput']) }}
+                                    {{ Form::select('billing_country',[''=>'Select Country'],'',['class'=>'form-control selectinput']) }}
                                 </div>
                             </div>     
                         </div>
