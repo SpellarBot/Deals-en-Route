@@ -1,6 +1,7 @@
 <div class="search-footer-bg">
         <footer class="footer-content">
             <ul class="social">
+                <li class="appstore"><a href="https://itunes.apple.com/us/app/deals-en-route-customer/id1327286547?ls=1&mt=8"><i class="fa fa-apple"></i> <span>App store</span></a></li>
                 <li class="facebook"> <a target="_blank" href="https://www.facebook.com/dealsenroute"><i class="fa fa-facebook"></i> <span>Facebook</span> </a> </li>
                 <li class="linkedin"> <a target="_blank" href="https://www.linkedin.com/company/11119147"><i class="fa fa-linkedin"></i> <span>LinkedIn</span> </a> </li>
                 <li class="twitter"> <a target="_blank" href="https://twitter.com/dealsenroute"><i class="fa fa-twitter"></i> <span>Twitter</span> </a> </li>
