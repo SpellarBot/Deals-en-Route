@@ -100,7 +100,7 @@ $('#yelpform').on('submit', function (event) {
         $('.yelpdata').removeClass("hidden");
         $('#yelpdatatable').DataTable({
             processing: true,
-            dom: '<"top"i>rt<"bottom"flp><"clear">',
+            dom: '<"top"i>rt<"bottom"flp>',
             serverSide: true,
             ordering: false,
             info: true,
@@ -114,6 +114,7 @@ $('#yelpform').on('submit', function (event) {
                 var api = this.api();
  
              if (api.rows( {page:'current'}).data().length == 0) {
+                  $(".dataTables_empty").append("<a href='#popup' class='continue-btn call-to-action button' data-toggle='modal' >Add Your Business</a>")
                     $('#yelpdatatable_paginate').css("display", "none");
                 }else {
                    $('#yelpdatatable_paginate').css("display", "block"); 
