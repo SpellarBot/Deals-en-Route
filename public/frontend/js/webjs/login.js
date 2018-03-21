@@ -1,15 +1,21 @@
 $(document).ready(function () {
 
-
+    // vendor name  autocomplete
     var options = {
         url: function (phrase) {
-            return "yelp/getlist?tag_list=" + phrase + "&vendor_address=" + $('#vendor_address').val();
+            return "yelp/gettagslist?vendor_name=" + phrase + "&vendor_address=" + $('#vendor_address').val();
         },
         getValue: function (element) {
             if (element.length === 0) {
                 return "No results";
             } else {
                 return element.name;
+            }
+        },
+        list: {
+            onClickEvent: function () {
+                $("#vendorname").val($("#vendor_name").val());
+                $('#popup').modal('show');
             }
         },
         template: {
@@ -72,65 +78,125 @@ $(document).ready(function () {
         });
 
     });
-      $('#yelpdatatable').DataTable({
+
+});
+
+// yelp submit form
+$('#yelpform').on('submit', function (event) {
+    event.preventDefault();
+    $(".form-group").removeClass('has-error');
+    $(".help-block").html('');
+    var vendor_name = $('#vendor_name').val();
+    var vendor_address = $('#vendor_address').val();
+    if (vendor_address == "") {
+        var inputname = $("input[name=vendor_address]").parent();
+        inputname.addClass('has-error');
+        inputname.append('<span class="help-block"> <strong> Please enter the location.</strong> </span>'); //showing only the first error.   
+    } else if (vendor_name == "") {
+        var inputname = $("input[name=vendor_name]").parent();
+        inputname.addClass('has-error');
+        inputname.append('<span class="help-block"> <strong> Please enter the business name</strong> </span>'); //showing only the first error.   
+    } else {
+        $('.yelpdata').removeClass("hidden");
+        $('#yelpdatatable').DataTable({
             processing: true,
-             dom: '<"top"i>rt<"bottom"flp><"clear">',
+            dom: '<"top"i>rt<"bottom"flp><"clear">',
             serverSide: true,
             ordering: false,
             info: true,
             searching: false,
-           pageLength: 10,
-           lengthChange:false,
-           fnDrawCallback:function(){
-var oTable = $('#yelpdatatable').DataTable();
-if(oTable.length==0){
-$('#yelpdatatable_paginate').css("display", "none");
-}
-},
-             oLanguage: { sEmptyTable: "No records found" },
-            ajax: "yelp/getlist?tag_list",
-             columns: [
-            {
-                mRender: function (data, type, row) {
-                 return '<h4 class="s-title">'+row.name+'</h4><span class="s-address">'+row.location.display_address+'</span>';
-                    
-                },
-                orderable: false,
-                searchable: false,
-            
+            destroy: true,
+            pageLength: 10,
+            lengthChange: false,
+            oLanguage: {sEmptyTable: "No records found"},
+            fnDrawCallback: function () {
+                var oTable = $('#yelpdatatable').DataTable();
+                if (oTable.length == 0) {
+                    $('#yelpdatatable_paginate').css("display", "none");
+                }
             },
-          {
-                mRender: function (data, type, row) {
-                 return '<a href="#popup" class="continue-btn call-to-action button" data-toggle="modal" >Continue</a>';
-                    
+            ajax: {
+                type: "POST",
+                url: 'yelp/getlist',
+                beforeSend: function () {
+                    $('#loadingDiv').show();
                 },
-                orderable: false,
-                searchable: false,
-            
+                complete: function () {
+                    $('#loadingDiv').hide();
+                },
+                data: function (d) {
+                    d.vendor_name = $('#vendor_name').val();
+                    d.vendor_address = $('#vendor_address').val();
+                },
+
             },
-             ],
+            columns: [
+                {
+                    render: function (data, type, row) {
+                        return '<h4 class="s-title">' + row.name + '</h4><span class="s-address">' + row.location.display_address + '</span>';
+                    }
+                },
+                {
+                    render: function (data, type, row) {
+                        return '<a href="#popup" class="continue-btn call-to-action button" data-toggle="modal" >Continue</a>';
+                    },
+                    orderable: false,
+                    searchable: false,
+                }
+            ],
         });
-
-    $('#yelpform').on('submit', function (event) {
-        event.preventDefault();
-   
-     $('.yelpdata').removeClass("hidden");
-        
-    });
-
-
+    }
 
 });
-// sign up form
-
 
 function initAutocomplete() {
 
     // Create the autocomplete object, restricting the search to geographical
     // location types.
+    autocompleteregister = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('autocomplete1')),
+            {types: ['geocode']});
+    // When the user selects an address from the dropdown, populate the address
+    // fields in the form.
+    autocompleteregister.addListener('place_changed', fillInAddress);
+    // Create the autocomplete object, restrictin
+    // g the search to geographical
+    // location types.
+
     autocomplete = new google.maps.places.Autocomplete(
             /** @type {!HTMLInputElement} */(document.getElementById('vendor_address')),
             {types: ['geocode']});
+
+
+}
+
+//google map  search
+var placeSearch, autocomplete;
+var componentForm = {
+
+    country: 'long_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'long_name',
+    postal_code: 'short_name',
+};
+
+function fillInAddress() {
+
+// Get the place details from the autocomplete object.
+    var place = autocompleteregister.getPlace();
+    // Get each component of the address from the place details
+    // and fill the corresponding field on the form.
+
+
+    for (var i = 0; i < place.address_components.length; i++) {
+        var addressType = place.address_components[i].types[0];
+        if (componentForm[addressType]) {
+            var val = place.address_components[i][componentForm[addressType]];
+            document.getElementById(addressType).value = val;
+        }
+    }
+
+
 
 
 }

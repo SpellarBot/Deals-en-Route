@@ -47,11 +47,7 @@ use AuthenticatesUsers;
         return view('frontend.search');
     }
 
-    public function vendorindex() {
-        // show logo image
-        $company_logo = $this->showLogoImage();
-        return view('frontend.home')->with(['company_logo' => $company_logo]);
-    }
+   
 
     public function showLoginForm() {
         return view('frontend.auth.login');

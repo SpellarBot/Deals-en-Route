@@ -34,14 +34,15 @@
 
                             <h4>Sign Up Details</h4>
                             <div class="form-group">
-                                {{ Form::select('vendor_category',[''=>'Select Category'],'',['class'=>'form-control selectinput','id'=>'vendorcategory'])
+                              {{ Form::select('vendor_category',[''=>'Select Category']+$signup_category_images,'',
+                                ['class'=>'form-control selectinput','id'=>'vendorcategory'])
                                 }}
                            
                                 <input name="browser" class="inputtext" style="display:none;" disabled="disabled">
                             </div>
 
                             <div class="form-group">
-                                {{ Form::text('vendor_name', '', ['placeholder'=>'Business Name','class'=>'form-control']) }}
+                                {{ Form::text('vendor_name', '', ['placeholder'=>'Business Name','class'=>'form-control','id'=>'vendorname']) }}
                             </div>
 
 
@@ -51,7 +52,7 @@
                             </div>
 
                             <div class="form-group">
-                                {{ Form::select('vendor_country',[''=>'Select Country'],'',['class'=>'form-control selectinput','id'=>'country']) }}
+                                 {{ Form::select('vendor_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput','id'=>'country']) }}
                             </div>
 
                             <div class="form-group">

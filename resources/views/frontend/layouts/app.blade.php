@@ -24,6 +24,7 @@
         @yield('styles')
     </head>
     <body class="pages pages-homepage">
+         <input type="hidden" name="hidAbsUrl" id="hidAbsUrl" value="{{URL::to('/')}}" />
         <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
         <div class="errorpopup">
             @if (Session::has('success'))
@@ -56,10 +57,12 @@
         <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
                   <script src="{{ asset('frontend/js/jquery.easy-autocomplete.min.js') }}"></script> 
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js')}}"></script>
-      
+            <script type="text/javascript" src="{{ asset('frontend/js/jQuery.fileinput.js')}}"></script>
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/forget.js')}}"></script>
-     
+            <script type="text/javascript" src="{{ asset('frontend/js/cleave.min.js')}}"></script>
+            <script src="{{ asset('frontend/js/jasny-bootstrap.js')}}"></script>
             <script type="text/javascript" src="{{ asset('frontend/js/webjs/login.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('frontend/js/webjs/register.js')}}"></script>
             <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=places&callback=initAutocomplete"
             async defer></script>
             @yield('scripts')

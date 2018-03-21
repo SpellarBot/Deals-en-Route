@@ -17,6 +17,7 @@ use App\Http\Services\ImageTrait;
 use App\Http\Services\MailTrait;
 use Auth;
 use App\CouponCategory;
+use App\Http\Helpers\Yelp;
 
 class RegisterController extends Controller {
     /*
@@ -194,42 +195,46 @@ use RegistersUsers;
 
     public function yelpGetList(Request $request) {
         try {
-   
-        $data = $request->all();
-        $client = new \Stevenmaguire\Yelp\v3\Client(array(
-            'accessToken' => 'BlDjJypGzmjK1_yvy6UCSBQm0hnY2Ae8ttxAMXp9NOYYE2-KUsZ3yk-LX4lbPUBEkOGTNqbXRSbfmPGJnkoxyQ9ziJ9NHxOrnd6vOnfi00gu1fzB-nPgWWyuPx2qWnYx',
-            'apiHost' => 'api.yelp.com' // Optional, default 'api.yelp.com'
-        ));
-        if((isset($data['vendor_address']) && !empty($data['vendor_address']))
-                && (isset($data['tag_list'])) && (!empty($data['tag_list']))){
-            
-        
-        if(isset($data['start'])){
-            $offset=$data['start']+1;
-        }else {
-            $offset=1;
+            $data = $request->all();
+
+            $yelp = new Yelp();
+            $results = $yelp->getBusinessResult($data);
+
+            if (($results->total == 0)) {
+                return ((["data" => [], "recordsTotal" => 0, "recordsFiltered" => 0]));
+            }
+            return ((["data" => $results->businesses, "recordsTotal" => $results->total, "recordsFiltered" => $results->total]));
+        } catch (\Stevenmaguire\Yelp\Exception\HttpException $e) {
+            $responseBody = $e->getResponseBody(); // string from Http request
+            $responseBodyObject = json_decode($responseBody);
+            return ((["data" => [], "recordsTotal" => 0, "recordsFiltered" => 0]));
         }
-        $parameters = [
-            'term' => isset($data['tag_list']) ? $data['tag_list'] : '',
-            'location' => $data['vendor_address'],
-            'sort_by' => 'best_match',
-            'limit' => 20,
-            'offset' => $offset,
-        ];
-// Perform a request to a public resource
-//$response = $foursquare->GetPublic($endpoint ,$params, $POST=false);
-        $results = $client->getBusinessesSearchResults($parameters);
-//return ((["data"=>[['id'=>1,'name'=>"Dfsdf"],['id'=>2,"name"=>"test"]],"recordsTotal"=>5,"draw"=>1,"recordsFiltered"=>5]));  exit;
-                
-          return  ((["data"=>$results->businesses,"recordsTotal"=>$results->total,"recordsFiltered"=>$results->total])); 
-          }
-            return  ((["data"=>[],"recordsTotal"=>0,"recordsFiltered"=>0])); 
-        
+    }
+
+    public function yelpGetTagList(Request $request) {
+        try {
+            $data = $request->all();
+
+            $yelp = new Yelp();
+            $results = $yelp->getBusinessResult($data);
+            return $results->businesses;
+        } catch (\Stevenmaguire\Yelp\Exception\HttpException $e) {
+            $responseBody = $e->getResponseBody(); // string from Http request
+            $responseBodyObject = json_decode($responseBody);
+            return ((["data" => [], "recordsTotal" => 0, "recordsFiltered" => 0]));
         }
-        catch (\Stevenmaguire\Yelp\Exception\HttpException $e) {
-    $responseBody = $e->getResponseBody(); // string from Http request
-    $responseBodyObject = json_decode($responseBody);
-}
+    }
+
+    public function vendorindex() {
+        // show logo image
+        $company_logo = $this->showLogoImage();
+        $category_images = \App\CouponCategory::categoryList();
+        $signup_category_images = \App\CouponCategory::categoryListWeb();
+        $country_list = \App\Country::countryList();
+
+        return view('frontend.home')->with(['company_logo' => $company_logo,
+                    'category_images' => $category_images, 'signup_category_images' => $signup_category_images,
+                    'country_list' => $country_list]);
     }
 
 }
