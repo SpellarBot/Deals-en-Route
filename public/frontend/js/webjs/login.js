@@ -111,8 +111,12 @@ $('#yelpform').on('submit', function (event) {
             oLanguage: {sEmptyTable: "No records found"},
             fnDrawCallback: function () {
                 var oTable = $('#yelpdatatable').DataTable();
-                if (oTable.length == 0) {
+                var api = this.api();
+ 
+             if (api.rows( {page:'current'}).data().length == 0) {
                     $('#yelpdatatable_paginate').css("display", "none");
+                }else {
+                   $('#yelpdatatable_paginate').css("display", "block"); 
                 }
             },
             ajax: {
