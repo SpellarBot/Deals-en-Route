@@ -173,13 +173,13 @@
                 <div class="content-wrapper">
                     <h3>
                         Cities
-                        <small class="sub-title">
+                        
                             @if($msg != '')
-                            <div id="success-alert" style="margin-top: -28px; display: none;" class="pull-right alert  {{$_GET['class']}}" >
+                            <div id="success-alert" style="margin-top: -28px; display: none;position: fixed;right:20px !important;font-size: 13px;z-index: 9;" class="pull-right alert  {{$_GET['class']}}" >
                                 {{$msg}}
                             </div>
                             @endif
-                        </small>
+                        
 
                     </h3>
                     <div class="container-fluid cities-content-wrapper">
@@ -238,7 +238,7 @@
                                                 <div class="row">
                                                     <div class="panel panel-default">
                                                         <div class="panel-body">
-                                                            <div class="col-lg-8 col-lg-offset-2 col-md-12 col-xs-12">
+                                                            <div class="col-lg-12 col-md-12 col-xs-12">
                                                                 <div class="table-responsive user-management cities-table">
                                                                     <table id="users" class="table table-striped table-hover">
                                                                         <thead>
@@ -255,7 +255,7 @@
                                                                                 <td>{{$row->name}}</td>
                                                                                 <td>{{$row->state}}</td>
                                                                                 <td>{{$row->county}}</td>
-                                                                                <td class="text-center"><a onclick="delete_city('{{$row->id}}','{{$row->name}}');" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
+                                                                                <td class="text-center"><a style="cursor: pointer;" onclick="delete_city('{{$row->id}}','{{$row->name}}');" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
                                                                             </tr>
                                                                             @endforeach
 
@@ -279,7 +279,7 @@
                                         <div class="panel-body">
                                             <div class="col-xs-12">
                                                 <div class="table-responsive user-management">
-                                                    <table id="table4" class="table table-striped table-hover">
+                                                    <table id="redeemed" class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
                                                                 <th>City Requested</th>
@@ -299,7 +299,7 @@
                                                             @endforeach
                                                         </tbody>
                                                     </table>
-                                                    {{ $city_request->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+                                                    
                                                 </div>                                     
                                             </div>
                                         </div>
@@ -314,7 +314,7 @@
                                         <div class="panel-body">
                                             <div class="col-xs-12">
                                                 <div class="table-responsive user-management">
-                                                    <table id="table4" class="table table-striped table-hover">
+                                                    <table id="decline" class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
                                                                 <th>City</th>
@@ -335,7 +335,7 @@
                                                             @endforeach
                                                         </tbody>
                                                     </table>
-                                                    {{ $city_request->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+                                                    
                                                 </div>                                     
                                             </div>
                                         </div>
@@ -432,7 +432,7 @@
         <script src="{{ asset('vendor/admin/chosen_v1.2.0/chosen.jquery.min.js') }}"></script>
         <!-- =============== APP SCRIPTS ===============-->
         <script src="{{ asset('js/admin/app.js') }}"></script>
-  <!--      <script src="{{ asset('js/admin//cusom.js') }}"></script>-->
+        <script src="{{ asset('js/admin//cusom.js') }}"></script>
         <script>
             $(document).ready(function() {
             $(window).keydown(function(event){
@@ -461,8 +461,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-danger pull-right" onclick="$('#myModal').modal('hide');" id="reject" type="button" style="margin-left: 10px;">No</button>
-                        <a style="text-decoration: none;" id="accept"><button class="btn btn-primary pull-right"  type="button" >Yes</button></a>
+                        <button class="hideBtn btn btn-danger pull-right" onclick="$('.hideBtn').hide();" id="reject" type="button" style="margin-left: 10px;">No</button>
+                        <a style="text-decoration: none;" id="accept"><button class="hideBtn btn btn-primary pull-right" onclick="$('.btn').hide();"  type="button" >Yes</button></a>
                     </div>
                 </div>
 
@@ -479,8 +479,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-danger pull-right" onclick="$('#myModal_request').modal('hide');" id="reject_request" type="button" style="margin-left: 10px;">No</button>
-                        <a style="text-decoration: none;" id="accept_request"><button class="btn btn-primary pull-right"  type="button" >Yes</button></a>
+                        <button class="btn btn-danger pull-right hideBtn" onclick="$('#myModal_request').modal('hide');" id="reject_request" type="button" style="margin-left: 10px;">No</button>
+                        <a style="text-decoration: none;" id="accept_request"><button onclick="$('.hideBtn').hide();" class="hideBtn btn btn-primary pull-right"  type="button" >Yes</button></a>
                     </div>
                 </div>
 
