@@ -34,10 +34,10 @@
 
                             <h4>Sign Up Details</h4>
                             <div class="form-group">
-                              {{ Form::select('vendor_category',[''=>'Select Category']+$signup_category_images,'',
+                                {{ Form::select('vendor_category',[''=>'Select Category']+$signup_category_images,'',
                                 ['class'=>'form-control selectinput','id'=>'vendorcategory'])
                                 }}
-                           
+
                                 <input name="browser" class="inputtext" style="display:none;" disabled="disabled">
                             </div>
 
@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="form-group">
-                                 {{ Form::select('vendor_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput','id'=>'country']) }}
+                                {{ Form::select('vendor_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput','id'=>'country']) }}
                             </div>
 
                             <div class="form-group">
@@ -85,17 +85,23 @@
                             <div class="form-group">
                                 {{ Form::password('confirm_password',  ['placeholder'=>'Confirm Password','class'=>'form-control']) }}
                             </div>
-                            <div class="form-group vendorlogo">
-                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                    <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename"></span></div>
+
+                            <div class="form-group vendorlogo fileexits">
+                                <div class="fileinput input-group fileinput-exists " data-provides="fileinput">
+                                    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+                                        <img src="">
+                                    </div>
+                                    <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename"> test </span></div>
                                     <span class="input-group-addon btn btn-default btn-file">
                                         <span class="fileinput-new">Browse</span>
-                                        <span class="fileinput-exists">Change</span> 
-                                        {{ Form::file('vendor_logo',['id' => 'vendorlogo','accept'=>'image/*']) }}
+                                        <span class="fileinput-exists">Change
+                                        </span> 
+
+                                        <input value="" name="" type="hidden">{{ Form::file('vendor_logo',['id' => 'vendorlogo','accept'=>'image/*']) }}
                                     </span>
                                 </div>
-
-                            </div>
+                            </div> 
+                           
 
                         </div>
                         <div class="col-sm-6">

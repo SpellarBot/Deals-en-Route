@@ -11,6 +11,7 @@
             <div class="getstart-search">
                 {{ Form::open(['route' => 'yelp.search', 'class' => 'form-inline','id'=>'yelpform']) }}
                 <div class="row">
+                  {{ Form::hidden('callbackstatus',0, ['id' => 'callbackstatus']) }}
                     <div class="col-sm-5 col-xs-12"><div class="form-group">
                             {{ Form::text('vendor_address', '', ['placeholder'=>'Street Address','class'=>'form-control','id'=>'vendor_address']) }}
 

@@ -65,6 +65,7 @@ use RegistersUsers;
         try {
             // process the store
             $data = $request->all();
+          
 //        print_r($data);die;
 //        $category = CouponCategory::orWhere('category_id', $data['vendor_category'])
 //                ->orWhere('category_name', 'like', '%' . $data['vendor_category'] . '%')
@@ -207,7 +208,8 @@ use RegistersUsers;
         } catch (\Stevenmaguire\Yelp\Exception\HttpException $e) {
             $responseBody = $e->getResponseBody(); // string from Http request
             $responseBodyObject = json_decode($responseBody);
-            return ((["data" => [], "recordsTotal" => 0, "recordsFiltered" => 0]));
+           // return $responseBodyObject;
+           return ((["data" => [], "recordsTotal" => 0, "recordsFiltered" => 0]));
         }
     }
 

@@ -72,12 +72,16 @@ class VendorDetail extends Model {
             $checkaddress = $data['check-address'];
             unset($data['check-address']);
         }
+        if(isset($data['vendor_country'])){
+        $countrycode= \App\Country::select('id')->where("country_code",$data['vendor_country'])->first(); 
+        }
         $vendor_detail = VendorDetail::firstOrNew(["user_id" => $user_id]);
         $vendor_detail->user_id = $user_id;
         $vendor_detail->additional_geo_fencing_total=0;
         $vendor_detail->additional_geo_location_used=0;
         $vendor_detail->additional_geo_fencing_used=0;
         $vendor_detail->additional_geo_location_total=0;
+        $vendor_detail->vendor_country= $countrycode->id;
         $vendor_detail->fill($data);
         $vendor_detail->save();
 

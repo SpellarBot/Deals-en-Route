@@ -1,3 +1,4 @@
+   var test='';
 $(document).ready(function () {
 
     $('.fileinput').fileinput()
@@ -44,12 +45,18 @@ $(document).ready(function () {
         }
 
     });
+  
+     
+ 
+
 // sign up form
     $('#signupform').on('submit', function (event) {
-
+   var arrayp=[];
         event.preventDefault();
         formData = new FormData($(this)[0]);
         formData.append('vendor_time_zone', (new Date()).getTimezoneOffset());
+
+     
         $.ajax({
             url: $('#hidAbsUrl').val() + "/register/create",
             type: 'POST',
@@ -60,7 +67,7 @@ $(document).ready(function () {
             success: function (data) {
 
                 $('#popup').modal('hide');
-                $('body').removeClass('modal-open').addClass('price-page').removeAttr('style').html(data);
+                $('body').removeClass('modal-open pages pages-homepage').addClass('price-page').removeAttr('style').html(data);
             },
             beforeSend: function () {
                 $('#loadingDiv').show();
