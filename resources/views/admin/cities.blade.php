@@ -292,7 +292,7 @@
                                                             @foreach($city_request as $row)
                                                             <tr>
                                                                 <td>{{$row->city_request_id}}</td>
-                                                                <td><span style="cursor: pointer;" data-toggle="modal" data-target="#myModal_users" onclick="getUsers('{{$row->city}}','{{$row->state_code}}','{{$row->country}}', '0')">{{$row->count}}</span></td>
+                                                                <td><span style="cursor: pointer;color: blue;" data-toggle="modal" data-target="#myModal_users" onclick="getUsers('{{$row->city}}','{{$row->state_code}}','{{$row->country}}', '0')">{{$row->count}}</span></td>
                                                                 <td><a style="color: green; cursor: pointer;" href="{{ asset('admin/activeCity?active_city='.$row->city_request_id)}}">Accept</a></td>
                                                                 <td><span style="color: red;cursor: pointer;" onclick="cancelCity('{{ asset("admin/activeCity?active_city=". $row->city ."&is_cancel=1")}}')" data-toggle="modal" data-target="#myModal_request">Decline</span></td>
                                                             </tr>
@@ -329,7 +329,7 @@
                                                                 <td>{{$row->name}}</td>
                                                                 <td>{{$row->state}}</td>
                                                                 <td>{{$row->county}}</td>
-                                                                <td><span style="cursor: pointer;" data-toggle="modal" data-target="#myModal_users" onclick="getUsers('{{$row->name}}','{{$row->state_code}}','{{$row->county}}','1')">{{$row->count}}</span></td>
+                                                                <td><span style="cursor: pointer;color: blue;" data-toggle="modal" data-target="#myModal_users" onclick="getUsers('{{$row->name}}','{{$row->state_code}}','{{$row->county}}','1')">{{$row->count}}</span></td>
                                                                
                                                             </tr>
                                                             @endforeach
