@@ -2852,14 +2852,21 @@ background: -ms-linear-gradient(top, rgba(128,203,196,1) 0%, rgba(223,242,241,1)
 background: linear-gradient(to bottom, rgba(128,203,196,1) 0%, rgba(223,242,241,1) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80cbc4', endColorstr='#dff2f1', GradientType=0 );
 min-height: 100vh;}
+.getstart-search .help-block{text-align: left; position: absolute; margin-top: 0; font-size: 12px; margin-left: 17px;}
 .search-section h1.index-head{font-family: inherit;text-align: center; z-index: 1;position: relative;}
 .search-result-wrapper {background: #fff; border-radius: 10px; margin-top: 20px; padding: 15px;position: relative;z-index: 1;margin-bottom: 800px;text-align: left;}
 .search-result-wrapper table.search-result-list tr td:last-child{vertical-align: middle;text-align: right;}
 .search-result-wrapper table.search-result-list td{padding: 25px 0px;}
 .search-result-wrapper table.search-result-list td .s-title{margin-bottom: 15px;margin-top:0px;font-weight: 500;}
 .search-result-wrapper table.search-result-list td .s-address{color: #666666;}
-.search-result-wrapper .continue-btn.call-to-action{border-radius: 10px;line-height: 40px;font-size: 16px;width: auto;}
+.search-result-wrapper .continue-btn.call-to-action{border-radius: 10px;line-height: 40px;font-size: 16px;width: auto;margin: 0;}
+.search-result-wrapper .addbusiness-btn.call-to-action{border-radius: 10px;line-height: 40px;font-size: 16px;width: auto;display: block;max-width: 210px;margin: 0px auto;margin-top: 15px;}
 .search-section .getstart-search{z-index: 1;position: relative;}
+.search-result-wrapper table.search-result-list tr td.dataTables_empty:last-child {text-align: center;font-size: 24px;border: 0;}
+.search-result-wrapper table.dataTable.no-footer{border-bottom:0px;}
+.search-result-wrapper .bottom{display: table;width: 100%;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;}
+.search-result-wrapper .dataTables_wrapper .dataTables_paginate{padding-top: 0px;}
+.search-result-wrapper .dataTables_wrapper .dataTables_paginate .paginate_button.current{color: #3fa662 !important;border: 0px;border-bottom: 2px solid #3fa662;border-top: 2px solid #3fa662;background: none;}
 
 .search-section .search-footer-bg{background: url(../img/search_footer_bg.png) no-repeat; min-height: 600px;margin-top: -30px;position: relative;background-position: center;}
 .search-footer-bg footer{border: 0px;}
@@ -2877,6 +2884,12 @@ min-height: 100vh;}
 .signup-form-wrapper{background: #fff;border-radius: 20px; overflow: hidden; position: relative; z-index: 1;}
 .signup-page img.logo {width: 84px;position: absolute;margin-left: 35px;top: 15px;z-index: 1;}
 .signup-page .form-control, .signup-page input{border: 0px !important;box-shadow: none !important;border-bottom: 1px solid #ccc !important;border-radius: 0px !important;}
+
+.easy-autocomplete{width: 100% !important;}
+.easy-autocomplete-container{text-align: left;overflow: hidden;}
+.easy-autocomplete-container ul{border-radius: 0 0 4px 4px;overflow: hidden;}
+.easy-autocomplete-container ul li {border-top: 1px solid #ccc !important;}
+.easy-autocomplete-container ul li:last-child {border-radius: 0 0 4px 4px;}
 @media only screen and (max-width: 991px) {
     .getstart-search .form-inline .form-group{margin-bottom: 10px;}
 }

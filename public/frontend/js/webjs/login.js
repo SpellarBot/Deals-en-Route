@@ -159,7 +159,12 @@ $('#yelpform').on('submit', function (event) {
 
                     $(".dataTables_empty").append('<a href="javascript:void(0)" class="continue-btn call-to-action button autocompleteNoData" >Add Your Business</a>')
 
-
+  $(".dataTables_empty").append("<a href='#popup' class='addbusiness-btn call-to-action button' data-toggle='modal' >Add Your Business</a>")
+                    $('#yelpdatatable_paginate').css("display", "none");
+                    $('.dataTables_wrapper .top').css("display", "none");
+                    $('.dataTables_wrapper .bottom').css("display", "none");
+                    $('.dataTables_wrapper thead').css("display", "none");
+               
 
                     $('#yelpdatatable_paginate').css("display", "none");
                     $('#yelpdatatable_info').css("display", "none");
