@@ -11,14 +11,14 @@
             <div class="getstart-search">
                 {{ Form::open(['route' => 'yelp.search', 'class' => 'form-inline','id'=>'yelpform']) }}
                 <div class="row">
-                    <div class="col-sm-5 col-xs-12"><div class="form-group">
+                    <div class="col-md-5 col-sm-6 col-xs-12"><div class="form-group">
                             {{ Form::text('vendor_address', '', ['placeholder'=>'Street Address','class'=>'form-control','id'=>'vendor_address']) }}
 
                         </div></div>
-                    <div class="col-sm-5 col-xs-12"><div class="form-group">
+                    <div class="col-md-5 col-sm-6 col-xs-12"><div class="form-group">
                             {{ Form::text('vendor_name', '', ['placeholder'=>'Business Name','class'=>'form-control','id'=>'vendor_name']) }}
                         </div></div>
-                    <div class="col-sm-2 col-xs-12"><button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Get Started</button></div>
+                    <div class="col-md-2 col-sm-12 col-xs-12"><button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Get Started</button></div>
                 </div>
                 {{ Form::close() }}
             </div>

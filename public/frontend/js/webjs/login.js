@@ -114,8 +114,11 @@ $('#yelpform').on('submit', function (event) {
                 var api = this.api();
  
              if (api.rows( {page:'current'}).data().length == 0) {
-                  $(".dataTables_empty").append("<a href='#popup' class='continue-btn call-to-action button' data-toggle='modal' >Add Your Business</a>")
+                  $(".dataTables_empty").append("<a href='#popup' class='addbusiness-btn call-to-action button' data-toggle='modal' >Add Your Business</a>")
                     $('#yelpdatatable_paginate').css("display", "none");
+                    $('.dataTables_wrapper .top').css("display", "none");
+                    $('.dataTables_wrapper .bottom').css("display", "none");
+                    $('.dataTables_wrapper thead').css("display", "none");
                 }else {
                    $('#yelpdatatable_paginate').css("display", "block"); 
                 }
