@@ -15,7 +15,7 @@ class Yelp {
         $this->client = $client;
     }
 
-    public function getBusinessResult($data) {
+    public function getBusinessResult($data,$limit='') {
         if (isset($data['start']) && $data['start'] == 0) {
             $offset = 0;
         } else if (isset($data['start'])) {
@@ -27,7 +27,7 @@ class Yelp {
             'term' => $data['vendor_name'],
             'location' => $data['vendor_address'],
             'sort_by' => 'best_match',
-            'limit' => 50,
+            'limit' => $limit??50,
             'offset' => $offset,
         ];
         // Perform a request to a public resource

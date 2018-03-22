@@ -21,9 +21,7 @@ $(document).ready(function () {
                 return element.name;
             }
         },
-    
         list: {
-            maxNumberOfElements: 5,
             onClickEvent: function () {
                 var value = $("#vendor_name").getSelectedItemData();
                 showData(value);
@@ -41,6 +39,11 @@ $(document).ready(function () {
                 callback: function () {
                 }
             }
+
+
+
+
+
         },
         template: {
             type: "custom",
@@ -150,23 +153,32 @@ $('#yelpform').on('submit', function (event) {
             fnDrawCallback: function () {
                 var oTable = $('#yelpdatatable').DataTable();
                 var api = this.api();
+<<<<<<< HEAD
                 var oSettings = this.fnSettings();
                 var iTotalRecords = oSettings.fnRecordsTotal();
                 if (iTotalRecords == 0) {
 
-                    $(".dataTables_empty").append('<a href="javascript:void(0)" class="addbusiness-btn call-to-action button autocompleteNoData" >Add Your Business</a>');
-                    $('.dataTables_wrapper .top').css("display", "none");
-                    $('.dataTables_wrapper .bottom').css("display", "none");
-                    $('.dataTables_wrapper thead').css("display", "none");
+                    $(".dataTables_empty").append('<a href="javascript:void(0)" class="continue-btn call-to-action button autocompleteNoData" >Add Your Business</a>')
+
+
+
                     $('#yelpdatatable_paginate').css("display", "none");
                     $('#yelpdatatable_info').css("display", "none");
 
                 } else {
-                    $('.dataTables_wrapper .top').css("display", "block");
-                    $('.dataTables_wrapper .bottom').css("display", "block");
-                    $('.dataTables_wrapper thead').css("display", "block");
                     $('#yelpdatatable_paginate').css("display", "block");
                     $('#yelpdatatable_info').css("display", "block");
+=======
+ 
+             if (api.rows( {page:'current'}).data().length == 0) {
+                  $(".dataTables_empty").append("<a href='#popup' class='addbusiness-btn call-to-action button' data-toggle='modal' >Add Your Business</a>")
+                    $('#yelpdatatable_paginate').css("display", "none");
+                    $('.dataTables_wrapper .top').css("display", "none");
+                    $('.dataTables_wrapper .bottom').css("display", "none");
+                    $('.dataTables_wrapper thead').css("display", "none");
+                }else {
+                   $('#yelpdatatable_paginate').css("display", "block"); 
+>>>>>>> refs/remotes/origin/staging
                 }
             },
             ajax: {
@@ -187,7 +199,6 @@ $('#yelpform').on('submit', function (event) {
             columns: [
                 {
                     render: function (data, type, row) {
-                        console.log(row);
                         return '<h4 class="s-title">' + row.name + '</h4><span class="s-address">' + row.location.display_address + '</span>';
                     }
                 },
@@ -314,7 +325,6 @@ function fillInAddressOnClick() {
 
 }
 $(document).on('change', '#vendor_address', function (e) {
-     e.preventDefault();
     $('#callbackstatus').val(0);
     $(".form-group").removeClass('has-error');
     $(".help-block").html('');

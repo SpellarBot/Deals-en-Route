@@ -1,4 +1,3 @@
-   var test='';
 $(document).ready(function () {
 
     $('.fileinput').fileinput()
@@ -45,18 +44,13 @@ $(document).ready(function () {
         }
 
     });
-  
-     
- 
-
 // sign up form
     $('#signupform').on('submit', function (event) {
-   var arrayp=[];
+
         event.preventDefault();
         formData = new FormData($(this)[0]);
         formData.append('vendor_time_zone', (new Date()).getTimezoneOffset());
-
-     
+        
         $.ajax({
             url: $('#hidAbsUrl').val() + "/register/create",
             type: 'POST',
@@ -86,7 +80,7 @@ $(document).ready(function () {
                 }
                 $(".form-group").removeClass('has-error');
                 $(".input-group").removeClass('has-error');
-                $(".help-block").html('');
+                $('.help-block').remove();
                 var errors = data.responseJSON.errors;
                 if (errors != '') {
                     $.each(errors, function (key, value) {

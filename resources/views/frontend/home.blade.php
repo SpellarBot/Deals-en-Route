@@ -10,6 +10,7 @@
             <h1 class="index-head"> Find and Register your Deals en Route Business </h1>
             <div class="getstart-search">
                 {{ Form::open(['route' => 'yelp.search', 'class' => 'form-inline','id'=>'yelpform']) }}
+                 <input type="hidden" id="callbackstatus" value=''>
                 <div class="row">
                     <div class="col-md-5 col-sm-6 col-xs-12"><div class="form-group">
                             {{ Form::text('vendor_address', '', ['placeholder'=>'Street Address','class'=>'form-control','id'=>'vendor_address']) }}
