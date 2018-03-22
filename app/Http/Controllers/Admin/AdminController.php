@@ -27,7 +27,10 @@ class AdminController extends Controller {
 
     use ImageTrait;
     use \App\Http\Services\MailTrait;
-
+    
+     public function __construct() {
+        $this->middleware('auth.admin');
+    }
     //
     public function userlist()
     {
@@ -294,8 +297,8 @@ class AdminController extends Controller {
             $row->count = CityRequest::where('city', $row->name)->where('state_code', $row->state_code)->where('country', $row->county)->where('is_review', 1)->count();
         }
         //echo '<pre>';print_r($data['decline_city']);exit;
-        $data['city_list_active'] = City::where('is_active', 1)->paginate(10);
-        $data['city_request'] = CityRequest::where('is_review', 0)->groupby('city_request_id')->select(['*', DB::raw('COUNT(city_request_id) as count')])->orderby('id', 'DESC')->paginate(10);
+        $data['city_list_active'] = City::where('is_active', 1)->get();
+        $data['city_request'] = CityRequest::where('is_review', 0)->groupby('city_request_id')->select(['*', DB::raw('COUNT(city_request_id) as count')])->orderby('id', 'DESC')->get();
         //echo '<pre>';print_r($data['city_request']);exit;
         return view('admin.cities', $data);
     }
