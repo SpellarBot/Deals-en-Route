@@ -110,7 +110,7 @@ $(document).ready(function () {
 $('#yelpform').on('submit', function (event) {
     event.preventDefault();
     $(".form-group").removeClass('has-error');
-    $(".help-block").html('');
+   $('.help-block').remove();
     var vendor_name = $('#vendor_name').val();
     var vendor_address = $('#vendor_address').val();
     var flag = 1;

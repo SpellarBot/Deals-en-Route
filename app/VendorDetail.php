@@ -125,6 +125,9 @@ class VendorDetail extends Model {
         $vendor = VendorDetail::where('user_id', $id)->first();
         $vendor->fill($data);
         $vendor->save();
+        if (!empty($data['vendor_address'])) {
+            self::saveMapLatLong($vendor);
+        }
         return $vendor;
     }
 

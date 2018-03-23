@@ -55,7 +55,7 @@ use AuthenticatesUsers;
 
     public function logout() {
         Auth::guard('web')->logout();
-        return redirect('/index');
+        return redirect('/');
     }
 
     /**

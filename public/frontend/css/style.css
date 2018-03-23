@@ -2891,7 +2891,12 @@ min-height: 100vh;}
 .easy-autocomplete-container ul{border-radius: 0 0 4px 4px;overflow: hidden;}
 .easy-autocomplete-container ul li {border-top: 1px solid #ccc !important;}
 .easy-autocomplete-container ul li:last-child {border-radius: 0 0 4px 4px;}
-.eac-item .eac-details {display: inline-block; vertical-align: middle; padding-left: 10px;}
+.eac-item .eac-details {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 10px;
+    width: calc(100% - 55px);
+}
 @media only screen and (max-width: 991px) {
     .getstart-search .form-inline .form-group{margin-bottom: 10px;}
 }
