@@ -16,18 +16,18 @@ class Yelp {
     }
 
     public function getBusinessResult($data,$limit='') {
-        if (isset($data['start']) && $data['start'] == 0) {
+//        if (isset($data['start']) && $data['start'] == 0) {
+//            $offset = 0;
+//        } else if (isset($data['start'])) {
+//            $offset = $data['start'];
+//        } else {
             $offset = 0;
-        } else if (isset($data['start'])) {
-            $offset = $data['start'];
-        } else {
-            $offset = 0;
-        }
+       // }
         $parameters = [
             'term' => $data['vendor_name'],
             'location' => $data['vendor_address'],
             'sort_by' => 'best_match',
-            'limit' => $limit??50,
+            'limit' => (empty($limit)?50:$limit),
             'offset' => $offset,
         ];
         // Perform a request to a public resource
