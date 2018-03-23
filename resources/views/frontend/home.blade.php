@@ -154,7 +154,7 @@
                                         <h5>Deals en Route</h5>
                                     </div>
                                     <div class="pindetails">
-                                        <p>Taco night at Anderson Creek! Weâ€™re shaking up tonight with free tequila shots (21+) from 8-9 only! Bottoms up!</p>
+                                        <p>Taco night at Anderson Creek! We're shaking up tonight with free tequila shots (21+) from 8-9 only! Bottoms up!</p>
                                     </div>
                                 </div>
                             </div>
