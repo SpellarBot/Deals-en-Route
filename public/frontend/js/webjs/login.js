@@ -45,7 +45,8 @@ $(document).ready(function () {
         template: {
             type: "custom",
             method: function (value, item) {
-                return  item.name + " <br> " + item.location.display_address;
+                var image= (item.image_url)? item.image_url: $('#hidAbsUrl').val()+"/public/frontend/img/yelpother.png";
+                return  "<img width='50' height='50' src="+image+ "> <div class='eac-details'>"+item.name + " <br> " + item.location.display_address + "</div>";
             }
         }
     };
@@ -138,7 +139,7 @@ $('#yelpform').on('submit', function (event) {
     } else {
         $('.yelpdata').removeClass("hidden");
         $('#yelpdatatable').DataTable({
-            processing: true,
+            processing: false,
             dom: '<"top"i>rt<"bottom"flp>',
             ordering: false,
             info: true,
@@ -146,6 +147,7 @@ $('#yelpform').on('submit', function (event) {
             destroy: true,
             pageLength: 10,
             lengthChange: false,
+            
             oLanguage: {sEmptyTable: "No Results Found!"},
             fnDrawCallback: function () {
                 var oTable = $('#yelpdatatable').DataTable();
@@ -187,8 +189,8 @@ $('#yelpform').on('submit', function (event) {
             columns: [
                 {
                     render: function (data, type, row) {
-                        console.log(row);
-                        return '<h4 class="s-title">' + row.name + '</h4><span class="s-address">' + row.location.display_address + '</span>';
+                       var image= (row.image_url)? row.image_url: $('#hidAbsUrl').val()+"/public/frontend/img/yelpother.png";
+                        return '<img width="70" height="70" src='+image+'><div class="search-details"><h4 class="s-title">' + row.name + '</h4><span class="s-address">' + row.location.display_address + '</span></div>';
                     }
                 },
                 {
