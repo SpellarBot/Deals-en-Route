@@ -189,7 +189,6 @@
                             <div class="col-lg-12 mb-30">
                                 <ul role="tablist" class="nav nav-tabs">
                                     <li role="presentation" class="active"><a href="#activeCities" aria-controls="home" role="tab" data-toggle="tab">Active Categories</a></li>
-                                    <li role="presentation"><a href="#cityRequests" aria-controls="profile" role="tab" data-toggle="tab">Categories Requests</a></li>                                   
                                 </ul>
                             </div>
                         </div>
@@ -212,6 +211,7 @@
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>Category Name</th>
+                                                                                <th>Category Logo</th>
                                                                                 <th class="text-center">Action</th>
                                                                             </tr>
                                                                         </thead>
@@ -219,6 +219,13 @@
                                                                             @foreach($category_list_active as $row)
                                                                             <tr>
                                                                                 <td>{{$row->category_name}}</td>
+                                                                                <td>
+                                                                                    @if($row->category_image)
+                                                                                    <img height="50px" width="50px" src='{{$row->category_image}}'> 
+                                                                                    @else
+                                                                                    No image uploaded
+                                                                                    @endif
+                                                                                </td>
                                                                                 <td class="text-center"><a onclick="delete_city('{{$row->category_id}}','{{$row->category_name}}');" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
                                                                             </tr>
                                                                             @endforeach
@@ -227,7 +234,10 @@
                                                                     </table>
                                                                     <script type="text/javascript">
                                                                         function delete_city(id,name){
-                                                                            $('#myModal1').modal('show');
+                                                                            $('#cat_id').val(id);
+                                                                            $('#cat_name').val(name);
+                                                                            $('#name').val(name);
+                                                                            $('#myModal').modal('show');
                                                                             $('#city_name').html(name);
                                                                             $("#accept1").attr("href","{{ url('/admin/deactiveCategory') }}" + "/" +id);
                                                                         }
@@ -243,44 +253,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- City Requests -->
-                            <div id="cityRequests" role="tabpanel" class="tab-pane">
-                                <!-- START DATATABLE 1-->
-                                <div class="row">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="col-xs-12">
-                                                <div class="table-responsive user-management">
-                                                    @if(count($requested_list) > 0)
-                                                    <table id="table4" class="table table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Requested Category</th>
-                                                                <th>Requested by</th>
-                                                                <th>#</th>
-                                                                <th>#</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach($requested_list as $row)
-                                                            <tr>
-                                                                <td>{{$row->category_name}}</td>
-                                                                <td>{{$row->request_email}}</td>
-                                                                <td onclick="action('{{$row->category_id}}','{{$row->category_name}}',1,'{{$row->request_email}}')" style="color:blue;cursor: pointer;">Accept</td>
-                                                                <td onclick="action('{{$row->category_id}}','{{$row->category_name}}',0, '{{$row->request_email}}')" style="color:red;cursor: pointer;">Reject</td>
-                                                            </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                    @else
-                                                    No request found
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
 
 
@@ -376,7 +349,7 @@
                                                                         }
                                                                     }
                                                                     function category(status){
-                                                                        if($('#file_img').val() == '' && status == '1'){
+                                                                        if($('#cat_name').val() == '' && status == '1'){
                                                                             $('#file_error').css('display','block');
                                                                         }else{                                                                            
                                                                             $('#status').val(status);
@@ -395,17 +368,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Category: <span id="cat_name"></h4>
+                        <h4 class="modal-title">Category Details</h4>
                     </div>
                     <div class="modal-body">
                         <form method="post" id="category" action="{{ url('/admin/categotyStatus') }}" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <input type="hidden" id="cat_id" name="cat_id">
-                             <input type="hidden" id="name" name="cat_name">
-                             <input type="hidden" id="email" name="email">
                             <div class="form-group" id="comment">
-                                <label for="pwd">Comment:</label>
-                                <textarea  name="comment" class="form-control"></textarea>
+                                <label for="pwd">Category Name:</label>
+                                <input id="cat_name" name="cat_name" class="form-control"></textarea>
                             </div>
                             <div class="form-group" id="logo">
                                 <label for="pwd">Category Logo:</label>

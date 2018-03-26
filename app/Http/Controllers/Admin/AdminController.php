@@ -560,35 +560,42 @@ class AdminController extends Controller {
 
     public function categotyStatus(request $request)
     {
-
-        if (Input::get('cat_id') != '' && Input::get('status') != '')
-        {
-            if (Input::get('status') == 0)
+        
+        if ($request->file('logo'))
             {
-                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 0, 'reject_reason' => Input::get('comment'), 'is_delete' => '1']);
-                $array_mail = ['to' => Input::get('email'),
-                    'type' => 'category_reject',
-                    'data' => ['reason' => Input::get('comment'), 'name' => Input::get('cat_name')]
-                ];
-                $this->sendMail($array_mail);
-                $msg = 'Category Rejected Successfully';
-            } else
-            {
-                if ($request->file('logo'))
-                {
-                    $ex = $request->file('logo')->getClientOriginalExtension();
-                    $upload = $this->categoryImageWeb($request->file('logo'), 'category_image', $request->input('cat_id'));
-                }
-                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 1, 'category_logo_image' => $request->input('cat_id') . '.' . $ex, 'category_image' => $request->input('cat_id') . '.' . $ex]);
-                $array_mail = ['to' => Input::get('email'),
-                    'type' => 'category_accept',
-                    'data' => ['name' => Input::get('cat_name')]
-                ];
-                $this->sendMail($array_mail);
-                $msg = 'Category Added Successfully';
+                $ex = $request->file('logo')->getClientOriginalExtension();
+                $upload = $this->categoryImageWeb($request->file('logo'), 'category_image', $request->input('cat_id'));
             }
-            return redirect('admin/categories?msg=' . $msg);
-        }
+            $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['category_name' => $request->input('cat_name'),'is_active' => 1, 'category_logo_image' => $request->input('cat_id') . '.' . $ex, 'category_image' => $request->input('cat_id') . '.' . $ex]);
+echo here;
+//        if (Input::get('cat_id') != '' && Input::get('status') != '')
+//        {
+//            if (Input::get('status') == 0)
+//            {
+//                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 0, 'reject_reason' => Input::get('comment'), 'is_delete' => '1']);
+//                $array_mail = ['to' => Input::get('email'),
+//                    'type' => 'category_reject',
+//                    'data' => ['reason' => Input::get('comment'), 'name' => Input::get('cat_name')]
+//                ];
+//                $this->sendMail($array_mail);
+//                $msg = 'Category Rejected Successfully';
+//            } else
+//            {
+//                if ($request->file('logo'))
+//                {
+//                    $ex = $request->file('logo')->getClientOriginalExtension();
+//                    $upload = $this->categoryImageWeb($request->file('logo'), 'category_image', $request->input('cat_id'));
+//                }
+//                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['is_active' => 1, 'category_logo_image' => $request->input('cat_id') . '.' . $ex, 'category_image' => $request->input('cat_id') . '.' . $ex]);
+//                $array_mail = ['to' => Input::get('email'),
+//                    'type' => 'category_accept',
+//                    'data' => ['name' => Input::get('cat_name')]
+//                ];
+//                $this->sendMail($array_mail);
+//                $msg = 'Category Added Successfully';
+//            }
+//            return redirect('admin/categories?msg=' . $msg);
+//        }
     }
 
 }
