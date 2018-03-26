@@ -176,9 +176,9 @@
                         Categories
                         <small class="sub-title">
                             @if($msg)
-                             <div id="success-alert" style="margin-top: -28px; display: none;" class="pull-right alert alert-success" >
-                                        <strong>Success!</strong> {{$msg}}
-                                    </div>
+                            <div id="success-alert" style="margin-top: -28px; display: none;" class="pull-right alert alert-success" >
+                                <strong>Success!</strong> {{$msg}}
+                            </div>
                             @endif
                         </small>
 
@@ -199,12 +199,20 @@
                             <div id="activeCities" role="tabpanel" class="tab-pane active">
                                 <div class="row">
                                     <div class="col-lg-12">
+
                                         <!-- START DATATABLE 1-->
                                         <div class="row">
+
                                             <div class="col-lg-12">
                                                 <div class="row">
                                                     <div class="panel panel-default">
                                                         <div class="panel-body">
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <button class="btn btn-primary pull-right" onclick="addnew();" id="accept" type="button" ><i class="fa fa-plus "></i> <span style="margin-left: 5px;">Add New</span></button>
+                                                                </div>                                                
+                                                            </div>
+
                                                             <div class="col-lg-8 col-lg-offset-2 col-md-12 col-xs-12">
                                                                 <div class="table-responsive user-management cities-table">
                                                                     <table id="users" class="table table-striped table-hover">
@@ -226,22 +234,13 @@
                                                                                     No image uploaded
                                                                                     @endif
                                                                                 </td>
-                                                                                <td class="text-center"><a onclick="delete_city('{{$row->category_id}}','{{$row->category_name}}');" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
+                                                                                <td class="text-center"><a onclick="delete_city('{{$row->category_id}}','{{$row->category_name}}','{{$row->category_image}}');" class="text-danger" style="cursor: pointer;"><i class="fa fa-edit"></i></a></td>
                                                                             </tr>
                                                                             @endforeach
 
                                                                         </tbody>
                                                                     </table>
-                                                                    <script type="text/javascript">
-                                                                        function delete_city(id,name){
-                                                                            $('#cat_id').val(id);
-                                                                            $('#cat_name').val(name);
-                                                                            $('#name').val(name);
-                                                                            $('#myModal').modal('show');
-                                                                            $('#city_name').html(name);
-                                                                            $("#accept1").attr("href","{{ url('/admin/deactiveCategory') }}" + "/" +id);
-                                                                        }
-                                                                    </script>
+
                                                                     {{ $category_list_active->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
                                                                 </div>
                                                             </div>
@@ -253,7 +252,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
 
@@ -324,46 +323,68 @@
         <script src="{{ asset('js/admin/app.js') }}"></script>
         <!--<script src="{{ asset('js/admin//cusom.js') }}"></script>-->
         <script>
-                                                                    $(document).ready(function () {
+    $(document).ready(function () {
 
-                                                                    $('.chosen-select').chosen({
-                                                                    placeholder_text_multiple: "Select Cities or City"
-                                                                    });
-                                                                    });
-                                                                    function action(id, name,status,email) {
-                                                                    $('#cat_id').val(id);
-                                                                    $('#cat_name').html(name);
-                                                                    $('#name').val(name);
-                                                                    $('#email').val(email);
-                                                                    $('#myModal').modal('show');
-                                                                        if(status == 0){
-                                                                            $('#comment').show();
-                                                                            $('#reject').show();
-                                                                            $('#logo').hide();
-                                                                            $('#accept').hide();
-                                                                        }else{
-                                                                            $('#comment').hide();
-                                                                            $('#reject').hide();
-                                                                            $('#logo').show();
-                                                                            $('#accept').show();
-                                                                        }
-                                                                    }
-                                                                    function category(status){
-                                                                        if($('#cat_name').val() == '' && status == '1'){
-                                                                            $('#file_error').css('display','block');
-                                                                        }else{                                                                            
-                                                                            $('#status').val(status);
-                                                                            $('#category').submit();
-                                                                        }
-                                                                    }
-                                                                     $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-                                                                        $("#success-alert").slideUp(500);
-                                                                    });
+    $('.chosen-select').chosen({
+    placeholder_text_multiple: "Select Cities or City"
+    });
+    });
+    function action(id, name, status, email) {
+    $('#cat_id').val(id);
+    $('#cat_name').html(name);
+    $('#name').val(name);
+    $('#email').val(email);
+    $('#myModal').modal('show');
+    if (status == 0){
+    $('#comment').show();
+    $('#reject').show();
+    $('#logo').hide();
+    $('#accept').hide();
+    } else{
+    $('#comment').hide();
+    $('#reject').hide();
+    $('#logo').show();
+    $('#accept').show();
+    }
+    }
+    function category(status){
+    if ($('#cat_name').val() == ''){
+    $('#file_error').css('display', 'block');
+    } else if ($('#status').val() == 0 && $('#file_img').val() == ''){
+    $('#file_error').css('display', 'block');
+    } else{
+    $('#status').val(status);
+    $('#category').submit();
+    }
+    }
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#success-alert").slideUp(500);
+    });
+    function delete_city(id, name, url){
+    $('#cat_id').val(id);
+    $('#cat_name').val(name);
+    $('#status').val('1');
+    $('#cat_url').attr('src', url);
+    $('#name').val(name);
+    $('#myModal').modal('show');
+    $('#city_name').html(name);
+    $('#file_error').css('display', 'none');
+    $('#cat_url').css('display', 'inline-block');
+    $("#accept1").attr("href", "{{ url('/admin/deactiveCategory') }}" + "/" + id);
+    }
+    function addnew(){
+    $('#cat_id').val('');
+    $('#cat_name').val('');
+    $('#name').val('');
+    $('#myModal').modal('show');
+    $('#status').val('0');
+    $('#cat_url').css('display', 'none');
+    $('#file_error').css('display', 'none');
+    }
 
         </script>
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
-
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
@@ -376,27 +397,27 @@
                             <input type="hidden" id="cat_id" name="cat_id">
                             <div class="form-group" id="comment">
                                 <label for="pwd">Category Name:</label>
-                                <input id="cat_name" name="cat_name" class="form-control"></textarea>
+                                <input id="cat_name" name="cat_name" class="form-control">
                             </div>
                             <div class="form-group" id="logo">
                                 <label for="pwd">Category Logo:</label>
+                                <img width='50px' height='50px' id='cat_url'>
                                 <input id="file_img"  name="logo" type="file" class="form-control">
-                                
-                                <span id="file_error"  style="display: none;color: red;">Please Select Image</span>
                             </div>
+                            <span id="file_error"  style="display: none;color: red;">Please Enter Credentials Properly</span>
                             <input type="hidden" name="status" id="status">
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-danger pull-right" onclick="category('0')" id="reject" type="button" style="margin-left: 10px;">Reject</button>
-                        <button class="btn btn-primary pull-right" onclick="category('1')" id="accept" type="button" >Accept</button>
+                        <button class="btn btn-danger pull-right" onclick="$('#myModal').modal('hide');" id="reject" type="button" style="margin-left: 10px;">Close</button>
+                        <button class="btn btn-primary pull-right" onclick="category('1')" id="accept" type="button" >Save</button>
                     </div>
                 </div>
 
             </div>
         </div>
-        
-          <div class="modal fade" id="myModal1" role="dialog">
+
+        <div class="modal fade" id="myModal1" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -405,7 +426,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Do you really want to delete category :  <span id="city_name"></span> ?</h4>
                     </div>
-                   
+
                     <div class="modal-footer">
                         <button class="btn btn-danger pull-right" onclick="$('#myModal1').modal('hide');" id="reject" type="button" style="margin-left: 10px;">No</button>
                         <a style="text-decoration: none;" id="accept1"><button class="btn btn-primary pull-right" type="button" >Yes</button></a>

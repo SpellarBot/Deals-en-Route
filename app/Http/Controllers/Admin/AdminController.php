@@ -27,10 +27,12 @@ class AdminController extends Controller {
 
     use ImageTrait;
     use \App\Http\Services\MailTrait;
-    
-     public function __construct() {
+
+    public function __construct()
+    {
         $this->middleware('auth.admin');
     }
+
     //
     public function userlist()
     {
@@ -402,7 +404,7 @@ class AdminController extends Controller {
                 {
                     $this->citymail($mailuser, 'Your request for city <span style="color: Green;">`' . $city . '`</span> has been accepted.');
                     CityRequest::where('city', $city)->where('state_code', $state_code)->where('country', $country)->update(['is_review' => 1]);
-                    City::where('name', $city)->where('state_code', $state_code)->where('county', $country)->update(['is_cancel' => 0 ,'is_active' => 1]);
+                    City::where('name', $city)->where('state_code', $state_code)->where('county', $country)->update(['is_cancel' => 0, 'is_active' => 1]);
                     return redirect('admin/city?msg=Added Sucessfully !&class=alert-success');
                 }
                 return redirect('admin/city?msg=City Already Exist !&class=alert-warning');
@@ -423,7 +425,7 @@ class AdminController extends Controller {
         foreach ($data as $row)
         {
             //echo $row->email;
-            $array_mail = ['to' => 'naresh@solulab.com',  // $row->email,
+            $array_mail = ['to' => 'naresh@solulab.com', // $row->email,
                 'type' => 'city_status',
                 'data' => ['status' => $status]
             ];
@@ -560,14 +562,46 @@ class AdminController extends Controller {
 
     public function categotyStatus(request $request)
     {
-        
-        if ($request->file('logo'))
+//        print_r($request->input());
+//        exit;
+
+        if ($request->input('cat_id'))
+        {
+            if ($request->file('logo'))
             {
                 $ex = $request->file('logo')->getClientOriginalExtension();
                 $upload = $this->categoryImageWeb($request->file('logo'), 'category_image', $request->input('cat_id'));
+                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['category_name' => $request->input('cat_name'), 'is_active' => 1, 'category_logo_image' => $request->input('cat_id') . '.' . $ex, 'category_image' => $request->input('cat_id') . '.' . $ex]);
+                $msg = 'Category Updated Successfully';
+                return redirect('admin/categories?msg=' . $msg);
+            } else
+            {
+                $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['category_name' => $request->input('cat_name')]);
+                $msg = 'Category Updated Successfully';
+                return redirect('admin/categories?msg=' . $msg);
             }
-            $data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['category_name' => $request->input('cat_name'),'is_active' => 1, 'category_logo_image' => $request->input('cat_id') . '.' . $ex, 'category_image' => $request->input('cat_id') . '.' . $ex]);
-echo here;
+        } else
+        {
+            $ex = '';
+            if ($request->file('logo'))
+            {
+                $ex = $request->file('logo')->getClientOriginalExtension();
+                $qry = CouponCategory::orderby('category_id','DESC')->first();
+                $id = $qry->category_id + 1;
+                $upload = $this->categoryImageWeb($request->file('logo'), 'category_image', $id);
+            }
+            $data['requested_list'] = CouponCategory::insert(['category_name' => $request->input('cat_name'),
+                        'is_requested' => '0',
+                        'category_image' => $id.'.'.$ex,
+                        'category_logo_image' => $id.'.'.$ex,
+                        'requested_by' => '',
+                        'is_active' => '1',
+                        'is_delete' => '0',
+            ]);
+            $msg = 'Category Added Successfully';
+            return redirect('admin/categories?msg=' . $msg);
+        }
+        //$data['requested_list'] = CouponCategory::where('category_id', Input::get('cat_id'))->update(['category_name' => $request->input('cat_name'),'is_active' => 1, 'category_logo_image' => $request->input('cat_id') . '.' . $ex, 'category_image' => $request->input('cat_id') . '.' . $ex]);
 //        if (Input::get('cat_id') != '' && Input::get('status') != '')
 //        {
 //            if (Input::get('status') == 0)
