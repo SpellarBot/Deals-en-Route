@@ -36,8 +36,8 @@ Route::group(['namespace' => 'Frontend'], function () {
     ]);
 //    Route::get('vendor/updatemembershipdate/','VendorController@updateMembershipDate');
     // vendor   register
-    Route::get('/searchvendor', 'Auth\LoginController@search')->name('vendormain');
-    Route::get('/', 'Auth\LoginController@vendorindex')->name('vendorindex');
+   // Route::get('/searchvendor', 'Auth\LoginController@search')->name('vendormain');
+    Route::get('/', 'Auth\RegisterController@vendorindex')->name('vendorindex');
     Route::get('/register', 'Auth\RegisterController@showCategoryForm')->name('frontend.register');
     Route::post('/register/create', 'Auth\RegisterController@create');
     Route::post('register/update', 'VendorController@update');
@@ -93,6 +93,9 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('/vendor/couponredeem', 'CouponController@CouponRedemption');
 
     Route::post('coupon/additonalcost', 'CouponController@additionalCost')->name('vendor.additionalcost');
+     Route::post('yelp/getlist', 'Auth\RegisterController@yelpGetList')->name('yelp.search');
+      Route::get('yelp/gettagslist', 'Auth\RegisterController@yelpGetTagList')->name('yelp.tagsearch');
+    
 });
 // Admin routes
 Route::group(['namespace' => 'Admin'], function () {

@@ -17,6 +17,7 @@ use App\Http\Services\ImageTrait;
 use App\Http\Services\MailTrait;
 use Auth;
 use App\CouponCategory;
+use App\Http\Helpers\Yelp;
 
 class RegisterController extends Controller {
     /*
@@ -64,12 +65,7 @@ use RegistersUsers;
         try {
             // process the store
             $data = $request->all();
-//        print_r($data);die;
-//        $category = CouponCategory::orWhere('category_id', $data['vendor_category'])
-//                ->orWhere('category_name', 'like', '%' . $data['vendor_category'] . '%')
-//                ->get();
-//        print_r(count($category));
-//        die;
+
             $user_detail = \App\VendorDetail::createVendorFront($data);
             $file = Input::file('vendor_logo');
 
@@ -190,6 +186,51 @@ use RegistersUsers;
         } else {
             return response()->json(['status' => '0', 'message' => 'Something went wrong, please try again later.'], 200);
         }
+    }
+
+    public function yelpGetList(Request $request) {
+        try {
+            $data = $request->all();
+
+            $yelp = new Yelp();
+            $results = $yelp->getBusinessResult($data);
+
+            if (($results->total == 0)) {
+                return ((["data" => [], "recordsTotal" => 0, "recordsFiltered" => 0]));
+            }
+            return ((["data" => $results->businesses, "recordsTotal" => $results->total, "recordsFiltered" => $results->total]));
+        } catch (\Stevenmaguire\Yelp\Exception\HttpException $e) {
+            $responseBody = $e->getResponseBody(); // string from Http request
+            $responseBodyObject = json_decode($responseBody);
+           // return $responseBodyObject;
+           return ((["data" => [], "recordsTotal" => 0, "recordsFiltered" => 0]));
+        }
+    }
+
+    public function yelpGetTagList(Request $request) {
+        try {
+            $data = $request->all();
+
+            $yelp = new Yelp();
+            $results = $yelp->getBusinessResult($data,5);
+            return $results->businesses;
+        } catch (\Stevenmaguire\Yelp\Exception\HttpException $e) {
+            $responseBody = $e->getResponseBody(); // string from Http request
+            $responseBodyObject = json_decode($responseBody);
+            return ((["data" => [], "recordsTotal" => 0, "recordsFiltered" => 0]));
+        }
+    }
+
+    public function vendorindex() {
+        // show logo image
+        $company_logo = $this->showLogoImage();
+        $category_images = \App\CouponCategory::categoryList();
+        $signup_category_images = \App\CouponCategory::categoryListWeb();
+        $country_list = \App\Country::countryList();
+
+        return view('frontend.home')->with(['company_logo' => $company_logo,
+                    'category_images' => $category_images, 'signup_category_images' => $signup_category_images,
+                    'country_list' => $country_list]);
     }
 
 }

@@ -358,7 +358,7 @@ $(document).on("submit", "#update-coupon", function(event) {
         error: function(data) {
             $(".form-group").removeClass('has-error');
             $(".checkbox").removeClass('has-error');
-            $(".help-block").html('');
+           $('.help-block').remove();
             // setErrorNoti('Please resolve the error');
             if (data.responseJSON.errors != '') {
                 $.each(data.responseJSON.errors, function(key, value) {
@@ -434,7 +434,7 @@ $(document).on("submit", "#create-coupon", function(event) {
         error: function(data) {
             $(".form-group").removeClass('has-error');
             $(".checkbox").removeClass('has-error');
-            $(".help-block").html('');
+           $('.help-block').remove();
 
             if (data.responseJSON.errors != '') {
                 $.each(data.responseJSON.errors, function(key, value) {

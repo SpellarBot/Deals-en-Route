@@ -27,6 +27,7 @@ class RegisterFormRequest extends FormRequest {
                     return [
                         'vendor_name' => 'required|max:255',
                         'vendor_address' => 'required',
+                        'category_name' => 'required_if:vendor_category,0|unique:coupon_category,category_name',
                         'vendor_category' => 'required',
                         'vendor_phone' => 'required',
                         'email' => 'required|email|unique:users,email|max:255',
@@ -66,5 +67,13 @@ class RegisterFormRequest extends FormRequest {
                 }
         }
     }
+    
+    public function messages()
+{
+    return [
+        'category_name.required_if' => 'The category name field is required when you have selected category option as other.',
+       
+    ];
+}
 
 }

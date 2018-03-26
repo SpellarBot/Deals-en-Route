@@ -48,7 +48,8 @@
 	text-align: center;
 	top: 150px;
 	position: relative;
-	z-index: 10;
+	z-index: 11;
+	/*margin-bottom: 830px;*/
 }
 
 @media only screen (max-width: 1300px),
@@ -333,9 +334,11 @@
 
 .pages-homepage footer {
 	border: 0;
-	margin-top: 90px;
+	/*margin-top: 90px;*/
 	z-index: 100;
-	position: relative;
+    position: absolute;
+    bottom: 25px;
+    margin: 0px;
 }
 
 .pages-homepage footer,

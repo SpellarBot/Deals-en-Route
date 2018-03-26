@@ -26,9 +26,9 @@ class ResetPasswordController extends Controller {
      */
 
 use ResetsPasswords;
-use ResponseTrait;
+    use ResponseTrait;
 
-      /**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -64,8 +64,6 @@ use ResponseTrait;
     protected function guard() {
         return Auth::guard('admins');
     }
-    
-    
 
     /**
      * Send a reset link to the given user.
@@ -92,7 +90,7 @@ use ResponseTrait;
         $response = $this->passwords->sendResetLink($array);
 
         switch ($response) {
-          
+
             case PasswordBroker::RESET_LINK_SENT:
                 Session::flash('success', \Config::get('constants.USER_PASSWORD_RESET'));
                 return response()->json(['status' => 'success'], 200);
@@ -104,33 +102,32 @@ use ResponseTrait;
             //   return redirect()->back()->withErrors(['email' => trans($response)]);
         }
     }
+
     /**
      * update password.
      *
      * @param  Request  $request
      * @return Response
      */
-    
-    public function updatePasssword(Request $request){
-        $request=$request->all();
-        
+    public function updatePasssword(Request $request) {
+        $request = $request->all();
+
         $validator = Validator::make($request, [
-            'current_password' =>'required|currentpassword',
-            'password' => 'required|string|min:6',
-            'password_confirm' => 'required|string|min:6|same:password',
+                    'current_password' => 'required|currentpassword',
+                    'password' => 'required|string|min:6',
+                    'password_confirm' => 'required|string|min:6|same:password',
         ]);
-       
+
         //validation fail
-         if ($validator->fails()) {
-               return response()->json(['status' => 'error', 'message'=>$validator->errors()], 400);
-         }
-        $user=Auth::User();
-        $user->password = bcrypt($request['password']);
-        if($user->save()){
-             return response()->json(['status' => 'success', 'message'=>\Config::get('constants.USER_PASSWORD_SUCCESS')], 200);
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => $validator->errors()], 400);
         }
-        return response()->json(['status' => 'error', 'message'=>\Config::get('constants.APP_ERROR')], 200);
-       
+        $user = Auth::User();
+        $user->password = bcrypt($request['password']);
+        if ($user->save()) {
+            return response()->json(['status' => 'success', 'message' => \Config::get('constants.USER_PASSWORD_SUCCESS')], 200);
+        }
+        return response()->json(['status' => 'error', 'message' => \Config::get('constants.APP_ERROR')], 200);
     }
 
 }

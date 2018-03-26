@@ -33,7 +33,7 @@
                         <div class="col-sm-12">
                             <button type="submit" class="btn btn-priamry call-to-action">Login</button>
                             <h5 class="text-center">Forgot your password? <a href="#forgot-pass" data-toggle="modal" data-dismiss="modal">Click Here</a> </h5>
-                            <h5 class="text-center">Don't have an account? <a href="{{ route('frontend.register') }}">Register Here</a> </h5>
+                            <h5 class="text-center">Don't have an account? <a href="#popup" data-toggle="modal" data-dismiss="modal" class="registerForm">Register Here</a> </h5>
                         </div>
                     </div>
                 </div>

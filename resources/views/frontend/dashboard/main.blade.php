@@ -61,13 +61,13 @@
 <!--<input type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" name="vendor_address">-->
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_city != '' ) {{$vendor_detail->vendor_city}} @else City @endif" name="vendor_city">
+                                                    <input type="text" placeholder="@if($vendor_detail->vendor_city != '' ) {{$vendor_detail->vendor_city}} @else City @endif" name="vendor_city" id="locality">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_state != '' ) {{$vendor_detail->vendor_state}} @else State @endif" name="vendor_state">
+                                                    <input type="text" placeholder="@if($vendor_detail->vendor_state != '' ) {{$vendor_detail->vendor_state}} @else State @endif" name="vendor_state" id="administrative_area_level_1">
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-control" name="vendor_country">
+                                                    <select class="form-control" name="vendor_country" id="country">
                                                         <option>Country</option>
                                                         @foreach($country_list as $key=>$value)
                                                         @if($vendor_detail->billing_country == $value)
@@ -79,7 +79,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_zip != '' ) {{$vendor_detail->vendor_zip}} @else Zip Code @endif" name="vendor_zip">
+                                                    <input type="text" placeholder="@if($vendor_detail->vendor_zip != '' ) {{$vendor_detail->vendor_zip}} @else Zip Code @endif" name="vendor_zip" id="postal_code">
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="tel" name="vendor_phone" placeholder="@if($vendor_detail->vendor_phone != '' ) {{$vendor_detail->vendor_phone}} (x-xxx-xxx-xxxx) @endif (x-xxx-xxx-xxxx)" pattern="^\d{1}-\d{3}-\d{3}-\d{4}$" maxlength="15">
