@@ -98,6 +98,9 @@ return [
     'USER_PASSWORD_SUCCESS' => 'password changed successfully,',
     'NOTI_SUCCESS' => 'notification read successfully.',
     'NOTI_LIST' => 'notification listed successfully.',
+    'OTHER_CATEGORY_IMAGE'=>'33.png',
+    'OTHER_CATEGORY_LOGO_IMAGE'=>'33.jpg',
+ 
     //local path
     'IMAGE_PATH' => 'storage/app/public/',
     'PAGINATE' => 10,

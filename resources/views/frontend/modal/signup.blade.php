@@ -34,14 +34,17 @@
 
                             <h4>Sign Up Details</h4>
                             <div class="form-group">
-                                {{ Form::select('vendor_category',[''=>'Select Category']+$signup_category_images,'',
+                                {{ Form::select('vendor_category',[''=>'Select Category']+$signup_category_images+[0=>"Other"],'',
                                 ['class'=>'form-control selectinput','id'=>'vendorcategory'])
                                 }}
-
+                               
                                 <input name="browser" class="inputtext" style="display:none;" disabled="disabled">
                             </div>
-
+                             <div class="form-group">
+                            {{ Form::text('category_name', '', ['placeholder'=>'Category Name','class'=>'form-control','id'=>'category_name','style'=>"display:none;"]) }}
+                             </div>
                             <div class="form-group">
+                           
                                 {{ Form::text('vendor_name', '', ['placeholder'=>'Business Name','class'=>'form-control','id'=>'vendorname']) }}
                             </div>
 

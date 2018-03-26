@@ -46,7 +46,6 @@ $(document).ready(function () {
     });
 // sign up form
     $('#signupform').on('submit', function (event) {
-
         event.preventDefault();
         formData = new FormData($(this)[0]);
         formData.append('vendor_time_zone', (new Date()).getTimezoneOffset());

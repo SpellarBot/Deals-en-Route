@@ -25,26 +25,45 @@ class CouponCategory extends Model {
     const IS_FALSE = 0;
 
     protected $fillable = [
-        'category_id', 'category_name', 'category_image', 'is_active', 'is_delete', 'reject_reason', 'request_email', 'is_requested'
+        'category_id', 'category_name', 'category_image', 'is_active', 'is_delete', 
+        'reject_reason', 'request_email', 'is_requested','requested_by','category_logo_image'
     ];
 
     public function scopeActive($query) {
         return $query->where('is_active', self::IS_TRUE);
     }
+    /**
+     * Set the catgeory image.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setCategoryImageAttribute($value) {
 
+      $this->attributes['category_image'] = (isset($value) && !empty($value)) ?  $value :\Config::get('constants.OTHER_CATEGORY_IMAGE');
+
+    }
+  
+  public function setCategoryLogoImageAttribute($value) {
+      
+      $this->attributes['category_logo_image'] = (isset($value) && !empty($value)) ?  $value :\Config::get('constants.OTHER_CATEGORY_LOGO_IMAGE');
+
+    }
     public function scopeDeleted($query) {
         return $query->where('is_delete', self::IS_FALSE);
     }
 
+     
+   
     public function getCategoryImageAttribute($value) {
 
-        return (!empty($value)) ? URL::to('/storage/app/public/category_image') . '/' . $value : "";
+        return (!empty($value)) ? URL::to('/storage/app/public/category_image') . '/' . $value : URL::to('/storage/app/public/category_image/'.\Config::get('constants.OTHER_CATEGORY_IMAGE'));
     }
 
     //category logo image
     public function getCategoryLogoImageAttribute($value) {
 
-        return (!empty($value)) ? URL::to('/storage/app/public/category_logo_image') . '/' . $value : "";
+        return (!empty($value)) ? URL::to('/storage/app/public/category_logo_image') . '/' . $value : URL::to('/storage/app/public/category_image/'.\Config::get('constants.OTHER_CATEGORY_LOGO_IMAGE'));
     }
 
     //get category list
@@ -69,14 +88,17 @@ class CouponCategory extends Model {
         return $category;
     }
 
-    public static function addCategory($data) {
+    public static function addCategory($data,$userid) {
         $cat = CouponCategory::create(['category_name' => $data['category_name'],
-                    'request_email' => $data['request_email'],
                     'is_requested' => self::IS_TRUE,
-                    'is_active' => self::IS_FALSE,
+                    'category_image'=>\Config::get('constants.OTHER_CATEGORY_IMAGE'),
+                    'category_logo_image'=>\Config::get('constants.OTHER_CATEGORY_LOGO_IMAGE'),
+                    'requested_by' => $userid,
+                    'is_active' => self::IS_TRUE,
                     'is_delete' => self::IS_FALSE,
         ]);
         return $cat;
     }
 
 }
+//ALTER TABLE `coupon_category` CHANGE `category_image` `category_image` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;

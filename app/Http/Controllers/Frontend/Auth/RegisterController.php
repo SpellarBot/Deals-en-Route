@@ -65,13 +65,7 @@ use RegistersUsers;
         try {
             // process the store
             $data = $request->all();
-          
-//        print_r($data);die;
-//        $category = CouponCategory::orWhere('category_id', $data['vendor_category'])
-//                ->orWhere('category_name', 'like', '%' . $data['vendor_category'] . '%')
-//                ->get();
-//        print_r(count($category));
-//        die;
+
             $user_detail = \App\VendorDetail::createVendorFront($data);
             $file = Input::file('vendor_logo');
 

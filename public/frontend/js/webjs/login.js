@@ -211,14 +211,21 @@ $('#yelpform').on('submit', function (event) {
     }
 
 });
+// show register form on click of no data
 $(document).on('click', '.autocompleteNoData', function (e) {
     e.preventDefault();
     document.getElementById('vendorname').value = $("#vendor_name").val();
     document.getElementById('autocomplete1').value = $("#vendor_address").val();
-    $('#popup').modal('show');
+     $('#popup').modal('show');
+  
 
 });
+$('#popup').on('shown.bs.modal', function (e) {
+    e.preventDefault();
+  $('body').removeClass('modal-open').addClass('modal-open');
+   
 
+});
 $('#yelpdatatable').on('click', 'a.clickfunction', function (e) {
     e.preventDefault();
     var inputvalue = $(this).find('input[type=hidden]').val();
@@ -322,4 +329,15 @@ $(document).on('change', '#vendor_address', function (e) {
     $(".help-block").html('');
   
 
+});
+
+$(document).on('change', '#vendorcategory', function(e) {
+    var selected = $(this).find(":selected").val();
+ 
+    if(selected ==0){
+       $("#category_name").css("display", "block");
+    }else{
+          $("#category_name").css("display", "none");
+    }
+      
 });
