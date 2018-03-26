@@ -404,7 +404,7 @@
                                 <img width='50px' height='50px' id='cat_url'>
                                 <input id="file_img"  name="logo" type="file" class="form-control">
                             </div>
-                            <span id="file_error"  style="display: none;color: red;">Please Enter Credentials Properly</span>
+                            <span id="file_error"  style="display: none;color: red;">Please Enter Data Properly</span>
                             <input type="hidden" name="status" id="status">
                         </form>
                     </div>
