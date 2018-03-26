@@ -249,6 +249,7 @@ function showData(value) {
     $('#popup').modal('show');
 }
 function initAutocomplete() {
+    
     autocomplete = new google.maps.places.Autocomplete(
             /** @type {!HTMLInputElement} */(document.getElementById('vendor_address')),
             {types: ['geocode']});
@@ -341,3 +342,21 @@ $(document).on('change', '#vendorcategory', function(e) {
     }
       
 });
+
+function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+          });
+        }
+      }
+      
+      

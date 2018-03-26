@@ -371,7 +371,7 @@
 .pages-homepage .navbar .wrapper{max-width:100%;padding: 0px 35px;}
 .pages-homepage .navbar .wrapper a.logo{width: 84px;height: 102px;}
 .pages-homepage header h1 {line-height: normal; margin: 0 auto 10px; font-size: 36px; font-weight: 600; font-family: inherit;max-width: 100%;text-transform: initial;}
-.getstart-search{border-radius: 10px;background-color: rgba(255, 255, 255, .5);padding: 20px;margin-top: 25px;}
+.getstart-search{border-radius: 10px;background-color: rgba(255, 255, 255, .7);padding: 20px;margin-top: 25px;}
 .getstart-search .form-inline .form-control{border: 1px solid #bbb !important;border-radius: 10px !important;background-color: #fff;height: 48px !important;line-height: 48px;padding: 0px 15px;width: 100%;}
 .getstart-search .form-inline .form-group{width: 100%;}
 .getstart-search .btn{padding: 0; background: #46b96d; color: #fff; height: 48px; width: 100%; border-radius: 10px;}

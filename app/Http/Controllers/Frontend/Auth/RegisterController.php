@@ -212,7 +212,7 @@ use RegistersUsers;
             $data = $request->all();
 
             $yelp = new Yelp();
-            $results = $yelp->getBusinessResult($data,5);
+            $results = $yelp->getBusinessResult($data,3);
             return $results->businesses;
         } catch (\Stevenmaguire\Yelp\Exception\HttpException $e) {
             $responseBody = $e->getResponseBody(); // string from Http request
