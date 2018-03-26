@@ -78,21 +78,23 @@ class VendorDetail extends Model {
         // set category name if its given
         if(isset($data['category_name'])){
                $vendor_category= CouponCategory::addCategory($data,$user_id);
+               $vendorcategory=$vendor_category->category_id;
         }
+       
         $vendor_detail = VendorDetail::firstOrNew(["user_id" => $user_id]);
         $vendor_detail->user_id = $user_id;
         $vendor_detail->additional_geo_fencing_total=0;
         $vendor_detail->additional_geo_location_used=0;
         $vendor_detail->additional_geo_fencing_used=0;
         $vendor_detail->additional_geo_location_total=0;
-         $vendor_detail->vendor_category= (isset($vendor_category) && !empty($vendor_category))?$vendor_category->category_id:$data['vendor_category'];
-        $vendor_detail->vendor_country= $countrycode->id;
         $vendor_detail->fill($data);
+        $vendor_detail->vendor_country= $countrycode->id;
+        $vendor_detail->vendor_category= (isset($vendorcategory) && !empty($vendorcategory))?$vendorcategory:$data['vendor_category'];
         $vendor_detail->save();
 
         if (isset($checkaddress) && $checkaddress == 'yes') {
 
-            self::saveBusinessAddress($vendor_detail, $data);
+            self::saveBusinessAddress($vendor_detail, $data,$countrycode);
         }
         if (empty($data['vendor_lat']) || empty($data['vendor_long'])) {
             self::saveMapLatLong($vendor_detail);
@@ -185,14 +187,14 @@ class VendorDetail extends Model {
         $model->save();
     }
 
-    public static function saveBusinessAddress($vendor_detail, $data) {
+    public static function saveBusinessAddress($vendor_detail, $data,$countrycode='') {
 
         $vendor_detail->billing_businessname = $data['vendor_name'];
         $vendor_detail->billing_home = $data['vendor_address'];
         $vendor_detail->billing_state = $data['vendor_state'];
         $vendor_detail->billing_city = $data['vendor_city'];
         $vendor_detail->billing_zip = $data['vendor_zip'];
-        $vendor_detail->billing_country = $data['vendor_country'];
+        $vendor_detail->billing_country = $countrycode->id;
     }
 
     public function setTimezone() {
