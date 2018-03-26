@@ -1,5 +1,6 @@
 //google map  search
-var placeSearch;
+var placeSearch, autocomplete;
+
 var componentForm = {
 
     country: 'short_name',
@@ -253,11 +254,13 @@ function initAutocomplete() {
     autocomplete = new google.maps.places.Autocomplete(
             /** @type {!HTMLInputElement} */(document.getElementById('vendor_address')),
             {types: ['geocode']});
+        
     // Create the autocomplete object, restricting the search to geographical
     // location types.
     autocompleteregister = new google.maps.places.Autocomplete(
             /** @type {!HTMLInputElement} */(document.getElementById('autocomplete1')),
             {types: ['geocode']});
+             
     // When the user selects an address from the dropdown, populate the address
     // fields in the form.
     autocompleteregister.addListener('place_changed', fillInAddress);
@@ -278,6 +281,7 @@ function fillInAddress() {
     $('#callbackstatus').val(1);
 // Get the place details from the autocomplete object.
     var place = autocompleteregister.getPlace();
+  
     for (var component in componentForm) {
 
         document.getElementById(component).value = '';
@@ -302,7 +306,7 @@ function fillInAddressOnClick() {
 
 // Get the place details from the autocomplete object.
     var place = autocomplete.getPlace();
-
+  
     for (var component in componentForm) {
         document.getElementById('vendorname').value = '';
         document.getElementById('autocomplete1').value = '';
@@ -344,7 +348,36 @@ $(document).on('change', '#vendorcategory', function(e) {
 });
 
 function geolocate() {
-        if (navigator.geolocation) {
+    
+  if (navigator.geolocation) {
+    
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  } 
+  else{
+      document.getElementById('autocomplete').innerHTML="Geolocation is not supported by this browser.";
+  }
+}
+//      
+//function geolocate() {
+//    
+//    $('.pac-container').append('<div class="pac-item currentlocation"><a href="#"  onclick="geolocate1()"><span class="pac-icon pac-icon-marker"></span><span class="pac-matched currentlocation1" >Curent Location</span></a></div>');
+//       
+//      }
+      
+   $(document).on('click', '.currentlocation1', function(e) {   
+         e.preventDefault();
+         alert("dsfsdf");
+       if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var geolocation = {
               lat: position.coords.latitude,
@@ -357,6 +390,4 @@ function geolocate() {
             autocomplete.setBounds(circle.getBounds());
           });
         }
-      }
-      
-      
+   });
