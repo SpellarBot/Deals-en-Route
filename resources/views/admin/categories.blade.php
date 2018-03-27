@@ -187,9 +187,11 @@
                         <!-- Nav Tabs -->
                         <div class="row">
                             <div class="col-lg-12 mb-30">
+                                <button class="btn btn-primary pull-right" onclick="addnew();" id="accept" type="button" ><i class="fa fa-plus "></i> <span style="margin-left: 5px;">Add New</span></button>
                                 <ul role="tablist" class="nav nav-tabs">
                                     <li role="presentation" class="active"><a href="#activeCities" aria-controls="home" role="tab" data-toggle="tab">Active Categories</a></li>
                                 </ul>
+                            </div>
                             </div>
                         </div>
                         <!-- START DATATABLE 1-->
@@ -207,11 +209,6 @@
                                                 <div class="row">
                                                     <div class="panel panel-default">
                                                         <div class="panel-body">
-                                                            <div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <button class="btn btn-primary pull-right" onclick="addnew();" id="accept" type="button" ><i class="fa fa-plus "></i> <span style="margin-left: 5px;">Add New</span></button>
-                                                                </div>                                                
-                                                            </div>
 
                                                             <div class="col-lg-8 col-lg-offset-2 col-md-12 col-xs-12">
                                                                 <div class="table-responsive user-management cities-table">
@@ -323,8 +320,14 @@
         <script src="{{ asset('js/admin/app.js') }}"></script>
         <!--<script src="{{ asset('js/admin//cusom.js') }}"></script>-->
         <script>
+            var i = 0;
+            var category_names = [];
+            @foreach($category_list_active as $row)
+            category_names[i] = "{{$row->category_name}}";
+            i = i++;
+            @endforeach
     $(document).ready(function () {
-
+        
     $('.chosen-select').chosen({
     placeholder_text_multiple: "Select Cities or City"
     });
@@ -360,7 +363,7 @@
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
     $("#success-alert").slideUp(500);
     });
-    function delete_city(id, name, url){
+    function delete_city(id, name, url){console.log(category_names);
     $('#cat_id').val(id);
     $('#cat_name').val(name);
     $('#status').val('1');
@@ -368,7 +371,10 @@
     $('#name').val(name);
     $('#myModal').modal('show');
     $('#city_name').html(name);
+    $('#cat_url').css('display', 'none');
     $('#file_error').css('display', 'none');
+    $('#filetype').css('display', 'none');
+    $('#file_size').css('display', 'none')
     $('#cat_url').css('display', 'inline-block');
     $("#accept1").attr("href", "{{ url('/admin/deactiveCategory') }}" + "/" + id);
     }
@@ -380,6 +386,27 @@
     $('#status').val('0');
     $('#cat_url').css('display', 'none');
     $('#file_error').css('display', 'none');
+    $('#filetype').css('display', 'none');
+    $('#file_size').css('display', 'none');
+    }
+    function checkfile(files){
+    var _URL = window.URL || window.webkitURL;
+    var file = files[0];
+    var fileType = file["type"];
+    var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+    if ($.inArray(fileType, ValidImageTypes) < 0) {
+         $('#filetype').css('display', 'inline-block');
+         $('#file_img').val('');
+    }
+    var img = new Image();
+    var sizeKB = file.size / 1024;
+    img.onload = function() {
+        if(img.width != 205 || img.height != 205){
+            $('#file_size').css('display', 'inline-block');
+            $('#file_img').val('');
+        }
+    }
+    img.src = _URL.createObjectURL(file); 
     }
 
         </script>
@@ -400,9 +427,11 @@
                                 <input id="cat_name" name="cat_name" class="form-control">
                             </div>
                             <div class="form-group" id="logo">
-                                <label for="pwd">Category Logo:</label>
+                                <label for="pwd">Category Logo( 205px X 205px ):</label>
                                 <img width='50px' height='50px' id='cat_url'>
-                                <input id="file_img"  name="logo" type="file" class="form-control">
+                                <input style="height: 100%;" id="file_img" onchange="checkfile(this.files)"  name="logo" type="file" accept="image/*" class="form-control">
+                                <span id="filetype"  style="display: none;color: red;">Please select any Image file</span>
+                                <span id="file_size"  style="display: none;color: red;">Please select 205px X 205px size image</span>
                             </div>
                             <span id="file_error"  style="display: none;color: red;">Please Enter Data Properly</span>
                             <input type="hidden" name="status" id="status">
