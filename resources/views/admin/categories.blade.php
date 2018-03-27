@@ -320,12 +320,6 @@
         <script src="{{ asset('js/admin/app.js') }}"></script>
         <!--<script src="{{ asset('js/admin//cusom.js') }}"></script>-->
         <script>
-            var i = 0;
-            var category_names = [];
-            @foreach($category_list_active as $row)
-            category_names[i] = "{{$row->category_name}}";
-            i = i++;
-            @endforeach
     $(document).ready(function () {
         
     $('.chosen-select').chosen({
@@ -351,19 +345,33 @@
     }
     }
     function category(status){
-    if ($('#cat_name').val() == ''){
-    $('#file_error').css('display', 'block');
-    } else if ($('#status').val() == 0 && $('#file_img').val() == ''){
-    $('#file_error').css('display', 'block');
-    } else{
-    $('#status').val(status);
-    $('#category').submit();
-    }
+        var id = $('#cat_id').val();
+        var name = $('#cat_name').val();
+        $.ajax({
+            url: "{{ asset('/admin/check-category')}}",
+                    data: {'id' : id, 'name' : name},
+                    dataType: "json",
+                    cache: false,
+                    success: function(response){
+                      if(response > 0){
+                            $('#repeat_error').css('display', 'block');
+                        } else if ($('#cat_name').val() == ''){
+                        $('#file_error').css('display', 'block');
+                        $('#repeat_error').css('display', 'none');
+                        } else if ($('#status').val() == 0 && $('#file_img').val() == ''){
+                        $('#file_error').css('display', 'block');
+                        } else{
+                        $('#status').val(status);
+                        $('#category').submit();
+                        }
+            }
+            });
+  
     }
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
     $("#success-alert").slideUp(500);
     });
-    function delete_city(id, name, url){console.log(category_names);
+    function delete_city(id, name, url){
     $('#cat_id').val(id);
     $('#cat_name').val(name);
     $('#status').val('1');
@@ -374,7 +382,8 @@
     $('#cat_url').css('display', 'none');
     $('#file_error').css('display', 'none');
     $('#filetype').css('display', 'none');
-    $('#file_size').css('display', 'none')
+    $('#file_size').css('display', 'none');
+    $('#repeat_error').css('display', 'none');
     $('#cat_url').css('display', 'inline-block');
     $("#accept1").attr("href", "{{ url('/admin/deactiveCategory') }}" + "/" + id);
     }
@@ -388,6 +397,7 @@
     $('#file_error').css('display', 'none');
     $('#filetype').css('display', 'none');
     $('#file_size').css('display', 'none');
+    $('#repeat_error').css('display', 'none');
     }
     function checkfile(files){
     var _URL = window.URL || window.webkitURL;
@@ -425,6 +435,7 @@
                             <div class="form-group" id="comment">
                                 <label for="pwd">Category Name:</label>
                                 <input id="cat_name" name="cat_name" class="form-control">
+                                <span id="repeat_error"  style="display: none;color: red;">Category Already Exist.</span>
                             </div>
                             <div class="form-group" id="logo">
                                 <label for="pwd">Category Logo( 205px X 205px ):</label>

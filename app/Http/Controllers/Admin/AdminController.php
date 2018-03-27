@@ -631,5 +631,10 @@ class AdminController extends Controller {
 //            return redirect('admin/categories?msg=' . $msg);
 //        }
     }
+    
+    public function checkCategory(){
+        $data = CouponCategory::where('category_name',Input::get('name'))->where('category_id','!=',Input::get('id'))->count();
+        return $data;
+    }
 
 }
