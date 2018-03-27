@@ -371,8 +371,8 @@
 .pages-homepage .navbar .wrapper{max-width:100%;padding: 0px 35px;}
 .pages-homepage .navbar .wrapper a.logo{width: 84px;height: 102px;}
 .pages-homepage header h1 {line-height: normal; margin: 0 auto 10px; font-size: 36px; font-weight: 600; font-family: inherit;max-width: 100%;text-transform: initial;}
-.getstart-search{border-radius: 10px;background-color: rgba(255, 255, 255, 1);padding: 20px 30px;margin-top: 25px;}
-.getstart-search .form-inline .form-control{border: 1px solid #bbb !important;border-radius: 10px !important;background-color: #fff;height: 48px !important;line-height: 48px;padding: 0px 15px;width: 100%;}
+.getstart-search{border-radius: 10px;background-color: rgba(255, 255, 255, 1);padding: 20px 30px;margin-top: 25px; box-shadow: none !important;}
+.getstart-search .form-inline .form-control{border: 1px solid #bbb !important;border-radius: 10px !important;background-color: #fff;height: 48px !important;line-height: 48px;padding: 0px 15px;width: 100%;box-shadow: none !important;}
 .getstart-search .form-inline .form-group{width: 100%;position: relative;}
 .getstart-search .form-inline .form-group.vendor-address-input .form-control{padding-left: 120px;}
 .getstart-search .form-inline .form-group.vender-name-input .form-control{padding-left: 125px;}
@@ -380,3 +380,14 @@
 .getstart-search .form-inline .form-group > label{position: absolute;top: 14px;left: 15px;z-index: 1;}
 .home-login-btn {position: absolute;z-index: 999;top: 20px;right: 35px;}
 .home-login-btn .call-to-action{line-height: 42px;font-size: 16px;width: auto;border-radius: 10px;}
+
+@media only screen and (max-height: 700px) {
+    .pages-homepage .navbar .wrapper a.logo {width: 60px; height: 72px; margin-top: 20px; margin-left: 0px; }
+    .home-login-btn .call-to-action {line-height: 36px; font-size: 14px; }
+    .pages-homepage header h1{font-size: 28px;}
+    .getstart-search{padding: 12px 22px;margin-top: 15px;border-radius: 7px;}
+    .getstart-search .form-inline .form-control{border-radius: 7px !important;height: 42px !important;line-height: 42px;}
+    .getstart-search .form-inline .form-group > label{top: 11px;}
+    .getstart-search .btn{height: 42px; border-radius: 7px;}
+    .pages-homepage footer{zoom: .8;}
+}
