@@ -241,12 +241,24 @@ function showData(value) {
   
     //$('.vendorlogo .fileinput-preview').find('img').attr('src',value.image_url);
     }
+      if(value.name != ''){
     $("#vendorname").val(value.name);
+      }
+      if(value.location.country != ''){
     $("#country").val(value.location.country);
+      }
+      if(value.location.city != ''){
     $("#locality").val(value.location.city);
+      }
+    if(value.location.state != ''){
     $("#administrative_area_level_1").val(value.location.state);
+    }
+     if(value.location.zip_code != ''){
     $("#postal_code").val(value.location.zip_code);
+     }
+    if(value.location.display_address != ''){
     $("#autocomplete1").val(value.location.display_address);
+    }
     $('#popup').modal('show');
 }
 function initAutocomplete() {
