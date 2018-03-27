@@ -32,13 +32,13 @@ $(document).ready(function () {
 
             showAnimation: {
                 type: "fade", //normal|slide|fade
-                time: 400,
+                time: 200,
                 callback: function () {
                 }
             },
             hideAnimation: {
                 type: "slide", //normal|slide|fade
-                time: 400,
+                time: 200,
                 callback: function () {
                 }
             }
@@ -269,15 +269,10 @@ function initAutocomplete() {
     autocomplete.addListener('place_changed', fillInAddressOnClick);
     var displaySuggestions = function(predictions, status) {
     if (status != google.maps.places.PlacesServiceStatus.OK) {
-      var li = document.createElement('li');
       $('.pac-container').append('<div class="pac-item customsearch"><span class="pac-icon pac-icon-marker"></span><span class="pac-item-query"><span class="pac-matched">Current Location</span></span></div>');
       return;
     }
-    predictions.forEach(function(prediction) {
-      var li = document.createElement('li');
-      li.appendChild(document.createTextNode(prediction.description));
-      $('.pac-container').appendChild(li);
-    });
+  
   };
   var service = new google.maps.places.AutocompleteService();
   service.getQueryPredictions({ input: document.getElementById('vendor_address') }, displaySuggestions);
@@ -354,14 +349,12 @@ $(document).on('change', '#vendorcategory', function(e) {
           $("#category_name").css("display", "none");
     }
       
-});
+});     
    
-  
-   
-   $(document.body).on('mousedown', '.pac-container .customsearch', function(e) {
-  
+$(document.body).on('mousedown', '.pac-container .customsearch', function(e) {
+ try {
    if (navigator.geolocation) {
-   
+    
           navigator.geolocation.getCurrentPosition(function(position) {
            $('#callbackstatus').val(1);
             var geolocation = {
@@ -395,11 +388,15 @@ $(document).on('change', '#vendorcategory', function(e) {
   
         }else{
         console.log("test3");
-    
         var inputname = $("input[name=vendor_address]").parent();
         inputname.addClass('has-error');
         inputname.append('<span class="help-block"> <strong>Geolocation is not supported by this browser.</strong> </span>'); //showing only the first error.
-        flag = 0;
-
+      
         }
+    }catch(err){
+        var inputname = $("input[name=vendor_address]").parent();
+        inputname.addClass('has-error');
+        inputname.append('<span class="help-block"> <strong>'+err.message+'</strong> </span>'); //showing only the first error.
+      
+    }
 });
