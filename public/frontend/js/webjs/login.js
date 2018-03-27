@@ -122,7 +122,7 @@ $('#yelpform').on('submit', function (event) {
         inputname.append('<span class="help-block"> <strong> Please enter the location.</strong> </span>'); //showing only the first error.    
         flag = 0;
     }
-    if (vendor_address != "" && $('#callbackstatus').val() == 0)
+   if (vendor_address != "" && $('#callbackstatus').val() == 0)
     {
         var inputname = $("input[name=vendor_address]").parent();
         inputname.addClass('has-error');
@@ -253,8 +253,10 @@ function initAutocomplete() {
     
     autocomplete = new google.maps.places.Autocomplete(
             /** @type {!HTMLInputElement} */(document.getElementById('vendor_address')),
-            {types: ['geocode']});
-        
+            );
+             
+
+
     // Create the autocomplete object, restricting the search to geographical
     // location types.
     autocompleteregister = new google.maps.places.Autocomplete(
@@ -265,23 +267,31 @@ function initAutocomplete() {
     // fields in the form.
     autocompleteregister.addListener('place_changed', fillInAddress);
     autocomplete.addListener('place_changed', fillInAddressOnClick);
-    // Create the autocomplete object, restrictin
-    // g the search to geographical
-    // location types.
-
-
-
+    var displaySuggestions = function(predictions, status) {
+    if (status != google.maps.places.PlacesServiceStatus.OK) {
+      var li = document.createElement('li');
+      $('.pac-container').append('<div class="pac-item customsearch"><span class="pac-icon pac-icon-marker"></span><span class="pac-item-query"><span class="pac-matched">Current Location</span></span></div>');
+      return;
+    }
+    predictions.forEach(function(prediction) {
+      var li = document.createElement('li');
+      li.appendChild(document.createTextNode(prediction.description));
+      $('.pac-container').appendChild(li);
+    });
+  };
+  var service = new google.maps.places.AutocompleteService();
+  service.getQueryPredictions({ input: document.getElementById('vendor_address') }, displaySuggestions);
+ 
+  
 
 }
-
-
-
+   
 function fillInAddress() {
 
     $('#callbackstatus').val(1);
 // Get the place details from the autocomplete object.
     var place = autocompleteregister.getPlace();
-  
+
     for (var component in componentForm) {
 
         document.getElementById(component).value = '';
@@ -306,7 +316,6 @@ function fillInAddressOnClick() {
 
 // Get the place details from the autocomplete object.
     var place = autocomplete.getPlace();
-  
     for (var component in componentForm) {
         document.getElementById('vendorname').value = '';
         document.getElementById('autocomplete1').value = '';
@@ -346,39 +355,15 @@ $(document).on('change', '#vendorcategory', function(e) {
     }
       
 });
-
-function geolocate() {
-    
-  if (navigator.geolocation) {
-    
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var geolocation = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      var circle = new google.maps.Circle({
-        center: geolocation,
-        radius: position.coords.accuracy
-      });
-      autocomplete.setBounds(circle.getBounds());
-    });
-  } 
-  else{
-      document.getElementById('autocomplete').innerHTML="Geolocation is not supported by this browser.";
-  }
-}
-//      
-//function geolocate() {
-//    
-//    $('.pac-container').append('<div class="pac-item currentlocation"><a href="#"  onclick="geolocate1()"><span class="pac-icon pac-icon-marker"></span><span class="pac-matched currentlocation1" >Curent Location</span></a></div>');
-//       
-//      }
-      
-   $(document).on('click', '.currentlocation1', function(e) {   
-         e.preventDefault();
-         alert("dsfsdf");
-       if (navigator.geolocation) {
+   
+  
+   
+   $(document.body).on('mousedown', '.pac-container .customsearch', function(e) {
+  
+   if (navigator.geolocation) {
+   
           navigator.geolocation.getCurrentPosition(function(position) {
+           $('#callbackstatus').val(1);
             var geolocation = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
@@ -388,6 +373,33 @@ function geolocate() {
               radius: position.coords.accuracy
             });
             autocomplete.setBounds(circle.getBounds());
+           $.ajax({
+            url: $('#hidAbsUrl').val() + "/register/getaddress",
+            type: 'POST',
+            data: {lat:position.coords.latitude,lng:position.coords.longitude},
+            success: function (data) {
+                  $('#vendor_address').val(data);  
+            },
+            beforeSend: function () {
+                    $('#loadingDiv').show();
+                },
+                complete: function () {
+                    $('#loadingDiv').hide();
+                },
+            error: function (data) {
+                 $('#vendor_address').val("");  
+            }
+            });
+          
           });
+  
+        }else{
+        console.log("test3");
+    
+        var inputname = $("input[name=vendor_address]").parent();
+        inputname.addClass('has-error');
+        inputname.append('<span class="help-block"> <strong>Geolocation is not supported by this browser.</strong> </span>'); //showing only the first error.
+        flag = 0;
+
         }
-   });
+});

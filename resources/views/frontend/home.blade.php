@@ -13,7 +13,8 @@
                  <input type="hidden" id="callbackstatus" value=''>
                 <div class="row">
                     <div class="col-md-5 col-sm-6 col-xs-12"><div class="form-group">
-                            {{ Form::text('vendor_address', '', ['placeholder'=>'Street Address 123 Main St,.City,State','class'=>'form-control','id'=>'vendor_address','onFocus'=>'geolocate()']) }}
+                            {{ Form::text('vendor_address', '', ['placeholder'=>'Street Address 123 Main St,.City,State','class'=>'form-control','id'=>'vendor_address']) }}
+<ul id="results"></ul>
 
                         </div></div>
                     <div class="col-md-5 col-sm-6 col-xs-12"><div class="form-group">

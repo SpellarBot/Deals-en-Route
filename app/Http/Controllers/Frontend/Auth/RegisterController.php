@@ -232,5 +232,12 @@ use RegistersUsers;
                     'category_images' => $category_images, 'signup_category_images' => $signup_category_images,
                     'country_list' => $country_list]);
     }
+    
+      public function getMapAddress(Request $request) {
+       
+          $request=$request->all();     
+          return \App\VendorDetail::getAddress($request);
+      }
+  
 
 }
