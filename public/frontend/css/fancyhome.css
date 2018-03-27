@@ -2083,3 +2083,10 @@
  top:-100px;
 }
 }
+
+@media only screen and (max-height: 700px) {
+  .banner .banner-background .banner-background-sea .banner-back .banner-back-right{height: 520px;margin-bottom: 180px;}
+  .banner .banner-road .banner-bridge .banner-bridge-center{height: 230px;}
+  .banner .banner-road .banner-bridge .banner-wazers{zoom: .8;}
+  .balloon, .balloon-sm{zoom:0.8;}
+}
