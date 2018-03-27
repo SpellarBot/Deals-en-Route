@@ -176,7 +176,7 @@
                         Categories
                         <small class="sub-title">
                             @if($msg)
-                            <div id="success-alert" style="margin-top: -28px; display: none;" class="pull-right alert alert-success" >
+                            <div id="success-alert" style="margin-top: -28px;" class="pull-right alert alert-success" >
                                 <strong>Success!</strong> {{$msg}}
                             </div>
                             @endif
@@ -238,7 +238,7 @@
                                                                         </tbody>
                                                                     </table>
 
-                                                                    {{ $category_list_active->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+                                                                    {{ $category_list_active->links() }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -320,6 +320,7 @@
         <script src="{{ asset('js/admin/app.js') }}"></script>
         <!--<script src="{{ asset('js/admin//cusom.js') }}"></script>-->
         <script>
+            
     $(document).ready(function () {
         
     $('.chosen-select').chosen({

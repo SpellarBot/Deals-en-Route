@@ -175,7 +175,7 @@
                         Cities
                         
                             @if($msg != '')
-                            <div id="success-alert" style="margin-top: -28px; display: none;position: fixed;right:20px !important;font-size: 13px;z-index: 9;" class="pull-right alert  {{$_GET['class']}}" >
+                            <div id="success-alert" style="font-size: 13px;z-index: 9;" class="pull-right alert  {{$_GET['class']}}" >
                                 {{$msg}}
                             </div>
                             @endif
