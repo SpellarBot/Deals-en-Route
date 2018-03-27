@@ -10,20 +10,24 @@
             <h1 class="index-head"> Find and Register your Deals en Route Business </h1>
             <div class="getstart-search">
                 {{ Form::open(['route' => 'yelp.search', 'class' => 'form-inline','id'=>'yelpform']) }}
+                 <input type="hidden" id="callbackstatus" value=''>
                 <div class="row">
 <<<<<<< HEAD
-                  {{ Form::hidden('callbackstatus',0, ['id' => 'callbackstatus']) }}
-                    <div class="col-sm-5 col-xs-12"><div class="form-group">
-=======
                     <div class="col-md-5 col-sm-6 col-xs-12"><div class="form-group">
+                            {{ Form::text('vendor_address', '', ['placeholder'=>'Street Address 123 Main St,.City,State','class'=>'form-control','id'=>'vendor_address']) }}
+<ul id="results"></ul>
+=======
+                    <div class="col-md-5 col-sm-6 col-xs-12 g-search-padding-5"><div class="form-group vendor-address-input">
+                            <label for="">Street Address</label>
+                            {{ Form::text('vendor_address', '', ['placeholder'=>'123 Main St,.City,State','class'=>'form-control','id'=>'vendor_address','onFocus'=>'geolocate()']) }}
 >>>>>>> refs/remotes/origin/staging
-                            {{ Form::text('vendor_address', '', ['placeholder'=>'Street Address','class'=>'form-control','id'=>'vendor_address']) }}
 
                         </div></div>
-                    <div class="col-md-5 col-sm-6 col-xs-12"><div class="form-group">
-                            {{ Form::text('vendor_name', '', ['placeholder'=>'Business Name','class'=>'form-control','id'=>'vendor_name']) }}
+                    <div class="col-md-5 col-sm-6 col-xs-12 g-search-padding-5"><div class="form-group vender-name-input">
+                        <label for="">Business Name</label>
+                            {{ Form::text('vendor_name', '', ['placeholder'=>"Mel's Diner",'class'=>'form-control','id'=>'vendor_name']) }}
                         </div></div>
-                    <div class="col-md-2 col-sm-12 col-xs-12"><button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Get Started</button></div>
+                    <div class="col-md-2 col-sm-12 col-xs-12 g-search-padding-5"><button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Get Started</button></div>
                 </div>
                 {{ Form::close() }}
             </div>
@@ -158,7 +162,7 @@
                                         <h5>Deals en Route</h5>
                                     </div>
                                     <div class="pindetails">
-                                        <p>Taco night at Anderson Creek! Weâ€™re shaking up tonight with free tequila shots (21+) from 8-9 only! Bottoms up!</p>
+                                        <p>Taco night at Anderson Creek! We're shaking up tonight with free tequila shots (21+) from 8-9 only! Bottoms up!</p>
                                     </div>
                                 </div>
                             </div>
