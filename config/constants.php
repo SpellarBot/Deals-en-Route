@@ -118,7 +118,7 @@ return [
     'STRIPE_VERSION' => '2017-08-15',
    
     // yelp access token
-     'YELP_ACCESS_TOKEN'=>'BlDjJypGzmjK1_yvy6UCSBQm0hnY2Ae8ttxAMXp9NOYYE2-KUsZ3yk-LX4lbPUBEkOGTNqbXRSbfmPGJnkoxyQ9ziJ9NHxOrnd6vOnfi00gu1fzB-nPgWWyuPx2qWnYx',
+    'YELP_ACCESS_TOKEN'=>'6ZwMzqNju_DHjQZapMLLxe4nYjgD0yVaTXBWwENaoN93M27dR3I5yp4N9Ekt_0JsjAHV5ShyuVGrS0HHMeDEVcsSn0waFNj6v_mSfgZ9MFJc5rcKbVRVSkQgCie6WnYx',
     'YELP_API_HOST'=>'api.yelp.com',
     'DATE_FORMAT' => 'n/j/y - g:00 A',
     'SETTINGS' => 'Settings Page Details!',

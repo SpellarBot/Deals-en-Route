@@ -19,7 +19,7 @@
                         </div></div>
                     <div class="col-md-5 col-sm-6 col-xs-12 g-search-padding-5"><div class="form-group vender-name-input">
                         <label for="">Business Name</label>
-                            {{ Form::text('vendor_name', '', ['placeholder'=>"Mel's Diner",'class'=>'form-control','id'=>'vendor_name']) }}
+                            {{ Form::text('vendor_name', '', ['placeholder'=>"Papa John's Pizza",'class'=>'form-control','id'=>'vendor_name']) }}
                         </div></div>
                     <div class="col-md-2 col-sm-12 col-xs-12 g-search-padding-5"><button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Get Started</button></div>
                 </div>
