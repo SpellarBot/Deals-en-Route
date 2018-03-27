@@ -117,20 +117,20 @@ $('#yelpform').on('submit', function (event) {
     var flag = 1;
 
     if (vendor_address == "") {
-        var inputname = $("input[name=vendor_address]").parent();
+        var inputname = $("#yelpform input[name=vendor_address]").parent();
         inputname.addClass('has-error');
         inputname.append('<span class="help-block"> <strong> Please enter the location.</strong> </span>'); //showing only the first error.    
         flag = 0;
     }
    if (vendor_address != "" && $('#callbackstatus').val() == 0)
     {
-        var inputname = $("input[name=vendor_address]").parent();
+        var inputname = $("#yelpform input[name=vendor_address]").parent();
         inputname.addClass('has-error');
         inputname.append('<span class="help-block"> <strong>Sorry, we do not recognize the location you have entered</strong> </span>'); //showing only the first error.
         flag = 0;
     }
     if (vendor_name == "") {
-        var inputname = $("input[name=vendor_name]").parent();
+        var inputname = $("#yelpform input[name=vendor_name]").parent();
         inputname.addClass('has-error');
         inputname.append('<span class="help-block"> <strong> Please enter the business name</strong> </span>'); //showing only the first error.   
         flag = 0;
@@ -148,8 +148,8 @@ $('#yelpform').on('submit', function (event) {
             destroy: true,
             pageLength: 10,
             lengthChange: false,
-            
-            oLanguage: {sEmptyTable: "No Results Found!"},
+       
+            oLanguage: {sEmptyTable: "No Results Found!",sInfo:"Showing  _TOTAL_ results for <b>"+$("#yelpform input[name=vendor_name]").val()+"</b> near <b>"+$("#yelpform input[name=vendor_address]").val()+"</b>"},
             fnDrawCallback: function () {
                 var oTable = $('#yelpdatatable').DataTable();
                 var api = this.api();
