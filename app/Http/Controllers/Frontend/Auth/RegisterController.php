@@ -212,7 +212,7 @@ use RegistersUsers;
             $data = $request->all();
 
             $yelp = new Yelp();
-            $results = $yelp->getBusinessResult($data,5);
+            $results = $yelp->getBusinessResult($data,3);
             return $results->businesses;
         } catch (\Stevenmaguire\Yelp\Exception\HttpException $e) {
             $responseBody = $e->getResponseBody(); // string from Http request
@@ -232,5 +232,12 @@ use RegistersUsers;
                     'category_images' => $category_images, 'signup_category_images' => $signup_category_images,
                     'country_list' => $country_list]);
     }
+    
+      public function getMapAddress(Request $request) {
+       
+          $request=$request->all();     
+          return \App\VendorDetail::getAddress($request);
+      }
+  
 
 }

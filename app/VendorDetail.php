@@ -186,6 +186,20 @@ class VendorDetail extends Model {
         }
         $model->save();
     }
+    
+    
+     public static function getAddress($data) {
+         
+       $latlng=$data['lat'].",".$data['lng'];
+        $response = \GoogleMaps::load('geocoding')
+                 ->setParamByKey('latlng', $latlng) 
+                 ->get();
+       $response = json_decode($response);
+        $status=$response->status;
+       if($status=="OK"){     
+       return $response->results[0]->formatted_address;
+       }
+    }
 
     public static function saveBusinessAddress($vendor_detail, $data,$countrycode='') {
 

@@ -2083,3 +2083,13 @@
  top:-100px;
 }
 }
+
+@media only screen and (max-height: 700px) {
+  .banner .banner-background .banner-background-sea .banner-back .banner-back-right{height: 520px;margin-bottom: 180px;}
+  .banner .banner-road .banner-bridge .banner-bridge-center{height: 230px;}
+  .banner .banner-road .banner-bridge .banner-wazers{-moz-transform: scale(0.8); -o-transform: scale(0.8); -webkit-transform: scale(0.8); transform: scale(0.8);}
+  .balloon, .balloon-sm{background-size: 70%;}
+  .cloud.smaller{width: 70px;margin-top: 20px;}
+  .cloud.small {margin-right: 150px;width: 110px;}
+  .slower{width: 180px;}
+}

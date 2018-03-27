@@ -44,7 +44,8 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('/register/subcription', 'Auth\RegisterController@subscribe');
     Route::post('/vendor/requestCategory', 'Auth\RegisterController@requestCategory');
     //vendor help pages
-
+        Route::post('/register/getaddress', 'Auth\RegisterController@getMapAddress');
+ 
     Route::get('/terms_condition', 'Auth\LoginController@terms')->name('termscondition');
     Route::get('/privacy_policy', 'Auth\LoginController@privacy')->name('privacy');
     Route::get('/refund_policy', 'Auth\LoginController@refund')->name('refund');
@@ -83,7 +84,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::any('/vendor/cancelSubscription', array('as' => 'cancelsub', 'uses' => 'StripeController@cancelSubscription'));
     Route::post('/vendor/updatesubscription', 'StripeController@changeSubscription');
     Route::post('/vendor/hoursOfOperation', 'HomeController@hoursOfOperation');
-
+   
     // coupon dashboard
     Route::get('/vendor/dashboard', 'HomeController@dashboard');
     Route::post('/vendor/purchaseMiles', 'StripeAddOnsController@purchaseMiles');

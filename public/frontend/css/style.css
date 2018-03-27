@@ -4,6 +4,7 @@ body {
     font-family: 'HelveticaNeue', sans-serif;
     color: #333333;
     font-size: 14px;
+    padding: 0px !important;
 }
 
 a,
@@ -2854,7 +2855,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80cbc4', end
 min-height: 100vh;}
 .getstart-search .help-block{text-align: left; position: absolute; margin-top: 0; font-size: 12px; margin-left: 17px;}
 .search-section h1.index-head{font-family: inherit;text-align: center; z-index: 1;position: relative;}
-.search-result-wrapper {background: #fff; border-radius: 10px; margin-top: 20px; padding: 15px;position: relative;z-index: 1;margin-bottom: 800px;text-align: left;}
+.search-result-wrapper {background: #fff; border-radius: 10px; margin-top: 20px; padding: 15px;position: relative;z-index: 1;margin-bottom: 520px;text-align: left;} /*margin-bottom: 800px;*/
 .search-result-wrapper table.search-result-list tr td:last-child{vertical-align: middle;text-align: right;}
 .search-result-wrapper table.search-result-list td{padding: 25px 0px;}
 .search-result-wrapper table.search-result-list td .s-title{margin-bottom: 15px;margin-top:0px;font-weight: 500;}
@@ -2891,12 +2892,8 @@ min-height: 100vh;}
 .easy-autocomplete-container ul{border-radius: 0 0 4px 4px;overflow: hidden;}
 .easy-autocomplete-container ul li {border-top: 1px solid #ccc !important;}
 .easy-autocomplete-container ul li:last-child {border-radius: 0 0 4px 4px;}
-.eac-item .eac-details {
-    display: inline-block;
-    vertical-align: middle;
-    padding-left: 10px;
-    width: calc(100% - 55px);
-}
+.eac-item .eac-details {display: inline-block; vertical-align: middle; padding-left: 10px; width: calc(100% - 55px);}
+.getstart-search .g-search-padding-5{padding-left: 5px;padding-right: 5px;}
 @media only screen and (max-width: 991px) {
     .getstart-search .form-inline .form-group{margin-bottom: 10px;}
 }
@@ -2913,3 +2910,5 @@ min-height: 100vh;}
     .search-result-wrapper table.search-result-list tr td:last-child{border-top: 0px;padding-top: 0px;text-align: left;margin-left: -5px;}
     .search-result-wrapper table.search-result-list tr td:last-child a{margin-top: 0px;}
 }
+
+
