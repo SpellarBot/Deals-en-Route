@@ -159,5 +159,5 @@ Route::group(['namespace' => 'Admin'], function () {
 
     Route::post('admin/categotyStatus', 'AdminController@categotyStatus');
     Route::get('admin/deactiveCategory/{id}', 'AdminController@deactiveCategory');
-
+        Route::get('admin/check-category', 'AdminController@checkCategory');
 });
