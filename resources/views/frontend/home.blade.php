@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-md-5 col-sm-6 col-xs-12 g-search-padding-5"><div class="form-group vendor-address-input">
                             <label for="">Street Address</label>
-                            {{ Form::text('vendor_address', '', ['placeholder'=>'123 Main St,.City,State','class'=>'form-control','id'=>'vendor_address']) }}
+                            {{ Form::text('vendor_address', '', ['placeholder'=>'123 Main St, .City, State','class'=>'form-control','id'=>'vendor_address']) }}
 
                         </div></div>
                     <div class="col-md-5 col-sm-6 col-xs-12 g-search-padding-5"><div class="form-group vender-name-input">
