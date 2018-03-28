@@ -42,7 +42,7 @@
         </div>
         <div class="base-wrapper">
             <nav class="navbar nav">
-                <div class="wrapper"> <a class="logo smooth-scroll" href="#"></a></div>
+                <div class="wrapper"> <a class="logo smooth-scroll" href="<?php echo \Config::get('app.url')?>"></a></div>
             </nav>
 
             <!-- end of navbar -->

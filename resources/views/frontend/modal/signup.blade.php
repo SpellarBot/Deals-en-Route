@@ -11,7 +11,7 @@
                 <input type="hidden" name="vendor_long">
                 <div class="poplog">
                     <div class="popupbg">
-                        <a href="#"><img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo2.png' ?>" alt="" class="signup-logo"></a>
+                        <a href="<?php echo \Config::get('app.url')?>"><img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo2.png' ?>" alt="" class="signup-logo"></a>
                         <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/IPhoneX.png' ?>" alt="" class="iphonex">
                         <a href="https://itunes.apple.com/us/app/deals-en-route-customer/id1327286547?ls=1&mt=8"><img src="<?php echo \Config::get('app.url') . '/public/frontend/img/app-store-logo.png' ?>" alt="" class="app-store-logo"></a>
                     </div>
