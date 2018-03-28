@@ -2855,12 +2855,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80cbc4', end
 min-height: 100vh;}
 .getstart-search .help-block{text-align: left; position: absolute; margin-top: 0; font-size: 12px; margin-left: 17px;}
 .search-section h1.index-head{font-family: inherit;text-align: center; z-index: 1;position: relative;}
-.search-result-wrapper {background: #fff; border-radius: 10px; margin-top: 20px; padding: 15px;position: relative;z-index: 1;margin-bottom: 520px;text-align: left;} /*margin-bottom: 800px;*/
+.search-result-wrapper {background: #fff; border-radius: 7px; margin-top: 20px; padding: 15px;position: relative;z-index: 1;margin-bottom: 880px;text-align: left;} /*margin-bottom: 800px;*/
 .search-result-wrapper table.search-result-list tr td:last-child{vertical-align: middle;text-align: right;}
-.search-result-wrapper table.search-result-list td{padding: 25px 0px;}
-.search-result-wrapper table.search-result-list td .s-title{margin-bottom: 15px;margin-top:0px;font-weight: 500;}
+.search-result-wrapper table.search-result-list td{padding: 15px 0px;}
+.search-result-wrapper table.search-result-list td .s-title{margin-bottom: 10px;margin-top:0px;font-weight: 500;}
 .search-result-wrapper table.search-result-list td .s-address{color: #666666;}
-.search-result-wrapper .continue-btn.call-to-action{border-radius: 10px;line-height: 40px;font-size: 16px;width: auto;margin: 0;}
+.search-result-wrapper .continue-btn.call-to-action{border-radius: 7px;line-height: 36px;font-size: 14px;width: auto;margin: 0;}
 .search-result-wrapper .addbusiness-btn.call-to-action{border-radius: 10px;line-height: 40px;font-size: 16px;width: auto;display: block;max-width: 210px;margin: 0px auto;margin-top: 15px;}
 .search-section .getstart-search{z-index: 1;position: relative;}
 .search-result-wrapper table.search-result-list tr td.dataTables_empty:last-child {text-align: center;font-size: 24px;border: 0;}
@@ -2897,6 +2897,9 @@ min-height: 100vh;}
 @media only screen and (max-width: 991px) {
     .getstart-search .form-inline .form-group{margin-bottom: 10px;}
 }
+@media only screen and (max-width: 800px) {
+    .search-result-wrapper{margin-bottom: 690px;}
+}
 @media only screen and (max-width: 767px) {
     .banner h1.index-head{font-size: 26px;}
     .pages-homepage .navbar .wrapper{padding:0px 15px !important;}
@@ -2910,5 +2913,7 @@ min-height: 100vh;}
     .search-result-wrapper table.search-result-list tr td:last-child{border-top: 0px;padding-top: 0px;text-align: left;margin-left: -5px;}
     .search-result-wrapper table.search-result-list tr td:last-child a{margin-top: 0px;}
 }
-
+@media only screen and (max-width: 1366px) and (max-height: 800px){
+    .container {max-width: 960px;}
+}
 

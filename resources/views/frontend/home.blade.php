@@ -165,7 +165,7 @@
                 </div>
             </div>
         </div>
-        @include('frontend/modal/signup');
+        @include('frontend/modal/signup')
         <!-- end of  banner -->
         @endsection
         @section('scripts')

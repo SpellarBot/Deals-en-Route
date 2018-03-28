@@ -166,7 +166,7 @@ $('#yelpform').on('submit', function (event) {
 
                 } else {
                     $('.dataTables_wrapper .top').css("display", "block");
-                    $('.dataTables_wrapper .bottom').css("display", "block");
+                    $('.dataTables_wrapper .bottom').css("display", "table");
                     $('.dataTables_wrapper thead').css("display", "block");
                     $('#yelpdatatable_paginate').css("display", "block");
                     $('#yelpdatatable_info').css("display", "block");
@@ -191,7 +191,7 @@ $('#yelpform').on('submit', function (event) {
                 {
                     render: function (data, type, row) {
                        var image= (row.image_url)? row.image_url: $('#hidAbsUrl').val()+"/public/frontend/img/yelpother.png";
-                        return '<img width="70" height="70" src='+image+'><div class="search-details"><h4 class="s-title">' + row.name + '</h4><span class="s-address">' + row.location.display_address + '</span></div>';
+                        return '<img width="55" height="55" src='+image+'><div class="search-details"><h4 class="s-title">' + row.name + '</h4><span class="s-address">' + row.location.display_address + '</span></div>';
                     }
                 },
                 {

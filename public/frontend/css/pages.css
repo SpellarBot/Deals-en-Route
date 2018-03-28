@@ -337,8 +337,11 @@
 	/*margin-top: 90px;*/
 	z-index: 100;
     position: absolute;
-    bottom: 25px;
+    bottom: 0px;
     margin: 0px;
+    background-color: #fff;
+    padding-top: 32px;
+    padding-bottom: 14px;
 }
 
 .pages-homepage footer,
@@ -381,13 +384,16 @@
 .home-login-btn {position: absolute;z-index: 999;top: 20px;right: 35px;}
 .home-login-btn .call-to-action{line-height: 42px;font-size: 16px;width: auto;border-radius: 10px;}
 
-@media only screen and (max-height: 700px) {
+@media only screen and (max-height: 800px) {
     .pages-homepage .navbar .wrapper a.logo {width: 60px; height: 72px; margin-top: 20px; margin-left: 0px; }
     .home-login-btn .call-to-action {line-height: 36px; font-size: 14px; }
     .pages-homepage header h1{font-size: 28px;}
     .getstart-search{padding: 12px 22px;margin-top: 15px;border-radius: 7px;}
     .getstart-search .form-inline .form-control{border-radius: 7px !important;height: 42px !important;line-height: 42px;}
     .getstart-search .form-inline .form-group > label{top: 11px;}
-    .getstart-search .btn{height: 42px; border-radius: 7px;}
-    .pages-homepage footer{-moz-transform: scale(0.8); -o-transform: scale(0.8); -webkit-transform: scale(0.8); transform: scale(0.8);}
+    .getstart-search .btn{height: 42px; border-radius: 7px;font-size: 12px;}
+    .search-footer-bg footer ul.social{margin-bottom: 4px;-moz-transform: scale(0.8);-o-transform: scale(0.8);-webkit-transform: scale(0.8);transform: scale(0.8);}
+    .pages-homepage footer .links{-moz-transform: scale(0.8);-o-transform: scale(0.8);-webkit-transform: scale(0.8);transform: scale(0.8);}
+    .search-footer-bg footer p.copyright{margin-top: 2px;margin-bottom: 0px;-moz-transform: scale(0.8);-o-transform: scale(0.8);-webkit-transform: scale(0.8);transform: scale(0.8);}
+    .pages-homepage footer{padding-top: 28px;padding-bottom: 28px;}
 }
