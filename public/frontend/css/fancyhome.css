@@ -182,7 +182,7 @@
   /*position: relative;*/
   z-index: 50;
   /*overflow: hidden;*/
-  min-height: calc(100vh - 20px);
+  min-height: calc(100vh + 187px);
   /*background:#e3f5fb;*/
   background: #86cdc7;
 }
@@ -190,7 +190,7 @@
 .banner .banner-background {
   position: absolute;
   top: 0px;
-  bottom: 0px;
+  bottom: 167px;
   left: 0;
   right: 0;
   z-index: 4;
@@ -230,7 +230,7 @@
 }*/
 .banner .banner-road {
   position: absolute;
-  bottom: 0;
+  bottom: 167px;
   left: 0;
   right: 0;
   z-index: 10;
@@ -2084,10 +2084,13 @@
 }
 }
 
-@media only screen and (max-height: 700px) {
+@media only screen and (max-height: 800px) {
+  .banner{min-height: calc(100vh + 147px);}
   .banner .banner-background .banner-background-sea .banner-back .banner-back-right{height: 520px;margin-bottom: 180px;}
+  .banner .banner-road{bottom: 147px;}
   .banner .banner-road .banner-bridge .banner-bridge-center{height: 230px;}
   .banner .banner-road .banner-bridge .banner-wazers{-moz-transform: scale(0.8); -o-transform: scale(0.8); -webkit-transform: scale(0.8); transform: scale(0.8);}
+  .banner .banner-background{bottom: 154px;}
   .balloon, .balloon-sm{background-size: 70%;}
   .cloud.smaller{width: 70px;margin-top: 20px;}
   .cloud.small {margin-right: 150px;width: 110px;}
