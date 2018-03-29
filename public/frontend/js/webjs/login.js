@@ -148,6 +148,7 @@ $('#yelpform').on('submit', function (event) {
         $('.yelpdata').removeClass("hidden");
         $('#yelpdatatable').DataTable({
             processing: false,
+         //   serverSide: true,
             dom: '<"top"i>rt<"bottom"flp>',
             ordering: false,
             info: true,
