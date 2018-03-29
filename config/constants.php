@@ -98,6 +98,9 @@ return [
     'USER_PASSWORD_SUCCESS' => 'password changed successfully,',
     'NOTI_SUCCESS' => 'notification read successfully.',
     'NOTI_LIST' => 'notification listed successfully.',
+    'OTHER_CATEGORY_IMAGE'=>'33.png',
+    'OTHER_CATEGORY_LOGO_IMAGE'=>'33.jpg',
+ 
     //local path
     'IMAGE_PATH' => 'storage/app/public/',
     'PAGINATE' => 10,
@@ -114,10 +117,14 @@ return [
 //    'STRIPE_SECRET' => 'sk_live_ToUALteP5Y8K2zFhxFYbUf9Z,'
     'STRIPE_VERSION' => '2017-08-15',
    
+    // yelp access token
+    'YELP_ACCESS_TOKEN'=>'6ZwMzqNju_DHjQZapMLLxe4nYjgD0yVaTXBWwENaoN93M27dR3I5yp4N9Ekt_0JsjAHV5ShyuVGrS0HHMeDEVcsSn0waFNj6v_mSfgZ9MFJc5rcKbVRVSkQgCie6WnYx',
+    'YELP_API_HOST'=>'api.yelp.com',
     'DATE_FORMAT' => 'n/j/y - g:00 A',
     'SETTINGS' => 'Settings Page Details!',
     'VENDOR_RATING' => 'Vendor Rating Submited Successfully',
     'VENDOR_RATINGDETAILS' => 'Vendor Rating Details',
+   
     
     // set apns param
     

@@ -10,13 +10,13 @@
             <tr>
                 <td align="left" valign="top" style="font-family:'Lato', Arial, sans-serif; font-size:15px; color:#777777; line-height:20px; padding:0 0 20px;"><?php echo $data['status']; ?> </td>
             </tr>
-            <tr>
+<!--            <tr>
                 <td align="center" valign="top" style="padding:0 0 20px;"><table width="135" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#3b5997" style="background-color:#3b5997;">
                         <tr>
                             <td height="35" align="center" valign="middle" style="font-family:'Lato', Arial, sans-serif; font-size:14px; color:#ffffff;"><a href="<?php echo URL::to('/'); ?>" target="_blank" style="text-decoration:none; color:#ffffff; display:block; line-height:32px;">Login</a></td>
                         </tr>
                     </table></td>
-            </tr>
+            </tr>-->
 <!--            <tr>
                 <td align="left" valign="top" style="font-family:'Lato', Arial, sans-serif; font-size:15px; color:#777777; line-height:20px;">P.S. if you didn't request this email, you  may safely ignore it. </td>
             </tr>-->

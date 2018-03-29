@@ -176,9 +176,9 @@
                         Categories
                         <small class="sub-title">
                             @if($msg)
-                             <div id="success-alert" style="margin-top: -28px; display: none;" class="pull-right alert alert-success" >
-                                        <strong>Success!</strong> {{$msg}}
-                                    </div>
+                            <div id="success-alert" style="margin-top: -28px;" class="pull-right alert alert-success" >
+                                <strong>Success!</strong> {{$msg}}
+                            </div>
                             @endif
                         </small>
 
@@ -187,10 +187,11 @@
                         <!-- Nav Tabs -->
                         <div class="row">
                             <div class="col-lg-12 mb-30">
+                                <button class="btn btn-primary pull-right" onclick="addnew();" id="accept" type="button" ><i class="fa fa-plus "></i> <span style="margin-left: 5px;">Add New</span></button>
                                 <ul role="tablist" class="nav nav-tabs">
                                     <li role="presentation" class="active"><a href="#activeCities" aria-controls="home" role="tab" data-toggle="tab">Active Categories</a></li>
-                                    <li role="presentation"><a href="#cityRequests" aria-controls="profile" role="tab" data-toggle="tab">Categories Requests</a></li>                                   
                                 </ul>
+                            </div>
                             </div>
                         </div>
                         <!-- START DATATABLE 1-->
@@ -200,18 +201,22 @@
                             <div id="activeCities" role="tabpanel" class="tab-pane active">
                                 <div class="row">
                                     <div class="col-lg-12">
+
                                         <!-- START DATATABLE 1-->
                                         <div class="row">
+
                                             <div class="col-lg-12">
                                                 <div class="row">
                                                     <div class="panel panel-default">
                                                         <div class="panel-body">
+
                                                             <div class="col-lg-8 col-lg-offset-2 col-md-12 col-xs-12">
                                                                 <div class="table-responsive user-management cities-table">
                                                                     <table id="users" class="table table-striped table-hover">
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>Category Name</th>
+                                                                                <th>Category Logo</th>
                                                                                 <th class="text-center">Action</th>
                                                                             </tr>
                                                                         </thead>
@@ -219,20 +224,21 @@
                                                                             @foreach($category_list_active as $row)
                                                                             <tr>
                                                                                 <td>{{$row->category_name}}</td>
-                                                                                <td class="text-center"><a onclick="delete_city('{{$row->category_id}}','{{$row->category_name}}');" class="text-danger"><i class="fa fa-trash-o"></i></a></td>
+                                                                                <td>
+                                                                                    @if($row->category_image)
+                                                                                    <img height="50px" width="50px" src='{{$row->category_image}}'> 
+                                                                                    @else
+                                                                                    No image uploaded
+                                                                                    @endif
+                                                                                </td>
+                                                                                <td class="text-center"><a onclick="delete_city('{{$row->category_id}}','{{$row->category_name}}','{{$row->category_image}}');" class="text-danger" style="cursor: pointer;"><i class="fa fa-edit"></i></a></td>
                                                                             </tr>
                                                                             @endforeach
 
                                                                         </tbody>
                                                                     </table>
-                                                                    <script type="text/javascript">
-                                                                        function delete_city(id,name){
-                                                                            $('#myModal1').modal('show');
-                                                                            $('#city_name').html(name);
-                                                                            $("#accept1").attr("href","{{ url('/admin/deactiveCategory') }}" + "/" +id);
-                                                                        }
-                                                                    </script>
-                                                                    {{ $category_list_active->appends(Illuminate\Support\Facades\Input::except('page'))->links() }}
+
+                                                                    {{ $category_list_active->links() }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -243,44 +249,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- City Requests -->
-                            <div id="cityRequests" role="tabpanel" class="tab-pane">
-                                <!-- START DATATABLE 1-->
-                                <div class="row">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="col-xs-12">
-                                                <div class="table-responsive user-management">
-                                                    @if(count($requested_list) > 0)
-                                                    <table id="table4" class="table table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Requested Category</th>
-                                                                <th>Requested by</th>
-                                                                <th>#</th>
-                                                                <th>#</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach($requested_list as $row)
-                                                            <tr>
-                                                                <td>{{$row->category_name}}</td>
-                                                                <td>{{$row->request_email}}</td>
-                                                                <td onclick="action('{{$row->category_id}}','{{$row->category_name}}',1,'{{$row->request_email}}')" style="color:blue;cursor: pointer;">Accept</td>
-                                                                <td onclick="action('{{$row->category_id}}','{{$row->category_name}}',0, '{{$row->request_email}}')" style="color:red;cursor: pointer;">Reject</td>
-                                                            </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                    @else
-                                                    No request found
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
 
 
@@ -351,81 +320,145 @@
         <script src="{{ asset('js/admin/app.js') }}"></script>
         <!--<script src="{{ asset('js/admin//cusom.js') }}"></script>-->
         <script>
-                                                                    $(document).ready(function () {
-
-                                                                    $('.chosen-select').chosen({
-                                                                    placeholder_text_multiple: "Select Cities or City"
-                                                                    });
-                                                                    });
-                                                                    function action(id, name,status,email) {
-                                                                    $('#cat_id').val(id);
-                                                                    $('#cat_name').html(name);
-                                                                    $('#name').val(name);
-                                                                    $('#email').val(email);
-                                                                    $('#myModal').modal('show');
-                                                                        if(status == 0){
-                                                                            $('#comment').show();
-                                                                            $('#reject').show();
-                                                                            $('#logo').hide();
-                                                                            $('#accept').hide();
-                                                                        }else{
-                                                                            $('#comment').hide();
-                                                                            $('#reject').hide();
-                                                                            $('#logo').show();
-                                                                            $('#accept').show();
-                                                                        }
-                                                                    }
-                                                                    function category(status){
-                                                                        if($('#file_img').val() == '' && status == '1'){
-                                                                            $('#file_error').css('display','block');
-                                                                        }else{                                                                            
-                                                                            $('#status').val(status);
-                                                                            $('#category').submit();
-                                                                        }
-                                                                    }
-                                                                     $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-                                                                        $("#success-alert").slideUp(500);
-                                                                    });
+            
+    $(document).ready(function () {
+        
+    $('.chosen-select').chosen({
+    placeholder_text_multiple: "Select Cities or City"
+    });
+    });
+    function action(id, name, status, email) {
+    $('#cat_id').val(id);
+    $('#cat_name').html(name);
+    $('#name').val(name);
+    $('#email').val(email);
+    $('#myModal').modal('show');
+    if (status == 0){
+    $('#comment').show();
+    $('#reject').show();
+    $('#logo').hide();
+    $('#accept').hide();
+    } else{
+    $('#comment').hide();
+    $('#reject').hide();
+    $('#logo').show();
+    $('#accept').show();
+    }
+    }
+    function category(status){
+        var id = $('#cat_id').val();
+        var name = $('#cat_name').val();
+        $.ajax({
+            url: "{{ asset('/admin/check-category')}}",
+                    data: {'id' : id, 'name' : name},
+                    dataType: "json",
+                    cache: false,
+                    success: function(response){
+                      if(response > 0){
+                            $('#repeat_error').css('display', 'block');
+                        } else if ($('#cat_name').val() == ''){
+                        $('#file_error').css('display', 'block');
+                        $('#repeat_error').css('display', 'none');
+                        } else if ($('#status').val() == 0 && $('#file_img').val() == ''){
+                        $('#file_error').css('display', 'block');
+                        } else{
+                        $('#status').val(status);
+                        $('#category').submit();
+                        }
+            }
+            });
+  
+    }
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#success-alert").slideUp(500);
+    });
+    function delete_city(id, name, url){
+    $('#cat_id').val(id);
+    $('#cat_name').val(name);
+    $('#status').val('1');
+    $('#cat_url').attr('src', url);
+    $('#name').val(name);
+    $('#myModal').modal('show');
+    $('#city_name').html(name);
+    $('#cat_url').css('display', 'none');
+    $('#file_error').css('display', 'none');
+    $('#filetype').css('display', 'none');
+    $('#file_size').css('display', 'none');
+    $('#repeat_error').css('display', 'none');
+    $('#cat_url').css('display', 'inline-block');
+    $("#accept1").attr("href", "{{ url('/admin/deactiveCategory') }}" + "/" + id);
+    }
+    function addnew(){
+    $('#cat_id').val('');
+    $('#cat_name').val('');
+    $('#name').val('');
+    $('#myModal').modal('show');
+    $('#status').val('0');
+    $('#cat_url').css('display', 'none');
+    $('#file_error').css('display', 'none');
+    $('#filetype').css('display', 'none');
+    $('#file_size').css('display', 'none');
+    $('#repeat_error').css('display', 'none');
+    }
+    function checkfile(files){
+    var _URL = window.URL || window.webkitURL;
+    var file = files[0];
+    var fileType = file["type"];
+    var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+    if ($.inArray(fileType, ValidImageTypes) < 0) {
+         $('#filetype').css('display', 'inline-block');
+         $('#file_img').val('');
+    }
+    var img = new Image();
+    var sizeKB = file.size / 1024;
+    img.onload = function() {
+        if(img.width != 205 || img.height != 205){
+            $('#file_size').css('display', 'inline-block');
+            $('#file_img').val('');
+        }
+    }
+    img.src = _URL.createObjectURL(file); 
+    }
 
         </script>
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
-
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Category: <span id="cat_name"></h4>
+                        <h4 class="modal-title">Category Details</h4>
                     </div>
                     <div class="modal-body">
                         <form method="post" id="category" action="{{ url('/admin/categotyStatus') }}" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <input type="hidden" id="cat_id" name="cat_id">
-                             <input type="hidden" id="name" name="cat_name">
-                             <input type="hidden" id="email" name="email">
                             <div class="form-group" id="comment">
-                                <label for="pwd">Comment:</label>
-                                <textarea  name="comment" class="form-control"></textarea>
+                                <label for="pwd">Category Name:</label>
+                                <input id="cat_name" name="cat_name" class="form-control">
+                                <span id="repeat_error"  style="display: none;color: red;">Category Already Exist.</span>
                             </div>
                             <div class="form-group" id="logo">
-                                <label for="pwd">Category Logo:</label>
-                                <input id="file_img"  name="logo" type="file" class="form-control">
-                                
-                                <span id="file_error"  style="display: none;color: red;">Please Select Image</span>
+                                <label for="pwd">Category Logo( 205px X 205px ):</label>
+                                <img width='50px' height='50px' id='cat_url'>
+                                <input style="height: 100%;" id="file_img" onchange="checkfile(this.files)"  name="logo" type="file" accept="image/*" class="form-control">
+                                <span id="filetype"  style="display: none;color: red;">Please select any Image file</span>
+                                <span id="file_size"  style="display: none;color: red;">Please select 205px X 205px size image</span>
                             </div>
+                            <span id="file_error"  style="display: none;color: red;">Please Enter Data Properly</span>
                             <input type="hidden" name="status" id="status">
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-danger pull-right" onclick="category('0')" id="reject" type="button" style="margin-left: 10px;">Reject</button>
-                        <button class="btn btn-primary pull-right" onclick="category('1')" id="accept" type="button" >Accept</button>
+                        <button class="btn btn-danger pull-right" onclick="$('#myModal').modal('hide');" id="reject" type="button" style="margin-left: 10px;">Close</button>
+                        <button class="btn btn-primary pull-right" onclick="category('1')" id="accept" type="button" >Save</button>
                     </div>
                 </div>
 
             </div>
         </div>
-        
-          <div class="modal fade" id="myModal1" role="dialog">
+
+        <div class="modal fade" id="myModal1" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -434,7 +467,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Do you really want to delete category :  <span id="city_name"></span> ?</h4>
                     </div>
-                   
+
                     <div class="modal-footer">
                         <button class="btn btn-danger pull-right" onclick="$('#myModal1').modal('hide');" id="reject" type="button" style="margin-left: 10px;">No</button>
                         <a style="text-decoration: none;" id="accept1"><button class="btn btn-primary pull-right" type="button" >Yes</button></a>

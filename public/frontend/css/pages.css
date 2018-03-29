@@ -48,7 +48,8 @@
 	text-align: center;
 	top: 150px;
 	position: relative;
-	z-index: 10;
+	z-index: 11;
+	/*margin-bottom: 830px;*/
 }
 
 @media only screen (max-width: 1300px),
@@ -333,9 +334,14 @@
 
 .pages-homepage footer {
 	border: 0;
-	margin-top: 90px;
+	/*margin-top: 90px;*/
 	z-index: 100;
-	position: relative;
+    position: absolute;
+    bottom: 0px;
+    margin: 0px;
+    background-color: #fff;
+    padding-top: 32px;
+    padding-bottom: 14px;
 }
 
 .pages-homepage footer,
@@ -368,9 +374,26 @@
 .pages-homepage .navbar .wrapper{max-width:100%;padding: 0px 35px;}
 .pages-homepage .navbar .wrapper a.logo{width: 84px;height: 102px;}
 .pages-homepage header h1 {line-height: normal; margin: 0 auto 10px; font-size: 36px; font-weight: 600; font-family: inherit;max-width: 100%;text-transform: initial;}
-.getstart-search{border-radius: 10px;background-color: rgba(255, 255, 255, .5);padding: 20px;margin-top: 25px;}
-.getstart-search .form-inline .form-control{border: 1px solid #bbb !important;border-radius: 10px !important;background-color: #fff;height: 48px !important;line-height: 48px;padding: 0px 15px;width: 100%;}
-.getstart-search .form-inline .form-group{width: 100%;}
+.getstart-search{border-radius: 10px;background-color: rgba(255, 255, 255, 0.7);padding: 20px 30px;margin-top: 25px; box-shadow: none !important;}
+.getstart-search .form-inline .form-control{border: 1px solid #bbb !important;border-radius: 10px !important;background-color: #fff;height: 48px !important;line-height: 48px;padding: 0px 15px;width: 100%;box-shadow: none !important;}
+.getstart-search .form-inline .form-group{width: 100%;position: relative;}
+.getstart-search .form-inline .form-group.vendor-address-input .form-control{padding-left: 120px;}
+.getstart-search .form-inline .form-group.vender-name-input .form-control{padding-left: 125px;}
 .getstart-search .btn{padding: 0; background: #46b96d; color: #fff; height: 48px; width: 100%; border-radius: 10px;}
+.getstart-search .form-inline .form-group > label{position: absolute;top: 14px;left: 15px;z-index: 1;}
 .home-login-btn {position: absolute;z-index: 999;top: 20px;right: 35px;}
 .home-login-btn .call-to-action{line-height: 42px;font-size: 16px;width: auto;border-radius: 10px;}
+
+@media only screen and (max-height: 800px) {
+    .pages-homepage .navbar .wrapper a.logo {width: 60px; height: 72px; margin-top: 20px; margin-left: 0px; }
+    .home-login-btn .call-to-action {line-height: 36px; font-size: 14px; }
+    .pages-homepage header h1{font-size: 28px;}
+    .getstart-search{padding: 12px 22px;margin-top: 15px;border-radius: 7px;}
+    .getstart-search .form-inline .form-control{border-radius: 7px !important;height: 42px !important;line-height: normal;}
+    .getstart-search .form-inline .form-group > label{top: 11px;}
+    .getstart-search .btn{height: 42px; border-radius: 7px;font-size: 12px;}
+    .search-footer-bg footer ul.social{margin-bottom: 4px;-moz-transform: scale(0.8);-o-transform: scale(0.8);-webkit-transform: scale(0.8);transform: scale(0.8);}
+    .pages-homepage footer .links{-moz-transform: scale(0.8);-o-transform: scale(0.8);-webkit-transform: scale(0.8);transform: scale(0.8);}
+    .search-footer-bg footer p.copyright{margin-top: 2px;margin-bottom: 0px;-moz-transform: scale(0.8);-o-transform: scale(0.8);-webkit-transform: scale(0.8);transform: scale(0.8);}
+    .pages-homepage footer{padding-top: 28px;padding-bottom: 28px;}
+}

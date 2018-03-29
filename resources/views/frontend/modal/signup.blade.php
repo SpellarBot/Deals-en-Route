@@ -1,6 +1,6 @@
-<div id="popup" class="modal fade" role="dialog">       
+<div id="popup" class="modal fade signup-page" role="dialog">       
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content signup-form-wrapper">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
 
             <div class="modal-body">
@@ -11,7 +11,9 @@
                 <input type="hidden" name="vendor_long">
                 <div class="poplog">
                     <div class="popupbg">
-                        <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/4.png' ?>">
+                        <a href="<?php echo \Config::get('app.url')?>"><img src="<?php echo \Config::get('app.url') . '/public/frontend/img/logo2.png' ?>" alt="" class="signup-logo"></a>
+                        <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/IPhoneX.png' ?>" alt="" class="iphonex">
+                        <a href="https://itunes.apple.com/us/app/deals-en-route-customer/id1327286547?ls=1&mt=8"><img src="<?php echo \Config::get('app.url') . '/public/frontend/img/app-store-logo.png' ?>" alt="" class="app-store-logo"></a>
                     </div>
 
                     <div class="signupDEtails">
@@ -32,18 +34,18 @@
 
                             <h4>Sign Up Details</h4>
                             <div class="form-group">
-                                {{ Form::select('vendor_category',[''=>'Select Category']+$signup_category_images,$category_image->category_id,
+                                {{ Form::select('vendor_category',[''=>'Select Category']+$signup_category_images+[0=>"Other"],'',
                                 ['class'=>'form-control selectinput','id'=>'vendorcategory'])
                                 }}
-                                <!--                                {{ Form::select('vendor_category',[''=>'Select Category','other'=>'Other']+$signup_category_images,$category_image->category_id,
-                                                                ['class'=>'form-control selectinput','id'=>'vendorcategory'])
-                                                                }}
-                                {{ Form::text('vendor_category', '', ['placeholder'=>'Category Name','class'=>'form-control hide']) }}-->
+                               
                                 <input name="browser" class="inputtext" style="display:none;" disabled="disabled">
                             </div>
-
+                             <div class="form-group">
+                            {{ Form::text('category_name', '', ['placeholder'=>'Category Name','class'=>'form-control','id'=>'category_name','style'=>"display:none;"]) }}
+                             </div>
                             <div class="form-group">
-                                {{ Form::text('vendor_name', '', ['placeholder'=>'Business Name','class'=>'form-control']) }}
+                           
+                                {{ Form::text('vendor_name', '', ['placeholder'=>'Business Name','class'=>'form-control','id'=>'vendorname']) }}
                             </div>
 
 
@@ -86,7 +88,8 @@
                             <div class="form-group">
                                 {{ Form::password('confirm_password',  ['placeholder'=>'Confirm Password','class'=>'form-control']) }}
                             </div>
-                            <div class="form-group vendorlogo">
+
+                           <div class="form-group vendorlogo filenew">
                                 <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                                     <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename"></span></div>
                                     <span class="input-group-addon btn btn-default btn-file">
@@ -97,6 +100,7 @@
                                 </div>
 
                             </div>
+                           
 
                         </div>
                         <div class="col-sm-6">
@@ -125,7 +129,7 @@
                                 {{ Form::text('card_cvv', '', ['placeholder'=>'CVV','class'=>'form-control cardCvv','maxlength'=>"4"]) }}
 
                             </div>
-                            <h4>Billing Details {{ Form::checkbox('check-address', 'yes','',['id' => 'check-address']) }}(Same As Business Address)</h4>
+                            <h4>Billing Details <span>{{ Form::checkbox('check-address', 'yes','',['id' => 'check-address']) }}(Same As Business Address)</span></h4>
                             <div id="billingdetails">
 
                                 <div class="form-group">
@@ -151,7 +155,7 @@
 
                                 </div>
                                 <div class="form-group">
-                                    {{ Form::select('billing_country',[''=>'Select Country']+$country_list,'',['class'=>'form-control selectinput']) }}
+                                    {{ Form::select('billing_country',[''=>'Select Country'],'',['class'=>'form-control selectinput']) }}
                                 </div>
                             </div>     
                         </div>

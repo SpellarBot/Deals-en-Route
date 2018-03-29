@@ -70,7 +70,6 @@ $(document).ready(function () {
         var file_data = $('#file').prop('files')[0];
         var formData = new FormData(this);
         formData.append('vendor_logo', file_data);
-        console.log(formData);
         $.ajax({
             url: "register/update",
             type: 'POST',

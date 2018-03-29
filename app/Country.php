@@ -22,7 +22,7 @@ class Country extends Model {
     }
 
     public static function countryList() {
-        $countrylist = Country::active()->pluck('country_name', 'id')->toArray();
+        $countrylist = Country::active()->pluck('country_name', 'country_code')->toArray();
         return $countrylist;
     }
 

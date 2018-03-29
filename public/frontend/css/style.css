@@ -1,7 +1,10 @@
+@import url("../fonts/helveticaneue/font.css");
+
 body {
-    font-family: 'Lato', sans-serif;
+    font-family: 'HelveticaNeue', sans-serif;
     color: #333333;
     font-size: 14px;
+    padding: 0px !important;
 }
 
 a,
@@ -157,10 +160,10 @@ select,
     background: #395999;
     color: #FFF;
     right: 3px;
-    line-height: 18px;
+    line-height: 13px;
     font-size: 13px;
     text-transform: capitalize;
-    border-radius: 4px !important;
+    border-radius: 10px !important;
     bottom: 3px;
     cursor: pointer;
     position: absolute !important;
@@ -184,7 +187,7 @@ textarea {
     /*margin: 50px 0px 15px;*/
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-weight: 700;
+    font-weight: 600;
     outline: none;
     position: relative;
     -webkit-transition: all 0.3s;
@@ -422,7 +425,7 @@ textarea {
     color: #545454;
     position: absolute;
     top: -5px;
-    right: 5px;
+    right: 7px;
     font-size: 38px;
     font-weight: normal;
     z-index: 1;
@@ -449,21 +452,30 @@ textarea {
     background: #000;
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    background: url("../img/popupbg.png") no-repeat;
+    background: url("../img/signup-popup-bg.png") no-repeat;
     background-size: cover;
     border-radius: 15px 0 0 15px;
     -webkit-border-radius: 15px 0 0 15px;
 }
 
-.popupbg img {
-    max-width: 200px;
+.popupbg img.signup-logo {
+    max-width: 90px;
+    margin-top: 50px;
+}
+.popupbg img.iphonex {
+    max-width: 280px;
+}
+.popupbg img.app-store-logo{
+    max-width: 120px;
+    margin-bottom: 50px;
 }
 
 .signupDEtails {
     flex: 3;
-    padding-top: 26px;
-    padding-bottom: 25px;
+    padding-top: 30px;
+    padding-bottom: 45px;
 }
 
 .signupDEtails1 {
@@ -488,7 +500,7 @@ textarea {
     background-color: #46b96c;
     color: #fff;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 15px;
     padding: 0 30px;
     line-height: 50px;
     display: inline-block;
@@ -507,7 +519,8 @@ textarea {
 input[type="radio"],
 input[type="checkbox"] {
     display: inline-block;
-    width: 20px;
+    width: 14px;
+    height: 14px !important;
     vertical-align: middle;
     border: none !important;
     box-shadow: none !important;
@@ -516,8 +529,15 @@ input[type="checkbox"] {
 }
 
 .signupDEtails .col-sm-6 h4:nth-of-type(2) {
-    margin-top: 27px;
+    margin-top: 39px;
     margin-bottom: 25px;
+}
+.signupDEtails .col-sm-6 h4:nth-of-type(2) span{
+    display: block;
+    color: #999;
+    font-weight: normal;
+    font-size: 14px;
+    padding-top: 23px;
 }
 
 #login .poplog {
@@ -989,7 +1009,7 @@ input[type=date]::-webkit-outer-spin-button {
 
 h4,
 .h4 {
-    font-weight: 400;
+    font-weight: 500;
 }
 
 .age-right {
@@ -2835,12 +2855,72 @@ background: -ms-linear-gradient(top, rgba(128,203,196,1) 0%, rgba(223,242,241,1)
 background: linear-gradient(to bottom, rgba(128,203,196,1) 0%, rgba(223,242,241,1) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80cbc4', endColorstr='#dff2f1', GradientType=0 );
 min-height: 100vh;}
-.search-section h1.index-head{font-family: inherit;text-align: center;}
-.search-result-wrapper {background: #fff; border-radius: 10px; margin-top: 20px; padding: 15px;}
+.getstart-search .help-block{text-align: left; position: absolute;margin-top: 0px;margin-left: 6px;}
+.search-section h1.index-head{font-family: inherit;text-align: center; z-index: 1;position: relative;}
+.search-result-wrapper {background: #fff; border-radius: 7px; margin-top: 20px; padding: 15px;position: relative;z-index: 1;margin-bottom: 880px;text-align: left;} /*margin-bottom: 800px;*/
 .search-result-wrapper table.search-result-list tr td:last-child{vertical-align: middle;text-align: right;}
-.search-result-wrapper table.search-result-list td{padding: 25px 0px;}
-.search-result-wrapper table.search-result-list td .s-title{margin-bottom: 15px;margin-top:0px;font-weight: 600;}
+.search-result-wrapper table.search-result-list td{padding: 15px 0px;}
+.search-result-wrapper table.search-result-list td .s-title{margin-bottom: 10px;margin-top:0px;font-weight: 500;}
 .search-result-wrapper table.search-result-list td .s-address{color: #666666;}
-.search-result-wrapper .continue-btn.call-to-action{border-radius: 10px;line-height: 40px;font-size: 16px;width: auto;}
+.search-result-wrapper .continue-btn.call-to-action{border-radius: 7px;line-height: 36px;font-size: 14px;width: auto;margin: 0;}
+.search-result-wrapper .addbusiness-btn.call-to-action{border-radius: 10px;line-height: 40px;font-size: 16px;width: auto;display: block;max-width: 210px;margin: 0px auto;margin-top: 15px;}
+.search-section .getstart-search{z-index: 1;position: relative;}
+.search-result-wrapper table.search-result-list tr td.dataTables_empty:last-child {text-align: center;font-size: 24px;border: 0;}
+.search-result-wrapper table.dataTable.no-footer{border-bottom:0px;}
+.search-result-wrapper .bottom{display: table;width: 100%;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;}
+.search-result-wrapper .dataTables_wrapper .dataTables_paginate{padding-top: 0px;}
+.search-result-wrapper .dataTables_wrapper .dataTables_paginate .paginate_button.current{color: #3fa662 !important;border: 0px;border-bottom: 2px solid #3fa662;border-top: 2px solid #3fa662;background: none;}
+.search-result-wrapper .search-result-list tr td .search-details{display: inline-block;vertical-align: middle;padding-left: 15px;}
 
-.search-section .search-footer-bg{background: url(../img/search_footer_bg.png) no-repeat; min-height: 600px;margin-top: -30px;}
+.search-section .search-footer-bg{background: url(../img/search_footer_bg.png) no-repeat; min-height: 600px;margin-top: -30px;position: relative;background-position: center;}
+.search-footer-bg footer{border: 0px;}
+.search-footer-bg footer ul.social{margin-bottom: 20px;}
+.search-footer-bg footer ul.social li{font-size: 18px;height: 45px;line-height: 45px;margin-right: 10px;width: 45px;}
+.search-footer-bg footer, .search-footer-bg footer .links a, .search-footer-bg footer .copyright a{color: #333333;}
+.search-footer-bg footer .links ul{margin-bottom: 0px;}
+.search-footer-bg footer p.copyright{margin-top: 5px;}
+.search-footer-bg footer {position: absolute;bottom: 0;width: 100%; margin-bottom: 20px;}
+
+.search-section .clouds-and-balloons {position: absolute;width: 100%;min-height: 500px;overflow: hidden;}
+.search-section .clouds{z-index: 0;}
+.search-section .balloon{z-index: 0;}
+
+.signup-form-wrapper{background: #fff;border-radius: 20px; overflow: hidden; position: relative; z-index: 1;}
+.signup-page img.logo {width: 84px;position: absolute;margin-left: 35px;top: 15px;z-index: 1;}
+.signup-page .form-control, .signup-page input{border: 0px !important;box-shadow: none !important;border-bottom: 1px solid #ccc !important;border-radius: 0px !important;}
+
+.easy-autocomplete{width: 100% !important;}
+.easy-autocomplete-container{text-align: left;overflow: hidden;}
+.easy-autocomplete-container ul{border-radius: 0 0 4px 4px;overflow: hidden;}
+.easy-autocomplete-container ul li {border-top: 1px solid #ccc !important;}
+.easy-autocomplete-container ul li:last-child {border-radius: 0 0 4px 4px;}
+.eac-item .eac-details {display: inline-block; vertical-align: middle; padding-left: 10px; width: calc(100% - 55px);}
+.getstart-search .g-search-padding-5{padding-left: 5px;padding-right: 5px;}
+.has-error .help-block, .has-error .help-block strong, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label{color: #de3932;}
+
+
+@media only screen and (max-width: 991px) {
+    .getstart-search .form-inline .form-group{margin-bottom: 10px;}
+}
+@media only screen and (max-width: 800px) {
+    .search-result-wrapper{margin-bottom: 690px;}
+    
+}
+@media only screen and (max-width: 767px) {
+    .banner h1.index-head{font-size: 26px;}
+    .pages-homepage .navbar .wrapper{padding:0px 15px !important;}
+    .pages-homepage .navbar .wrapper a.logo{width: 60px !important;height: 72px !important;margin-top: 10px !important;margin-left: 0 !important;}
+    .home-login-btn{top: 25px !important;right: 10px !important;}
+    .signup-page img.logo{width: 60px;margin-left: 15px;top: 10px;}
+    
+}
+@media only screen and (max-width: 550px) {
+    .search-result-wrapper table.search-result-list tr td{display: block;}
+    .search-result-wrapper table.search-result-list tr td:last-child{border-top: 0px;padding-top: 0px;text-align: left;margin-left: -5px;}
+    .search-result-wrapper table.search-result-list tr td:last-child a{margin-top: 0px;}
+}
+@media only screen and (max-width: 1366px) and (max-height: 800px){
+    .container {max-width: 960px;}
+    .getstart-search .help-block{margin-top: 13px;}
+}
+
