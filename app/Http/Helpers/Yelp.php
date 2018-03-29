@@ -22,7 +22,7 @@ class Yelp {
 //            $offset = $data['start'];
 //        } else {
             $offset = 0;
-       // }
+      //  }
         $parameters = [
             'term' => $data['vendor_name'],
             'location' => $data['vendor_address'],
