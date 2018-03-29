@@ -153,7 +153,7 @@ $('#yelpform').on('submit', function (event) {
             info: true,
             searching: false,
             destroy: true,
-            pageLength: 10,
+            pageLength: 25,
             lengthChange: false,
 
             oLanguage: {sEmptyTable: "No Results Found!", sInfo: "Showing  _TOTAL_ results for <b>" + $("#yelpform input[name=vendor_name]").val() + "</b> near <b>" + $("#yelpform input[name=vendor_address]").val() + "</b>"},
