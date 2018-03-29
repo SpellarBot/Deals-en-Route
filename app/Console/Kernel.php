@@ -28,8 +28,10 @@ class Kernel extends ConsoleKernel {
      */
     protected function schedule(Schedule $schedule) {
   
-    $schedule->call('\App\Http\Controllers\Api\v1\NotificationController@couponNotificationFavExpire')->everyMinute();
-    $schedule->call('\App\Http\Controllers\Api\v1\NotificationController@couponNotificationFavLeft')->everyMinute();    
+  //  $schedule->call('\App\Http\Controllers\Api\v1\NotificationController@couponNotificationFavExpire')->everyMinute();
+   // $schedule->call('\App\Http\Controllers\Api\v1\NotificationController@couponNotificationFavLeft')->everyMinute();   
+    // $schedule->call('\App\Http\Controllers\Api\v1\StripeController@handleStripeResponse')->everyMinute();
+    
     }
 
     /**

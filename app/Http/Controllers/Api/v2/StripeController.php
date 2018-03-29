@@ -78,6 +78,7 @@ class StripeController extends Controller {
         $description = $event->data->object->description;
         $transaction_id = $event->data->object->id;
         $user_details = Stripewebhook::getUserDetails($user_id);
+        if(!empty($user_details)){
         $plan_details = Subscription::select('stripe_plan')->where('user_id', $user_details->user_id)->first();
         $plan_array = $plan_details->getAttributes();
         $plan = $plan_array['stripe_plan'];
@@ -134,6 +135,7 @@ class StripeController extends Controller {
 //        print_r($data);die;
         $test = Stripewebhook::createStripe($data);
         http_response_code(200);
+        }
     }
 
     public function updateSubscriptionDate($user_id) {
