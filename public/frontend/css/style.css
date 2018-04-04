@@ -2898,6 +2898,23 @@ min-height: 100vh;}
 .getstart-search .g-search-padding-5{padding-left: 5px;padding-right: 5px;}
 .has-error .help-block, .has-error .help-block strong, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label{color: #de3932;}
 
+/*New Success popup*/
+.alert-fade.custom-alert{position: fixed; right: 0; left: 0; top: 0; bottom: 0; background: rgba(0,0,0,0.5);}
+.alert-fade.custom-alert .alert.alert-success,
+.alert-fade.custom-alert .alert.alert-danger{border-radius: 7px; color: #333; background-color: #fff; border: none; margin-top: 40px; max-width: 340px; margin: auto; position: relative; top: 50%; transform: translate(0, -50%);}
+.alert-fade.custom-alert .alert.alert-success .btn.btn-success,
+.alert-fade.custom-alert .alert.alert-danger .btn.btn-success{background: #46b96d;color: #fff;width: 100%;}
+.alert-fade.custom-alert .alert.alert-danger .btn.btn-success{background: #a94442;}
+.alert-fade.custom-alert .alert.alert-success .tick-mark-circle,
+.alert-fade.custom-alert .alert.alert-danger .close-circle{position: relative;width: 80px; height: 80px; background: #46ba6d; border-radius: 50%; margin-top: -54px; margin-left: 50%; transform: translate(-50%, 0); box-shadow: 0 3px 6px rgba(0,0,0,0.15);}
+.alert-fade.custom-alert .alert.alert-danger .close-circle{background: #a94442;}
+.alert-fade.custom-alert .alert.alert-success .tick-mark-circle:before {content: ''; display: block; width: 13px; height: 30px; border: solid #fff; border-width: 0 4px 4px 0; position: absolute; top: 50%; left: 50%;transform: translate(-50%, -50%) rotate(45deg) scale(1.1);}
+.alert-fade.custom-alert .alert.alert-danger .close-circle:after,
+.alert-fade.custom-alert .alert.alert-danger .close-circle:before {position: absolute; left: 38px;top: 25px;content: ' '; height: 33px; width: 4px; background-color: #fff;} 
+.alert-fade.custom-alert .alert.alert-danger .close-circle:after {transform: rotate(45deg);}
+.alert-fade.custom-alert .alert.alert-danger .close-circle:before {transform: rotate(-45deg);}
+.alert-fade.custom-alert .alert.alert-success .alert-content,
+.alert-fade.custom-alert .alert.alert-danger .alert-content{padding: 5px 0px 20px;}
 
 @media only screen and (max-width: 991px) {
     .getstart-search .form-inline .form-group{margin-bottom: 10px;}
