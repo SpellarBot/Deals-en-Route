@@ -37,17 +37,40 @@
         <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
 
         <div class="wrapper">
-
-            <div class="errorpopup">
-                <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
-                    <button type="button" class="close closepopup" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <div class="successmessage"> </div>
-                </div>  
-                <div class="alert alert-danger alert-dismissible" role="alert" style="display: none">
-                    <button type="button" class="close closepopup" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <div class="errormessage"> </div>
-                </div>  
+      <div class="errorpopup">
+               <div class="alert-fade alert-success custom-alert"  style="display: none">
+                <div class="alert  alert-success alert-dismissable" role="alert"  >
+                    <!-- <button type="button" class="close " aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+                    <div class="tick-mark-circle"></div>
+                    <div class="alert-content">
+                        <h3 class="success-text">Success</h3>
+                        <div class="successmessage"> </div>
+                    </div>
+                    <button type="button" class="btn btn-success closepopup" aria-label="Close" aria-hidden="true">OK</button>
+                </div>
             </div>
+           
+             <div class="alert-fade alert-danger custom-alert" style="display: none">
+                <div class="alert alert-danger alert-dismissable" role="alert"  >
+                    <!-- <button type="button" class="close " aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+                    <div class="close-circle"></div>
+                    <div class="alert-content">
+                        <h3 class="success-text">Failed</h3>
+                        <div class="errormessage"> </div>
+                    </div>
+                    <button type="button" class="btn btn-success closepopup" aria-label="Close" aria-hidden="true">OK</button>
+                </div>
+            </div>
+   
+            <!-- <div class="alert alert-success alert-dismissible" role="alert"  >
+                <button type="button" class="close " aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                fgfdgdggdfgg
+            </div> -->  
+         
+           
+        
+        </div>
+           
 
             @include('frontend/sidebar/sidebar')
             @yield('content')   
@@ -62,7 +85,7 @@
 
         <script type="text/javascript" src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js') }}"></script>
-
+  <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js')}}"></script>
         <script type="text/javascript" src="{{ asset('frontend/js/cleave.min.js') }}"></script>
 
         <!--=============================Card Details=============================-->

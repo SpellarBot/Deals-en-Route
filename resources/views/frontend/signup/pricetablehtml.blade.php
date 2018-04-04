@@ -6,17 +6,31 @@
 
 <div class="errorpopup">
 
-    <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        {{ Session::get('success') }}
-    </div>  
+        <div class="alert-fade alert-success custom-alert"  style="display: none">
+            <div class="alert  alert-success alert-dismissable" role="alert"  >
+                <!-- <button type="button" class="close " aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+                <div class="tick-mark-circle"></div>
+                <div class="alert-content">
+                    <h3 class="success-text">Success</h3>
+                    {{ Session::get('success') }}
+                </div>
+                <button type="button" class="btn btn-success closepopup" aria-label="Close" aria-hidden="true">OK</button>
+            </div>
+        </div>
 
+        <div class="alert-fade alert-danger custom-alert" style="display: none">
+            <div class="alert alert-danger alert-dismissable" role="alert"  >
+                <!-- <button type="button" class="close " aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+                <div class="close-circle"></div>
+                <div class="alert-content">
+                    <h3 class="success-text">Failed</h3>
+                    {{ Session::get('error') }}
+                </div>
+                <button type="button" class="btn btn-success closepopup" aria-label="Close" aria-hidden="true">OK</button>
+            </div>
+        </div>
 
-    <div class="alert alert-danger alert-dismissible" role="alert" style="display: none">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        {{ Session::get('error') }}
     </div>  
-</div>    
 
 <section class="prices">
     <div class="container">

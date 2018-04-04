@@ -87,11 +87,9 @@ $(document).ready(function () {
                     $('.errormessage').html(data.message);
                 } else {
                     $('.editCreditCard').find("input").val("");
-                    $('.alert-success').show();
-                    setTimeout(function () {
-                        $('.alert-success').fadeOut('slow');
-                    }, 10000);
-                    $('.successmessage').html(data.message);
+                    
+                      localStorage.setItem("Status", data.message)
+                    location.reload(true);
                 }
 
             },

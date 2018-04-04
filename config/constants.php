@@ -6,7 +6,7 @@ return [
     'SUBSCRIPTION_ERROR' => 'Thank You! Please check your email to activate your account,Subscription not complete,Please try again!!',
     //user
     'USER_UPDATE' => 'User Updated Successfully.',
-    'USER_EMAIL_VERIFICATION' => 'Thank You! Please check your email to activate your account.',
+    'USER_EMAIL_VERIFICATION' => 'Congratulations, please check your email for the activation link.',
     'USER_LOGIN' => 'User login successfully',
     'USER_NOT_CONFIRMED' => 'You Have Not Confirmed Your Email Yet.Please Check Your Email.',
     'USER_UPDATE_PROFILE' => 'profile updated successfully',
