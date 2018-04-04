@@ -307,61 +307,10 @@ $(document).ready(function () {
         },
         error: function (xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
-            console.log(err);
+           // console.log(err);
         }
     });
-    $('.editCompanyDetails').submit(function (e) {
-        e.preventDefault();
-        var file_data = $('#file').prop('files')[0];
-        var formData = new FormData(this);
-        formData.append('vendor_logo', file_data);
-        console.log(formData);
-        $.ajax({
-            url: "register/update",
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (data) {
-                console.log(data);
-//                return false;
-                if (data.status == 0) {
-                    $('.editCompanyDetails').find("input").val("");
-                    $('.alert-danger').show();
-                    setTimeout(function () {
-                        $('.alert-danger').fadeOut('slow');
-                    }, 10000);
-                    $('.errormessage').html(data.message);
-                } else {
-                    $('.editCompanyDetails').find("input").val("");
-                    $('.alert-success').show();
-                    setTimeout(function () {
-                        $('.alert-success').fadeOut('slow');
-                    }, 10000);
-                    $('.successmessage').html(data.message);
-                }
 
-            },
-            beforeSend: function () {
-                $('#loadingDiv').show();
-            },
-            complete: function () {
-                $('#loadingDiv').hide();
-            },
-            error: function (data) {
-                console.log(data)
-                $('.editCompanyDetails').find("input").val("");
-                $('#loadingDiv').hide();
-                $('.alert-danger').show();
-                setTimeout(function () {
-                    $('.alert-danger').fadeOut('slow');
-                }, 10000);
-                $('.errormessage').html(data.responseJSON.message);
-            }
-        });
-
-    });
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (event) {
 

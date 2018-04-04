@@ -154,8 +154,6 @@
                                     type: 'POST',
                                     data: {'plan': $(this).val(), 'user_id': "<?php echo $user_id ?>", 'status': $(this).attr('id')},
                                     success: function (data) {
-                                        setFlashSuccessNotification();
-                                        console.log(data);
                                         window.location.href = $('#hidAbsUrl').val() + '/dashboard#settings';
                                     },
                                     beforeSend: function () {
