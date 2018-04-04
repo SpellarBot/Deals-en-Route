@@ -32,13 +32,13 @@ $(document).ready(function () {
 
             showAnimation: {
                 type: "fade", //normal|slide|fade
-                time: 200,
+                time: 100,
                 callback: function () {
                 }
             },
             hideAnimation: {
                 type: "slide", //normal|slide|fade
-                time: 200,
+                time: 100,
                 callback: function () {
                 }
             }
@@ -157,7 +157,8 @@ $('#yelpform').on('submit', function (event) {
             pageLength: 25,
             lengthChange: false,
 
-            oLanguage: {sEmptyTable: "No Results Found!", sInfo: "Showing  _TOTAL_ results for <b>" + $("#yelpform input[name=vendor_name]").val() + "</b> near <b>" + $("#yelpform input[name=vendor_address]").val() + "</b>"},
+            oLanguage: {sEmptyTable: "No Results Found!", sInfo: "<div style='display: inline-block;float: left;margin-top: 13px;'> Showing  _TOTAL_ results for <b>" + $("#yelpform input[name=vendor_name]").val() + "</b> near <b>" + $("#yelpform input[name=vendor_address]").val() + "</b></div>\n\
+    <div class='test123' style='display: inline-block;float: right;margin-top: -11px;'><a href='javascript:void(0)' class='addbusiness-btn call-to-action button autocompleteNoData' >Add Your Business</a></div>"},
             fnDrawCallback: function () {
                 var oTable = $('#yelpdatatable').DataTable();
                 var api = this.api();
@@ -178,6 +179,7 @@ $('#yelpform').on('submit', function (event) {
                     $('.dataTables_wrapper thead').css("display", "block");
                     $('#yelpdatatable_paginate').css("display", "block");
                     $('#yelpdatatable_info').css("display", "block");
+                    $('#yelpdatatable_info').css("width", "100%");
                 }
             },
             ajax: {
@@ -400,6 +402,7 @@ $(document.body).on('mousedown', '.pac-container .customsearch', function (e) {
                     data: {lat: position.coords.latitude, lng: position.coords.longitude},
                     success: function (data) {
                         $('#vendor_address').val(data);
+                        console.log(data);
                     },
                     beforeSend: function () {
                         $('#loadingDiv').show();

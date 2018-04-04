@@ -33,7 +33,7 @@ class DealCommentLikes extends Model {
                     'comment_id' => $data['comment_id']
                         ]
         );
-        if ($addlike) {
+          if ($addlike &&  $addlike->is_like==1 &&  $addlike->comment->comment_by != Auth::id() ) {
             self::sendLikeNotification($addlike, 'dealcommentlike', \Config::get('constants.COMMENT_LIKE'));
         }
         return $addlike;
