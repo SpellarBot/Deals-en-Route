@@ -2899,9 +2899,9 @@ min-height: 100vh;}
 .has-error .help-block, .has-error .help-block strong, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label{color: #de3932;}
 
 /*New Success popup*/
-.alert-fade.custom-alert{position: fixed; right: 0; left: 0; top: 0; bottom: 0; background: rgba(0,0,0,0.5);}
+.alert-fade.custom-alert{position: fixed; right: 0; left: 0; top: 0; bottom: 0; background: rgba(0,0,0,0.5);padding: 15px;}
 .alert-fade.custom-alert .alert.alert-success,
-.alert-fade.custom-alert .alert.alert-danger{border-radius: 7px; color: #333; background-color: #fff; border: none; margin-top: 40px; max-width: 340px; margin: auto; position: relative; top: 50%; transform: translate(0, -50%);}
+.alert-fade.custom-alert .alert.alert-danger{border-radius: 7px; color: #333; background-color: #fff; border: none; margin-top: 40px; max-width: 500px; margin: auto; position: relative; top: 50%; transform: translate(0, -50%);}
 .alert-fade.custom-alert .alert.alert-success .btn.btn-success,
 .alert-fade.custom-alert .alert.alert-danger .btn.btn-success{background: #46b96d;color: #fff;width: 100%;}
 .alert-fade.custom-alert .alert.alert-danger .btn.btn-success{background: #a94442;}
