@@ -338,8 +338,9 @@ class Coupon extends Model {
          $fnmessage = str_replace($find, $replace, $message);
          Notification::send($device, new FcmNotification([
             'type' => 'newcoupon',
-            'notification_message' => 'We got a deal for you from {{vendor_name}}. Check it out!',
+            'notification_message' => \Config::get('constants.NOTIFY_GEO')[0],
             'message' =>$fnmessage,
+            'image' => (!empty($coupon->vendorDetail->vendor_logo)) ? URL::to('/storage/app/public/vendor_logo') . '/' . $coupon->vendorDetail->vendor_logo : "",
             'coupon_id' => $coupon->coupon_id
         ]));
       

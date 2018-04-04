@@ -197,7 +197,7 @@ class VendorDetail extends Model {
        $response = json_decode($response);
         $status=$response->status;
        if($status=="OK"){     
-       return $response->results[0]->formatted_address;
+        return $response->results[0]->formatted_address;
        }
     }
 
