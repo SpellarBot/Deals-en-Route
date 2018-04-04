@@ -3,17 +3,30 @@
 @section('content')
 <div class="container">
     <div class="row">
+        
+        
+        
          <div class="errorpopup">
                       
                   
                    @if(Session::has('message'))
-                      
-                    <div class="alert alert-danger alert-dismissible">
-                           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                           {{ Session::get('message') }}</div>
+                      <div class="alert-fade alert-danger custom-alert">
+                <div class="alert alert-danger alert-dismissable" role="alert"  >
+                    <!-- <button type="button" class="close " aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+                    <div class="close-circle"></div>
+                    <div class="alert-content">
+                        <h3 class="success-text">Failed</h3>
+                        {{ Session::get('message') }}
+                    </div>
+                    <button type="button" class="btn btn-success closepopup" aria-label="Close" aria-hidden="true">OK</button>
+                </div>
+            </div>
+                  
                     @endif
                 
      </div>  
+        
+      
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Reset Password</div>

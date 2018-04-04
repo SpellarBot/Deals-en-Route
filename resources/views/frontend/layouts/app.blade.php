@@ -27,39 +27,40 @@
          <input type="hidden" name="hidAbsUrl" id="hidAbsUrl" value="{{URL::to('/')}}" />
         <div id="loadingDiv"> <img src="<?php echo \Config::get('app.url') . '/public/frontend/img/489.gif' ?>" class="loading-gif"></div>
         <div class="errorpopup">
-            
-            <div class="alert-fade custom-alert hidden">
+              @if (Session::has('success'))
+
+              <div class="alert-fade alert-success custom-alert">
                 <div class="alert alert-success alert-dismissable" role="alert"  >
                     <!-- <button type="button" class="close " aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
                     <div class="tick-mark-circle"></div>
                     <div class="alert-content">
                         <h3 class="success-text">Success</h3>
-                        <span class="msg-text">Success msg here.</span>
+                        <span class="msg-text">{{ Session::get('success') }}</span>
                     </div>
-                    <button type="button" class="btn btn-success" aria-label="Close" aria-hidden="true">OK</button>
+                    <button type="button" class="btn btn-success closepopup" aria-label="Close" aria-hidden="true">OK</button>
                 </div>
             </div>
-
-            <div class="alert-fade custom-alert">
+            @endif
+            
+  @if (Session::has('error'))
+             <div class="alert-fade alert-danger custom-alert">
                 <div class="alert alert-danger alert-dismissable" role="alert"  >
                     <!-- <button type="button" class="close " aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
                     <div class="close-circle"></div>
                     <div class="alert-content">
                         <h3 class="success-text">Failed</h3>
-                        <span class="msg-text">Failed msg here.</span>
+                        <span class="msg-text">{{ Session::get('error') }}</span>
                     </div>
-                    <button type="button" class="btn btn-success" aria-label="Close" aria-hidden="true">OK</button>
+                    <button type="button" class="btn btn-success closepopup" aria-label="Close" aria-hidden="true">OK</button>
                 </div>
             </div>
+    @endif
             <!-- <div class="alert alert-success alert-dismissible" role="alert"  >
                 <button type="button" class="close " aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 fgfdgdggdfgg
             </div> -->  
          
-            <div class="alert alert-danger alert-dismissible hidden" role="alert">
-                <button type="button" class="close "  aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              gfhfgh
-            </div>  
+           
         
         </div>
         <div class="base-wrapper">
