@@ -312,33 +312,38 @@
                                         {{ Form::open([ 'id' => 'hoursOfOperation']) }}
                                         {{ csrf_field() }}
                                         <div class="row">
-                                            <div class="col-sm-4 pb-15"><label>Days</label></div>
-                                            <div class="col-sm-4 text-center pb-15"><label>From</label></div>
-                                            <div class="col-sm-4 text-center pb-15"><label>to</label></div>
+                                            <div class="hours-opration-col1 pb-15"><label>Days</label></div>
+                                            <div class="hours-opration-col2 text-center pb-15"><label>From</label></div>
+                                            <div class="hours-opration-col2 text-center pb-15"><label>to</label></div>
                                         </div>
                                        
                                         @foreach ($listWeeks as $key=>$value)
                                         <div class="row datepair">
 
                                             <input type="hidden" value="{{$key}}" id="datePairvalue">
-                                            <div class="col-sm-4"><p class="package-addon1">{{$value}}</p></div>
+                                            <div class="hours-opration-col1"><p class="package-addon1">{{$value}}</p></div>
                                             <input type="hidden" name="{{$value}}[]" value="{{$key}}"/>
 
-                                            <div class="col-sm-4">
+                                            <div class="hours-opration-col2">
                                                 <div class="form-group">
                                                     <input id="fromtimepicker{{$key}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time start" value="{{  empty($hoursofoperation[$key]['open_time'])?"":$hoursofoperation[$key]['open_time']}}">
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="hours-opration-col2">
                                                 <div class="form-group">
                                                     <input id="totimepicker{{$key}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time end" value="{{   empty($hoursofoperation[$key]['close_time'])?"":$hoursofoperation[$key]['close_time']}}">
                                                 </div>
                                             </div>  
-                                          
-                                        </div>
-                                          @if($key==0)
-                                             <input type="checkbox" name="fillcheckbox" value="1" id="fill_checkbox"/>fill same for all
+                                            @if($key==0)
+                                            <div class="hours-opration-col2">
+                                                <div class="form-group fillall-checkbox">
+                                                     <input type="checkbox" name="fillcheckbox" value="1" id="fill_checkbox" />
+                                                     <span>Fill All</span>
+                                                 </div>
+                                             </div>
                                              @endif
+                                        </div>
+                                          
                                         @endforeach
 
                                         <ul class="list-inline pad-top pull-right">
