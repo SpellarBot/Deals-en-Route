@@ -358,12 +358,16 @@ $('#fill_checkbox').on('click', function (e) {
             $("#fromtimepicker"+key).val(fromtime);
            $("#totimepicker"+key).val(totime);   
         });
+    }else{
+       $.each([1,2,3,4,5,6,7,8], function (key, value) {
+            $("#fromtimepicker"+key).val("");
+           $("#totimepicker"+key).val("");   
+        }); 
     }
     
 });
  $('.datepair').on('click', function (e) {
        e.preventDefault();
-      var datefrom= $(this).find("#datePairvalue").val();
        $('.time').timepicker({
 		'showDuration': false,
 		'timeFormat': 'h:i A'

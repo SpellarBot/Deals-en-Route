@@ -157,7 +157,9 @@ class HomeController extends Controller {
 
     public function hoursOfOperation(Request $request) {
         $data = $request->all();
-      
+        if(isset($data['_token'])){
+        unset($data['_token']);
+        }
          $addhours = VendorHours::addHoursOfOperations($data);
       
         if ($addhours == 0) {
