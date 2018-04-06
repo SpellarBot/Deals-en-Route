@@ -320,22 +320,22 @@
                                         @foreach ($listWeeks as $key=>$value)
                                         <div class="row datepair">
 
-                                            <input type="hidden" value="{{$key}}" id="datePairvalue">
-                                            <div class="hours-opration-col1"><p class="package-addon1">{{$value}}</p></div>
-                                            <input type="hidden" name="{{$value}}[]" value="{{$key}}"/>
+                                            <input type="hidden" value="{{$key+1}}" id="datePairvalue">
+                                            <div class="hours-opration-col1"><p class="package-addon1">{{ucfirst($value)}}</p></div>
+                                            <input type="hidden" name="{{$value}}[]" value="{{$key+1}}"/>
 
                                             <div class="hours-opration-col2">
                                                 <div class="form-group">
-                                                    <input id="fromtimepicker{{$key}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time start" value="{{  empty($hoursofoperation[$key]['open_time'])?"":$hoursofoperation[$key]['open_time']}}">
+                                                    <input id="fromtimepicker{{$key+1}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time start" value="{{  empty($hoursofoperation[$key+1]['open_time'])?"":$hoursofoperation[$key+1]['open_time']}}">
                                                 </div>
                                             </div>
                                             <div class="hours-opration-col2">
                                                 <div class="form-group">
-                                                    <input id="totimepicker{{$key}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time end" value="{{   empty($hoursofoperation[$key]['close_time'])?"":$hoursofoperation[$key]['close_time']}}">
+                                                    <input id="totimepicker{{$key+1}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time end" value="{{   empty($hoursofoperation[$key+1]['close_time'])?"":$hoursofoperation[$key+1]['close_time']}}">
                                                 </div>
                                             </div>  
-                                            @if($key==0)
-                                            <div class="hours-opration-col2">
+                                            @if($key+1==1)
+                                            <div class="hours-opration-col3">
                                                 <div class="form-group fillall-checkbox">
                                                      <input type="checkbox" name="fillcheckbox" value="1" id="fill_checkbox" />
                                                      <span>Fill All</span>

@@ -2773,11 +2773,12 @@ a.btn.btn-info.btn-fill.btn-wd.btn-create.redeemnow{width: 100%;max-width: 380px
 .hours-opration .form-control[readonly]{height: 34px !important; font-size: 14px !important;text-align: center;}
 .hours-opration .hours-opration-col1,
 .hours-opration .hours-opration-col2{float: left;}
-.hours-opration .hours-opration-col1{width: calc(100% - 280px);padding: 0px 15px;}
+.hours-opration .hours-opration-col1{width: calc(100% - 180px);padding: 0px 15px;}
 .hours-opration .hours-opration-col2{width: 90px;padding: 0px 5px;}
-.hours-opration .fillall-checkbox{margin-bottom: 0px;margin-top: 8px;}
+.hours-opration .hours-opration-col3{padding-left: calc(100% - 180px);width: 100%;}
+.hours-opration .fillall-checkbox{clear: both;}
 .hours-opration .fillall-checkbox input{display: inline-block;vertical-align: middle;margin-right: 5px;}
-.hours-opration .fillall-checkbox input~span{display: inline-block;vertical-align: middle;width: calc(100% - 24px);}
+.hours-opration .fillall-checkbox input~span{display: inline-block;vertical-align: middle;width: calc(100% - 33px);}
 button.btn.btn-pack.btn-buy1{width: 100px;}
 #dashboard .card .card-content.chart-circle-wrapper{padding: 12px;}
 

@@ -352,9 +352,9 @@ $(document).ready(function () {
 
 $('#fill_checkbox').on('click', function (e) {
    if ($(this).prop('checked')==true){ 
-        $.each([1,2,3,4,5,6,7], function (key, value) {
-          var fromtime= $("#fromtimepicker0").val();
-           var totime= $("#totimepicker0").val();
+        $.each([1,2,3,4,5,6,7,8], function (key, value) {
+          var fromtime= $("#fromtimepicker1").val();
+           var totime= $("#totimepicker1").val();
             $("#fromtimepicker"+key).val(fromtime);
            $("#totimepicker"+key).val(totime);   
         });

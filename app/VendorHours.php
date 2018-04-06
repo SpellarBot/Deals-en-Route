@@ -54,13 +54,13 @@ class VendorHours extends Model {
 
     public static function listWeeks() {
         $weeks = [
-            'sunday',
             'monday',
             'tuesday',
             'wednesday',
             'thursday',
             'friday',
             'saturday',
+            'sunday',
         ];
         return $weeks;
     }
