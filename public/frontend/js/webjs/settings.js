@@ -352,16 +352,16 @@ $(document).ready(function () {
 
 $('#fill_checkbox').on('click', function (e) {
    if ($(this).prop('checked')==true){ 
-        $.each([1,2,3,4,5,6,7,8], function (key, value) {
+        $.each([2,3,4,5,6,7], function (key, value) {
           var fromtime= $("#fromtimepicker1").val();
            var totime= $("#totimepicker1").val();
-            $("#fromtimepicker"+key).val(fromtime);
-           $("#totimepicker"+key).val(totime);   
+            $("#fromtimepicker"+value).val(fromtime);
+           $("#totimepicker"+value).val(totime);   
         });
     }else{
-       $.each([1,2,3,4,5,6,7,8], function (key, value) {
-            $("#fromtimepicker"+key).val("");
-           $("#totimepicker"+key).val("");   
+       $.each([2,3,4,5,6,7], function (key, value) {
+            $("#fromtimepicker"+value).val("");
+           $("#totimepicker"+value).val("");   
         }); 
     }
     

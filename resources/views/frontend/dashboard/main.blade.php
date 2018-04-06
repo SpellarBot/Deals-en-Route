@@ -316,7 +316,7 @@
                                             <div class="hours-opration-col2 text-center pb-15"><label>From</label></div>
                                             <div class="hours-opration-col2 text-center pb-15"><label>to</label></div>
                                         </div>
-                                       
+                                      
                                         @foreach ($listWeeks as $key=>$value)
                                         <div class="row datepair">
 
@@ -334,16 +334,17 @@
                                                     <input id="totimepicker{{$key+1}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time end" value="{{   empty($hoursofoperation[$key+1]['close_time'])?"":$hoursofoperation[$key+1]['close_time']}}">
                                                 </div>
                                             </div>  
-                                            @if($key+1==1)
+                                         
+                                        </div>
+                                             @if($key+1==1)
                                             <div class="hours-opration-col3">
                                                 <div class="form-group fillall-checkbox">
-                                                     <input type="checkbox" name="fillcheckbox" value="1" id="fill_checkbox" />
+                                                       {{ Form::checkbox('fillcheckbox', '1',(isset($hoursofoperation[1]['fill_all'])&& $hoursofoperation[1]['fill_all']==1)?true:false,['id' => 'fill_checkbox']) }}
+                                                 
                                                      <span>Fill All</span>
                                                  </div>
                                              </div>
                                              @endif
-                                        </div>
-                                          
                                         @endforeach
 
                                         <ul class="list-inline pad-top pull-right">

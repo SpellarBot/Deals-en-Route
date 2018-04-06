@@ -15,21 +15,28 @@ class VendorHours extends Model {
 
     public $primaryKey = 'id';
     protected $fillable = [
-        'id', 'days', 'vendor_id', 'open_time', 'close_time', 'created_at', 'updated_at'
+        'id', 'days', 'vendor_id', 'open_time', 'close_time', 'created_at',
+        'updated_at','fill_all'
     ];
 
     public static function addHoursOfOperations($data) {
+      VendorHours::updateOrCreate(
+                        ['vendor_id' => auth()->id()], [
+                    'fill_all' => (isset($data['fillcheckbox']))?1:0,            
+        ]);
+      if(isset($data['fillcheckbox'])){
+      unset($data['fillcheckbox']);
+      }
         $i = 0;
         foreach ($data as $hours) {
-            if ($hours[1] && $hours[2]) {
                 $i++;
-                $dt1 = new Carbon($hours[1]);
-                $dt2 = new Carbon($hours[2]);
+                $dt1 = isset($hours[1])?new Carbon($hours[1]):"";
+                $dt2 = isset($hours[2])? new Carbon($hours[2]):"";
                 $add['day'] = $hours[0];
-                $add['open_time'] = $dt1->format('H:i:s');
-                $add['close_time'] = $dt2->format('H:i:s');
+                $add['open_time'] = !empty($dt1)?$dt1->format('H:i:s'):"";
+                $add['close_time'] = !empty($dt2)?$dt2->format('H:i:s'):"";
                 self::vendorHourUpdate($add);
-            }
+            
         }
         return $i;
     }

@@ -2775,7 +2775,7 @@ a.btn.btn-info.btn-fill.btn-wd.btn-create.redeemnow{width: 100%;max-width: 380px
 .hours-opration .hours-opration-col2{float: left;}
 .hours-opration .hours-opration-col1{width: calc(100% - 180px);padding: 0px 15px;}
 .hours-opration .hours-opration-col2{width: 90px;padding: 0px 5px;}
-.hours-opration .hours-opration-col3{padding-left: calc(100% - 180px);width: 100%;}
+.hours-opration .hours-opration-col3{padding-left: calc(100% - 161px);width: 100%;}
 .hours-opration .fillall-checkbox{clear: both;}
 .hours-opration .fillall-checkbox input{display: inline-block;vertical-align: middle;margin-right: 5px;}
 .hours-opration .fillall-checkbox input~span{display: inline-block;vertical-align: middle;width: calc(100% - 33px);}

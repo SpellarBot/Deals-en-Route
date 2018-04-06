@@ -50,11 +50,13 @@ class HomeController extends Controller {
         if (count($hoursofoperation) > 0) {
             foreach ($hoursofoperation as $hours) {
                 $hour = $hours->getAttributes();
-                $dt1 = new Carbon($hour['open_time']);
-                $dt2 = new Carbon($hour['close_time']);
+                
+                $dt1 = (isset($hour['open_time']) && !empty($hour['open_time']))? new Carbon($hour['open_time']):'';
+                $dt2 = (isset($hour['open_time']) && !empty($hour['close_time']))? new Carbon($hour['close_time']):'';
                 $hours_of_operations[$hour['days']]['day'] = $hour['days'];
-                $hours_of_operations[$hour['days']]['open_time'] = $dt1->format('h:i A');
-                $hours_of_operations[$hour['days']]['close_time'] = $dt2->format('h:i A');
+                $hours_of_operations[$hour['days']]['fill_all'] = $hour['fill_all'];
+                $hours_of_operations[$hour['days']]['open_time'] = (empty($dt1))?"":$dt1->format('h:i A');
+                $hours_of_operations[$hour['days']]['close_time'] = (empty($dt2))?"":$dt2->format('h:i A');
 //                array_push($hours_of_operations, $dataVendorHour);
             }
         } else {
@@ -160,6 +162,7 @@ class HomeController extends Controller {
         if(isset($data['_token'])){
         unset($data['_token']);
         }
+        
          $addhours = VendorHours::addHoursOfOperations($data);
       
         if ($addhours == 0) {
