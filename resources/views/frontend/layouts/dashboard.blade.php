@@ -19,8 +19,10 @@
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" />
         <link href="{{ asset('frontend/css/jasny-bootstrap.css')}}" rel="stylesheet">
         <link href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css')}}" rel="stylesheet">
-
-
+       <!-- timepicker plugin-->   
+        <link href="{{ asset('frontend/plugin/timepicker/jquery.timepicker.css')}}" rel="stylesheet">
+        <link href="{{ asset('frontend/plugin/timepicker/lib/bootstrap-datepicker.css')}}" rel="stylesheet">
+        <link href="{{ asset('frontend/plugin/timepicker/lib/site.css')}}" rel="stylesheet">
     </head>
 
     <body>
@@ -82,12 +84,16 @@
         <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
 
         <script type="text/javascript" src="{{ asset('frontend/js/jquery.min.js') }}"></script>
-
         <script type="text/javascript" src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js')}}"></script>
+        <script type="text/javascript" src="{{ asset('frontend/js/webjs/commonweb.js')}}"></script>
         <script type="text/javascript" src="{{ asset('frontend/js/cleave.min.js') }}"></script>
-
+        <!-- timepicker plugin-->   
+        <script type="text/javascript" src="{{ asset('frontend/plugin/timepicker/jquery.timepicker.js') }} "></script>
+	<script type="text/javascript" src="{{ asset('frontend/plugin/timepicker/lib/bootstrap-datepicker.js') }} "></script>
+        <script type="text/javascript" src="{{ asset('frontend/plugin/timepicker/lib/site.js') }} "></script>
+        <script src="http://jonthornton.github.io/Datepair.js/dist/datepair.js"></script>
+	<script src="http://jonthornton.github.io/Datepair.js/dist/jquery.datepair.js"></script>
         <!--=============================Card Details=============================-->
         <script type="text/javascript">
             $(document).on('change', '.selectinput', function () {
