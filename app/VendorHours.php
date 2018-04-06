@@ -20,10 +20,8 @@ class VendorHours extends Model {
     ];
 
     public static function addHoursOfOperations($data) {
-      VendorHours::updateOrCreate(
-                        ['vendor_id' => auth()->id()], [
-                    'fill_all' => (isset($data['fillcheckbox']))?1:0,            
-        ]);
+      VendorHours::where('vendor_id', '=', auth()->id())->update(['fill_all' => (isset($data['fillcheckbox']))?1:0]);
+    
       if(isset($data['fillcheckbox'])){
       unset($data['fillcheckbox']);
       }
