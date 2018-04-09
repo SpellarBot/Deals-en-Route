@@ -65,6 +65,7 @@ $(document).ready(function () {
             document.querySelector('.type').innerHTML = '<i class="fa fa-cc-' + type.trim() + ' fa-fw fa-2x active" aria-hidden="true"></i>';
         }
     });
+    // update company details
     $('.editCompanyDetails').submit(function (e) {
         e.preventDefault();
         var file_data = $('#file').prop('files')[0];
@@ -151,6 +152,7 @@ $(document).ready(function () {
             }
         });
     });
+    // hours of operation
     $('#hoursOfOperation').on('submit', function (e) {
         e.preventDefault();
         var formData = $(this).serialize();
@@ -200,7 +202,7 @@ $(document).ready(function () {
             }
         });
     });
-
+    //additional miles
     $('.additional_miles').submit(function (e) {
         e.preventDefault();
         var formData = $(this).serialize();
@@ -245,6 +247,7 @@ $(document).ready(function () {
             }
         });
     });
+    // geo fencing
     $('.geo_fencing').submit(function (e) {
 
         e.preventDefault();
@@ -288,6 +291,7 @@ $(document).ready(function () {
             }
         });
     });
+    // additional deals
     $('.additional_deals').submit(function (e) {
         e.preventDefault();
         var formData = $(this).serialize();
@@ -331,19 +335,47 @@ $(document).ready(function () {
     });
 
     //Initializes the time picker
-    $('#fromtimepicker1').mdtimepicker();
-    $('#totimepicker1').mdtimepicker();
-    $('#fromtimepicker2').mdtimepicker();
-    $('#totimepicker2').mdtimepicker();
-    $('#fromtimepicker3').mdtimepicker();
-    $('#totimepicker3').mdtimepicker();
-    $('#fromtimepicker4').mdtimepicker();
-    $('#totimepicker4').mdtimepicker();
-    $('#fromtimepicker5').mdtimepicker();
-    $('#totimepicker5').mdtimepicker();
-    $('#fromtimepicker6').mdtimepicker();
-    $('#totimepicker6').mdtimepicker();
-    $('#fromtimepicker7').mdtimepicker();
-    $('#totimepicker7').mdtimepicker();
+//    $('#fromtimepicker1').mdtimepicker();
+//    $('#totimepicker1').mdtimepicker();
+//    $('#fromtimepicker2').mdtimepicker();
+//    $('#totimepicker2').mdtimepicker();
+//    $('#fromtimepicker3').mdtimepicker();
+//    $('#totimepicker3').mdtimepicker();
+//    $('#fromtimepicker4').mdtimepicker();
+//    $('#totimepicker4').mdtimepicker();
+//    $('#fromtimepicker5').mdtimepicker();
+//    $('#totimepicker5').mdtimepicker();
+//    $('#fromtimepicker6').mdtimepicker();
+//    $('#totimepicker6').mdtimepicker();
+//    $('#fromtimepicker7').mdtimepicker();
+//    $('#totimepicker7').mdtimepicker();
+
+$('#fill_checkbox').on('click', function (e) {
+   if ($(this).prop('checked')==true){ 
+        $.each([2,3,4,5,6,7], function (key, value) {
+          var fromtime= $("#fromtimepicker1").val();
+           var totime= $("#totimepicker1").val();
+            $("#fromtimepicker"+value).val(fromtime);
+           $("#totimepicker"+value).val(totime);   
+        });
+    }else{
+       $.each([2,3,4,5,6,7], function (key, value) {
+            $("#fromtimepicker"+value).val("");
+           $("#totimepicker"+value).val("");   
+        }); 
+    }
+    
+});
+ $('.datepair').on('click', function (e) {
+       e.preventDefault();
+       $('.time').timepicker({
+		'showDuration': false,
+		'timeFormat': 'h:i A'
+	});
+	// initialize datepair
+	$('.datepair').datepair();
+  });
+   
+ 
 });
 

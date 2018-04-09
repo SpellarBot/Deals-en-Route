@@ -50,11 +50,13 @@ class HomeController extends Controller {
         if (count($hoursofoperation) > 0) {
             foreach ($hoursofoperation as $hours) {
                 $hour = $hours->getAttributes();
-                $dt1 = new Carbon($hour['open_time']);
-                $dt2 = new Carbon($hour['close_time']);
+                
+                $dt1 = (isset($hour['open_time']) && !empty($hour['open_time']))? new Carbon($hour['open_time']):'';
+                $dt2 = (isset($hour['open_time']) && !empty($hour['close_time']))? new Carbon($hour['close_time']):'';
                 $hours_of_operations[$hour['days']]['day'] = $hour['days'];
-                $hours_of_operations[$hour['days']]['open_time'] = $dt1->format('h:i A');
-                $hours_of_operations[$hour['days']]['close_time'] = $dt2->format('h:i A');
+                $hours_of_operations[$hour['days']]['fill_all'] = $hour['fill_all'];
+                $hours_of_operations[$hour['days']]['open_time'] = (empty($dt1))?"":$dt1->format('h:i A');
+                $hours_of_operations[$hour['days']]['close_time'] = (empty($dt2))?"":$dt2->format('h:i A');
 //                array_push($hours_of_operations, $dataVendorHour);
             }
         } else {
@@ -79,6 +81,7 @@ class HomeController extends Controller {
         $year = $this->getLastYear();
         $sub_details = Subscription::select('*')->where('user_id', Auth::id())->first();
         $subscription = $sub_details->getAttributes();
+        $listWeeks=VendorHours::listWeeks();
 //        print_r($subscription);
 //        die;
                 $total_age_wise_redeem = \App\CouponRedeem::getAgeWiseReddemCoupon();
@@ -88,7 +91,8 @@ class HomeController extends Controller {
                     'total_geofencing' => $total_geofencing, 'total_location' => $total_location,
                     'deals_left' => $deals_left, 'subscription' => $subscription,
                      'total_age_wise_redeem'=>$total_age_wise_redeem,
-                    'hoursofoperation' => $hours_of_operations, 'hoursmsg' => $hoursflage]);
+                    'hoursofoperation' => $hours_of_operations, 
+                    'hoursmsg' => $hoursflage,'listWeeks'=>$listWeeks]);
     }
 
     public function dashboard(Request $request) {
@@ -155,20 +159,13 @@ class HomeController extends Controller {
 
     public function hoursOfOperation(Request $request) {
         $data = $request->all();
+        if(isset($data['_token'])){
         unset($data['_token']);
-        $i = 0;
-        foreach ($data as $hours) {
-            if ($hours[1] && $hours[2]) {
-                $i++;
-                $dt1 = new Carbon($hours[1]);
-                $dt2 = new Carbon($hours[2]);
-                $add['day'] = $hours[0];
-                $add['open_time'] = $dt1->format('H:i:s');
-                $add['close_time'] = $dt2->format('H:i:s');
-                $addhours = VendorHours::addHoursOfOperations($add);
-            }
         }
-        if ($i == 0) {
+        
+         $addhours = VendorHours::addHoursOfOperations($data);
+      
+        if ($addhours == 0) {
             return response()->json(['status' => '0', 'message' => 'Please Enter at least one entry in Hours of operation'], 200);
         } else {
             return response()->json(['status' => 'success', 'message' => 'Hours of operation Added Successfully!!!'], 200);
