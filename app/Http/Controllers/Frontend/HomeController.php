@@ -163,9 +163,9 @@ class HomeController extends Controller {
         unset($data['_token']);
         }
         
-         $addhours = VendorHours::addHoursOfOperations($data);
+        $addhours = VendorHours::addHoursOfOperations($data);
       
-        if ($addhours == 0) {
+        if ($addhours == 7) {
             return response()->json(['status' => '0', 'message' => 'Please Enter at least one entry in Hours of operation'], 200);
         } else {
             return response()->json(['status' => 'success', 'message' => 'Hours of operation Added Successfully!!!'], 200);

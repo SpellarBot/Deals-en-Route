@@ -27,9 +27,13 @@ class VendorHours extends Model {
       }
         $i = 0;
         foreach ($data as $hours) {
-                $i++;
+           
+              
                 $dt1 = isset($hours[1])?new Carbon($hours[1]):"";
                 $dt2 = isset($hours[2])? new Carbon($hours[2]):"";
+                 if(empty($dt1) && empty($dt2)) {
+                  $i++;
+                 }
                 $add['day'] = $hours[0];
                 $add['open_time'] = !empty($dt1)?$dt1->format('H:i:s'):"";
                 $add['close_time'] = !empty($dt2)?$dt2->format('H:i:s'):"";
