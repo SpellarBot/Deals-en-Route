@@ -314,10 +314,12 @@
                                         <div class="row">
                                             <div class="hours-opration-col1 pb-15"><label>Days</label></div>
                                             <div class="hours-opration-col2 text-center pb-15"><label>From</label></div>
-                                            <div class="hours-opration-col2 text-center pb-15"><label>to</label></div>
+                                            <div class="hours-opration-col2 text-center pb-15"><label>To</label></div>
+                                            
                                         </div>
                                       
                                         @foreach ($listWeeks as $key=>$value)
+                                        <div class="row-out">
                                         <div class="row datepair">
 
                                             <input type="hidden" value="{{$key+1}}" id="datePairvalue">
@@ -338,16 +340,17 @@
                                                                   'disabled'=>(isset($hoursofoperation[($key+1)]['is_closed'])&& $hoursofoperation[($key+1)]['is_closed']==1)?true:false]) }}
                                                  </div>
                                             </div>  
+                                              
                                           
                                    
                                         </div>
-                                   <div class="hours-opration-col3">
+                                         <div class="hours-opration-col3">
                                                 <div class="form fillall-checkbox">
                                                        {{ Form::checkbox($value."[is_closed]", '1',(isset($hoursofoperation[($key+1)]['is_closed'])&& $hoursofoperation[($key+1)]['is_closed']==1)?true:false,['class' => 'fill_checkbox','id'=>($key+1)]) }}
                                                        <span>closed</span>
                                                  </div>
                                              </div>
-                                              
+                                        </div>     
                                         @endforeach
 
                                         <ul class="list-inline pad-top pull-right">
