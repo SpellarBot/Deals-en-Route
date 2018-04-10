@@ -73,12 +73,13 @@ class VendorController extends Controller {
             $hoursofOperations = VendorHours::getHoursOfOperations($data['vendor_id']);
             $data['vendor_details']['hours_of_operations'] = [];
             foreach ($hoursofOperations as $hours) {
+                
                 $hour = $hours->getAttributes();
-                $dt1 = new Carbon($hour['open_time']);
-                $dt2 = new Carbon($hour['close_time']);
+                $dt1 = (isset($hour['open_time']))?new Carbon($hour['open_time']):"";
+                $dt2 = (isset($hour['close_time']))?new Carbon($hour['open_time']):"";
                 $dataVendorHour['day'] = $this->getDaysfromNumber($hour['days']);
-                $dataVendorHour['open_time'] = $dt1->format('h:i A');
-                $dataVendorHour['close_time'] = $dt2->format('h:i A');
+                $dataVendorHour['open_time'] = (empty($dt1))?"":$dt1->format('h:i A');
+                $dataVendorHour['close_time'] = (empty($dt1))?"":$dt2->format('h:i A');
                 array_push($data['vendor_details']['hours_of_operations'], $dataVendorHour);
             }
 
@@ -148,11 +149,11 @@ class VendorController extends Controller {
             $data['vendor_details']['hours_of_operations'] = [];
             foreach ($hoursofOperations as $hours) {
                 $hour = $hours->getAttributes();
-                $dt1 = new Carbon($hour['open_time']);
-                $dt2 = new Carbon($hour['close_time']);
+                $dt1 = (isset($hour['open_time']))?new Carbon($hour['open_time']):"";
+                $dt2 = (isset($hour['close_time']))?new Carbon($hour['open_time']):"";
                 $dataVendorHour['day'] = $this->getDaysfromNumber($hour['days']);
-                $dataVendorHour['open_time'] = $dt1->format('h:i A');
-                $dataVendorHour['close_time'] = $dt2->format('h:i A');
+                $dataVendorHour['open_time'] = (empty($dt1))?"":$dt1->format('h:i A');
+                $dataVendorHour['close_time'] = (empty($dt1))?"":$dt2->format('h:i A');
                 array_push($data['vendor_details']['hours_of_operations'], $dataVendorHour);
             }
             return $this->responseJson('success', \Config::get('constants.VENDOR_RATING_DETAILS'), 200, $data);

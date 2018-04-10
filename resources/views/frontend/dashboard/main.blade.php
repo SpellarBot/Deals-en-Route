@@ -325,26 +325,29 @@
                                             <input type="hidden" name="{{$value}}[]" value="{{$key+1}}"/>
 
                                             <div class="hours-opration-col2">
-                                                <div class="form-group">
-                                                    <input id="fromtimepicker{{$key+1}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time start" value="{{  empty($hoursofoperation[$key+1]['open_time'])?"":$hoursofoperation[$key+1]['open_time']}}">
-                                                </div>
+                                                <div class="form">
+                                                             {{ Form::text($value."[fromtime]", empty($hoursofoperation[$key+1]['open_time'])?"":$hoursofoperation[$key+1]['open_time'], 
+                                                                 ['placeholder'=>'00:00 AM','class'=>'form-control time start','id'=>"fromtimepicker".($key+1),
+                                                                  'disabled'=>(isset($hoursofoperation[($key+1)]['is_closed'])&& $hoursofoperation[($key+1)]['is_closed']==1)?true:false]) }}
+                                                  </div>
                                             </div>
                                             <div class="hours-opration-col2">
-                                                <div class="form-group">
-                                                    <input id="totimepicker{{$key+1}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time end" value="{{   empty($hoursofoperation[$key+1]['close_time'])?"":$hoursofoperation[$key+1]['close_time']}}">
-                                                </div>
+                                                <div class="form">
+                                                                  {{ Form::text($value."[totime]", empty($hoursofoperation[$key+1]['close_time'])?"":$hoursofoperation[$key+1]['close_time'], 
+                                                                 ['placeholder'=>'00:00 PM','class'=>'form-control time end','id'=>"totimepicker".($key+1),
+                                                                  'disabled'=>(isset($hoursofoperation[($key+1)]['is_closed'])&& $hoursofoperation[($key+1)]['is_closed']==1)?true:false]) }}
+                                                 </div>
                                             </div>  
-                                         
+                                          
+                                   
                                         </div>
-                                             @if($key+1==1)
-                                            <div class="hours-opration-col3">
-                                                <div class="form-group fillall-checkbox">
-                                                       {{ Form::checkbox('fillcheckbox', '1',(isset($hoursofoperation[1]['fill_all'])&& $hoursofoperation[1]['fill_all']==1)?true:false,['id' => 'fill_checkbox']) }}
-                                                 
-                                                     <span>Fill All</span>
+                                   <div class="hours-opration-col3">
+                                                <div class="form fillall-checkbox">
+                                                       {{ Form::checkbox($value."[is_closed]", '1',(isset($hoursofoperation[($key+1)]['is_closed'])&& $hoursofoperation[($key+1)]['is_closed']==1)?true:false,['class' => 'fill_checkbox','id'=>($key+1)]) }}
+                                                       <span>closed</span>
                                                  </div>
                                              </div>
-                                             @endif
+                                              
                                         @endforeach
 
                                         <ul class="list-inline pad-top pull-right">

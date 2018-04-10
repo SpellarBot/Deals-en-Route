@@ -350,19 +350,17 @@ $(document).ready(function () {
 //    $('#fromtimepicker7').mdtimepicker();
 //    $('#totimepicker7').mdtimepicker();
 
-$('#fill_checkbox').on('click', function (e) {
+$('.fill_checkbox').on('click', function (e) {
+    var fromtime= $('#fromtimepicker'+$(this).attr('id'));
+   var totime= $('#totimepicker'+$(this).attr('id'));
    if ($(this).prop('checked')==true){ 
-        $.each([2,3,4,5,6,7], function (key, value) {
-          var fromtime= $("#fromtimepicker1").val();
-           var totime= $("#totimepicker1").val();
-            $("#fromtimepicker"+value).val(fromtime);
-           $("#totimepicker"+value).val(totime);   
-        });
+         fromtime.val("");
+         totime.val("");
+         $(fromtime).attr("disabled",true);
+         $(totime).attr("disabled",true);
     }else{
-       $.each([2,3,4,5,6,7], function (key, value) {
-            $("#fromtimepicker"+value).val("");
-           $("#totimepicker"+value).val("");   
-        }); 
+         $(fromtime).attr("disabled",false);
+         $(totime).attr("disabled",false);
     }
     
 });
