@@ -146,7 +146,7 @@ class AdminController extends Controller {
         } else
         {
             $currentpackagedeal = $vendor_detail->userSubscription[0]->deals + $add_ons[0]->dealstotal;
-            $previousleftdeal = $vendor_detail->deals_used;
+            $previousleftdeal = $vendor_detail->deal_used;
             $totaldealsleft = $currentpackagedeal - $previousleftdeal;
             $array['geolocationtotal'] = $add_ons[0]->geolocationtotal + $vendor_detail->userSubscription[0]->geolocation;
             $array['geofencingtotal'] = $add_ons[0]->geofencingtotal + $vendor_detail->userSubscription[0]->geofencing;
