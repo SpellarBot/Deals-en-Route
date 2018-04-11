@@ -186,13 +186,14 @@ trait CouponTrait {
     
     // get user payment peroid
     
-    public function getUserPaymentPeroid(){
+    public function getUserPaymentPeroid($userid=''){
         
+        $user_id=(empty($userid)?Auth::id(): $userid);
          $subscription= \App\VendorDetail::select('subscriptions.startdate','subscriptions.enddate','subscriptions.trial_ends_at')
                 ->join('subscriptions', 'subscriptions.user_id', 'vendor_detail.user_id')
                 ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
                 ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
-                ->where('vendor_detail.user_id', Auth::id())
+                ->where('vendor_detail.user_id', $user_id)
                 ->first();
          
           

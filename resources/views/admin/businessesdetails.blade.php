@@ -257,7 +257,7 @@
                                                    <td>{{$row->created_at}}</td>
                                                    <td>{{$row->addon_type }}</td>
                                                    <td>{{$row->quantity}}</td>
-                                                   <td>$ {{$row->quantity * 4.99}}</td>
+                                                   <td>$  {{ ($is_free_trial==0)?$row->quantity * 4.99:0 }}</td>
                                                 </tr>
                                                 @endforeach
                                              </tbody>

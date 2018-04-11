@@ -27,6 +27,7 @@ class AdminController extends Controller {
 
     use ImageTrait;
     use \App\Http\Services\MailTrait;
+    use \App\Http\Services\CouponTrait;
 
     public function __construct()
     {
@@ -185,6 +186,9 @@ class AdminController extends Controller {
             $row->redeemed = CouponRedeem::where('coupon_id', $row->coupon_id)->count();
         }
         $data['additional_list'] = PlanAddOns::where('user_id', $id)->get();
+         $current_peroid=$this->getUserPaymentPeroid($id);
+        $data['is_free_trial']= (isset($current_peroid))?$current_peroid['is_trial']:0;
+
         //echo'<pre>';print_r($data['vendor_list']);
         return view('admin.businessesdetails', $data);
     }
