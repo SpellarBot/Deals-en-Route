@@ -82,6 +82,7 @@ class HomeController extends Controller {
         $sub_details = Subscription::select('*')->where('user_id', Auth::id())->first();
         $subscription = $sub_details->getAttributes();
         $listWeeks=VendorHours::listWeeks();
+        $is_free_trial= $this->getUserPaymentPeroid();
 //        print_r($subscription);
 //        die;
                 $total_age_wise_redeem = \App\CouponRedeem::getAgeWiseReddemCoupon();
@@ -92,7 +93,8 @@ class HomeController extends Controller {
                     'deals_left' => $deals_left, 'subscription' => $subscription,
                      'total_age_wise_redeem'=>$total_age_wise_redeem,
                     'hoursofoperation' => $hours_of_operations, 
-                    'hoursmsg' => $hoursflage,'listWeeks'=>$listWeeks]);
+                    'hoursmsg' => $hoursflage,'listWeeks'=>$listWeeks,
+            'is_free_trial'=>$is_free_trial]);
     }
 
     public function dashboard(Request $request) {

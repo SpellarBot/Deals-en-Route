@@ -8,15 +8,27 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
+                
                 <button type="button" class="navbar-toggle"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar bar1"></span> <span class="icon-bar bar2"></span> <span class="icon-bar bar3"></span> </button>
-                <p class="navbar-brand">Hello, {{ Auth::user()->vendorDetail->vendor_name }} </p>
+    
+                <p class="navbar-brand">
+                 
+                    Hello, {{ Auth::user()->vendorDetail->vendor_name }} </p>
             </div>
             <div class="collapse navbar-collapse">
+                 
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                    <div class="free-trial">  
+                             <p>{{ ($is_free_trial['is_trial']==1)?"Free Trial Account": ($is_free_trial['days_left'])." days left" }} </p>  
+                        </div>
+                    </li>
                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon fa fa-user"></i>
                             <p>User</p>
                             <b class="caret"></b> </a>
+                                    
                         <ul class="dropdown-menu">
+                  
                             <li><a href="{{ route('vendor.logout') }}"
                                    onclick="event.preventDefault();
                                            document.getElementById('logout-form').submit();">

@@ -204,8 +204,11 @@ trait CouponTrait {
            $final_array['is_trial']=($current_date <=$trial_end)?1:0;
            $final_array['days_left']=$cDate = Carbon::parse($subscription->enddate)->diffInDays(); 
            return $final_array;  
+          }else{
+           $final_array['is_trial']=0;
+           $final_array['days_left']="expire"; 
           }
-          return false;
+         
     
     }
     
