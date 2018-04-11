@@ -34,6 +34,7 @@ class AdditionalCost extends Model {
         $additional = new AdditionalCost();
         $user_access = $additional->userAccess();
         $used_plan = self::usedCouponTotal();
+       
   // geo fencing
         $additonal_left = self::getAdditionalFencing();
         $vendordetail = VendorDetail::where('user_id', Auth::id())->first();
@@ -57,14 +58,20 @@ class AdditionalCost extends Model {
          //   $totalgeolocationadditionalused = $additonal_left_location - ($data['totalgeomilesselected'] - $user_access['basicgeolocation']);
             $totallocationused = ($data['totalgeomilesselected'] - $user_access['basicgeolocation']);
         } else {
-           // $totalgeolocationadditionalused = $additonal_left_location;
+          
             $totallocationused = $vendordetail->additional_geo_location_total;
         }
 
-
-        $totatl_geo_fencing = self::getAdditionalFencingCost($used_plan, $user_access, $data);
-        $totatl_geo_location = self::getAdditionalLocationCost($used_plan, $user_access, $data);
-
+        
+        $current_plan= $additional->getUserPaymentPeroid();
+        // get cost 
+        if(isset($current_plan) && $current_plan['is_trial']==1){
+            $totatl_geo_fencing=0;
+            $totatl_geo_location=0;
+        }else{
+           $totatl_geo_fencing = self::getAdditionalFencingCost($used_plan, $user_access, $data);
+           $totatl_geo_location = self::getAdditionalLocationCost($used_plan, $user_access, $data);
+        }
         $total = $totatl_geo_location + $totatl_geo_fencing;
 
         return ['total_geo_fence_buy' => $totatl_geo_fencing, 'total_geo_location_buy' => $totatl_geo_location,
@@ -72,6 +79,8 @@ class AdditionalCost extends Model {
             'totalgeolocationadditionalleft' => $totallocationused];
     }
 
+    
+     // get additonal fencing added
     public static function getAdditionalFencing($id='') {
 //         $plan_geo_fence_total = $user_access['geofencingtotal'];
 //         $usedplanfence = (isset($used_plan) && !empty($used_plan)) ? $used_plan[0]['geofencetotalused'] - ($used_plan[0]['geofencecount'] * $user_access['basicgeofencing']) : 0;
@@ -96,7 +105,7 @@ class AdditionalCost extends Model {
         return 0;
      
     }
-
+    // get cost of additonal fencing
     public static function getAdditionalFencingCost($used_plan, $user_access, $data) {
 
         //get geofence left
@@ -115,7 +124,7 @@ class AdditionalCost extends Model {
         $totatl_geo_fencing = (ceil($additional_geo_fence / $geofenceaddonprice->geofencing)) * $geofenceaddonprice->price;
         return $totatl_geo_fencing;
     }
-
+    // get additional location added
     public static function getAdditionalLocation($id='') {
         // geo miles cost
 //        $plan_geo_location = $user_access['geolocationtotal'];
@@ -140,7 +149,7 @@ class AdditionalCost extends Model {
          }
         return 0; 
     }
-
+    // get cost of additional location added
     public static function getAdditionalLocationCost($used_plan, $user_access, $data) {
         //get geofence left
         $additonal_left_location = self::getAdditionalLocation();
@@ -156,7 +165,7 @@ class AdditionalCost extends Model {
         $totatl_geo_location = (ceil($additional_geo_location / $geolocationddonprice->geolocation)) * $geolocationddonprice->price;
         return $totatl_geo_location;
     }
-
+     //used additional plan 
     public static function usedAdditionalPlan() {
 
         $addditonal_plan = AdditionalCost::select(DB::raw('SUM(case when is_particular_coupon=1 then total_geofence_utilised else 0 end) as geofencetotalused,Count(geofencetotalused) as geofencecount
@@ -169,7 +178,7 @@ class AdditionalCost extends Model {
                 ->toArray();
         return $addditonal_plan;
     }
-
+    // get total coupon used
     public static function usedCouponTotal() {
 
         $addditonal_plan = Coupon::select(DB::raw('SUM(coupon_notification_sqfeet) as geofencetotalused,

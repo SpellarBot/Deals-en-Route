@@ -102,6 +102,7 @@ class StripeController extends Controller {
         } elseif ($event->type == 'charge.succeeded' || $event->type == 'customer.subscription.updated') {
             if ($event->type == 'customer.subscription.updated') {
                 $this->updateSubscriptionDate($user_id);
+                $this->updateVendorAdditionalCost($user_details->user_id);
             }
             $array_mail = ['to' => $user_details->email,
                 'type' => 'payment_success',
@@ -146,6 +147,16 @@ class StripeController extends Controller {
         $updateSubdate->save();
     }
 
+     public function updateVendorAdditionalCost($user_id) {
+    
+        $vendor_detail= \App\VendorDetail::where('user_id',$user_id)->first();
+        $vendor_detail->additional_geo_fencing_total=0;
+        $vendor_detail->additional_geo_location_used=0;
+        $vendor_detail->additional_geo_fencing_used=0;
+        $vendor_detail->additional_geo_location_total=0;
+ 
+     }
+         
     public function deleteCard() {
         $userid = auth()->id();
         $stripedetails = \App\StripeUser::getCustomerDetails($userid);

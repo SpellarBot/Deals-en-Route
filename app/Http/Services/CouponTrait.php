@@ -184,6 +184,29 @@ trait CouponTrait {
     }
     
     
+    // get user payment peroid
+    
+    public function getUserPaymentPeroid(){
+        
+         $subscription= \App\VendorDetail::select('subscriptions.startdate','subscriptions.enddate','subscriptions.trial_ends_at')
+                ->join('subscriptions', 'subscriptions.user_id', 'vendor_detail.user_id')
+                ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
+                ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
+                ->where('vendor_detail.user_id', Auth::id())
+                ->first();
+         
+          
+          if($subscription){
+           $final_array=[];
+           $trial_end =Carbon::parse($subscription->trial_ends_at);
+           $current_date = Carbon::now(); 
+           $final_array['is_trial']=($current_date <=$trial_end)?1:0;
+           $final_array['days_left']=$cDate = Carbon::parse($subscription->enddate)->diffInDays(); 
+           return $final_array;  
+          }
+          return false;
+    
+    }
     
   
 

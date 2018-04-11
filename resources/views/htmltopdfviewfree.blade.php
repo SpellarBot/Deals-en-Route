@@ -15,10 +15,7 @@
                     <td style="padding:20px; border-bottom:1px solid #fff;"><span style="color:#999; font-size:15px; font-weight:bold; line-height:20px;">Date</span><br />
                         <span style="color:#09F; font-size:17px;">{{ date('d-m-Y') }}</span></td>
                 </tr>
-                <tr>
-                    <td style="padding:20px; border:1px solid #fff;"><span style="color:#999; font-size:15px; font-weight:bold; line-height:20px;">Order ID</span><br />
-                        <span style="color:#09F; font-size:17px;">{{ $details['transaction_id'] }}</span></td>
-                </tr>
+               
             </table></td>
         <td style="padding:20px; border-right:1px solid #fff; border-left:1px solid #fff;" width="35%"><span style="color:#999; font-size:15px; font-weight:bold; line-height:20px;">Billed To {{ $details['vendor']['billing_businessname'] }}</span><br />
             <span style="color:#000; font-size:17px;">{{ $details['vendor']['billing_home'] }}<br />
