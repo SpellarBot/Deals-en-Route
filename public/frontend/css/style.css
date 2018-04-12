@@ -2943,6 +2943,10 @@ min-height: 100vh;}
 
 .row-out .hours-opration-col1{width: auto !important; min-width:90px ; padding-right: 3px; }
 
+.show-silver{position: relative; clear: both; overflow: hidden; }
+.show-silver:before{position: absolute; left: 15px; right: 15px; top: 0; bottom: 19px; content: "";  background:url(../img/locked.png) center center no-repeat rgba(255,255,255,0.92);
+z-index: 9;  border-radius: 15px; display: block}
+
 
 
 @media only screen and (max-width: 991px) {
@@ -2970,3 +2974,13 @@ min-height: 100vh;}
     .getstart-search .help-block{margin-top: 13px;}
 }
 .free-trial { padding: 14px 0 0px 0; color:#9A9A9A }
+
+.hours-opration-col3 .form{ position: relative; }
+.hours-opration-col3 .form input{padding: 0; z-index: 9; opacity: 0; width: 13px; height: 13px; border-radius: 0; position: absolute; left: 0; top: 5px; cursor: pointer;}
+.hours-opration-col3 .form small{position: relative; display: inline-block; width: 13px; height: 13px; border: 1px solid #000000; vertical-align: middle; 
+border-radius:2px;}
+.hours-opration-col3 .form small:before{background: url(../img/check.png) no-repeat; width: 13px; height: 13px; content: ""; position: absolute; left: -1px; top: -1px; display: none; border-radius: 2px;  }
+.hours-opration-col3 .form input:checked + small{border-color:#ffffff; }
+.hours-opration-col3 .form input:checked + small:before{display: block; }
+
+body .wrapper{min-height:100%; height: 100%; }
