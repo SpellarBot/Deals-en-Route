@@ -21,7 +21,6 @@
         <link href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css')}}" rel="stylesheet">
        <!-- timepicker plugin-->   
         <link href="{{ asset('frontend/plugin/timepicker/jquery.timepicker.css')}}" rel="stylesheet">
-        <link href="{{ asset('frontend/plugin/timepicker/lib/bootstrap-datepicker.css')}}" rel="stylesheet">
         <link href="{{ asset('frontend/plugin/timepicker/lib/site.css')}}" rel="stylesheet">
     </head>
 

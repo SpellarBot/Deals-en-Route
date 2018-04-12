@@ -308,7 +308,6 @@ function initAutocomplete() {
     service.getQueryPredictions({input: document.getElementById('vendor_address')}, displaySuggestions);
 
 
-
 }
 
 function fillInAddress() {
@@ -402,7 +401,8 @@ $(document.body).on('mousedown', '.pac-container .customsearch', function (e) {
                     data: {lat: position.coords.latitude, lng: position.coords.longitude},
                     success: function (data) {
                         $('#vendor_address').val(data);
-                        console.log(data);
+                        $('#autocomplete1').val(data);
+               
                     },
                     beforeSend: function () {
                         $('#loadingDiv').show();

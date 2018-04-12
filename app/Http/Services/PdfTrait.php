@@ -15,5 +15,13 @@ trait PdfTrait {
         Storage::put('/pdf/' . $filename, $pdf->output());
         return $filename;
     }
+    
+     public function generateInvoiceFreeTrail($data) {
+        view()->share('details', $data);
+        $pdf = PDF::loadView('htmltopdfviewfree');
+        $filename = time() . '_Invoice.pdf';
+        Storage::put('/pdf/' . $filename, $pdf->output());
+        return $filename;
+    }
 
 }

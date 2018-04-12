@@ -27,6 +27,7 @@ class AdminController extends Controller {
 
     use ImageTrait;
     use \App\Http\Services\MailTrait;
+    use \App\Http\Services\CouponTrait;
 
     public function __construct()
     {
@@ -146,7 +147,7 @@ class AdminController extends Controller {
         } else
         {
             $currentpackagedeal = $vendor_detail->userSubscription[0]->deals + $add_ons[0]->dealstotal;
-            $previousleftdeal = $vendor_detail->deals_used;
+            $previousleftdeal = $vendor_detail->deal_used;
             $totaldealsleft = $currentpackagedeal - $previousleftdeal;
             $array['geolocationtotal'] = $add_ons[0]->geolocationtotal + $vendor_detail->userSubscription[0]->geolocation;
             $array['geofencingtotal'] = $add_ons[0]->geofencingtotal + $vendor_detail->userSubscription[0]->geofencing;
@@ -185,6 +186,9 @@ class AdminController extends Controller {
             $row->redeemed = CouponRedeem::where('coupon_id', $row->coupon_id)->count();
         }
         $data['additional_list'] = PlanAddOns::where('user_id', $id)->get();
+         $current_peroid=$this->getUserPaymentPeroid($id);
+        $data['is_free_trial']= (isset($current_peroid))?$current_peroid['is_trial']:0;
+
         //echo'<pre>';print_r($data['vendor_list']);
         return view('admin.businessesdetails', $data);
     }

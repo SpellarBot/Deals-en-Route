@@ -60,5 +60,7 @@ class PaymentInfo extends Model {
                 ->get();
         return $payments;
     }
-
+    
+    
+ 
 }

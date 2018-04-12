@@ -54,7 +54,7 @@ class HomeController extends Controller {
                 $dt1 = (isset($hour['open_time']) && !empty($hour['open_time']))? new Carbon($hour['open_time']):'';
                 $dt2 = (isset($hour['open_time']) && !empty($hour['close_time']))? new Carbon($hour['close_time']):'';
                 $hours_of_operations[$hour['days']]['day'] = $hour['days'];
-                $hours_of_operations[$hour['days']]['fill_all'] = $hour['fill_all'];
+                $hours_of_operations[$hour['days']]['is_closed'] = $hour['is_closed'];
                 $hours_of_operations[$hour['days']]['open_time'] = (empty($dt1))?"":$dt1->format('h:i A');
                 $hours_of_operations[$hour['days']]['close_time'] = (empty($dt2))?"":$dt2->format('h:i A');
 //                array_push($hours_of_operations, $dataVendorHour);
@@ -82,6 +82,7 @@ class HomeController extends Controller {
         $sub_details = Subscription::select('*')->where('user_id', Auth::id())->first();
         $subscription = $sub_details->getAttributes();
         $listWeeks=VendorHours::listWeeks();
+        $is_free_trial= $this->getUserPaymentPeroid();
 //        print_r($subscription);
 //        die;
                 $total_age_wise_redeem = \App\CouponRedeem::getAgeWiseReddemCoupon();
@@ -92,7 +93,8 @@ class HomeController extends Controller {
                     'deals_left' => $deals_left, 'subscription' => $subscription,
                      'total_age_wise_redeem'=>$total_age_wise_redeem,
                     'hoursofoperation' => $hours_of_operations, 
-                    'hoursmsg' => $hoursflage,'listWeeks'=>$listWeeks]);
+                    'hoursmsg' => $hoursflage,'listWeeks'=>$listWeeks,
+            'is_free_trial'=>$is_free_trial]);
     }
 
     public function dashboard(Request $request) {

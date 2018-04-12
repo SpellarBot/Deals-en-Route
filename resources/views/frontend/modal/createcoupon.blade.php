@@ -10,7 +10,7 @@
                 <div class="col-sm-12"><br>
                     <p>You have used all your available deals for the month for the package. 
                         Please <a  href="javascript:void(0)" class="tooltip-test" id="changepackage" title="Change Package">change package</a>
-                        or <a href="javascript:void(0)" class="tooltip-test" id="changepackage" title="Buy Additonal">buy additional deals</a> 
+                        or <a href="javascript:void(0)" class="tooltip-test" id="buyadddeals" title="Buy Additonal">buy additional deals</a> 
                         to create new deals. </p>
                 </div>
             </div>

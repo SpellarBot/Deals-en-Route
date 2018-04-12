@@ -8,15 +8,27 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
+                
                 <button type="button" class="navbar-toggle"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar bar1"></span> <span class="icon-bar bar2"></span> <span class="icon-bar bar3"></span> </button>
-                <p class="navbar-brand">Hello, {{ Auth::user()->vendorDetail->vendor_name }} </p>
+    
+                <p class="navbar-brand">
+                 
+                    Hello, {{ Auth::user()->vendorDetail->vendor_name }} </p>
             </div>
             <div class="collapse navbar-collapse">
+                 
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                    <div class="free-trial">  
+                             <p>{{ ($is_free_trial['is_trial']==1)?"Free Trial Account": ($is_free_trial['days_left'])." days left" }} </p>  
+                        </div>
+                    </li>
                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon fa fa-user"></i>
                             <p>User</p>
                             <b class="caret"></b> </a>
+                                    
                         <ul class="dropdown-menu">
+                  
                             <li><a href="{{ route('vendor.logout') }}"
                                    onclick="event.preventDefault();
                                            document.getElementById('logout-form').submit();">
@@ -314,10 +326,12 @@
                                         <div class="row">
                                             <div class="hours-opration-col1 pb-15"><label>Days</label></div>
                                             <div class="hours-opration-col2 text-center pb-15"><label>From</label></div>
-                                            <div class="hours-opration-col2 text-center pb-15"><label>to</label></div>
+                                            <div class="hours-opration-col2 text-center pb-15"><label>To</label></div>
+                                            
                                         </div>
                                       
                                         @foreach ($listWeeks as $key=>$value)
+                                        <div class="row-out">
                                         <div class="row datepair">
 
                                             <input type="hidden" value="{{$key+1}}" id="datePairvalue">
@@ -325,26 +339,30 @@
                                             <input type="hidden" name="{{$value}}[]" value="{{$key+1}}"/>
 
                                             <div class="hours-opration-col2">
-                                                <div class="form-group">
-                                                    <input id="fromtimepicker{{$key+1}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time start" value="{{  empty($hoursofoperation[$key+1]['open_time'])?"":$hoursofoperation[$key+1]['open_time']}}">
-                                                </div>
+                                                <div class="form">
+                                                             {{ Form::text($value."[fromtime]", empty($hoursofoperation[$key+1]['open_time'])?"":$hoursofoperation[$key+1]['open_time'], 
+                                                                 ['placeholder'=>'00:00 AM','class'=>'form-control time start','id'=>"fromtimepicker".($key+1),
+                                                                  'disabled'=>(isset($hoursofoperation[($key+1)]['is_closed'])&& $hoursofoperation[($key+1)]['is_closed']==1)?true:false]) }}
+                                                  </div>
                                             </div>
                                             <div class="hours-opration-col2">
-                                                <div class="form-group">
-                                                    <input id="totimepicker{{$key+1}}" type="text" name="{{$value}}[]" placeholder="00:00 AM" class="form-control time end" value="{{   empty($hoursofoperation[$key+1]['close_time'])?"":$hoursofoperation[$key+1]['close_time']}}">
-                                                </div>
+                                                <div class="form">
+                                                                  {{ Form::text($value."[totime]", empty($hoursofoperation[$key+1]['close_time'])?"":$hoursofoperation[$key+1]['close_time'], 
+                                                                 ['placeholder'=>'00:00 PM','class'=>'form-control time end','id'=>"totimepicker".($key+1),
+                                                                  'disabled'=>(isset($hoursofoperation[($key+1)]['is_closed'])&& $hoursofoperation[($key+1)]['is_closed']==1)?true:false]) }}
+                                                 </div>
                                             </div>  
-                                         
+                                              
+                                          
+                                   
                                         </div>
-                                             @if($key+1==1)
-                                            <div class="hours-opration-col3">
-                                                <div class="form-group fillall-checkbox">
-                                                       {{ Form::checkbox('fillcheckbox', '1',(isset($hoursofoperation[1]['fill_all'])&& $hoursofoperation[1]['fill_all']==1)?true:false,['id' => 'fill_checkbox']) }}
-                                                 
-                                                     <span>Fill All</span>
+                                         <div class="hours-opration-col3">
+                                                <div class="form fillall-checkbox">
+                                                       {{ Form::checkbox($value."[is_closed]", '1',(isset($hoursofoperation[($key+1)]['is_closed'])&& $hoursofoperation[($key+1)]['is_closed']==1)?true:false,['class' => 'fill_checkbox','id'=>($key+1)]) }}
+                                                       <span>closed</span>
                                                  </div>
                                              </div>
-                                             @endif
+                                        </div>     
                                         @endforeach
 
                                         <ul class="list-inline pad-top pull-right">

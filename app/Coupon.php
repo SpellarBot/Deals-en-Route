@@ -220,24 +220,32 @@ class Coupon extends Model {
 
         $coupon = new Coupon();
         $coupon->fill($data);
+        $vendordetail = VendorDetail::where('user_id', Auth::id())->first();
         $coupon->created_by = Auth::id();
         // start date
         $startdate = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
         $coupon->coupon_start_date = $startdate;
 
-        $coupon->coupon_category_id = User::find(Auth::id())->vendorDetail->vendor_category;
-        $coupon->coupon_lat = User::find(Auth::id())->vendorDetail->vendor_lat;
-        $coupon->coupon_long = User::find(Auth::id())->vendorDetail->vendor_long;
+        $coupon->coupon_category_id = $vendordetail->vendor_category;
+        $coupon->coupon_lat = $vendordetail->vendor_lat;
+        $coupon->coupon_long = $vendordetail->vendor_long;
         // end date
         $explode = explode('-', $data['coupon_end_date']);
         $enddate = \Carbon\Carbon::parse($explode[0] . " " . $explode[1])->toDateTimeString();
         $coupon->coupon_end_date = $coupon->convertDateInUtc($enddate);
         // $coupon->coupon_qrcode_image = self::generateQrImage($coupon->coupon_code);
         if ($coupon->save()) {
-            $vendordetail = VendorDetail::where('user_id', Auth::id())->first();
-            if ($data['totalprice'] == '0.00') {
+            
+            
+           $current_plan= $coupon->getUserPaymentPeroid();
+           // get cost 
+            if(isset($current_plan) && $current_plan['is_trial']==1){
+                  self::makePaymentForFreeTrail($data, $coupon);
+            }
+            else if ($data['totalprice'] == '0.00') {
                 self::getUsedGeo($vendordetail, $data['totalgeolocationadditionalleft'], $data['totalgeofenceadditionalleft']);
                 self::getNotificationUsers($coupon);
+              
             } else {
 
                 $payment = self::makePayment($data, $coupon);
@@ -276,6 +284,24 @@ class Coupon extends Model {
     public static function makePayment($data, $coupon) {
         $details = ['vendor_id' => Auth::id(), 'amount' => $data['totalprice'], 'item_name' => 'Additional cost'];
         app('App\Http\Controllers\Frontend\StripeAddOnsController')->makePayment($details);
+        $user = Subscription::where('user_id', Auth::id())->first();
+        $user_details = $user->getAttributes();
+        $adoninsert = ['user_id' => Auth::id(),
+            'coupon_id' => $coupon->coupon_id,
+            'is_particular_coupon' => 1,
+            'startdate' => $user_details['startdate'],
+            'total_geofence_buy' => $data['total_geofence_buy'],
+            'total_geolocation_buy' => $data['total_geolocation_buy'],
+            'enddate' => $user_details['enddate']];
+        $add_ons = AdditionalCost::insert($adoninsert);
+
+        return $add_ons;
+    }
+    
+    
+        public static function makePaymentForFreeTrail($data, $coupon) {
+        $details = ['vendor_id' => Auth::id(), 'amount' => $data['totalprice'], 'item_name' => 'Additional cost'];
+        app('App\Http\Controllers\Frontend\StripeAddOnsController')->sendInvoiceForFreeTrail($details);
         $user = Subscription::where('user_id', Auth::id())->first();
         $user_details = $user->getAttributes();
         $adoninsert = ['user_id' => Auth::id(),

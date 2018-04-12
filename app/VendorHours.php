@@ -16,27 +16,24 @@ class VendorHours extends Model {
     public $primaryKey = 'id';
     protected $fillable = [
         'id', 'days', 'vendor_id', 'open_time', 'close_time', 'created_at',
-        'updated_at','fill_all'
+        'updated_at','is_closed'
     ];
 
     public static function addHoursOfOperations($data) {
-      VendorHours::where('vendor_id', '=', auth()->id())->update(['fill_all' => (isset($data['fillcheckbox']))?1:0]);
-    
-      if(isset($data['fillcheckbox'])){
-      unset($data['fillcheckbox']);
-      }
+   
         $i = 0;
         foreach ($data as $hours) {
-           
-              
-                $dt1 = isset($hours[1])?new Carbon($hours[1]):"";
-                $dt2 = isset($hours[2])? new Carbon($hours[2]):"";
+         
+                $dt1 = isset($hours['fromtime'])?new Carbon($hours['fromtime']):"";
+                $dt2 = isset($hours['totime'])? new Carbon($hours['totime']):"";
                  if(empty($dt1) && empty($dt2)) {
                   $i++;
                  }
+                $add['is_closed'] = (isset($hours['is_closed']))?1:0;
                 $add['day'] = $hours[0];
-                $add['open_time'] = !empty($dt1)?$dt1->format('H:i:s'):"";
-                $add['close_time'] = !empty($dt2)?$dt2->format('H:i:s'):"";
+                $add['open_time'] = !empty($dt1)?$dt1->format('H:i:s'):Null;
+                $add['close_time'] = !empty($dt2)?$dt2->format('H:i:s'):Null;
+      
                 self::vendorHourUpdate($add);
             
         }
@@ -51,6 +48,7 @@ class VendorHours extends Model {
                     'days' => $data['day'],
                     'open_time' => $data['open_time'],
                     'close_time' => $data['close_time'],
+                    'is_closed' =>$data['is_closed'],        
         ]);
     }
 

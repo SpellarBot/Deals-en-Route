@@ -21,7 +21,7 @@ $(document).ready(function () {
     });
 
 
-    $('#changepackage').on('click', function (e) {
+    $('#changepackage ,#buyadddeals').on('click', function (e) {
         var hash = '#settings';
         $('#myModal').modal('hide');
         $('#groupTab li a[href=' + hash + ']').tab('show');
@@ -35,8 +35,6 @@ var hexDigits = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a",
 //clear form data
 function clearFormData() {
     $('#sendcontact').find("input[type=text]").not('input[name=_token]').val("");
-   
-    $('#settings').find("input[type=text],input[type=number],input[type=password]").not('input[name=_token]').val("");
     $('.wizard-inner .nav-tabs a:first').tab('show');
     $(".wizard-inner .nav-tabs li:not(:first-child)").addClass("disabled");
     $('.fileinput').fileinput('clear');
