@@ -359,6 +359,7 @@
                                          <div class="hours-opration-col3">
                                                 <div class="form fillall-checkbox">
                                                        {{ Form::checkbox($value."[is_closed]", '1',(isset($hoursofoperation[($key+1)]['is_closed'])&& $hoursofoperation[($key+1)]['is_closed']==1)?true:false,['class' => 'fill_checkbox','id'=>($key+1)]) }}
+                                                       <small></small>
                                                        <span>closed</span>
                                                  </div>
                                              </div>

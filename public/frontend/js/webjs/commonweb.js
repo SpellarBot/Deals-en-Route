@@ -24,6 +24,7 @@ $(document).ready(function () {
     $('#changepackage ,#buyadddeals').on('click', function (e) {
         var hash = '#settings';
         $('#myModal').modal('hide');
+        $('#packageUpgrade').modal('hide');
         $('#groupTab li a[href=' + hash + ']').tab('show');
     });
 
