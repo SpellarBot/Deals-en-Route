@@ -334,7 +334,6 @@
                                         <div class="row-out">
                                         <div class="row datepair">
 
-                                            <input type="hidden" value="{{$key+1}}" id="datePairvalue">
                                             <div class="hours-opration-col1"><p class="package-addon1">{{ucfirst($value)}}</p></div>
                                             <input type="hidden" name="{{$value}}[]" value="{{$key+1}}"/>
 
