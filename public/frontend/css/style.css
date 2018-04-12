@@ -2806,7 +2806,7 @@ div#googlegeofencing {width: calc(100% - 60px) !important;max-width: 1100px !imp
 .horizontal-bar-chart .h-label{font-size: 10px;display: inline-block;vertical-align: middle;}
 .horizontal-bar-chart .h-label:first-child{width: 32px;}
 .horizontal-bar-chart .h-label:last-child{width: 42px;text-align: right;}
-.horizontal-bar-chart .progress{display: inline-block;width: calc(100% - 82px);}
+.horizontal-bar-chart .progress{display: inline-block;width: calc(100% - 83px);}
 
 @media only screen and (min-width: 1200px) {
     .tab-pane .col-lg-8.col-md-12.col-sm-12{width: calc(100% - 460px);}
