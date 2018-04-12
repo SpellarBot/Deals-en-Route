@@ -75,11 +75,17 @@ class VendorController extends Controller {
             foreach ($hoursofOperations as $hours) {
                 
                 $hour = $hours->getAttributes();
+                
                 $dt1 = (isset($hour['open_time']))?new Carbon($hour['open_time']):"";
                 $dt2 = (isset($hour['close_time']))?new Carbon($hour['open_time']):"";
                 $dataVendorHour['day'] = $this->getDaysfromNumber($hour['days']);
+                 if(isset($hours['is_closed']) && $hours['is_closed']==1){
+                 $dataVendorHour['open_time'] = 'closed';
+                 $dataVendorHour['close_time']='';
+                }else{
                 $dataVendorHour['open_time'] = (empty($dt1))?"":$dt1->format('h:i A');
                 $dataVendorHour['close_time'] = (empty($dt1))?"":$dt2->format('h:i A');
+                }
                 array_push($data['vendor_details']['hours_of_operations'], $dataVendorHour);
             }
 
@@ -152,8 +158,13 @@ class VendorController extends Controller {
                 $dt1 = (isset($hour['open_time']))?new Carbon($hour['open_time']):"";
                 $dt2 = (isset($hour['close_time']))?new Carbon($hour['open_time']):"";
                 $dataVendorHour['day'] = $this->getDaysfromNumber($hour['days']);
+                if(isset($hours['is_closed']) && $hours['is_closed']==1){
+                 $dataVendorHour['open_time'] = 'closed';
+                 $dataVendorHour['close_time']='';
+                }else{
                 $dataVendorHour['open_time'] = (empty($dt1))?"":$dt1->format('h:i A');
                 $dataVendorHour['close_time'] = (empty($dt1))?"":$dt2->format('h:i A');
+                }
                 array_push($data['vendor_details']['hours_of_operations'], $dataVendorHour);
             }
             return $this->responseJson('success', \Config::get('constants.VENDOR_RATING_DETAILS'), 200, $data);
