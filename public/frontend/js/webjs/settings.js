@@ -65,6 +65,10 @@ $(document).ready(function () {
             document.querySelector('.type').innerHTML = '<i class="fa fa-cc-' + type.trim() + ' fa-fw fa-2x active" aria-hidden="true"></i>';
         }
     });
+    new Cleave('.expiry', {
+        date: true,
+        datePattern: ['m', 'y']
+    });
     // update company details
     $('.editCompanyDetails').submit(function (e) {
         e.preventDefault();
