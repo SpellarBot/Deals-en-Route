@@ -2943,11 +2943,16 @@ min-height: 100vh;}
 
 .row-out .hours-opration-col1{width: auto !important; min-width:90px ; padding-right: 3px; }
 
-.show-silver{position: relative; clear: both; overflow: hidden; }
-.show-silver:before{position: absolute; left: 15px; right: 15px; top: 0; bottom: 19px; content: "";  background:url(../img/locked.png) center center no-repeat rgba(255,255,255,0.92);
+.show-silver{position: relative; clear: both; overflow: hidden;  }
+.show-silver:before{position: absolute; left: 15px; right: 15px; top: 0; bottom: 19px; content: "";  background:url(../img/locked.png) center center no-repeat rgba(255,255,255,0.55);
 z-index: 9;  border-radius: 15px; display: block}
 
+.show-silver .header.head-coupons h5, .show-silver .card-content{color: transparent;
+   text-shadow: 0 0 5px rgba(0,0,0,0.5);}
 
+
+.show-plan-text-silver{position: absolute; left: 0; right: 0; top:auto; bottom: 25px; z-index: 9; text-align: center; color: #000000; font-size: 15px; }
+.show-plan-text-bronze{position: absolute; left: 0; right: 0; top:auto; bottom: 96px; z-index: 9; text-align: center; color: #000000; font-size: 15px; }
 
 @media only screen and (max-width: 991px) {
     .getstart-search .form-inline .form-group{margin-bottom: 10px;}

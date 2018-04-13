@@ -104,6 +104,9 @@ class HomeController extends Controller {
         $data = [];
         $additional = new \App\AdditionalCost();
         $user_access = $additional->userAccess();
+        // get current time
+        $sub_details = Subscription::select('*')->where('user_id', Auth::id())->first();
+        $subscription = $sub_details->getAttributes();
         $used_plan = $additional->usedCouponTotal();
         $vendor_detail = \App\VendorDetail::getStripeVendor();
         $total_redeem_monthly = Coupon::getReedemCouponMonthly($year);
@@ -124,7 +127,7 @@ class HomeController extends Controller {
         $data['total_active_coupon_monthly'] = $total_active_coupon_monthly->getAttributes();
         $data['deals_left'] = $vendor_detail['deals_left'];
         $data['deals_percent'] = $vendor_detail['deals_percent'];
-
+        $data['subscription']=$subscription;
         $data = $data + $total_age_wise_redeem;
         return $this->responseJson('success', \Config::get('constants.DASHBOARD_DETAIL'), 200, $data);
     }

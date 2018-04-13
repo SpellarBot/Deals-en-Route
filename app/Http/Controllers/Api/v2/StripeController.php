@@ -98,6 +98,7 @@ class StripeController extends Controller {
                 $data['transaction_id'] = $transaction_id;
                 $data['invoice'] = '';
                 PaymentInfo::create($data);
+                $this->updateVendorAdditionalCost($user_details->user_id);
             }
         } elseif ($event->type == 'charge.succeeded' || $event->type == 'customer.subscription.updated') {
             if ($event->type == 'customer.subscription.updated') {
@@ -154,7 +155,7 @@ class StripeController extends Controller {
         $vendor_detail->additional_geo_location_used=0;
         $vendor_detail->additional_geo_fencing_used=0;
         $vendor_detail->additional_geo_location_total=0;
- 
+        $vendor_detail->save();
      }
          
     public function deleteCard() {

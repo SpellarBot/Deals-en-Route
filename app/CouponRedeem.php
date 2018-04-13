@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
 use URL;
+use \App\Http\Services\CouponTrait;
 
 class CouponRedeem extends Model {
 
+   use CouponTrait;
     public $table = 'coupon_redeem';
 
     const CREATED_AT = 'created_at';
@@ -77,6 +79,7 @@ class CouponRedeem extends Model {
         $coupons = Coupon::select('coupon.coupon_id', 'coupon.coupon_redeem_limit', 'coupon.coupon_total_redeem', 'coupon.created_at')
                 ->where('created_by', Auth::id())
                 ->get();
+  
         foreach ($coupons as $coupon) {
             $total_coupon = $coupon->coupon_redeem_limit + $total_coupon;
             $total_coupon_reedem = $coupon->coupon_total_redeem + $total_coupon_reedem;
@@ -92,17 +95,22 @@ class CouponRedeem extends Model {
         $redeem_by_18_34 = 0;
         $redeem_by_35_50 = 0;
         $redeem_by_above_50 = 0;
-         $redeem_by_18_below_male = 0;
+        $redeem_by_18_below_male = 0;
         $redeem_by_18_34_male = 0;
         $redeem_by_35_50_male = 0;
         $redeem_by_above_50_male = 0;
-         $redeem_by_18_below_female = 0;
+        $redeem_by_18_below_female = 0;
         $redeem_by_18_34_female = 0;
         $redeem_by_35_50_female = 0;
         $redeem_by_above_50_female = 0;
         
         $redeem_by_male = 0;
         $redeem_by_female = 0;
+        $obj=new Coupon();
+          $is_free_trial= $obj->getUserPaymentPeroid();
+       
+           $sub_details = Subscription::select('*')->where('user_id', Auth::id())->first();
+        $subscription = $sub_details->getAttributes();
         foreach ($allreedemcoupons as $redeemcoupon) {
             $redeem = $redeemcoupon->getAttributes();
           
@@ -139,28 +147,62 @@ class CouponRedeem extends Model {
                 $redeem_by_female ++;
             }
         }
-
+        
+        // bronze package upgrade
+         if($is_free_trial['is_trial'] ==0 && $subscription['stripe_plan'] =='bronze'){
+            $redeem_by_18_below = 13;
+            $redeem_by_18_34 = 12;
+            $redeem_by_35_50 = 12;
+            $redeem_by_above_50 = 12;
+            $redeem_by_18_below_male = 12;
+            $redeem_by_18_34_male = 12;
+            $redeem_by_35_50_male = 12;
+            $redeem_by_above_50_male = 12;
+            $redeem_by_18_below_female = 12;
+            $redeem_by_18_34_female = 12;
+            $redeem_by_35_50_female =12;
+            $redeem_by_above_50_female = 12;
+            $redeem_by_male=12;
+            $redeem_by_female=12;
+            $total_coupon=150;
+         }
+        if($is_free_trial['is_trial'] ==0 && $subscription['stripe_plan']=='silver'){
+             $redeem_by_18_below = 13;
+            $redeem_by_18_34 = 12;
+            $redeem_by_35_50 = 12;
+            $redeem_by_above_50 = 12;
+            $redeem_by_18_below_male = 12;
+            $redeem_by_18_34_male = 12;
+            $redeem_by_35_50_male = 12;
+            $redeem_by_above_50_male = 12;
+            $redeem_by_18_below_female = 12;
+            $redeem_by_18_34_female = 12;
+            $redeem_by_35_50_female =12;
+            $redeem_by_above_50_female = 12;
+             $total_coupon=150;
+        }
+       
         //male redeem
-       $data['redeem_by_18_below_male'] = ($redeem_by_18_below_male != 0) ? number_format(($redeem_by_18_below_male / $total_coupon) * 100, 2) : 0;
-       $data['redeem_by_18_34_per_male'] = ($redeem_by_18_34_male != 0) ? number_format(($redeem_by_18_34_male / $total_coupon) * 100, 2) : 0;
-       $data['redeem_by_35_50_male'] = ($redeem_by_35_50_male != 0) ? number_format(($redeem_by_35_50_male / $total_coupon) * 100, 2) : 0;
-       $data['redeem_by_above_50_male'] = ($redeem_by_above_50_male != 0) ? number_format(($redeem_by_above_50_male / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_18_below_male'] = ($redeem_by_18_below_male != 0 && $total_coupon!=0) ? number_format(($redeem_by_18_below_male / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_18_34_per_male'] = ($redeem_by_18_34_male != 0 && $total_coupon!=0) ? number_format(($redeem_by_18_34_male / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_35_50_male'] = ($redeem_by_35_50_male != 0 && $total_coupon!=0) ? number_format(($redeem_by_35_50_male / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_above_50_male'] = ($redeem_by_above_50_male != 0 && $total_coupon!=0) ? number_format(($redeem_by_above_50_male / $total_coupon) * 100, 2) : 0;
         //female redeem
-       $data['redeem_by_18_below_female'] = ($redeem_by_18_below_female != 0) ? number_format(($redeem_by_18_below_female / $total_coupon) * 100, 2) : 0;
-       $data['redeem_by_18_34_per_female'] = ($redeem_by_18_34_female != 0) ? number_format(($redeem_by_18_34_female / $total_coupon) * 100, 2) : 0;
-       $data['redeem_by_35_50_female'] = ($redeem_by_35_50_female != 0) ? number_format(($redeem_by_35_50_female / $total_coupon) * 100, 2) : 0;
-       $data['redeem_by_above_50_female'] = ($redeem_by_above_50_female != 0) ? number_format(($redeem_by_above_50_female / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_18_below_female'] = ($redeem_by_18_below_female != 0 && $total_coupon!=0) ? number_format(($redeem_by_18_below_female / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_18_34_per_female'] = ($redeem_by_18_34_female != 0 && $total_coupon!=0) ? number_format(($redeem_by_18_34_female / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_35_50_female'] = ($redeem_by_35_50_female != 0 && $total_coupon!=0) ? number_format(($redeem_by_35_50_female / $total_coupon) * 100, 2) : 0;
+       $data['redeem_by_above_50_female'] = ($redeem_by_above_50_female != 0 && $total_coupon!=0) ? number_format(($redeem_by_above_50_female / $total_coupon) * 100, 2) : 0;
       
-        $data['redeem_by_18_below_per'] = ($redeem_by_18_below != 0) ? number_format(($redeem_by_18_below / $total_coupon) * 100, 2) : 0;
-        $data['redeem_by_18_34_per'] = ($redeem_by_18_34 != 0) ? number_format(($redeem_by_18_34 / $total_coupon) * 100, 2) : 0;
-        $data['redeem_by_35_50_per'] = ($redeem_by_35_50 != 0) ? number_format(($redeem_by_35_50 / $total_coupon) * 100, 2) : 0;
-        $data['redeem_by_above_50_per'] = ($redeem_by_above_50 != 0) ? number_format(($redeem_by_above_50 / $total_coupon) * 100, 2) : 0;
+        $data['redeem_by_18_below_per'] = ($redeem_by_18_below != 0 && $total_coupon!=0) ? number_format(($redeem_by_18_below / $total_coupon) * 100, 2) : 0;
+        $data['redeem_by_18_34_per'] = ($redeem_by_18_34 != 0 && $total_coupon!=0) ? number_format(($redeem_by_18_34 / $total_coupon) * 100, 2) : 0;
+        $data['redeem_by_35_50_per'] = ($redeem_by_35_50 != 0 && $total_coupon!=0) ? number_format(($redeem_by_35_50 / $total_coupon) * 100, 2) : 0;
+        $data['redeem_by_above_50_per'] = ($redeem_by_above_50 != 0 && $total_coupon!=0) ? number_format(($redeem_by_above_50 / $total_coupon) * 100, 2) : 0;
         $data['redeem_by_18_below'] = $redeem_by_18_below;
         $data['redeem_by_18_34'] = $redeem_by_18_34;
         $data['redeem_by_35_50'] = $redeem_by_35_50;
         $data['redeem_by_above_50'] = $redeem_by_above_50;
-        $data['redeem_by_male'] = strval(($redeem_by_male != 0) ? number_format(($redeem_by_male / $total_coupon) * 100, 2) : 0);
-        $data['redeem_by_female'] = strval(($redeem_by_female != 0) ? number_format(($redeem_by_female / $total_coupon) * 100, 2) : 0);
+        $data['redeem_by_male'] = strval(($redeem_by_male != 0 && $total_coupon!=0) ? number_format(($redeem_by_male / $total_coupon) * 100, 2) : 0);
+        $data['redeem_by_female'] = strval(($redeem_by_female != 0 && $total_coupon!=0) ? number_format(($redeem_by_female / $total_coupon) * 100, 2) : 0);
         $data['redeem_by_male_total'] = strval($redeem_by_male);
         $data['redeem_by_female_total'] = strval($redeem_by_female);
         return $data;
