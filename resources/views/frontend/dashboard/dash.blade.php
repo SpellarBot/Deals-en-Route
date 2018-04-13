@@ -98,12 +98,12 @@
                 </div>
             </div>
         </div>
-        @if (     $subscription['stripe_plan']=='bronze' && $is_free_trial['is_trial']==0) <a href="{{URL::route('changesubscription')}}">' @endif                              
+                             
             <div class="row row-coupons @if ($subscription['stripe_plan']=='bronze' && $is_free_trial['is_trial']==0 ) show-silver @endif">   
-            @if ($subscription['stripe_plan']=='bronze' && $is_free_trial['is_trial']==0)   <div class="show-plan-text-bronze"> To unlock Gender & Age wise analytics please UPGRADE NOW <a href="{{URL::route('changesubscription')}}">Click Here </a>.  </div>  @endif
+            @if ($subscription['stripe_plan']=='bronze' && $is_free_trial['is_trial']==0)   <div class="show-plan-text-bronze">  To unlock Gender & Age wise analytics please <a href="{{URL::route('changesubscription')}}">UPGRADE NOW </a>. </div>  @endif
             @if ($subscription['stripe_plan']=='silver' && $is_free_trial['is_trial']==0) <a href="{{URL::route('changesubscription')}}">' @endif 
             <div class="age-coupons  @if ($subscription['stripe_plan']=='silver' && $is_free_trial['is_trial']==0) show-silver @endif" > 
-            @if ($subscription['stripe_plan']=='silver' && $is_free_trial['is_trial']==0)  <div class="show-plan-text-silver"> To unlock Gender wise analytics please UPGRADE NOW  <a href="{{URL::route('changesubscription')}}">Click Here </a>.  </div> @endif
+            @if ($subscription['stripe_plan']=='silver' && $is_free_trial['is_trial']==0)  <div class="show-plan-text-silver"> To unlock Gender wise analytics please <a href="{{URL::route('changesubscription')}}">UPGRADE NOW </a> .  </div> @endif
             <div class="col-lg-3 col-sm-6">
                 <div class="card">
                     <div class="header head-coupons">
@@ -226,7 +226,7 @@
                 </div>
             </div>
             </div>
-          @if ($subscription['stripe_plan']=='silver' && $is_free_trial['is_trial']==0) </a> @endif
+
             <div class="col-lg-6 col-sm-6">
                
                 <div class="card">
@@ -265,7 +265,7 @@
                 </div>
             </div>
         </div>
-            @if ($subscription['stripe_plan']=='bronze' && $is_free_trial['is_trial']==0) </a> @endif
+         
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
