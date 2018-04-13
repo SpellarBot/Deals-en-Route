@@ -100,7 +100,7 @@
         </div>
         @if (     $subscription['stripe_plan']=='bronze' && $is_free_trial['is_trial']==0) <a href="{{URL::route('changesubscription')}}">' @endif                              
             <div class="row row-coupons @if ($subscription['stripe_plan']=='bronze' && $is_free_trial['is_trial']==0 ) show-silver @endif">   
-             <div class="show-plan-text-bronze"> To unlock Gender & Age wise analytics please UPGRADE NOW.  </div> 
+            @if ($subscription['stripe_plan']=='bronze' && $is_free_trial['is_trial']==0)   <div class="show-plan-text-bronze"> To unlock Gender & Age wise analytics please UPGRADE NOW.  </div>  @endif
             @if ($subscription['stripe_plan']=='silver' && $is_free_trial['is_trial']==0) <a href="{{URL::route('changesubscription')}}">' @endif 
             <div class="age-coupons  @if ($subscription['stripe_plan']=='silver' && $is_free_trial['is_trial']==0) show-silver @endif" > 
             @if ($subscription['stripe_plan']=='silver' && $is_free_trial['is_trial']==0)  <div class="show-plan-text-silver"> To unlock Gender wise analytics please UPGRADE NOW.  </div> @endif
