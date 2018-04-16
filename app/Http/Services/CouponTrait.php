@@ -72,8 +72,8 @@ trait CouponTrait {
         $share_friend = $this->getUserDetail($item->share_friend_id);
         $find = ['{{coupon_name}}', '{{count}}', '{{created_by}}', '{{shared_name}}'];
         if (empty($share_friend)) {
-        
-            $replace = [(!empty($item->coupon)?$item->coupon->coupon_name:'') , $count, $item->user->first_name . " " . $item->user->last_name
+
+            $replace = [(!empty($item->coupon) ? $item->coupon->coupon_name : ''), $count, $item->user->first_name . " " . $item->user->last_name
             ];
         } else {
             $replace = [$item->coupon->coupon_name, $count, $item->user->first_name . " " . $item->user->last_name,
@@ -121,9 +121,9 @@ trait CouponTrait {
                         ->where('coupon_id', $couponid)
                         ->where(\DB::raw('date_format(created_at,"%Y-%m-%d")'), date('Y-m-d'))
                         ->where(function($q) {
-                                $q->where(['type' => 'newcoupon'])
-                                ->orWhere('type', 'geonotification');
-                            })
+                            $q->where(['type' => 'newcoupon'])
+                            ->orWhere('type', 'geonotification');
+                        })
                         ->count();
     }
 
@@ -159,20 +159,31 @@ trait CouponTrait {
                 ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
                 ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
                 ->get();
+
+        if (isset($add_ons) && $add_ons[0]->geolocationtotal == '' && $add_ons[0]->geofencingtotal == '') {
+            $vendor_detail = \App\VendorDetail::where('user_id', Auth::id())->first();
+            $vendor_detail->additional_geo_fencing_total = 0;
+            $vendor_detail->additional_geo_location_used = 0;
+            $vendor_detail->additional_geo_fencing_used = 0;
+            $vendor_detail->additional_geo_location_total = 0;
+            $vendor_detail->save();
+        }
+
+
         if (empty($vendor_detail)) {
-       $vendor_detail= \App\VendorDetail::where('user_id',Auth::id())->first();   
-       $vendor_detail->additional_geo_fencing_total=0;
-        $vendor_detail->additional_geo_location_used=0;
-        $vendor_detail->additional_geo_fencing_used=0;
-        $vendor_detail->additional_geo_location_total=0;
-        $vendor_detail->save();
+            $vendor_detail = \App\VendorDetail::where('user_id', Auth::id())->first();
+            $vendor_detail->additional_geo_fencing_total = 0;
+            $vendor_detail->additional_geo_location_used = 0;
+            $vendor_detail->additional_geo_fencing_used = 0;
+            $vendor_detail->additional_geo_location_total = 0;
+            $vendor_detail->save();
             $array['geolocationtotal'] = 0;
             $array['geofencingtotal'] = 0;
             $array['dealstotal'] = 0;
-            $array['additionalgeolocation']=0;
-            $array['additionalgeofencing']=0;
-            $array['basicgeolocation']=0;
-           $array['basicgeofencing']=0;
+            $array['additionalgeolocation'] = 0;
+            $array['additionalgeofencing'] = 0;
+            $array['basicgeolocation'] = 0;
+            $array['basicgeofencing'] = 0;
         } else {
             $currentpackagedeal = $vendor_detail->userSubscription[0]->deals + $add_ons[0]->dealstotal;
             $previousleftdeal = $vendor_detail->deals_used;
@@ -180,44 +191,38 @@ trait CouponTrait {
             $array['geolocationtotal'] = $add_ons[0]->geolocationtotal + $vendor_detail->userSubscription[0]->geolocation;
             $array['geofencingtotal'] = $add_ons[0]->geofencingtotal + $vendor_detail->userSubscription[0]->geofencing;
             $array['dealstotal'] = $totaldealsleft;
-            $array['additionalgeolocation']=$add_ons[0]->geolocationtotal;
-           $array['additionalgeofencing']=$add_ons[0]->geofencingtotal;
-            $array['basicgeolocation']=$vendor_detail->userSubscription[0]->geolocation;
-           $array['basicgeofencing']=$vendor_detail->userSubscription[0]->geofencing;
-        
+            $array['additionalgeolocation'] = $add_ons[0]->geolocationtotal;
+            $array['additionalgeofencing'] = $add_ons[0]->geofencingtotal;
+            $array['basicgeolocation'] = $vendor_detail->userSubscription[0]->geolocation;
+            $array['basicgeofencing'] = $vendor_detail->userSubscription[0]->geofencing;
         }
         return $array;
     }
-    
-    
+
     // get user payment peroid
-    
-    public function getUserPaymentPeroid($userid=''){
-        
-        $user_id=(empty($userid)?Auth::id(): $userid);
-         $subscription= \App\VendorDetail::select('subscriptions.startdate','subscriptions.enddate','subscriptions.trial_ends_at')
+
+    public function getUserPaymentPeroid($userid = '') {
+
+        $user_id = (empty($userid) ? Auth::id() : $userid);
+        $subscription = \App\VendorDetail::select('subscriptions.startdate', 'subscriptions.enddate', 'subscriptions.trial_ends_at')
                 ->join('subscriptions', 'subscriptions.user_id', 'vendor_detail.user_id')
                 ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
                 ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
                 ->where('vendor_detail.user_id', $user_id)
                 ->first();
-         
-          
-          if($subscription){
-           $final_array=[];
-           $trial_end =Carbon::parse($subscription->trial_ends_at);
-           $current_date = Carbon::now(); 
-           $final_array['is_trial']=($current_date <=$trial_end)?1:0;
-           $final_array['days_left']=$cDate = Carbon::parse($subscription->enddate)->diffInDays(); 
-           return $final_array;  
-          }else{
-           $final_array['is_trial']=0;
-           $final_array['days_left']="expire"; 
-          }
-         
-    
+
+
+        if ($subscription) {
+            $final_array = [];
+            $trial_end = Carbon::parse($subscription->trial_ends_at);
+            $current_date = Carbon::now();
+            $final_array['is_trial'] = ($current_date <= $trial_end) ? 1 : 0;
+            $final_array['days_left'] = $cDate = Carbon::parse($subscription->enddate)->diffInDays();
+            return $final_array;
+        } else {
+            $final_array['is_trial'] = 0;
+            $final_array['days_left'] = "expire";
+        }
     }
-    
-  
 
 }
