@@ -31,6 +31,7 @@
             <div class="close-circle"></div>
             <div class="alert-content">
                 <h3 class="success-text">Failed</h3>
+                <div class="errormessage"> </div>
                 {{ Session::get('error') }}
             </div>
             <button type="button" class="btn btn-success closepopup" aria-label="Close" aria-hidden="true">OK</button>
@@ -160,7 +161,7 @@
                                         $('#loadingDiv').show();
                                     },
                                     error: function (data) {
-                                        console.log(data);
+                                    
                                         $('#loadingDiv').hide();
                                         $('.alert-danger').show();
                                         setTimeout(function () {

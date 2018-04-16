@@ -160,8 +160,8 @@ trait CouponTrait {
                 ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
                 ->get();
         if (empty($vendor_detail)) {
-        $vendor_detail= \App\VendorDetail::where('user_id',Auth::id())->first();   
-        $vendor_detail->additional_geo_fencing_total=0;
+       $vendor_detail= \App\VendorDetail::where('user_id',Auth::id())->first();   
+       $vendor_detail->additional_geo_fencing_total=0;
         $vendor_detail->additional_geo_location_used=0;
         $vendor_detail->additional_geo_fencing_used=0;
         $vendor_detail->additional_geo_location_total=0;
