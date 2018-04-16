@@ -14,14 +14,14 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/chartist-plugin-tooltip.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/animate.min.css') }}" />
-        <link href="{{ asset('frontend/css/mdtimepicker.css')}}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('frontend/css/paper-dashboard.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" />
         <link href="{{ asset('frontend/css/jasny-bootstrap.css')}}" rel="stylesheet">
         <link href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css')}}" rel="stylesheet">
        <!-- timepicker plugin-->   
-        <link href="{{ asset('frontend/plugin/timepicker/jquery.timepicker.css')}}" rel="stylesheet">
-        <link href="{{ asset('frontend/plugin/timepicker/lib/site.css')}}" rel="stylesheet">
+      <link href="{{ asset('frontend/plugin/timepicker/jquery.timepicker.css')}}" rel="stylesheet">
+<link href="{{ asset('frontend/plugin/timepicker/lib/site.css')}}" rel="stylesheet">
+
     </head>
 
     <body>
@@ -168,7 +168,6 @@
         <script type="text/javascript" src="{{ asset('frontend/js/custom.js') }}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key={{ \Config::get('googlemaps.key') }}&libraries=drawing,places&callback=initCallback"
         async defer></script>
-        <script type="text/javascript" src="{{ asset('frontend/js/mdtimepicker.js') }}"></script>
 
         @yield('scripts')
     </body>

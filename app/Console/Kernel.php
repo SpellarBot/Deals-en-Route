@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel {
   
   //  $schedule->call('\App\Http\Controllers\Api\v1\NotificationController@couponNotificationFavExpire')->everyMinute();
    // $schedule->call('\App\Http\Controllers\Api\v1\NotificationController@couponNotificationFavLeft')->everyMinute();   
-    // $schedule->call('\App\Http\Controllers\Api\v1\StripeController@handleStripeResponse')->everyMinute();
+     $schedule->call('\App\Http\Controllers\Api\v2\CouponController@makeAdditionalCostZero')->everyMinute();
     
     }
 

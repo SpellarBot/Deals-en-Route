@@ -13,10 +13,10 @@ use App\User;
 use App\StripeUser;
 use App\VendorDetail;
 use App\PaymentInfo;
-use App\Http\Controllers\Api\v1\Auth;
 use Mail;
 use App\Http\Services\PdfTrait;
 use Illuminate\Support\Facades\Storage;
+use Auth;
 
 class StripeController extends Controller {
 

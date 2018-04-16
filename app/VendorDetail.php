@@ -57,6 +57,7 @@ class VendorDetail extends Model {
         $user = \App\Subscription::where('user_id', Auth::id())->first();
         if ($user) {
             $deals_left = $user->getRenewalCoupon($user_access);
+   
             if ($user_access['dealstotal'] != 0) {
                 $deals_percent = ($deals_left / $user_access['dealstotal']) * 100;
             } else {

@@ -380,7 +380,7 @@
                 </div>
             </div>
         </div>
-        <div id="contact" class="tab-pane fade in">
+            <div id="contact" class="tab-pane fade in">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">

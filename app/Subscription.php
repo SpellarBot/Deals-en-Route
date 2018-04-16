@@ -73,7 +73,7 @@ class Subscription extends Model {
         $subcribe->stripe_plan = $subcription['plan']['id'];
         $subcribe->name = $subcription['plan']['name'];
         $subcribe->quantity = $subcription['quantity'];
-        $subcribe->trial_ends_at = Carbon::now()->addDays(30)->format('Y-m-d H:i:s');
+       $subcribe->trial_ends_at = Carbon::now()->format('Y-m-d H:i:s');
         $subcribe->save();
         $subdate = Subscription::getSubscriptiondates($subcription['customer']);
         $subcribe->startdate = $subdate['startdate'];
@@ -116,8 +116,11 @@ class Subscription extends Model {
 //    }
     public function totalCouponForMonth() {
         $subscriptionmodel = Subscription::where('stripe_id', $this->stripe_id)
-                ->where('sub_id','!=','')->first();
-       
+                ->where(\DB::raw('TIMESTAMP(`startdate`)'), '<=', date('Y-m-d H:i:s'))
+                ->where(\DB::raw('TIMESTAMP(`enddate`)'), '>=', date('Y-m-d H:i:s'))
+                ->where('sub_id','!=','')
+                ->first();
+
         if (count($subscriptionmodel) > 0) {
             $startdate = $subscriptionmodel->startdate;
             $enddate = $subscriptionmodel->enddate;
