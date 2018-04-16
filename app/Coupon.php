@@ -278,6 +278,7 @@ class Coupon extends Model {
         } else {
             $vendordetail->additional_geo_fencing_used = $vendordetail->additional_geo_fencing_used + $totalgeofenceleft;
         }
+        
         $vendordetail->save();
     }
 
@@ -538,5 +539,6 @@ COALESCE(SUM(case when   (week(coupon_redeem.created_at)-week(DATE_FORMAT(coupon
                 ->simplePaginate(\Config::get('constants.PAGINATE'));
         return $result;
     }
+  
 
 }

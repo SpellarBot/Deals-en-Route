@@ -55,7 +55,7 @@ class StripeController extends Controller {
     }
 
     public function changeSubscription(Request $request) {
-        
+        try {
         $data = $request->all();
         $userid = auth()->id();
         $user_details = User::find($userid);
@@ -82,6 +82,13 @@ class StripeController extends Controller {
         }
 
         return response()->json(['status' => 1, 'message' => 'Subscription Updated SuccessFully!!!'], 200);
+        }catch (Cartalyst\Stripe\Exception\CardErrorException $e) {
+            return response()->json(['status' => 0, 'message' =>$e->getMessage()], 200);
+        }
+        catch (Cartalyst\Stripe\Exception\ServerErrorException $e) {
+                return response()->json(['status' => 0, 'message' => $e->getMessage()], 200);   
+                }
+        
     }
 
     public function updateSubscription() {

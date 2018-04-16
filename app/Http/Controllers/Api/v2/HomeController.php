@@ -11,6 +11,7 @@ use Auth;
 use App\VendorDetail;
 use App\Country;
 use App\Http\Transformer\VendorTransformer;
+use App\Subscription;
 
 class HomeController extends Controller {
 
@@ -110,8 +111,13 @@ class HomeController extends Controller {
         $data['additional_geo_location_percent'] = ($total_additional_location_left != 0) ? number_format(($total_additional_location_left / $vendor_detail_geo->additional_geo_location_total) * 100, 2) : 0;   
         $data['additional_geo_fencing_total'] = $total_additional_fencing_left;
         $data['additional_geo_location_total'] = $total_additional_location_left;
-        
-       $data['total_coupons_remaining'] = strval(($total_coupon - $total_coupon_reedem));
+        $sub_details = Subscription::select('*')->where('user_id', Auth::id())->first();
+        $subscription = $sub_details->getAttributes();
+        $is_free_trial= $this->getUserPaymentPeroid();
+        $data['is_bronze']=($is_free_trial['is_trial']==0 && $subscription['stripe_plan']=='bronze')?1:0;
+        $data['is_silver']=($is_free_trial['is_trial']==0 && $subscription['stripe_plan']=='silver')?1:0;
+           
+        $data['total_coupons_remaining'] = strval(($total_coupon - $total_coupon_reedem));
         $data['total_deals_created_count'] = strval(count($coupons));
         $data['total_deals_can_create_count'] = strval(($totaladdon + $totaldeals));
         $data['total_deals_remaining_count'] = strval(($data['total_deals_can_create_count'] - $data['total_deals_created_count']));
