@@ -72,9 +72,9 @@ $(document).ready(function () {
     // update company details
     $('.editCompanyDetails').submit(function (e) {
         e.preventDefault();
-        var file_data = $('#file').prop('files')[0];
+  
         var formData = new FormData(this);
-        formData.append('vendor_logo', file_data);
+    
         $.ajax({
             url: "register/update",
             type: 'POST',

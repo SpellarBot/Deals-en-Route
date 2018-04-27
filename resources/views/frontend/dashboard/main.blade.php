@@ -97,11 +97,19 @@
                                                 <div class="form-group">
                                                     <input type="tel" name="vendor_phone" placeholder="@if($vendor_detail->vendor_phone != '' ) {{$vendor_detail->vendor_phone}} (x-xxx-xxx-xxxx) @endif (x-xxx-xxx-xxxx)" pattern="^\d{1}-\d{3}-\d{3}-\d{4}$" maxlength="15">
                                                 </div>
-                                                <fieldset>
-                                                    <!-- <input type="file" name="vendor_logo" id="file" accept="image/*" /> -->
-                                                    <label for="file" class="file-upload__label">Upload Vendor Logo</label>
-                                                    <input id="file" class="file-upload__input" type="file" name="vendor_logo" accept="image/*">
-                                                </fieldset>
+                                                     <div class="form-group vendorlogo filenew">
+                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                            <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename">
+                                             
+                                        </span></div>
+                                    <span class="input-group-addon btn btn-default btn-file">
+                                        <span class="fileinput-new">upload vendor logo</span>
+                                        <span class="fileinput-exists">Change</span> 
+                                        {{ Form::file('vendor_logo',['id' => 'vendorlogo','accept'=>'image/*']) }}
+                                    </span>
+                                </div>
+
+                            </div>
                                                 <!--                                                <div class="form-group">
                                                                                                  <input type="email" placeholder="Email" required>
                                                                                                 </div>-->
