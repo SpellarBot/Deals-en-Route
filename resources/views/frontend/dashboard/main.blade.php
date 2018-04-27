@@ -74,7 +74,7 @@
                                         <form class="editCompanyDetails">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_name != '' ) {{$vendor_detail->vendor_name}} @else Business Name @endif" name="vendor_name">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->vendor_name != '' ) {{$vendor_detail->vendor_name}} @else Business Name @endif" name="vendor_name">
                                                 </div>
                                                 <div class="form-group">
                                                     <input class="form-control" id="autocomplete1" name="vendor_address" type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" value="" autocomplete="off">
@@ -82,20 +82,20 @@
 <!--<input type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" name="vendor_address">-->
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_city != '' ) {{$vendor_detail->vendor_city}} @else City @endif" name="vendor_city" id="locality">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->vendor_city != '' ) {{$vendor_detail->vendor_city}} @else City @endif" name="vendor_city" id="locality">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_state != '' ) {{$vendor_detail->vendor_state}} @else State @endif" name="vendor_state" id="administrative_area_level_1">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->vendor_state != '' ) {{$vendor_detail->vendor_state}} @else State @endif" name="vendor_state" id="administrative_area_level_1">
                                                 </div>
                                                 <div class="form-group">
                                                  
                                                      {{ Form::select('vendor_country',[''=>'Select Country']+$country_list,$vendor_detail->vendor_country_code,['class'=>'form-control','id'=>'country']) }}                                       
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_zip != '' ) {{$vendor_detail->vendor_zip}} @else Zip Code @endif" name="vendor_zip" id="postal_code">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->vendor_zip != '' ) {{$vendor_detail->vendor_zip}} @else Zip Code @endif" name="vendor_zip" id="postal_code">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="tel" name="vendor_phone" placeholder="@if($vendor_detail->vendor_phone != '' ) {{$vendor_detail->vendor_phone}} (x-xxx-xxx-xxxx) @endif (x-xxx-xxx-xxxx)" pattern="^\d{1}-\d{3}-\d{3}-\d{4}$" maxlength="15">
+                                                    <input class="form-control" type="tel" name="vendor_phone" placeholder="@if($vendor_detail->vendor_phone != '' ) {{$vendor_detail->vendor_phone}} (x-xxx-xxx-xxxx) @endif (x-xxx-xxx-xxxx)" pattern="^\d{1}-\d{3}-\d{3}-\d{4}$" maxlength="15">
                                                 </div>
                                                      <div class="form-group vendorlogo filenew">
                                 <div class="fileinput fileinput-new input-group" data-provides="fileinput">
@@ -119,16 +119,16 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_businessname != '' ) {{$vendor_detail->billing_businessname}} @else Billing Businessname @endif" name="billing_businessname">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->billing_businessname != '' ) {{$vendor_detail->billing_businessname}} @else Billing Businessname @endif" name="billing_businessname">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_home != '' ) {{$vendor_detail->billing_home}} @else Business Billing Home @endif" name="billing_home">
+                                                    <input class="form-control"  type="text" placeholder="@if($vendor_detail->billing_home != '' ) {{$vendor_detail->billing_home}} @else Business Billing Home @endif" name="billing_home">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_city != '' ) {{$vendor_detail->billing_city}} @else Business Billing City @endif" name="billing_city">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->billing_city != '' ) {{$vendor_detail->billing_city}} @else Business Billing City @endif" name="billing_city">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_state != '' ) {{$vendor_detail->billing_state}} @else Business Billing State @endif" name="billing_state">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->billing_state != '' ) {{$vendor_detail->billing_state}} @else Business Billing State @endif" name="billing_state">
                                                 </div>
                                                 <div class="form-group">
                                                     {{ Form::select('billing_country',[''=>'Select Country']+$country_list,$vendor_detail->billing_country_code,['class'=>'form-control']) }}  
