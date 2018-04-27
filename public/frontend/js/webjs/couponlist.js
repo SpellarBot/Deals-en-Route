@@ -586,14 +586,6 @@ function Maps() {
         }
         // Clear out the old markers.
 
-
-
-
-
-
-
-
-
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
         places.forEach(function(place) {
@@ -843,7 +835,7 @@ function setPolygonFirstMapShape() {
 
 // set polygon shape for second map 
 function setPolygonSecMapShapeOnCreate(flag) {
-    if (flag == 1) {
+ 
         // show polygon   
         var options = $.extend(polyOptions_valid, {
             'paths': showArray
@@ -852,16 +844,7 @@ function setPolygonSecMapShapeOnCreate(flag) {
         });
         showSecMap = new google.maps.Polygon((options));
         showSecMap.setMap(mapshow);
-    } else {
-        // show polygon   
-        var options = $.extend(polyOptions_invalid, {
-            'paths': showArray
-        }, {
-            editable: false
-        });
-        showSecMap = new google.maps.Polygon((options));
-        showSecMap.setMap(mapshow);
-    }
+   
 
 }
 
@@ -883,7 +866,7 @@ function setPolygonSecMapShape() {
 var placeSearch, autocomplete;
 var componentForm = {
 
-    country: 'long_name',
+    country: 'short_name',
     locality: 'long_name',
     administrative_area_level_1: 'long_name',
     postal_code: 'short_name',

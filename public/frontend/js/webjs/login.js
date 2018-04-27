@@ -418,7 +418,7 @@ $(document.body).on('mousedown', '.pac-container .customsearch', function (e) {
             });
 
         } else {
-            console.log("test3");
+           
             var inputname = $("input[name=vendor_address]").parent();
             inputname.addClass('has-error');
             inputname.append('<span class="help-block"> <strong>Geolocation is not supported by this browser.</strong> </span>'); //showing only the first error.

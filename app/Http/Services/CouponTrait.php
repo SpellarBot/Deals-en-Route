@@ -161,22 +161,23 @@ trait CouponTrait {
                 ->get();
 
         if (isset($add_ons) && $add_ons[0]->geolocationtotal == '' && $add_ons[0]->geofencingtotal == '') {
-            $vendor_detail = \App\VendorDetail::where('user_id', Auth::id())->first();
-            $vendor_detail->additional_geo_fencing_total = 0;
-            $vendor_detail->additional_geo_location_used = 0;
-            $vendor_detail->additional_geo_fencing_used = 0;
-            $vendor_detail->additional_geo_location_total = 0;
-            $vendor_detail->save();
+            $vendor_detail1 = \App\VendorDetail::where('user_id', Auth::id())->first();
+            $vendor_detail1->additional_geo_fencing_total = 0;
+            $vendor_detail1->additional_geo_location_used = 0;
+            $vendor_detail1->additional_geo_fencing_used = 0;
+            $vendor_detail1->additional_geo_location_total = 0;
+            $vendor_detail1->save();
         }
 
 
         if (empty($vendor_detail)) {
-            $vendor_detail = \App\VendorDetail::where('user_id', Auth::id())->first();
-            $vendor_detail->additional_geo_fencing_total = 0;
-            $vendor_detail->additional_geo_location_used = 0;
-            $vendor_detail->additional_geo_fencing_used = 0;
-            $vendor_detail->additional_geo_location_total = 0;
-            $vendor_detail->save();
+       
+            $vendor_detail_new = \App\VendorDetail::where('user_id', Auth::id())->first();
+            $vendor_detail_new->additional_geo_fencing_total = 0;
+            $vendor_detail_new->additional_geo_location_used = 0;
+            $vendor_detail_new->additional_geo_fencing_used = 0;
+            $vendor_detail_new->additional_geo_location_total = 0;
+            $vendor_detail_new->save();
             $array['geolocationtotal'] = 0;
             $array['geofencingtotal'] = 0;
             $array['dealstotal'] = 0;

@@ -9,6 +9,7 @@ use DB;
 
 class VendorDetail extends Model {
 
+
     use \App\Http\Services\UserTrait;
     use \App\Http\Services\CouponTrait;
 
@@ -48,6 +49,8 @@ class VendorDetail extends Model {
     public function getVendorLogoAttribute($value) {
         return (!empty($value) && (file_exists(public_path() . '/../' . \Config::get('constants.IMAGE_PATH') . '/vendor_logo/' . $value))) ? URL::to('/storage/app/public/vendor_logo/') . '/' . $value : URL::to('/storage/app/public/vendor_logo/');
     }
+    
+    
 
     public static function getStripeVendor() {
         $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
@@ -130,13 +133,43 @@ class VendorDetail extends Model {
 
     //update vendor
     public static function updateVendorDetails($data = [], $id) {
-        $vendor = VendorDetail::where('user_id', $id)->first();
-        $vendor->fill($data);
-        $vendor->save();
-        if (!empty($data['vendor_address'])) {
-            self::saveMapLatLong($vendor);
+
+       if (isset($data['check-address'])) {
+            $checkaddress = $data['check-address'];
+            unset($data['check-address']);
         }
-        return $vendor;
+        if(isset($data['vendor_country'])){
+        $countrycode= \App\Country::select('id')->where("country_code",$data['vendor_country'])->first(); 
+        }
+        
+           if(isset($data['billing_country'])){
+        $billingcountrycode= \App\Country::select('id')->where("country_code",$data['billing_country'])->first(); 
+        }
+        // set category name if its given
+        if(isset($data['category_name'])){
+               $vendor_category= CouponCategory::addCategory($data,$id);
+               $vendorcategory=$vendor_category->category_id;
+        }
+       
+        $vendor_detail = VendorDetail::where('user_id', $id)->first();
+        $vendor_detail->additional_geo_fencing_total=0;
+        $vendor_detail->additional_geo_location_used=0;
+        $vendor_detail->additional_geo_fencing_used=0;
+        $vendor_detail->additional_geo_location_total=0;
+        $vendor_detail->fill($data);
+        $vendor_detail->vendor_country= $countrycode->id;
+         $vendor_detail->billing_country= $billingcountrycode->id;
+        $vendor_detail->save();
+
+        if (isset($checkaddress) && $checkaddress == 'yes') {
+
+            self::saveBusinessAddress($vendor_detail, $data,$countrycode);
+        }
+        if (empty($data['vendor_lat']) || empty($data['vendor_long'])) {
+            self::saveMapLatLong($vendor_detail);
+        }
+
+        return $vendor_detail;
     }
 
     //create vendor for front

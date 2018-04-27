@@ -20,7 +20,16 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                     <div class="free-trial">  
-                             <p>{{ ($is_free_trial['is_trial']==1)?"Free Trial Account": ($is_free_trial['days_left'])." days left" }} </p>  
+                
+                        <p>
+                        @if($is_free_trial['is_trial']==1)
+                        {{ "Free Trial Account"}}
+                        @elseif(!empty($is_free_trial['days_left']))
+                        {{ ($is_free_trial['days_left'])." days left"}}
+                        @else 
+                        {{ "Plan Expire"}}
+                        @endif
+                        </p>  
                         </div>
                     </li>
                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon fa fa-user"></i>
@@ -79,16 +88,8 @@
                                                     <input type="text" placeholder="@if($vendor_detail->vendor_state != '' ) {{$vendor_detail->vendor_state}} @else State @endif" name="vendor_state" id="administrative_area_level_1">
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-control" name="vendor_country" id="country">
-                                                        <option>Country</option>
-                                                        @foreach($country_list as $key=>$value)
-                                                        @if($vendor_detail->billing_country == $value)
-                                                        <option value="{{ $key }}" selected="selected">{{ $value }}</option>
-                                                        @else
-                                                        <option value="{{ $key }}">{{ $value }}</option>
-                                                        @endif
-                                                        @endforeach
-                                                    </select>
+                                                 
+                                                     {{ Form::select('vendor_country',[''=>'Select Country']+$country_list,$vendor_detail->vendor_country_code,['class'=>'form-control','id'=>'country']) }}                                       
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="text" placeholder="@if($vendor_detail->vendor_zip != '' ) {{$vendor_detail->vendor_zip}} @else Zip Code @endif" name="vendor_zip" id="postal_code">
@@ -122,16 +123,8 @@
                                                     <input type="text" placeholder="@if($vendor_detail->billing_state != '' ) {{$vendor_detail->billing_state}} @else Business Billing State @endif" name="billing_state">
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-control" name="billing_country">
-                                                        <option>Country</option>
-                                                        @foreach($country_list as $key=>$value)
-                                                        @if($vendor_detail->billing_country == $value)
-                                                        <option value="{{ $key }}" selected="selected">{{ $value }}</option>
-                                                        @else
-                                                        <option value="{{ $key }}">{{ $value }}</option>
-                                                        @endif
-                                                        @endforeach
-                                                    </select>
+                                                    {{ Form::select('billing_country',[''=>'Select Country']+$country_list,$vendor_detail->billing_country_code,['class'=>'form-control']) }}  
+                                       
                                                 </div>
 
                                                 <ul class="list-inline pad-top1 pull-right">

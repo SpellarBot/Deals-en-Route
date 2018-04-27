@@ -31,7 +31,7 @@ class VendorController extends Controller {
             $data = $request->all();
             $user_id = Auth::id();
             foreach($data as $key=>$value){
-                if(!$value || $value == 'Country' || $value == 'undefined'){
+                if(!$value || $value == 'undefined'){
                     unset($data[$key]);
                 }
             }
@@ -43,7 +43,7 @@ class VendorController extends Controller {
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
-//  throw $e;
+ // throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
 // If we reach here, then// data is valid and working.//
