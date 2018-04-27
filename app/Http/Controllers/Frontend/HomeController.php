@@ -40,9 +40,14 @@ class HomeController extends Controller {
     public function index() {
 
         $coupon_lists = \App\Coupon::couponList();
-        $vendor_detail = \App\VendorDetail::join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+        $vendor_detail = \App\VendorDetail::
+                select('*','vendorcountry.country_code AS vendor_country_code','billingcountry.country_code AS billing_country_code')
+                ->join('stripe_users', 'stripe_users.user_id', 'vendor_detail.user_id')
+                ->leftJoin('country as vendorcountry','vendorcountry.id','vendor_detail.vendor_country')
+                 ->leftJoin('country as billingcountry','billingcountry.id','vendor_detail.billing_country')
                 ->where('vendor_detail.user_id', Auth::id())
                 ->first();
+
         $user_access = $this->userAccess();
         $hoursofoperation = VendorHours::getHoursOfOperations(Auth::id());
         $hours_of_operations = [];

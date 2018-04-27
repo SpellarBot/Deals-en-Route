@@ -20,7 +20,16 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                     <div class="free-trial">  
-                             <p>{{ ($is_free_trial['is_trial']==1)?"Free Trial Account": ($is_free_trial['days_left'])." days left" }} </p>  
+                
+                        <p>
+                        @if($is_free_trial['is_trial']==1)
+                        {{ "Free Trial Account"}}
+                        @elseif(!empty($is_free_trial['days_left']))
+                        {{ ($is_free_trial['days_left'])." days left"}}
+                        @else 
+                        {{ "Plan Expire"}}
+                        @endif
+                        </p>  
                         </div>
                     </li>
                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon fa fa-user"></i>
@@ -65,7 +74,7 @@
                                         <form class="editCompanyDetails">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_name != '' ) {{$vendor_detail->vendor_name}} @else Business Name @endif" name="vendor_name">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->vendor_name != '' ) {{$vendor_detail->vendor_name}} @else Business Name @endif" name="vendor_name">
                                                 </div>
                                                 <div class="form-group">
                                                     <input class="form-control" id="autocomplete1" name="vendor_address" type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" value="" autocomplete="off">
@@ -73,34 +82,34 @@
 <!--<input type="text" placeholder="@if($vendor_detail->vendor_address != '' ) {{$vendor_detail->vendor_address}} @else Address @endif" name="vendor_address">-->
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_city != '' ) {{$vendor_detail->vendor_city}} @else City @endif" name="vendor_city" id="locality">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->vendor_city != '' ) {{$vendor_detail->vendor_city}} @else City @endif" name="vendor_city" id="locality">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_state != '' ) {{$vendor_detail->vendor_state}} @else State @endif" name="vendor_state" id="administrative_area_level_1">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->vendor_state != '' ) {{$vendor_detail->vendor_state}} @else State @endif" name="vendor_state" id="administrative_area_level_1">
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-control" name="vendor_country" id="country">
-                                                        <option>Country</option>
-                                                        @foreach($country_list as $key=>$value)
-                                                        @if($vendor_detail->billing_country == $value)
-                                                        <option value="{{ $key }}" selected="selected">{{ $value }}</option>
-                                                        @else
-                                                        <option value="{{ $key }}">{{ $value }}</option>
-                                                        @endif
-                                                        @endforeach
-                                                    </select>
+                                                 
+                                                     {{ Form::select('vendor_country',[''=>'Select Country']+$country_list,$vendor_detail->vendor_country_code,['class'=>'form-control','id'=>'country']) }}                                       
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->vendor_zip != '' ) {{$vendor_detail->vendor_zip}} @else Zip Code @endif" name="vendor_zip" id="postal_code">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->vendor_zip != '' ) {{$vendor_detail->vendor_zip}} @else Zip Code @endif" name="vendor_zip" id="postal_code">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="tel" name="vendor_phone" placeholder="@if($vendor_detail->vendor_phone != '' ) {{$vendor_detail->vendor_phone}} (x-xxx-xxx-xxxx) @endif (x-xxx-xxx-xxxx)" pattern="^\d{1}-\d{3}-\d{3}-\d{4}$" maxlength="15">
+                                                    {{ Form::text('vendor_phone',null, ['placeholder'=>'Phone (xxx-xxx-xxxx)','data-mask'=>"999-999-9999",'maxlength'=>'11','class'=>'form-control','placeholder'=>$vendor_detail->vendor_phone]) }}      
                                                 </div>
-                                                <fieldset>
-                                                    <!-- <input type="file" name="vendor_logo" id="file" accept="image/*" /> -->
-                                                    <label for="file" class="file-upload__label">Upload Vendor Logo</label>
-                                                    <input id="file" class="file-upload__input" type="file" name="vendor_logo" accept="image/*">
-                                                </fieldset>
+                                                     <div class="form-group vendorlogo filenew">
+                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                            <div class="form-control" data-trigger="fileinput" style="padding-top: 0;padding-bottom: 0;"><span class="fileinput-filename">
+                                             
+                                        </span></div>
+                                    <span class="input-group-addon btn btn-default btn-file">
+                                        <span class="fileinput-new">upload vendor logo</span>
+                                        <span class="fileinput-exists">Change</span> 
+                                        {{ Form::file('vendor_logo',['id' => 'vendorlogo','accept'=>'image/*']) }}
+                                    </span>
+                                </div>
+
+                            </div>
                                                 <!--                                                <div class="form-group">
                                                                                                  <input type="email" placeholder="Email" required>
                                                                                                 </div>-->
@@ -110,28 +119,20 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_businessname != '' ) {{$vendor_detail->billing_businessname}} @else Billing Businessname @endif" name="billing_businessname">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->billing_businessname != '' ) {{$vendor_detail->billing_businessname}} @else Billing Businessname @endif" name="billing_businessname">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_home != '' ) {{$vendor_detail->billing_home}} @else Business Billing Home @endif" name="billing_home">
+                                                    <input class="form-control"  type="text" placeholder="@if($vendor_detail->billing_home != '' ) {{$vendor_detail->billing_home}} @else Business Billing Home @endif" name="billing_home">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_city != '' ) {{$vendor_detail->billing_city}} @else Business Billing City @endif" name="billing_city">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->billing_city != '' ) {{$vendor_detail->billing_city}} @else Business Billing City @endif" name="billing_city">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" placeholder="@if($vendor_detail->billing_state != '' ) {{$vendor_detail->billing_state}} @else Business Billing State @endif" name="billing_state">
+                                                    <input class="form-control" type="text" placeholder="@if($vendor_detail->billing_state != '' ) {{$vendor_detail->billing_state}} @else Business Billing State @endif" name="billing_state">
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-control" name="billing_country">
-                                                        <option>Country</option>
-                                                        @foreach($country_list as $key=>$value)
-                                                        @if($vendor_detail->billing_country == $value)
-                                                        <option value="{{ $key }}" selected="selected">{{ $value }}</option>
-                                                        @else
-                                                        <option value="{{ $key }}">{{ $value }}</option>
-                                                        @endif
-                                                        @endforeach
-                                                    </select>
+                                                    {{ Form::select('billing_country',[''=>'Select Country']+$country_list,$vendor_detail->billing_country_code,['class'=>'form-control']) }}  
+                                       
                                                 </div>
 
                                                 <ul class="list-inline pad-top1 pull-right">

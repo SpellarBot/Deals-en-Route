@@ -883,7 +883,7 @@ function setPolygonSecMapShape() {
 var placeSearch, autocomplete;
 var componentForm = {
 
-    country: 'long_name',
+    country: 'short_name',
     locality: 'long_name',
     administrative_area_level_1: 'long_name',
     postal_code: 'short_name',
