@@ -43,7 +43,7 @@ class VendorController extends Controller {
             // save the user
         } catch (\Exception $e) {
             DB::rollback();
- // throw $e;
+  throw $e;
             return $this->responseJson('error', \Config::get('constants.APP_ERROR'), 400);
         }
 // If we reach here, then// data is valid and working.//
