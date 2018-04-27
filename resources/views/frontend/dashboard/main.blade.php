@@ -99,7 +99,7 @@
                                                 </div>
                                                      <div class="form-group vendorlogo filenew">
                                 <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                            <div class="form-control" data-trigger="fileinput"><span class="fileinput-filename">
+                                            <div class="form-control" data-trigger="fileinput" style="padding-top: 0;padding-bottom: 0;"><span class="fileinput-filename">
                                              
                                         </span></div>
                                     <span class="input-group-addon btn btn-default btn-file">
