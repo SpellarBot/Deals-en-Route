@@ -132,35 +132,35 @@ class VendorDetail extends Model {
     }
 
     //update vendor
-    public static function updateVendorDetails($data = [], $id) {
-$vendor_detail = VendorDetail::where('user_id', $id)->first();
+    public static function updateVendorDetails($data, $id) {
+
        if (isset($data['check-address'])) {
             $checkaddress = $data['check-address'];
             unset($data['check-address']);
         }
-        if(isset($data['vendor_country'])){
-        $countrycode= \App\Country::select('id')->where("country_code",$data['vendor_country'])->first();
-         $vendor_detail->vendor_country= $countrycode->id;
-        }
+      
         
-           if(isset($data['billing_country'])){
-        $billingcountrycode= \App\Country::select('id')->where("country_code",$data['billing_country'])->first(); 
-        $vendor_detail->billing_country= $billingcountrycode->id;
-        }
         // set category name if its given
         if(isset($data['category_name'])){
                $vendor_category= CouponCategory::addCategory($data,$id);
                $vendorcategory=$vendor_category->category_id;
         }
        
-        
+        $vendor_detail = VendorDetail::where('user_id', $id)->first();
         $vendor_detail->additional_geo_fencing_total=0;
         $vendor_detail->additional_geo_location_used=0;
         $vendor_detail->additional_geo_fencing_used=0;
         $vendor_detail->additional_geo_location_total=0;
         $vendor_detail->fill($data);
-       
-         
+          if(isset($data['vendor_country'])){
+        $countrycode= \App\Country::select('id')->where("country_code",$data['vendor_country'])->first(); 
+        $vendor_detail->vendor_country= $countrycode->id;
+        }
+        
+          if(isset($data['billing_country'])){
+        $billingcountrycode= \App\Country::select('id')->where("country_code",$data['billing_country'])->first();
+         $vendor_detail->billing_country= $billingcountrycode->id;
+          }
         $vendor_detail->save();
 
         if (isset($checkaddress) && $checkaddress == 'yes') {
