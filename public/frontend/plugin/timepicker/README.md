@@ -22,7 +22,7 @@ Include `jquery.timepicker.css` and `jquery.timepicker.min.js` in your page.
 
 ```options``` is an optional javascript object with parameters explained below.
 
-You can also set options as [data attributes](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes) on the intput elements, like ```<input type="text" data-time-format="H:i:s" />```. Timepicker still needs to be initialized by calling ```$('#someElement').timepicker(options);```. Data attributes will override any conflicting initialization options.
+You can also set options as [data attributes](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes) on the input elements, like ```<input type="text" data-time-format="H:i:s" />```. Timepicker still needs to be initialized by calling ```$('#someElement').timepicker(options);```. Data attributes will override any conflicting initialization options.
 
 The defaults for all options are exposed through the ```$.fn.timepicker.defaults``` object. Properties changed in this object (same properties configurable through the constructor) will take effect for every instance created after the change.
 
@@ -132,7 +132,7 @@ When scrolling on the edge of the picker, it prevent parent containers (<body>) 
 *default: false*
 
 - **timeFormat**  
-How times should be displayed in the list and input element. Uses [PHP's date() formatting syntax](http://php.net/manual/en/function.date.php). Characters can be escaped with a preceeding double slash (e.g. `H\\hi`). Alternatively, you can specify a function instead of a string, to use completely custom time formatting. In this case, the format function receives a Date object and is expected to return a formatted time as a string.
+How times should be displayed in the list and input element. Uses [PHP's date() formatting syntax](http://php.net/manual/en/function.date.php). Characters can be escaped with a preceding double slash (e.g. `H\\hi`). Alternatively, you can specify a function instead of a string, to use completely custom time formatting. In this case, the format function receives a Date object and is expected to return a formatted time as a string.
 *default: 'g:ia'*
 
 - **typeaheadHighlight**  
